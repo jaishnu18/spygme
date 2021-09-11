@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /**
  *
  * LoginPage
@@ -6,11 +7,13 @@
 
 import React, { memo, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { Button, Form, Input, message } from 'antd';
+import history from 'utils/history';
+import { Button, Col, Form, Input, message, Row } from 'antd';
 
 // import LoginForm from 'components/LoginForm';
 import {
@@ -20,14 +23,43 @@ import {
 } from 'containers/App/selectors';
 
 import { loginUserWithEmail } from 'containers/App/actions';
+import LoginForm from 'components/LoginForm';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import ThreeCards from 'components/ThreeCards';
 import LoginCover from 'images/loginCover.png';
+import { Link } from 'react-router-dom';
+import SignupForm from 'components/SignupForm';
 import makeSelectLoginPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+
+const CustomRow = styled(Row)`
+  background-image: url(${LoginCover}) !important;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  height: 900px !important;
+`;
+
+const FormContainer = styled.div`
+  background-color: #737e94;
+  border-radius: 100px;
+  padding: 20px;
+  margin: 20px;
+  min-height: 600px;
+  min-width: 600px;
+`;
+
+const CenterDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  // align-items: center;
+  margin-left: 40px;
+  margin-top: 40px;
+`;
 
 export function LoginPage(props) {
   useInjectReducer({ key: 'loginPage', reducer });
@@ -46,75 +78,44 @@ export function LoginPage(props) {
     }
   }, [props.error]);
 
-  const onFinish = values => {
-    console.log(values);
-    props.loginIn(values);
-  };
-
-  const onFinishFailed = errorInfo => {
-    console.log('Failed:', errorInfo);
-  };
-
   return (
     <div>
       <Helmet>
         <title>LoginPage</title>
         <meta name="LOGIN PAGE" content="WELCOME TO AI SCHOOL!" />
       </Helmet>
-      <img
-        style={{ height: '80%', objectFit: 'cover', width: '100%' }}
-        src={LoginCover}
-        alt="LoginCover"
-        width="100%"
-      />
-      <Form
-        name="basic"
-        labelCol={{
-          span: 8,
-        }}
-        wrapperCol={{
-          span: 16,
-        }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-      >
-        <Form.Item
-          label="Email"
-          name="email"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your email!',
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
 
-        <Form.Item
-          label="Password"
-          name="password"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your password!',
-            },
-          ]}
-        >
-          <Input.Password />
-        </Form.Item>
-
-        <Form.Item
-          wrapperCol={{
-            offset: 8,
-            span: 16,
+      <CustomRow>
+        <Col
+          offset="13"
+          span="11"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item>
-      </Form>
+          <FormContainer>
+            {history.location.pathname === '/login' ? (
+              <CenterDiv>
+                <LoginForm loginIn={props.loginIn} />
+                <Link to="/forgot-password">
+                  <p style={{ color: 'white' }}>Forgot Password?</p>
+                </Link>
+              </CenterDiv>
+            ) : history.location.pathname === '/signup' ? (
+              <CenterDiv>
+                <SignupForm />
+                <Link to="/login">
+                  <p style={{ color: 'white' }}>Already a User?</p>
+                </Link>
+              </CenterDiv>
+            ) : (
+              <div />
+            )}
+          </FormContainer>
+        </Col>
+      </CustomRow>
       <ThreeCards />
     </div>
   );
@@ -124,6 +125,7 @@ LoginPage.propTypes = {
   history: PropTypes.object,
   AuthData: PropTypes.object.isRequired,
   isLogginIn: PropTypes.bool,
+  loginIn: PropTypes.func,
   error: PropTypes.string,
 };
 
