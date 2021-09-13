@@ -12,6 +12,8 @@ function Routes(props) {
       <Route exact path="/login" component={LoginPage} />
       <Route exact path="/signup" component={LoginPage} />
       <Route exact path="/onboard/:token" component={LoginPage} />
+      <Route exact path="/verify-email" component={LoginPage} />
+      <Route exact path="/forgot-password" component={LoginPage} />
       <Route exact path="/treegame/:level" component={TreeGames} />
     </Switch>
   );

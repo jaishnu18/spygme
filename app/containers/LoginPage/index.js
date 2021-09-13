@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable react/no-unused-prop-types */
 /* eslint-disable no-nested-ternary */
 /**
  *
@@ -5,7 +7,7 @@
  *
  */
 
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
@@ -13,7 +15,8 @@ import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import history from 'utils/history';
-import { Button, Col, Form, Input, message, Row } from 'antd';
+import { Button, Col, Form, Image, Input, message, Row } from 'antd';
+import jwt_decode from 'jwt-decode';
 
 // import LoginForm from 'components/LoginForm';
 import {
@@ -24,6 +27,7 @@ import {
 
 import { loginUserWithEmail } from 'containers/App/actions';
 import LoginForm from 'components/LoginForm';
+import ForgotPasswordEmailForm from 'components/ForgotPasswordEmailForm';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
@@ -31,9 +35,11 @@ import ThreeCards from 'components/ThreeCards';
 import LoginCover from 'images/loginCover.png';
 import { Link } from 'react-router-dom';
 import SignupForm from 'components/SignupForm';
+import EmailIcon from 'images/email.svg';
 import makeSelectLoginPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+import SolidButton from '../../components/atoms/SolidButton';
 
 const CustomRow = styled(Row)`
   background-image: url(${LoginCover}) !important;
@@ -44,26 +50,25 @@ const CustomRow = styled(Row)`
 `;
 
 const FormContainer = styled.div`
+  display: flex;
   background-color: #737e94;
   border-radius: 100px;
   padding: 20px;
   margin: 20px;
   min-height: 600px;
-  min-width: 600px;
+  width: 650px;
 `;
 
 const CenterDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: left;
-  // align-items: center;
   margin-left: 40px;
-  margin-top: 40px;
+  margin-top: 30px;
+  width: 100% !important;
 `;
 
 export function LoginPage(props) {
   useInjectReducer({ key: 'loginPage', reducer });
   useInjectSaga({ key: 'loginPage', saga });
+  const [name, setName] = useState(undefined);
 
   useEffect(() => {
     // page redirect
@@ -71,6 +76,16 @@ export function LoginPage(props) {
       props.history.replace('/my/dashboard');
     }
   }, [props.AuthData]);
+
+  useEffect(() => {
+    // page redirect
+    if (history.location.pathname.startsWith('/onboard')) {
+      const { token } = props.match.params;
+      const object = jwt_decode(token);
+      setName(object.name);
+      console.log(object);
+    }
+  }, []);
 
   useEffect(() => {
     if (props.error) {
@@ -99,16 +114,74 @@ export function LoginPage(props) {
             {history.location.pathname === '/login' ? (
               <CenterDiv>
                 <LoginForm loginIn={props.loginIn} />
-                <Link to="/forgot-password">
-                  <p style={{ color: 'white' }}>Forgot Password?</p>
-                </Link>
               </CenterDiv>
             ) : history.location.pathname === '/signup' ? (
               <CenterDiv>
                 <SignupForm />
-                <Link to="/login">
-                  <p style={{ color: 'white' }}>Already a User?</p>
-                </Link>
+              </CenterDiv>
+            ) : history.location.pathname.startsWith('/onboard') ? (
+              name && (
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flexDirection: 'column',
+                    padding: '20px',
+                    textAlign: 'center',
+                    marginTop: '20px',
+                    marginBottom: 'auto',
+                  }}
+                >
+                  <h1
+                    style={{
+                      marginBottom: '5px',
+                      fontWeight: 700,
+                      color: 'whitesmoke',
+                    }}
+                  >
+                    Dear {`${name}`},
+                  </h1>
+                  <h2
+                    style={{
+                      marginBottom: '30px',
+                      fontWeight: 400,
+                      color: 'white',
+                    }}
+                  >
+                    Please click Below to Activate Your Account and Onboard
+                  </h2>
+                  <SolidButton width="60%">Activate</SolidButton>
+                </div>
+              )
+            ) : history.location.pathname === '/verify-email' ? (
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flexDirection: 'column',
+                  padding: '30px',
+                  textAlign: 'center',
+                  marginTop: '20px',
+                  marginBottom: 'auto',
+                }}
+              >
+                <img src={EmailIcon} style={{ marginBottom: '26px' }} />
+                <h1
+                  style={{
+                    marginBottom: '5px',
+                    fontWeight: 700,
+                    color: 'whitesmoke',
+                  }}
+                >
+                  Please check your Email to Verify yourself and Onboard the
+                  Platform.
+                </h1>
+              </div>
+            ) : history.location.pathname === '/forgot-password' ? (
+              <CenterDiv>
+                <ForgotPasswordEmailForm />
               </CenterDiv>
             ) : (
               <div />

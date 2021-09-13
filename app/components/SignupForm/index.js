@@ -10,6 +10,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Form, Button } from 'antd';
 import CustomInput from 'components/atoms/CustomInput';
+import { Link } from 'react-router-dom';
+import SolidButton from '../atoms/SolidButton';
 
 const layout = {
   wrapperCol: { xs: { span: 20 }, md: { span: 24 } },
@@ -60,6 +62,17 @@ function SignupForm(props) {
             },
           ]}
         >
+          <h2
+            style={{
+              color: 'whitesmoke',
+              fontWeight: 600,
+              fontSize: 28,
+              textAlign: 'center',
+              marginBottom: '20px',
+            }}
+          >
+            Register
+          </h2>
           <CustomInput id="signup-name" label="Name" />
         </Form.Item>
 
@@ -118,15 +131,31 @@ function SignupForm(props) {
           />
         </Form.Item>
 
-        <Form.Item
-          wrapperCol={{
-            offset: 8,
-            span: 16,
-          }}
-        >
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
+        <Form.Item>
+          <div style={{ textAlign: 'center' }}>
+            <SolidButton width="60%" margintop="20px" marginbottom="15px">
+              Submit
+            </SolidButton>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginLeft: 'auto',
+            }}
+          >
+            <Link
+              to="/login"
+              style={{
+                color: 'whitesmoke',
+                fontWeight: 700,
+                marginBottom: '20px',
+              }}
+            >
+              Already a User? Login here
+            </Link>
+          </div>
         </Form.Item>
       </CustomForm>
     </div>

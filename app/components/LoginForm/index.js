@@ -9,6 +9,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Form, Button } from 'antd';
 import CustomInput from 'components/atoms/CustomInput';
+import SolidButton from 'components/atoms/SolidButton';
+import { Link } from 'react-router-dom';
 
 const layout = {
   wrapperCol: { xs: { span: 20 }, md: { span: 24 } },
@@ -59,6 +61,18 @@ function LoginForm(props) {
             },
           ]}
         >
+          <h1
+            style={{
+              color: 'whitesmoke',
+              fontWeight: 600,
+              textAlign: 'center',
+              marginBottom: '20px',
+              fontFamily: 'cursive',
+              letterSpacing: '1px',
+            }}
+          >
+            Login
+          </h1>
           <CustomInput type="email" id="email" label="Email" />
         </Form.Item>
 
@@ -74,15 +88,42 @@ function LoginForm(props) {
           <CustomInput type="password" id="password" label="Password" />
         </Form.Item>
 
-        <Form.Item
-          wrapperCol={{
-            offset: 8,
-            span: 16,
-          }}
-        >
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
+        <Form.Item>
+          <div style={{ textAlign: 'center' }}>
+            <SolidButton width="60%" margintop="20px" marginbottom="15px">
+              Submit
+            </SolidButton>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              flexDirection: 'column',
+              alignItems: 'center',
+              marginLeft: 'auto',
+            }}
+          >
+            <Link
+              to="/signup"
+              style={{
+                color: 'whitesmoke',
+                fontWeight: 700,
+                marginBottom: '10px',
+              }}
+            >
+              New Here? Register Here
+            </Link>
+            <Link
+              to="/forgot-password"
+              style={{
+                color: 'whitesmoke',
+                fontWeight: 700,
+                marginBottom: '20px',
+              }}
+            >
+              Forgot Password? Recover your Account!
+            </Link>
+          </div>
         </Form.Item>
       </CustomForm>
     </div>
