@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
   },
   media: {
-    height: 300,
+    height: 360,
     paddingTop: '56.25%', // 16:9
   },
   expand: {
