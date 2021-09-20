@@ -6,24 +6,24 @@
 
 import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
+// import PropTypes from 'prop-types';
+// import styled from 'styled-components';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import RecipeReviewCard from 'components/Card';
 
-import LearnImage from 'images/learn.png';
-import PracticeImage from 'images/practice.png';
-import ResultImage from 'images/result.png';
+import PropLogic from 'images/propLogic.png';
+import APS from 'images/aps.png';
+import CSP from 'images/csp.png';
 
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
+    background: '#272c48',
   },
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
-    color: theme.palette.text.secondary,
   },
 }));
 
@@ -33,17 +33,23 @@ function ThreeCards(props) {
     <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={4}>
-          <Link to="/treegame">
+          <Link to="/topic1/concepts">
             <div>
-              <RecipeReviewCard heading="Learn" photo={LearnImage} />
+              <RecipeReviewCard
+                heading="Propositional Logic"
+                photo={PropLogic}
+              />
             </div>
           </Link>
         </Grid>
         <Grid item xs={12} sm={4}>
-          <RecipeReviewCard heading="Practice" photo={PracticeImage} />
+          <RecipeReviewCard
+            heading="Constraint satisfaction problems"
+            photo={APS}
+          />
         </Grid>
         <Grid item xs={12} sm={4}>
-          <RecipeReviewCard heading="Result" photo={ResultImage} />
+          <RecipeReviewCard heading="Automated problem solving" photo={CSP} />
         </Grid>
       </Grid>
     </div>
