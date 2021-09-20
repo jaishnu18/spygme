@@ -5,6 +5,7 @@ import TreeGames from 'containers/TreeGamePage';
 import NotFoundPage from 'containers/NotFoundPage';
 import SignupPage from 'containers/SignupPage';
 import OnBoardingPage from 'containers/OnBoardingPage';
+import RPG from 'containers/ReadPracticeGradeContainer';
 
 import TopicContainer from 'containers/TopicContainer';
 import ConceptsContainer from 'containers/ConceptsContainer';
@@ -29,6 +30,8 @@ function Routes(props) {
       <Route exact path="/topic1/concepts/1" component={LevelScreen} />
 
       <Route exact path="/topic1/concepts/1/1" component={QuesType1} />
+
+      <Route exact path="/topic1/concepts/1/RPG" component={RPG} />
     </Switch>
   );
 }

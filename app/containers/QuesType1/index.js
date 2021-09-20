@@ -9,8 +9,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
+import { Button } from 'antd';
+import { CloseOutlined, CheckSquareOutlined } from '@ant-design/icons';
 import { compose } from 'redux';
 import TextField from '@material-ui/core/TextField';
+import { Cross } from 'react-icons/fa';
 import Grid from '@material-ui/core/Grid';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
@@ -33,6 +36,12 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
     color: '#FFFFFF',
   },
+  bordertext: {
+    borderStyle: 'groove',
+    width: '40%',
+    padding: '10px',
+    margin: '10px',
+  },
 }));
 export function QuesType1() {
   useInjectReducer({ key: 'quesType1', reducer });
@@ -46,18 +55,52 @@ export function QuesType1() {
         <meta name="description" content="Description of QuesType1" />
       </Helmet>
       <Grid container>
-        <Grid item xs={4}>
+        <Grid item xs={6}>
           <h1>Write node id corresponding to each expression</h1>
-          <TextField
-            fullWidth="100"
-            type="text"
-            defaultValue="((~(a=>(b<=>c)))&((b<=>c)|c))"
-            variant="outlined"
-            inputProps={{ readOnly: true }}
-          />
+          <p className={classes.bordertext}>
+            <h3>Space for equation this is sample</h3>
+          </p>{' '}
+          <Grid container>
+            <Grid item xs={2}>
+              this is node id
+            </Grid>{' '}
+            <Grid item xs={2}>
+              {/* cross */}
+              <CloseOutlined />
+            </Grid>{' '}
+            <Grid item xs={2}>
+              this is correct id
+            </Grid>
+          </Grid>{' '}
+          <p className={classes.bordertext}>
+            <h3>Space for node id</h3>
+          </p>
+          <div>
+            <Grid container>
+              <Grid item xs={3}>
+                this is node id
+              </Grid>{' '}
+              <Grid item xs={3}>
+                {/* cross */}
+                <CheckSquareOutlined />
+              </Grid>{' '}
+            </Grid>{' '}
+            <Button type="primary">Check</Button>
+            {/* <h3>
+              {' '}
+              Lets go for a <Cross />?{' '}
+            </h3> */}
+          </div>
+          {/* <div className={classes.bordertext}>
+            <TextField
+              type="text"
+              defaultValue="((~(a=>(b<=>c)))&((b<=>c)|c))"
+              inputProps={{ readOnly: true }}
+            />{' '}
+          </div> */}
         </Grid>
-        <Grid item xs={8}>
-          ...
+        <Grid item xs={6}>
+          <h1>this is a sample column space for graph</h1>
         </Grid>
       </Grid>
     </div>

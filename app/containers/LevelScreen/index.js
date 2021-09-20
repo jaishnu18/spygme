@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
+import { Link } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { Rate } from 'antd';
@@ -72,15 +73,18 @@ export function LevelScreen() {
       </StarDiv>
       <div style={{ textAlign: 'center', marginTop: '80px' }}>
         {' '}
-        <SolidButton
-          borderradius="0"
-          width="30%"
-          size="20px"
-          type="primary"
-          danger
-        >
-          Start the game
-        </SolidButton>
+        <Link to="/topic1/concepts/1/RPG">
+          {' '}
+          <SolidButton
+            borderradius="0"
+            width="30%"
+            size="20px"
+            type="primary"
+            danger
+          >
+            Start the game
+          </SolidButton>
+        </Link>
       </div>
     </div>
   );
