@@ -15,6 +15,7 @@ import history from 'utils/history';
 import LoginPage from 'containers/LoginPage';
 // Component imports
 
+import { UserProvider, AuthProvider } from 'contexts';
 // container essentials
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
@@ -25,6 +26,7 @@ import { useInjectSaga } from 'utils/injectSaga';
 import GlobalStyle from 'global-styles';
 import Routes from 'routes';
 import Header from 'components/Header';
+import jwtDecode from 'jwt-decode';
 import {
   makeSelectAuthData,
   makeSelectLocation,
@@ -33,7 +35,7 @@ import {
 
 import reducer from './reducer';
 import saga, { loginUser } from './saga';
-import { logoutUserStart } from './actions';
+import { logoutUserStart, getUserData } from './actions';
 
 const Wrapper = styled.div`
   min-height: 100%;
@@ -44,19 +46,34 @@ export function App(props) {
   useInjectReducer({ key: 'app', reducer });
   useInjectSaga({ key: 'app', saga });
   const authToken = localStorage._UFT_;
+  console.log(authToken);
+
+  useEffect(() => {
+    console.log(authToken);
+    if (authToken) {
+      const token = jwtDecode(authToken);
+      props.getUserDataFunc(token);
+    }
+  }, []);
+
+  console.log(props.AuthData);
 
   return (
-    <Wrapper>
-      <Header />
-      <Routes />
-      <GlobalStyle />
-    </Wrapper>
+    <UserProvider value={props.AuthData}>
+      <Wrapper>
+        <Header />
+        <AuthProvider value={[authToken, props.AuthData]}>
+          <Routes />
+        </AuthProvider>
+        <GlobalStyle />
+      </Wrapper>
+    </UserProvider>
   );
 }
 
 App.propTypes = {
-  // getUserDataFunc: PropTypes.func.isRequired,
-  // AuthData: PropTypes.object.isRequired,
+  getUserDataFunc: PropTypes.func.isRequired,
+  AuthData: PropTypes.object.isRequired,
   // router: PropTypes.object.isRequired,
   // logoutUser: PropTypes.func.isRequired,
 };
@@ -69,7 +86,7 @@ const mapStateToProps = createStructuredSelector({
 
 export function mapDispatchToProps(dispatch) {
   return {
-    getUserDataFunc: payload => dispatch(loginUser(payload)),
+    getUserDataFunc: payload => dispatch(getUserData(payload)),
     logoutUser: () => dispatch(logoutUserStart()),
   };
 }

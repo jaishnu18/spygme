@@ -7,7 +7,7 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Form, Button } from 'antd';
+import { Form, Button, Row } from 'antd';
 import CustomInput from 'components/atoms/CustomInput';
 import SolidButton from 'components/atoms/SolidButton';
 import { Link } from 'react-router-dom';
@@ -42,6 +42,20 @@ function LoginForm(props) {
   };
   return (
     <div>
+      <Row justify="center">
+        <h1
+          style={{
+            color: 'whitesmoke',
+            fontWeight: 600,
+            textAlign: 'center',
+            marginBottom: '20px',
+            fontFamily: 'cursive',
+            letterSpacing: '1px',
+          }}
+        >
+          Login
+        </h1>
+      </Row>
       <CustomForm
         {...layout}
         size="large"
@@ -53,6 +67,7 @@ function LoginForm(props) {
         onFinishFailed={onFinishFailed}
       >
         <Form.Item
+          justify="center"
           name="email"
           rules={[
             {
@@ -61,22 +76,11 @@ function LoginForm(props) {
             },
           ]}
         >
-          <h1
-            style={{
-              color: 'whitesmoke',
-              fontWeight: 600,
-              textAlign: 'center',
-              marginBottom: '20px',
-              fontFamily: 'cursive',
-              letterSpacing: '1px',
-            }}
-          >
-            Login
-          </h1>
           <CustomInput type="email" id="email" label="Email" />
         </Form.Item>
 
         <Form.Item
+          justify="center"
           name="password"
           rules={[
             {
@@ -88,10 +92,16 @@ function LoginForm(props) {
           <CustomInput type="password" id="password" label="Password" />
         </Form.Item>
 
-        <Form.Item>
+        <Form.Item justify="center" style={{ marginLeft: '0px' }}>
           <div style={{ textAlign: 'center' }}>
-            <SolidButton width="60%" margintop="20px" marginbottom="15px">
-              Submit
+            <SolidButton
+              type="primary"
+              htmlType="submit"
+              width="60%"
+              margintop="20px"
+              marginbottom="15px"
+            >
+              Login
             </SolidButton>
           </div>
           <div
@@ -108,7 +118,9 @@ function LoginForm(props) {
               style={{
                 color: 'whitesmoke',
                 fontWeight: 700,
-                marginBottom: '10px',
+                marginBottom: '4px',
+                marginTop: '12px',
+                fontSize: '18px',
               }}
             >
               New Here? Register Here
@@ -119,6 +131,7 @@ function LoginForm(props) {
                 color: 'whitesmoke',
                 fontWeight: 700,
                 marginBottom: '20px',
+                fontSize: '18px',
               }}
             >
               Forgot Password? Recover your Account!

@@ -8,7 +8,7 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Form, Button } from 'antd';
+import { Form, Button, Row } from 'antd';
 import CustomInput from 'components/atoms/CustomInput';
 import { Link } from 'react-router-dom';
 import SolidButton from '../atoms/SolidButton';
@@ -42,13 +42,40 @@ function ForgotPasswordEmailForm(props) {
     console.log('Failed:', errorInfo);
   };
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-      }}
-    >
+    <div>
+      <Row justify="center">
+        <div style={{ textAlign: 'center' }}>
+          <h1
+            style={{
+              color: 'whitesmoke',
+              fontWeight: 700,
+              marginBottom: '10px',
+            }}
+          >
+            Forgot Password?
+          </h1>
+          <h2
+            style={{
+              color: 'whitesmoke',
+              fontWeight: 700,
+              marginBottom: '30px',
+            }}
+          >
+            No Worries! We will Help you Recover &#128512;
+          </h2>
+        </div>
+      </Row>
+      <h3
+        style={{
+          color: 'whitesmoke',
+          fontWeight: 600,
+          marginLeft: '45px',
+          marginTop: '20px',
+        }}
+      >
+        Please Enter your Email.
+      </h3>
+
       <CustomForm
         {...layout}
         size="large"
@@ -60,6 +87,7 @@ function ForgotPasswordEmailForm(props) {
         onFinishFailed={onFinishFailed}
       >
         <Form.Item
+          justify="center"
           name="email"
           rules={[
             {
@@ -68,43 +96,32 @@ function ForgotPasswordEmailForm(props) {
             },
           ]}
         >
-          <div style={{ textAlign: 'center' }}>
-            <h1
-              style={{
-                color: 'whitesmoke',
-                fontWeight: 700,
-                marginBottom: '10px',
-              }}
-            >
-              Forgot Password?
-            </h1>
-            <h2
-              style={{
-                color: 'whitesmoke',
-                fontWeight: 700,
-                marginBottom: '30px',
-              }}
-            >
-              No Worries! We will Help you Recover &#128512;
-            </h2>
-          </div>
-          <h3
-            style={{
-              color: 'whitesmoke',
-              fontWeight: 600,
-              marginLeft: '15px',
-            }}
-          >
-            Please Enter your Email.
-          </h3>
           <CustomInput id="forgot-password-email" label="Email" />
         </Form.Item>
 
-        <Form.Item>
-          <div style={{ textAlign: 'center' }}>
-            <SolidButton width="60%" margintop="20px" marginbottom="15px">
-              Verify Email
-            </SolidButton>
+        <Form.Item justify="center">
+          <div
+            style={{
+              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            <div style={{ textAlign: 'center' }}>
+              <SolidButton width="60%" margintop="20px" marginbottom="15px">
+                Verify Email
+              </SolidButton>
+            </div>
+            <Link
+              to="/login"
+              style={{
+                color: 'whitesmoke',
+                fontSize: '18px',
+                marginBottom: '20px',
+              }}
+            >
+              Login Here!
+            </Link>
           </div>
         </Form.Item>
       </CustomForm>

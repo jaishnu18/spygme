@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react/no-unused-prop-types */
 /* eslint-disable no-nested-ternary */
@@ -36,6 +37,7 @@ import LoginCover from 'images/loginCover.png';
 import { Link } from 'react-router-dom';
 import SignupForm from 'components/SignupForm';
 import EmailIcon from 'images/email.svg';
+import { getSignupStart, activateAccountStart } from './actions';
 import makeSelectLoginPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -60,7 +62,7 @@ const FormContainer = styled.div`
 `;
 
 const CenterDiv = styled.div`
-  margin-left: 40px;
+  margin-left: 0px;
   margin-top: 30px;
   width: 100% !important;
 `;
@@ -93,6 +95,26 @@ export function LoginPage(props) {
     }
   }, [props.error]);
 
+  const shiftToVerify = () => {
+    history.push('/verify-email');
+  };
+
+  const signIn = async values => {
+    await props.signInUser(values);
+    await shiftToVerify();
+  };
+
+  const loginIn = async values => {
+    console.log(values);
+    await props.loginIn(values);
+  };
+
+  const activateAccount = async () => {
+    const { token } = props.match.params;
+    await props.activateUser(token);
+    history.push('/login');
+  };
+
   return (
     <div>
       <Helmet>
@@ -113,11 +135,11 @@ export function LoginPage(props) {
           <FormContainer>
             {history.location.pathname === '/login' ? (
               <CenterDiv>
-                <LoginForm loginIn={props.loginIn} />
+                <LoginForm loginIn={loginIn} />
               </CenterDiv>
             ) : history.location.pathname === '/signup' ? (
               <CenterDiv>
-                <SignupForm />
+                <SignupForm signIn={signIn} />
               </CenterDiv>
             ) : history.location.pathname.startsWith('/onboard') ? (
               name && (
@@ -151,7 +173,9 @@ export function LoginPage(props) {
                   >
                     Please click Below to Activate Your Account and Onboard
                   </h2>
-                  <SolidButton width="60%">Activate</SolidButton>
+                  <SolidButton onClick={activateAccount} width="60%">
+                    Activate
+                  </SolidButton>
                 </div>
               )
             ) : history.location.pathname === '/verify-email' ? (
@@ -189,7 +213,6 @@ export function LoginPage(props) {
           </FormContainer>
         </Col>
       </CustomRow>
-      <ThreeCards />
     </div>
   );
 }
@@ -200,6 +223,8 @@ LoginPage.propTypes = {
   isLogginIn: PropTypes.bool,
   loginIn: PropTypes.func,
   error: PropTypes.string,
+  signInUser: PropTypes.func,
+  activateUser: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -212,6 +237,8 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     loginIn: values => dispatch(loginUserWithEmail(values)),
+    signInUser: values => dispatch(getSignupStart(values)),
+    activateUser: token => dispatch(activateAccountStart(token)),
   };
 }
 

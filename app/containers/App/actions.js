@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
 /*
  * App Actions
@@ -30,6 +31,14 @@ import {
   LOGOUT_START,
   LOGOUT_FAILURE,
 } from './constants';
+
+export function getUserData(userData) {
+  console.log(userData);
+  // set user data into redux store
+  userData.isLoggedIn = true;
+
+  dispatch(loginUserWithEmailSuccess(userData));
+}
 
 export function loginUserWithEmail(payload) {
   return {

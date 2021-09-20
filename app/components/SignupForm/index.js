@@ -8,9 +8,10 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Form, Button } from 'antd';
+import { Form, Button, Row } from 'antd';
 import CustomInput from 'components/atoms/CustomInput';
 import { Link } from 'react-router-dom';
+
 import SolidButton from '../atoms/SolidButton';
 
 const layout = {
@@ -43,6 +44,20 @@ function SignupForm(props) {
   };
   return (
     <div>
+      <Row justify="center">
+        <h2
+          style={{
+            color: 'whitesmoke',
+            fontWeight: 600,
+            fontSize: 28,
+            textAlign: 'center',
+            marginBottom: '20px',
+            fontFamily: 'cursive',
+          }}
+        >
+          Register
+        </h2>
+      </Row>
       <CustomForm
         {...layout}
         size="large"
@@ -54,6 +69,7 @@ function SignupForm(props) {
         onFinishFailed={onFinishFailed}
       >
         <Form.Item
+          justify="center"
           name="name"
           rules={[
             {
@@ -62,21 +78,11 @@ function SignupForm(props) {
             },
           ]}
         >
-          <h2
-            style={{
-              color: 'whitesmoke',
-              fontWeight: 600,
-              fontSize: 28,
-              textAlign: 'center',
-              marginBottom: '20px',
-            }}
-          >
-            Register
-          </h2>
           <CustomInput id="signup-name" label="Name" />
         </Form.Item>
 
         <Form.Item
+          justify="center"
           name="email"
           rules={[
             {
@@ -89,6 +95,7 @@ function SignupForm(props) {
         </Form.Item>
 
         <Form.Item
+          justify="center"
           name="_class"
           rules={[
             {
@@ -112,6 +119,7 @@ function SignupForm(props) {
         </Form.Item>
 
         <Form.Item
+          justify="center"
           name="password"
           rules={[{ required: true, message: 'Please input your password!' }]}
         >
@@ -119,6 +127,7 @@ function SignupForm(props) {
         </Form.Item>
 
         <Form.Item
+          justify="center"
           name="passwordConfirm"
           rules={[
             { required: true, message: 'Please Confirm input your password!' },
@@ -131,9 +140,15 @@ function SignupForm(props) {
           />
         </Form.Item>
 
-        <Form.Item>
+        <Form.Item justify="center">
           <div style={{ textAlign: 'center' }}>
-            <SolidButton width="60%" margintop="20px" marginbottom="15px">
+            <SolidButton
+              type="primary"
+              htmlType="submit"
+              width="60%"
+              margintop="20px"
+              marginbottom="15px"
+            >
               Submit
             </SolidButton>
           </div>
@@ -150,7 +165,7 @@ function SignupForm(props) {
               style={{
                 color: 'whitesmoke',
                 fontWeight: 700,
-                marginBottom: '20px',
+                marginBottom: '40px',
               }}
             >
               Already a User? Login here
