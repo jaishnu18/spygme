@@ -32,7 +32,7 @@ import ForgotPasswordEmailForm from 'components/ForgotPasswordEmailForm';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import ThreeCards from 'components/ThreeCards';
+
 import LoginCover from 'images/loginCover.png';
 import { Link } from 'react-router-dom';
 import SignupForm from 'components/SignupForm';

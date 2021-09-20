@@ -14,18 +14,25 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import GitHub from '@material-ui/icons/GitHub';
+import { orange } from '@material-ui/core/colors';
 import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     width: '100%',
+    background: '#272c48',
+  },
+  text: {
+    color: '#FFFFFF',
   },
   menuButton: {
     marginRight: theme.spacing(2),
   },
   title: {
     flexGrow: 1,
+    background: '#272c48',
+    color: '#FFFFFF',
   },
   backgroundColor: {
     backgroundColor: '#2E3B55',
@@ -42,16 +49,26 @@ function Header(props) {
         className={classes.root}
       >
         <Toolbar>
-          <GitHub />
+          <GitHub style={{ color: orange[500] }} />
           <Box paddingX={2} />
           <Typography variant="h6" className={classes.title}>
             AI For School
           </Typography>
-          <Button color="inherit">Home</Button>
-          <Button color="inherit">About</Button>
-          <Button color="inherit">Courses</Button>
-          <Button color="inherit">Blogs</Button>
-          <Button color="inherit">Contacts</Button>
+          <Button className={classes.text} color="inherit">
+            Home
+          </Button>
+          <Button className={classes.text} color="inherit">
+            About
+          </Button>
+          <Button className={classes.text} color="inherit">
+            Courses
+          </Button>
+          <Button className={classes.text} color="inherit">
+            Blogs
+          </Button>
+          <Button className={classes.text} color="inherit">
+            Contacts
+          </Button>
         </Toolbar>
       </AppBar>
     </div>
