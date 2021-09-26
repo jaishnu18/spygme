@@ -52,9 +52,11 @@ const useStyles = makeStyles(theme => ({
     color: '#FFFFFF',
   },
 }));
-export function LevelScreen() {
+export function LevelScreen(props) {
   useInjectReducer({ key: 'levelScreen', reducer });
   useInjectSaga({ key: 'levelScreen', saga });
+
+  const { conceptNo } = props.match.params;
 
   const classes = useStyles();
   // const [value] = React.useState(2);
@@ -73,7 +75,7 @@ export function LevelScreen() {
       </StarDiv>
       <div style={{ textAlign: 'center', marginTop: '80px' }}>
         {' '}
-        <Link to="/topic1/concepts/1/RPG">
+        <Link to={`/topic1/concepts/${conceptNo}/RPG`}>
           {' '}
           <SolidButton
             borderradius="0"

@@ -15,9 +15,9 @@ import {
 export function* loginUser(action) {
   try {
     // get auth token
-
-    const { email } = action.payload.values;
-    const { password } = action.payload.values;
+    console.log(action.payload);
+    const { email } = action.payload;
+    const { password } = action.payload;
 
     const response = yield axios.post(
       `${globalSettings.backendApi}${globalSettings.backendApiVersion.v1}/${
@@ -33,7 +33,8 @@ export function* loginUser(action) {
       },
     );
 
-    const userData = response.data.data;
+    const userData = response.data;
+    console.log(userData);
     localStorage.setItem('SessionId', response.data.sessionId);
 
     const userToken = userData.token;
@@ -64,7 +65,7 @@ export function* logOutUser() {
 }
 
 export function* setTokenToLocalStorage(token, isSessionPersisted) {
-  const userToken = `Bearer-${token}`;
+  const userToken = `Bearer ${token}`;
   if (isSessionPersisted) {
     localStorage.setItem('_UFT_', userToken);
   } else {

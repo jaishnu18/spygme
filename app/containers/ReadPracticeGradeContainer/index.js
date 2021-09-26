@@ -22,6 +22,8 @@ import { compose } from 'redux';
 import Typewriter from 'typewriter-effect';
 import { makeStyles } from '@material-ui/core/styles';
 
+import history from 'utils/history';
+
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import SolidButton from '../../components/atoms/SolidButton';
@@ -57,6 +59,16 @@ const useStyles = makeStyles(theme => ({
 export function ReadPracticeGradeContainer() {
   useInjectReducer({ key: 'readPracticeGradeContainer', reducer });
   useInjectSaga({ key: 'readPracticeGradeContainer', saga });
+
+  const treeGameGo = () => {
+    history.push('/treegame/1');
+  };
+  const matchExpGameGo = () => {
+    history.push('/match-expression/1');
+  };
+  const writeExpGameGo = () => {
+    history.push('/write-expression/1');
+  };
 
   const classes = useStyles();
   return (
@@ -133,6 +145,7 @@ export function ReadPracticeGradeContainer() {
                     height="60%"
                     margintop="5px"
                     marginbottom="5px"
+                    onClick={treeGameGo}
                   >
                     Expression evaluation
                   </SolidButton>
@@ -142,6 +155,7 @@ export function ReadPracticeGradeContainer() {
                     height="60%"
                     margintop="5px"
                     marginbottom="5px"
+                    onClick={matchExpGameGo}
                   >
                     Match expression with nodes
                   </SolidButton>
@@ -151,8 +165,9 @@ export function ReadPracticeGradeContainer() {
                     height="60%"
                     margintop="5px"
                     marginbottom="5px"
+                    onClick={writeExpGameGo}
                   >
-                    Game X
+                    Write Equivalent Expression
                   </SolidButton>
                 </Typography>
               </CardContent>
@@ -180,6 +195,7 @@ export function ReadPracticeGradeContainer() {
                     height="60%"
                     margintop="5px"
                     marginbottom="5px"
+                    onClick={treeGameGo}
                   >
                     Expression evaluation
                   </SolidButton>
@@ -189,6 +205,7 @@ export function ReadPracticeGradeContainer() {
                     height="60%"
                     margintop="5px"
                     marginbottom="5px"
+                    onClick={matchExpGameGo}
                   >
                     Match expression with nodes
                   </SolidButton>
@@ -198,8 +215,9 @@ export function ReadPracticeGradeContainer() {
                     height="60%"
                     margintop="5px"
                     marginbottom="5px"
+                    onClick={writeExpGameGo}
                   >
-                    Game X
+                    Write Equivalent Expression
                   </SolidButton>
                 </Typography>
               </CardContent>

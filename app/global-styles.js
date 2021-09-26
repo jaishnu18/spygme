@@ -62,9 +62,17 @@ const GlobalStyle = createGlobalStyle`
   }
 
   p,
-  label {
+  label,h1 {
     font-family: Georgia, Times, 'Times New Roman', serif;
     line-height: 1.5em;
+  }
+
+  canvas {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
   }
 `;
 
