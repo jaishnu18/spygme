@@ -12,6 +12,7 @@ import TopicContainer from 'containers/TopicContainer';
 import ConceptsContainer from 'containers/ConceptsContainer';
 import LevelScreen from 'containers/LevelScreen';
 import MatchExpressionGame from 'containers/MatchExpressionGame';
+import Crossword from 'containers/Crossword';
 //
 //
 
@@ -58,6 +59,7 @@ function Routes(props) {
       <Route exact path="/topic1/concepts/:conceptNo" component={LevelScreen} />
 
       <Route exact path="/topic1/concepts/:conceptNo/RPG" component={RPG} />
+      <Route exact path="/crossword" component={Crossword} />
       <Route
         exact
         path="/write-expression/:level"
