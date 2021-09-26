@@ -10,7 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import SimpleCard from 'components/SimpleCard';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function ConceptCardSection() {
+function ConceptCardSection(props) {
   const classes = useStyles();
   return (
     <div className={classes.root}>

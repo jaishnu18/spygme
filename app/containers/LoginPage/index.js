@@ -75,7 +75,7 @@ export function LoginPage(props) {
   useEffect(() => {
     // page redirect
     if (props.AuthData.isLoggedIn) {
-      props.history.replace('/my/dashboard');
+      props.history.replace('/topics');
     }
   }, [props.AuthData]);
 

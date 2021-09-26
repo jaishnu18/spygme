@@ -1,11 +1,11 @@
 /*
  *
- * QuesType1 reducer
+ * MatchExpressionGame reducer
  *
  */
+
 import produce from 'immer';
 import {
-  DEFAULT_ACTION,
   GET_GAME_DATA_START,
   GET_GAME_DATA_SUCCESS,
   GET_GAME_DATA_FAILURE,
@@ -18,11 +18,11 @@ export const initialState = {
   isGameDataLoading: false,
   gameData: {},
   isResponseLoading: false,
-  userResponse: {},
+  evaluatedAnswer: {},
 };
 
 /* eslint-disable default-case, no-param-reassign */
-const quesType1Reducer = (state = initialState, action) =>
+const matchExpressionGameReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
       case GET_GAME_DATA_START:
@@ -41,13 +41,13 @@ const quesType1Reducer = (state = initialState, action) =>
         break;
       case EVALUATE_RESPONSE_SUCCESS:
         draft.isResponseLoading = false;
-        draft.userResponse = action.payload;
+        draft.evaluatedAnswer = action.payload;
         break;
       case EVALUATE_RESPONSE_FAILURE:
         draft.isResponseLoading = false;
-        draft.userResponse = action.payload;
+        draft.evaluatedAnswer = action.payload;
         break;
     }
   });
 
-export default quesType1Reducer;
+export default matchExpressionGameReducer;

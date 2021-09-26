@@ -1,6 +1,6 @@
 /**
  *
- * Tests for QuesType1
+ * Tests for MatchExpressionGame
  *
  * @see https://github.com/react-boilerplate/react-boilerplate/tree/master/docs/testing
  *
@@ -10,13 +10,13 @@ import React from 'react';
 import { render } from 'react-testing-library';
 // import 'jest-dom/extend-expect'; // add some helpful assertions
 
-import { QuesType1 } from '../index';
+import { MatchExpressionGame } from '../index';
 
-describe('<QuesType1 />', () => {
+describe('<MatchExpressionGame />', () => {
   it('Expect to not log errors in console', () => {
     const spy = jest.spyOn(global.console, 'error');
     const dispatch = jest.fn();
-    render(<QuesType1 dispatch={dispatch} />);
+    render(<MatchExpressionGame dispatch={dispatch} />);
     expect(spy).not.toHaveBeenCalled();
   });
 
@@ -32,7 +32,7 @@ describe('<QuesType1 />', () => {
   it.skip('Should render and match the snapshot', () => {
     const {
       container: { firstChild },
-    } = render(<QuesType1 />);
+    } = render(<MatchExpressionGame />);
     expect(firstChild).toMatchSnapshot();
   });
 });

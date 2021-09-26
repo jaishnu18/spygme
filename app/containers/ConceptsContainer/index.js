@@ -35,9 +35,11 @@ const useStyles = makeStyles(theme => ({
     color: '#FFFFFF',
   },
 }));
-export function ConceptsContainer() {
+export function ConceptsContainer(props) {
   useInjectReducer({ key: 'conceptsContainer', reducer });
   useInjectSaga({ key: 'conceptsContainer', saga });
+
+  const { conceptNo } = props.match.params;
 
   const classes = useStyles();
   return (
@@ -49,7 +51,7 @@ export function ConceptsContainer() {
       <Typography className={classes.paper} variant="h2" gutterBottom>
         <b>Concepts of Propositional Logic</b>
       </Typography>
-      <ConceptCardSection />
+      <ConceptCardSection conceptNo={conceptNo} />
       <div className={classes.root} />
     </div>
   );

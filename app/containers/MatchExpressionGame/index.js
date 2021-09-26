@@ -1,11 +1,10 @@
-/* eslint-disable no-param-reassign */
 /* eslint-disable radix */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable eqeqeq */
 /* eslint-disable camelcase */
 /**
  *
- * WriteExpressionGame
+ * MatchExpressionGame
  *
  */
 
@@ -29,30 +28,31 @@ import {
   Form,
   Input,
 } from 'antd';
-import SideBar from 'components/SideBar';
 import history from 'utils/history';
-import makeSelectWriteExpressionGame from './selectors';
+import SideBar from 'components/SideBar';
+import makeSelectMatchExpressionGame from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { getGraphStart, evaluateExpressionStart } from './actions';
 
-export function WriteExpressionGame(props) {
-  useInjectReducer({ key: 'writeExpressionGame', reducer });
-  useInjectSaga({ key: 'writeExpressionGame', saga });
+import { getGamesDataStart, evaluateResponseStart } from './actions';
+
+export function MatchExpressionGame(props) {
+  useInjectReducer({ key: 'matchExpressionGame', reducer });
+  useInjectSaga({ key: 'matchExpressionGame', saga });
 
   const { level } = props.match.params;
   useEffect(() => {
     props.getGameData(level);
   }, [level]);
 
-  const { gameData } = props.writeExpressionGame;
-  const { evaluatedAnswer } = props.writeExpressionGame;
-  console.log(gameData);
+  const { gameData } = props.matchExpressionGame;
+  const { evaluatedAnswer } = props.matchExpressionGame;
 
   const elements = [];
 
   if (gameData) {
-    console.log(gameData);
+    console.log('Here');
+
     const { x_coor } = gameData;
     const { y_coor } = gameData;
 
@@ -100,17 +100,20 @@ export function WriteExpressionGame(props) {
 
   const prevLevel = () => {
     const lvl = parseInt(level);
-    history.push(`/write-expression/${lvl - 1}`);
+    history.push(`/match-expression/${lvl - 1}`);
   };
   const nextLevel = () => {
     const lvl = parseInt(level);
-    history.push(`/write-expression/${lvl + 1}`);
+    history.push(`/match-expression/${lvl + 1}`);
   };
 
   const onFinish = values => {
-    values.response = values.response.replace(/\s/g, '');
+    const resp = [];
+    for (const [key, value] of Object.entries(values)) {
+      resp.push(value);
+    }
     const response = {};
-    gameData.response = values.response;
+    gameData.responses = resp;
     response.studentResponse = gameData;
     console.log(response);
     props.checkStudentResponse(response);
@@ -120,6 +123,26 @@ export function WriteExpressionGame(props) {
     console.log('Failed:', errorInfo);
   };
 
+  let items = null;
+
+  if (gameData) {
+    const { exp_to_display } = gameData;
+    items = exp_to_display.map(item => (
+      <Form.Item
+        label={`${item}`}
+        name={item}
+        rules={[
+          {
+            required: true,
+            message: 'Please input your Response!',
+          },
+        ]}
+      >
+        <InputNumber />
+      </Form.Item>
+    ));
+  }
+
   if (evaluatedAnswer) {
     console.log(evaluatedAnswer);
   }
@@ -127,10 +150,9 @@ export function WriteExpressionGame(props) {
   return (
     <div>
       <Helmet>
-        <title>WriteExpressionGame</title>
-        <meta name="description" content="Description of WriteExpressionGame" />
+        <title>MatchExpressionGame</title>
+        <meta name="description" content="Description of MatchExpressionGame" />
       </Helmet>
-
       <SideBar
         steps={['Tree Games', 'CrossWords', 'New Games']}
         heading="TreeGame"
@@ -166,48 +188,34 @@ export function WriteExpressionGame(props) {
           </div>
           {gameData ? (
             <Row>
-              <Col offset="2" span="6">
+              <Col offset="2">
+                <h1>Enter the Node Value for each Expression</h1>
                 <div>
-                  <h1>
-                    Write Any Equivalent Expression denoted by the following
-                    Graph:
-                  </h1>
-                  <Form
-                    name="basic"
-                    labelCol={{
-                      span: 8,
-                    }}
-                    wrapperCol={{
-                      span: 16,
-                    }}
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
-                    autoComplete="off"
-                  >
-                    <Form.Item
-                      label="Expression"
-                      name="response"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Please input your Response!',
-                        },
-                      ]}
-                    >
-                      <Input />
-                    </Form.Item>
-                    <Form.Item
+                  {items && (
+                    <Form
+                      name="basic"
+                      labelCol={{
+                        span: 8,
+                      }}
                       wrapperCol={{
-                        offset: 8,
                         span: 16,
                       }}
+                      onFinish={onFinish}
+                      onFinishFailed={onFinishFailed}
                     >
-                      <Button type="primary" htmlType="submit">
-                        Submit
-                      </Button>
-                    </Form.Item>
-                  </Form>
-                  );
+                      {items}
+                      <Form.Item
+                        wrapperCol={{
+                          offset: 8,
+                          span: 16,
+                        }}
+                      >
+                        <Button type="primary" htmlType="submit">
+                          Submit
+                        </Button>
+                      </Form.Item>
+                    </Form>
+                  )}
                 </div>
               </Col>
 
@@ -254,21 +262,20 @@ export function WriteExpressionGame(props) {
   );
 }
 
-WriteExpressionGame.propTypes = {
+MatchExpressionGame.propTypes = {
+  matchExpressionGame: PropTypes.object,
   getGameData: PropTypes.func,
   checkStudentResponse: PropTypes.func,
-  writeExpressionGame: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({
-  writeExpressionGame: makeSelectWriteExpressionGame(),
+  matchExpressionGame: makeSelectMatchExpressionGame(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    getGameData: token => dispatch(getGraphStart(token)),
-    checkStudentResponse: response =>
-      dispatch(evaluateExpressionStart(response)),
+    getGameData: token => dispatch(getGamesDataStart(token)),
+    checkStudentResponse: response => dispatch(evaluateResponseStart(response)),
   };
 }
 
@@ -280,4 +287,4 @@ const withConnect = connect(
 export default compose(
   withConnect,
   memo,
-)(WriteExpressionGame);
+)(MatchExpressionGame);

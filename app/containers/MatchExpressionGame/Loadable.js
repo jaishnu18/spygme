@@ -1,6 +1,6 @@
 /**
  *
- * Asynchronously loads the component for QuesType1
+ * Asynchronously loads the component for MatchExpressionGame
  *
  */
 
