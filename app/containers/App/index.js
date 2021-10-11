@@ -26,7 +26,6 @@ import { useInjectSaga } from 'utils/injectSaga';
 import GlobalStyle from 'global-styles';
 import Routes from 'routes';
 import Header from 'components/Header';
-import jwtDecode from 'jwt-decode';
 import {
   makeSelectAuthData,
   makeSelectLocation,
@@ -46,16 +45,10 @@ export function App(props) {
   useInjectReducer({ key: 'app', reducer });
   useInjectSaga({ key: 'app', saga });
   const authToken = localStorage._UFT_;
-  console.log(authToken);
 
-  useEffect(() => {
-    console.log(authToken);
-    if (authToken) {
-      const token = jwtDecode(authToken);
-      props.getUserDataFunc(token);
-    }
-  }, []);
+  useEffect(() => {}, []);
 
+  console.log('AuthData');
   console.log(props.AuthData);
 
   return (

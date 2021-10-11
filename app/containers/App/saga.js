@@ -3,6 +3,7 @@
 import { put, takeLatest, all } from 'redux-saga/effects';
 import axios from 'axios';
 import globalSettings from 'global-settings';
+import jwtDecode from 'jwt-decode';
 import { LOGIN_USER_WITH_EMAIL, LOGOUT_START } from './constants';
 
 import {
@@ -34,16 +35,14 @@ export function* loginUser(action) {
     );
 
     const userData = response.data;
-    console.log(userData);
-    localStorage.setItem('SessionId', response.data.sessionId);
+    const userToken = userData.data;
+    const info = jwtDecode(userToken);
+    info.token = userToken;
+    info.isLoggedIn = true;
 
-    const userToken = userData.token;
-    yield* setTokenToLocalStorage(userToken);
-
-    userData.isLoggedIn = true;
     yield* setTokenToLocalStorage(userToken, action.payload.rememberMe);
 
-    yield put(loginUserWithEmailSuccess(userData));
+    yield put(loginUserWithEmailSuccess(info));
   } catch (err) {
     console.log(err);
     yield put(loginUserWithEmailFailure('Incorrect Email or Password!'));
@@ -65,12 +64,8 @@ export function* logOutUser() {
 }
 
 export function* setTokenToLocalStorage(token, isSessionPersisted) {
-  const userToken = `Bearer ${token}`;
-  if (isSessionPersisted) {
-    localStorage.setItem('_UFT_', userToken);
-  } else {
-    sessionStorage.setItem('_UFT_', userToken);
-  }
+  const userToken = `${token}`;
+  localStorage.setItem('_UFT_', userToken);
 }
 
 /**

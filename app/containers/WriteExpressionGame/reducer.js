@@ -15,9 +15,9 @@ import {
 
 export const initialState = {
   isGraphLoading: false,
-  gameData: {},
+  gameData: undefined,
   isCheckingAnswer: false,
-  evaluatedAnswer: {},
+  evaluatedAnswer: undefined,
 };
 
 /* eslint-disable default-case, no-param-reassign */

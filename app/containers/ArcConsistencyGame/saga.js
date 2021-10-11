@@ -11,14 +11,14 @@ import {
   evaluateResponseSuccess,
   evaluateResponseFailure,
 } from './actions';
-import { GET_GAME_DATA_START, EVALUATE_RESPONSE_START } from './constants'; // Individual exports for testing
+import { GET_GAME_DATA_START, EVALUATE_RESPONSE_START } from './constants';
 
-export function* getGraph(action) {
+export function* getArcConsistency(action) {
   try {
     const level = action.payload;
 
     const response = yield axios.get(
-      `http://localhost:4000/game/match-expression/question/${level}`,
+      `http://localhost:4000/game/arc-consistency/question/${level}`,
     );
     console.log(response);
     yield put(getGamesDataSuccess(response.data.data));
@@ -33,9 +33,8 @@ export function* evaluateAnswer(action) {
     console.log(action.payload);
     const studentResponse = action.payload;
     const response = yield axios.post(
-      `http://localhost:4000/game/match-expression/question/validate`,
+      `http://localhost:4000/game/arc-consistency/question/validate`,
       studentResponse,
-      { headers: { Authorization: localStorage._UFT_ } },
     );
     yield put(evaluateResponseSuccess(response.data.data));
   } catch (err) {
@@ -43,9 +42,12 @@ export function* evaluateAnswer(action) {
     yield put(evaluateResponseFailure(err.data.message));
   }
 }
-export default function* matchExpressionGameSaga() {
+
+// Individual exports for testing
+export default function* arcConsistencyGameSaga() {
+  // See example in containers/HomePage/saga.js
   yield all([
-    takeLatest(GET_GAME_DATA_START, getGraph),
+    takeLatest(GET_GAME_DATA_START, getArcConsistency),
     takeLatest(EVALUATE_RESPONSE_START, evaluateAnswer),
   ]);
 }

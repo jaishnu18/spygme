@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /**
  *
  * ConceptCardSection
@@ -27,30 +28,48 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const concepts = [
+  {
+    title: 'Proposition & Boolean Variables',
+    link: '/topic1/concepts/1',
+    id: 1,
+  },
+  {
+    title: 'Boolean Operators',
+    link: '/topic1/concepts/2',
+    id: 2,
+  },
+  {
+    title: 'Logical Expressions & Syntax',
+    link: '/topic1/concepts/3',
+    id: 3,
+  },
+  {
+    title: 'Semantics',
+    link: '/topic1/concepts/4',
+    id: 4,
+  },
+  {
+    title: 'Evaluating Expression',
+    link: '/topic1/concepts/5',
+    id: 5,
+  },
+];
+
 function ConceptCardSection(props) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <Grid container spacing={4}>
-        <Grid item xs={12} sm={3}>
-          <Link to="/topic1/concepts/1">
-            <div>
-              <SimpleCard number="1" />
-            </div>
-          </Link>
-        </Grid>
-        <Grid item xs={12} sm={3}>
-          <SimpleCard number="2" />
-        </Grid>
-        <Grid item xs={12} sm={3}>
-          <SimpleCard number="3" />
-        </Grid>
-        <Grid item xs={12} sm={3}>
-          <SimpleCard number="4" />
-        </Grid>{' '}
-        <Grid item xs={12} sm={3}>
-          <SimpleCard number="5" />
-        </Grid>
+        {concepts.map((obj, index) => (
+          <Grid key={index + 1} item xs={12} sm={3}>
+            <Link to={obj.link}>
+              <div>
+                <SimpleCard number={obj.id} title={obj.title} />
+              </div>
+            </Link>
+          </Grid>
+        ))}
       </Grid>
     </div>
   );

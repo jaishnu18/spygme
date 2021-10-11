@@ -69,6 +69,9 @@ function Header(props) {
           <Button className={classes.text} color="inherit">
             Contacts
           </Button>
+          <Button className={classes.text} color="inherit">
+            Logout
+          </Button>
         </Toolbar>
       </AppBar>
     </div>

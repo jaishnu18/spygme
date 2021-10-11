@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /* eslint-disable no-param-reassign */
 /* eslint-disable radix */
 /* eslint-disable no-nested-ternary */
@@ -33,7 +34,7 @@ import SideBar from 'components/SideBar';
 import history from 'utils/history';
 import makeSelectWriteExpressionGame from './selectors';
 import reducer from './reducer';
-import saga from './saga';
+import saga, { evaluateAnswer } from './saga';
 import { getGraphStart, evaluateExpressionStart } from './actions';
 
 export function WriteExpressionGame(props) {
@@ -207,8 +208,37 @@ export function WriteExpressionGame(props) {
                       </Button>
                     </Form.Item>
                   </Form>
-                  );
                 </div>
+                {evaluatedAnswer && (
+                  <div>
+                    {evaluatedAnswer.syntax_error &&
+                      evaluatedAnswer.syntax_error === 'No syntax error' && (
+                        <div>
+                          <h1
+                            style={{
+                              color: evaluatedAnswer.correct ? 'green' : 'red',
+                            }}
+                          >
+                            {evaluatedAnswer.correct ? 'CORRECT' : 'INCORRECT'}
+                          </h1>
+
+                          {!evaluatedAnswer.correct && (
+                            <h1>{evaluatedAnswer.correct_answer}</h1>
+                          )}
+                        </div>
+                      )}
+
+                    {evaluatedAnswer.syntax_error && (
+                      <h2
+                        style={{
+                          color: 'blue',
+                        }}
+                      >
+                        {evaluatedAnswer.syntax_error}
+                      </h2>
+                    )}
+                  </div>
+                )}
               </Col>
 
               <Col offset="1">

@@ -8,7 +8,7 @@
  *
  */
 
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -30,6 +30,8 @@ import {
 } from 'antd';
 import history from 'utils/history';
 import SideBar from 'components/SideBar';
+import TickMark from 'images/tickmark.svg';
+import CrossMark from 'images/cross.svg';
 import makeSelectMatchExpressionGame from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -40,6 +42,9 @@ export function MatchExpressionGame(props) {
   useInjectReducer({ key: 'matchExpressionGame', reducer });
   useInjectSaga({ key: 'matchExpressionGame', saga });
 
+  const [graphData, setGraphData] = useState(undefined);
+  const [items, setItems] = useState(undefined);
+
   const { level } = props.match.params;
   useEffect(() => {
     props.getGameData(level);
@@ -48,55 +53,116 @@ export function MatchExpressionGame(props) {
   const { gameData } = props.matchExpressionGame;
   const { evaluatedAnswer } = props.matchExpressionGame;
 
-  const elements = [];
+  useEffect(() => {
+    if (gameData) {
+      const elements = [];
+      const { x_coor } = gameData;
+      const { y_coor } = gameData;
 
-  if (gameData) {
-    console.log('Here');
+      const { edge_carvature } = gameData;
+      const { content } = gameData;
 
-    const { x_coor } = gameData;
-    const { y_coor } = gameData;
-
-    const { edge_carvature } = gameData;
-    const { content } = gameData;
-
-    for (let i = 0; i < gameData.num_nodes; i += 1) {
-      const obj = {
-        data: { id: i, label: gameData.content[i] },
-        position: {
-          x: 100 * (x_coor[i] + 1),
-          y: 100 * (y_coor[i] + 1),
-        },
-      };
-      elements.push(obj);
-    }
-    const { adjList } = gameData;
-    for (let i = 0; i < gameData.num_nodes; i += 1) {
-      let j = 0;
-
-      while (adjList[i][j] != null) {
-        const tar = adjList[i][j];
-
+      for (let i = 0; i < gameData.num_nodes; i += 1) {
         const obj = {
-          data: {
-            source: i,
-            target: tar,
-            label: '',
-            key: `${i}t${tar}`,
-          },
-          style: {
-            'control-point-weight': 0.5,
-            'control-point-distance': -20 * edge_carvature[i][j],
-            'line-color': content[i] === '~' ? '#000' : j == 0 ? 'red' : 'blue',
-            'target-arrow-color':
-              content[i] === '~' ? '#000' : j == 0 ? 'red' : 'blue',
+          data: { id: i, label: `${gameData.content[i]} : ${i}` },
+          position: {
+            x: 100 * (x_coor[i] + 1),
+            y: 100 * (y_coor[i] + 1),
           },
         };
         elements.push(obj);
+      }
+      const { adjList } = gameData;
+      for (let i = 0; i < gameData.num_nodes; i += 1) {
+        let j = 0;
 
-        j += 1;
+        while (adjList[i][j] != null) {
+          const tar = adjList[i][j];
+
+          const obj = {
+            data: {
+              source: i,
+              target: tar,
+              label: '',
+              key: `${i}t${tar}`,
+            },
+            style: {
+              'control-point-weight': 0.5,
+              'control-point-distance': -50 * edge_carvature[i][j],
+              'line-color':
+                content[i] === '~' ? '#000' : j == 0 ? 'red' : 'blue',
+              'target-arrow-color':
+                content[i] === '~' ? '#000' : j == 0 ? 'red' : 'blue',
+            },
+          };
+          elements.push(obj);
+
+          j += 1;
+        }
+      }
+      setGraphData(elements);
+      let ptr = 0;
+
+      if (gameData.exp_to_display) {
+        const exp = gameData.exp_to_display.map((item, index) => (
+          <div>
+            <Form.Item
+              label={`${item}`}
+              name={item}
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your Response!',
+                },
+              ]}
+            >
+              <InputNumber />
+            </Form.Item>
+
+            {evaluatedAnswer && evaluatedAnswer.correctResponse && (
+              <div>
+                <h1
+                  style={{
+                    color: evaluatedAnswer.correctResponse.includes(index)
+                      ? 'green'
+                      : 'red',
+                  }}
+                >
+                  {evaluatedAnswer &&
+                  evaluatedAnswer.correctResponse.includes(index) ? (
+                    <img
+                      src={TickMark}
+                      style={{ width: '40px', height: '40px' }}
+                    />
+                  ) : (
+                    <div>
+                      <img
+                        src={CrossMark}
+                        style={{ width: '20px', height: '20px' }}
+                      />
+                      <div>
+                        Correct Node-ID: <span />
+                        {evaluatedAnswer.wrongResponse[ptr++][1]}
+                      </div>
+                    </div>
+                  )}
+                </h1>
+              </div>
+            )}
+          </div>
+        ));
+
+        setItems(exp);
       }
     }
-  }
+  }, [gameData, evaluatedAnswer]);
+
+  const head = (content, id) => (
+    <div>
+      <p>id</p>
+      <br />
+    </div>
+  );
 
   const prevLevel = () => {
     const lvl = parseInt(level);
@@ -123,29 +189,11 @@ export function MatchExpressionGame(props) {
     console.log('Failed:', errorInfo);
   };
 
-  let items = null;
-
-  if (gameData) {
-    const { exp_to_display } = gameData;
-    items = exp_to_display.map(item => (
-      <Form.Item
-        label={`${item}`}
-        name={item}
-        rules={[
-          {
-            required: true,
-            message: 'Please input your Response!',
-          },
-        ]}
-      >
-        <InputNumber />
-      </Form.Item>
-    ));
-  }
-
   if (evaluatedAnswer) {
     console.log(evaluatedAnswer);
   }
+
+  let myCyRef;
 
   return (
     <div>
@@ -186,7 +234,7 @@ export function MatchExpressionGame(props) {
               </div>
             )}
           </div>
-          {gameData ? (
+          {gameData && items ? (
             <Row>
               <Col offset="2">
                 <h1>Enter the Node Value for each Expression</h1>
@@ -223,8 +271,14 @@ export function MatchExpressionGame(props) {
                 <h1>Graph</h1>
                 <div style={{ border: '2px solid black' }}>
                   <CytoscapeComponent
-                    elements={elements}
-                    style={{ minWidth: '600px', minHeight: '650px' }}
+                    elements={CytoscapeComponent.normalizeElements(graphData)}
+                    // pan={{ x: 200, y: 200 }}
+                    style={{ width: '600px', height: '600px' }}
+                    zoomingEnabled
+                    maxZoom={3}
+                    minZoom={0.1}
+                    autounselectify={false}
+                    boxSelectionEnabled
                     stylesheet={[
                       {
                         selector: 'node',
@@ -232,10 +286,11 @@ export function MatchExpressionGame(props) {
                           'background-color': '#666',
                           color: 'white',
                           label: 'data(label)',
-                          width: '42px',
-                          height: '42px',
+                          width: '60px',
+                          height: '60px',
                           'text-valign': 'center',
                           'text-halign': 'center',
+                          'font-size': '17px',
                         },
                       },
                       {
@@ -251,6 +306,15 @@ export function MatchExpressionGame(props) {
                         },
                       },
                     ]}
+                    cy={cy => {
+                      myCyRef = cy;
+                      console.log('EVT', cy);
+
+                      cy.on('tap', 'node', evt => {
+                        // var node = evt.target;
+                      });
+                    }}
+                    abc={console.log('myCyRef', myCyRef)}
                   />
                 </div>
               </Col>

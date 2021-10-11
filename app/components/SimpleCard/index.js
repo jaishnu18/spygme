@@ -45,7 +45,8 @@ function SimpleCard(props) {
           Concept : {props.number}
         </Typography>
         <Typography variant="h5" component="h2">
-          {bull}Title of concept {bull}
+          {bull}
+          {props.title} {bull}
         </Typography>
 
         <ProgressBar />
@@ -62,6 +63,7 @@ function SimpleCard(props) {
 
 SimpleCard.propTypes = {
   number: PropTypes.number,
+  title: PropTypes.string,
 };
 
 export default memo(SimpleCard);

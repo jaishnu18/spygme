@@ -43,13 +43,15 @@ function ThreeCards(props) {
           </Link>
         </Grid>
         <Grid item xs={12} sm={4}>
-          <RecipeReviewCard
-            heading="Constraint satisfaction problems"
-            photo={APS}
-          />
+          <Link to="/topic2/concepts">
+            <RecipeReviewCard
+              heading="Constraint satisfaction problems"
+              photo={CSP}
+            />
+          </Link>
         </Grid>
         <Grid item xs={12} sm={4}>
-          <RecipeReviewCard heading="Automated problem solving" photo={CSP} />
+          <RecipeReviewCard heading="Automated problem solving" photo={APS} />
         </Grid>
       </Grid>
     </div>

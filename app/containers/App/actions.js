@@ -32,14 +32,6 @@ import {
   LOGOUT_FAILURE,
 } from './constants';
 
-export function getUserData(userData) {
-  console.log(userData);
-  // set user data into redux store
-  userData.isLoggedIn = true;
-
-  dispatch(loginUserWithEmailSuccess(userData));
-}
-
 export function loginUserWithEmail(payload) {
   return {
     type: LOGIN_USER_WITH_EMAIL,
