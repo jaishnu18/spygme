@@ -18,7 +18,7 @@ export function* getCrossword(action) {
     const level = action.payload;
 
     const response = yield axios.get(
-      `http://localhost:4000/game/node-consistency-check/question/${level}`,
+      `http://localhost:4000/game/draw-crossword-graph/question/${level}`,
     );
     console.log(response);
     yield put(getGamesDataSuccess(response.data.data));
@@ -33,7 +33,7 @@ export function* evaluateAnswer(action) {
     console.log(action.payload);
     const studentResponse = action.payload;
     const response = yield axios.post(
-      `http://localhost:4000/game/node-consistency-check/question/validate`,
+      `http://localhost:4000/game/draw-crossword-graph/question/validate`,
       studentResponse,
       { headers: { Authorization: localStorage._UFT_ } },
     );
@@ -44,10 +44,11 @@ export function* evaluateAnswer(action) {
   }
 }
 
-export default function* nodeConsistencyGameSaga() {
+// Individual exports for testing
+export default function* drawCrosswordGraphGameSaga() {
+  // See example in containers/HomePage/saga.js
   yield all([
     takeLatest(GET_GAME_DATA_START, getCrossword),
     takeLatest(EVALUATE_RESPONSE_START, evaluateAnswer),
   ]);
-  // See example in containers/HomePage/saga.js
 }

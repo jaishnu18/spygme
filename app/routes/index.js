@@ -12,9 +12,11 @@ import TopicContainer from 'containers/TopicContainer';
 import ConceptsContainer from 'containers/ConceptsContainer';
 import LevelScreen from 'containers/LevelScreen';
 import MatchExpressionGame from 'containers/MatchExpressionGame';
-import Crossword from 'containers/Crossword';
+import FindCrosswordNodesGame from 'containers/FindCrosswordNodesGame';
 import NodeConsistency from 'containers/NodeConsistencyGame';
 import ArcConsistencyGame from 'containers/ArcConsistencyGame';
+import DrawCrosswordGraphGame from 'containers/DrawCrosswordGraphGame';
+import GradedMatchExpressionGame from 'containers/GradedMatchExpressionGame';
 //
 //
 
@@ -63,8 +65,17 @@ function Routes(props) {
         path="/match-expression/:level"
         component={MatchExpressionGame}
       />
+      <Route
+        exact
+        path="/match-expression/graded-quiz/id"
+        component={GradedMatchExpressionGame}
+      />
 
-      <Route exact path="/find-nodes/:level" component={Crossword} />
+      <Route
+        exact
+        path="/find-nodes/:level"
+        component={FindCrosswordNodesGame}
+      />
       <Route
         exact
         path="/node-consistency/:level"
@@ -74,6 +85,11 @@ function Routes(props) {
         exact
         path="/arc-consistency/:level"
         component={ArcConsistencyGame}
+      />
+      <Route
+        exact
+        path="/draw-crossword-graph/:level"
+        component={DrawCrosswordGraphGame}
       />
 
       <Route exact path="/*" render={() => <Redirect to="/topics" />} />

@@ -12,7 +12,8 @@ import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { Row, Col, Button, Image } from 'antd';
-
+import moment from 'moment';
+import TimeClock from 'components/TimeClock';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import TickMark from 'images/tickmark.svg';
@@ -46,6 +47,19 @@ export function NodeConsistencyGame(props) {
   useInjectSaga({ key: 'nodeConsistencyGame', saga });
 
   const [selectedArray, setSelectedArray] = useState(undefined);
+  const [startTime, setStartTime] = useState(0);
+
+  function start() {
+    const date = new Date();
+    setStartTime(date);
+  }
+  function end() {
+    const endTime = new Date();
+    let timeDiff = endTime - startTime;
+    timeDiff /= 1000;
+    const seconds = timeDiff;
+    return seconds;
+  }
 
   const { gameData } = props.nodeConsistencyGame;
   const { evaluatedAnswer } = props.nodeConsistencyGame;
@@ -53,6 +67,7 @@ export function NodeConsistencyGame(props) {
   const { level } = props.match.params;
   useEffect(() => {
     props.getGameData(level);
+    start();
   }, [level]);
 
   useEffect(() => {
@@ -65,14 +80,6 @@ export function NodeConsistencyGame(props) {
     }
   }, [gameData]);
 
-  if (evaluatedAnswer) {
-    console.log(evaluatedAnswer);
-  }
-
-  if (gameData) {
-    console.log(gameData);
-  }
-
   const changeState = event => {
     const { id } = event.target;
     const myArr = id.split('-');
@@ -83,14 +90,15 @@ export function NodeConsistencyGame(props) {
     nestedList[row][col] = !nestedList[row][col];
 
     if (nestedList[row][col]) {
-      event.target.style.backgroundColor = '#6bfc03';
+      event.target.style.backgroundColor = 'lightgreen';
     } else {
-      event.target.style.backgroundColor = '#ffc5ab';
+      event.target.style.backgroundColor = '#ff5454';
     }
     setSelectedArray(nestedList);
   };
 
   const checkAnswer = () => {
+    const secs = end();
     const response = {};
     const answer = [];
 
@@ -107,20 +115,19 @@ export function NodeConsistencyGame(props) {
     }
 
     gameData.response = answer;
+    const formatted = moment.utc(secs * 1000).format('mm:ss');
+    gameData.timeTaken = formatted;
     response.studentResponse = gameData;
-
-    console.log(response);
-
     props.checkStudentResponse(response);
   };
 
   const prevLevel = () => {
     const lvl = parseInt(level);
-    window.location.href = `/find-nodes/${lvl - 1}`;
+    window.location.href = `/node-consistency/${lvl - 1}`;
   };
   const nextLevel = () => {
     const lvl = parseInt(level);
-    window.location.href = `/find-nodes/${lvl + 1}`;
+    window.location.href = `/node-consistency/${lvl + 1}`;
   };
 
   return (
@@ -215,6 +222,7 @@ export function NodeConsistencyGame(props) {
                   )}
                 </MyGrid>
               </div>
+              <TimeClock active={!evaluatedAnswer} />
             </Col>
             <Col offset="2" span="10">
               <div>

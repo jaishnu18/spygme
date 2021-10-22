@@ -1,6 +1,6 @@
 /*
  *
- * Crossword reducer
+ * DrawCrosswordGraphGame reducer
  *
  */
 import produce from 'immer';
@@ -21,7 +21,7 @@ export const initialState = {
 };
 
 /* eslint-disable default-case, no-param-reassign */
-const crosswordReducer = (state = initialState, action) =>
+const drawCrosswordGraphGameReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
       case GET_GAME_DATA_START:
@@ -49,4 +49,4 @@ const crosswordReducer = (state = initialState, action) =>
     }
   });
 
-export default crosswordReducer;
+export default drawCrosswordGraphGameReducer;

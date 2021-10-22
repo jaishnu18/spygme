@@ -10,12 +10,14 @@
  *
  */
 
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+import moment from 'moment';
+import TimeClock from 'components/TimeClock';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
@@ -36,14 +38,29 @@ import makeSelectWriteExpressionGame from './selectors';
 import reducer from './reducer';
 import saga, { evaluateAnswer } from './saga';
 import { getGraphStart, evaluateExpressionStart } from './actions';
+import { startCase } from 'lodash';
 
 export function WriteExpressionGame(props) {
   useInjectReducer({ key: 'writeExpressionGame', reducer });
   useInjectSaga({ key: 'writeExpressionGame', saga });
 
+  const [startTime, setStartTime] = useState(0);
+  function start() {
+    const date = new Date();
+    setStartTime(date);
+  }
+  function end() {
+    const endTime = new Date();
+    let timeDiff = endTime - startTime;
+    timeDiff /= 1000;
+    const seconds = timeDiff;
+    return seconds;
+  }
+
   const { level } = props.match.params;
   useEffect(() => {
     props.getGameData(level);
+    start();
   }, [level]);
 
   const { gameData } = props.writeExpressionGame;
@@ -109,11 +126,14 @@ export function WriteExpressionGame(props) {
   };
 
   const onFinish = values => {
+    const secs = end();
     values.response = values.response.replace(/\s/g, '');
     const response = {};
     gameData.response = values.response;
+    gameData.response = values.response;
+    const formatted = moment.utc(secs * 1000).format('mm:ss');
+    gameData.timeTaken = formatted;
     response.studentResponse = gameData;
-    console.log(response);
     props.checkStudentResponse(response);
   };
 
@@ -276,6 +296,7 @@ export function WriteExpressionGame(props) {
                   />
                 </div>
               </Col>
+              <TimeClock active={!evaluatedAnswer} />
             </Row>
           ) : null}
         </div>

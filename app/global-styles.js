@@ -8,6 +8,12 @@ import boldFont from 'fonts/circular/circular-bold.ttf';
 
 const GlobalStyle = createGlobalStyle`
 
+:root {
+  --appWrapperColor: #ECEEF4;
+  --darkTextColor: rgb(0, 47, 45);
+  --desktopBgColor: rgba(250,252,255,255);
+}
+
 @font-face
   {
     font-family: 'circular';

@@ -39,6 +39,7 @@ export function* evaluateAnswer(action) {
     const response = yield axios.post(
       `http://localhost:4000/game/write-expression/question/validate`,
       studentResponse,
+      { headers: { Authorization: localStorage._UFT_ } },
     );
     yield put(evaluateExpressionSuccess(response.data.data));
   } catch (err) {

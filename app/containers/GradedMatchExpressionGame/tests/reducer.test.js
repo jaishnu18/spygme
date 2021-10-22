@@ -1,9 +1,9 @@
 // import produce from 'immer';
-import crosswordReducer from '../reducer';
+import gradedMatchExpressionGameReducer from '../reducer';
 // import { someAction } from '../actions';
 
 /* eslint-disable default-case, no-param-reassign */
-describe('crosswordReducer', () => {
+describe('gradedMatchExpressionGameReducer', () => {
   let state;
   beforeEach(() => {
     state = {
@@ -13,7 +13,9 @@ describe('crosswordReducer', () => {
 
   it('returns the initial state', () => {
     const expectedResult = state;
-    expect(crosswordReducer(undefined, {})).toEqual(expectedResult);
+    expect(gradedMatchExpressionGameReducer(undefined, {})).toEqual(
+      expectedResult,
+    );
   });
 
   /**

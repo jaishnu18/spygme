@@ -35,6 +35,7 @@ export function* evaluateAnswer(action) {
     const response = yield axios.post(
       `http://localhost:4000/game/arc-consistency/question/validate`,
       studentResponse,
+      { headers: { Authorization: localStorage._UFT_ } },
     );
     yield put(evaluateResponseSuccess(response.data.data));
   } catch (err) {

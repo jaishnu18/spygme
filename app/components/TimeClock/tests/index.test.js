@@ -1,6 +1,6 @@
 /**
  *
- * Tests for Crossword
+ * Tests for TimeClock
  *
  * @see https://github.com/react-boilerplate/react-boilerplate/tree/master/docs/testing
  *
@@ -10,13 +10,12 @@ import React from 'react';
 import { render } from 'react-testing-library';
 // import 'jest-dom/extend-expect'; // add some helpful assertions
 
-import { Crossword } from '../index';
+import TimeClock from '../index';
 
-describe('<Crossword />', () => {
+describe('<TimeClock />', () => {
   it('Expect to not log errors in console', () => {
     const spy = jest.spyOn(global.console, 'error');
-    const dispatch = jest.fn();
-    render(<Crossword dispatch={dispatch} />);
+    render(<TimeClock />);
     expect(spy).not.toHaveBeenCalled();
   });
 
@@ -32,7 +31,7 @@ describe('<Crossword />', () => {
   it.skip('Should render and match the snapshot', () => {
     const {
       container: { firstChild },
-    } = render(<Crossword />);
+    } = render(<TimeClock />);
     expect(firstChild).toMatchSnapshot();
   });
 });

@@ -1,9 +1,8 @@
 /*
  *
- * MatchExpressionGame reducer
+ * GradedMatchExpressionGame reducer
  *
  */
-
 import produce from 'immer';
 import {
   GET_GAME_DATA_START,
@@ -22,7 +21,7 @@ export const initialState = {
 };
 
 /* eslint-disable default-case, no-param-reassign */
-const matchExpressionGameReducer = (state = initialState, action) =>
+const gradedMatchExpressionGameReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
       case GET_GAME_DATA_START:
@@ -50,4 +49,4 @@ const matchExpressionGameReducer = (state = initialState, action) =>
     }
   });
 
-export default matchExpressionGameReducer;
+export default gradedMatchExpressionGameReducer;

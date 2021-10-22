@@ -1,31 +1,25 @@
-/* eslint-disable vars-on-top */
-/* eslint-disable no-var */
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable radix */
-/* eslint-disable no-nested-ternary */
-/* eslint-disable react/jsx-no-undef */
-/* eslint-disable no-undef */
 /**
  *
- * Crossword
+ * FindCrosswordNodesGame
  *
  */
 
 import React, { memo, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import history from 'utils/history';
-import styled from 'styled-components';
+import moment from 'moment';
 
 import { Form, InputNumber, Button, Space, Select, Col, Row } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import makeSelectCrossword from './selectors';
+import TimeClock from 'components/TimeClock';
+import makeSelectFindCrosswordNodesGame from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import { getGamesDataStart, evaluateResponseStart } from './actions';
@@ -41,25 +35,33 @@ const MyGrid = styled.div`
     border: 2px solid #333;
   }
 `;
-export function Crossword(props) {
-  useInjectReducer({ key: 'crossword', reducer });
-  useInjectSaga({ key: 'crossword', saga });
 
-  const { gameData } = props.crossword;
-  const { evaluatedAnswer } = props.crossword;
+export function FindCrosswordNodesGame(props) {
+  useInjectReducer({ key: 'findCrosswordNodesGame', reducer });
+  useInjectSaga({ key: 'findCrosswordNodesGame', saga });
+
+  const [startTime, setStartTime] = useState(0);
+  function start() {
+    const date = new Date();
+    setStartTime(date);
+  }
+  function end() {
+    const endTime = new Date();
+    let timeDiff = endTime - startTime;
+    timeDiff /= 1000;
+    const seconds = timeDiff;
+    return seconds;
+  }
+
+  const { gameData } = props.findCrosswordNodesGame;
+  const { evaluatedAnswer } = props.findCrosswordNodesGame;
 
   const { level } = props.match.params;
   useEffect(() => {
+    console.log('Hii');
     props.getGameData(level);
+    start();
   }, [level]);
-
-  if (evaluatedAnswer) {
-    console.log(evaluatedAnswer);
-  }
-
-  if (gameData) {
-    console.log(gameData.grid);
-  }
 
   const [form] = Form.useForm();
 
@@ -80,8 +82,11 @@ export function Crossword(props) {
   ];
 
   const onFinish = values => {
+    const secs = end();
     const response = {};
     gameData.response = values.nodes;
+    const formatted = moment.utc(secs * 1000).format('mm:ss');
+    gameData.timeTaken = formatted;
     response.studentResponse = gameData;
     props.checkStudentResponse(response);
   };
@@ -89,8 +94,11 @@ export function Crossword(props) {
   return (
     <div>
       <Helmet>
-        <title>Crossword</title>
-        <meta name="description" content="Description of Crossword" />
+        <title>FindCrosswordNodesGame</title>
+        <meta
+          name="description"
+          content="Description of FindCrosswordNodesGame"
+        />
       </Helmet>
 
       <div style={{ padding: '20px' }}>
@@ -144,7 +152,7 @@ export function Crossword(props) {
                   </div>
                   {[...Array(gameData.grid_size + 1)].map(
                     (x, i) =>
-                      i && (
+                      i > 0 && (
                         <div style={{ display: 'flex' }}>
                           {[...Array(gameData.grid_size + 1)].map((y, j) => (
                             <div>
@@ -178,6 +186,7 @@ export function Crossword(props) {
                   )}
                 </MyGrid>
               </div>
+              <TimeClock active={!evaluatedAnswer} />
             </Col>
 
             <Col offset="2" span="10">
@@ -384,14 +393,14 @@ export function Crossword(props) {
   );
 }
 
-Crossword.propTypes = {
+FindCrosswordNodesGame.propTypes = {
   getGameData: PropTypes.func,
   checkStudentResponse: PropTypes.func,
-  crossword: PropTypes.object,
+  findCrosswordNodesGame: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({
-  crossword: makeSelectCrossword(),
+  findCrosswordNodesGame: makeSelectFindCrosswordNodesGame(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -409,4 +418,4 @@ const withConnect = connect(
 export default compose(
   withConnect,
   memo,
-)(Crossword);
+)(FindCrosswordNodesGame);

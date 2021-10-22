@@ -57,9 +57,9 @@ const InputContainer = styled.div`
 `;
 
 function CustomInput(props) {
-  const handleChange = event => {
-    props.onChange(event.target.value);
-  };
+  // const handleChange = event => {
+  //   props.onChange(event.target.value);
+  // };
   return (
     <InputContainer nomargin={props.nomargin} labeltop={props.labeltop}>
       <input
@@ -67,7 +67,7 @@ function CustomInput(props) {
         placeholder={props.label}
         className="input"
         id={props.inputId}
-        onChange={handleChange}
+        onChange={props.handleChange}
         type={props.type ? props.type : 'text'}
         value={props.value}
         required={props.required}

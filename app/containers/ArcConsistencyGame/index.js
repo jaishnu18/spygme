@@ -15,6 +15,8 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import CytoscapeComponent from 'react-cytoscapejs';
 import { Button, Row, Col } from 'antd';
+import moment from 'moment';
+import TimeClock from 'components/TimeClock';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
@@ -56,9 +58,23 @@ export function ArcConsistencyGame(props) {
   const { gameData } = props.arcConsistencyGame;
   const { evaluatedAnswer } = props.arcConsistencyGame;
 
+  const [startTime, setStartTime] = useState(0);
+  function start() {
+    const date = new Date();
+    setStartTime(date);
+  }
+  function end() {
+    const endTime = new Date();
+    let timeDiff = endTime - startTime;
+    timeDiff /= 1000;
+    const seconds = timeDiff;
+    return seconds;
+  }
+
   const { level } = props.match.params;
   useEffect(() => {
     props.getGameData(level);
+    start();
   }, [level]);
 
   useEffect(() => {
@@ -186,6 +202,7 @@ export function ArcConsistencyGame(props) {
   };
 
   const checkAnswer = () => {
+    const secs = end();
     const response = {};
     const answer = [];
 
@@ -201,6 +218,8 @@ export function ArcConsistencyGame(props) {
       answer.push(innerList);
     }
     gameData.response = answer;
+    const formatted = moment.utc(secs * 1000).format('mm:ss');
+    gameData.timeTaken = formatted;
     response.studentResponse = gameData;
 
     console.log(response);
@@ -309,6 +328,7 @@ export function ArcConsistencyGame(props) {
                   )}
                 </MyGrid>
               </div>
+              <TimeClock active={!evaluatedAnswer} />
             </Col>
             <Col offset="2" span="10">
               <div>
