@@ -47,6 +47,7 @@ export function DrawCrosswordGraphGame(props) {
   const [graphData, setGraphData] = useState(undefined);
   const [AcrossNodes, setAcrossNodes] = useState([]);
   const [DownNodes, setDownNodes] = useState([]);
+  const [edgeList, setEdgeList] = useState([]);
 
   const [nodeX, setNodeX] = useState(undefined);
   const [toAdd, setToAdd] = useState(true);
@@ -178,11 +179,16 @@ export function DrawCrosswordGraphGame(props) {
       res.push(newArr);
     }
 
+    const onChange = value => {
+      console.log(value);
+    };
+
     console.log(res);
     const response = {};
     gameData.response = res;
     const formatted = moment.utc(secs * 1000).format('mm:ss');
     gameData.timeTaken = formatted;
+    gameData.difficulty = level;
     response.studentResponse = gameData;
     props.checkStudentResponse(response);
   };
@@ -190,9 +196,6 @@ export function DrawCrosswordGraphGame(props) {
   if (evaluatedAnswer) {
     console.log(evaluatedAnswer);
   }
-
-  console.log(AcrossNodes);
-  console.log(DownNodes);
 
   return (
     <div>
@@ -329,6 +332,7 @@ export function DrawCrosswordGraphGame(props) {
                   form={form}
                   name="dynamic_form_nest_item"
                   onFinish={onFinish}
+                  onFieldsChange={value => console.log(value)}
                   autoComplete="off"
                   style={{ display: 'flex', flexDirection: 'column' }}
                 >
