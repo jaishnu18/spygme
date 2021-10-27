@@ -29,18 +29,18 @@ function Routes(props) {
   const { isLoggedIn } = context[1];
   console.log(authToken, isLoggedIn);
 
-  // if (!authToken) {
-  //   return (
-  //     <Switch>
-  //       <Route exact path="/login" component={LoginPage} />
-  //       <Route exact path="/signup" component={LoginPage} />
-  //       <Route exact path="/onboard/:token" component={LoginPage} />
-  //       <Route exact path="/verify-email" component={LoginPage} />
-  //       <Route exact path="/forgot-password" component={LoginPage} />
-  //       <Route exact path="/*" render={() => <Redirect to="/login" />} />
-  //     </Switch>
-  //   );
-  // }
+  if (!authToken) {
+    return (
+      <Switch>
+        <Route exact path="/login" component={LoginPage} />
+        <Route exact path="/signup" component={LoginPage} />
+        <Route exact path="/onboard/:token" component={LoginPage} />
+        <Route exact path="/verify-email" component={LoginPage} />
+        <Route exact path="/forgot-password" component={LoginPage} />
+        <Route exact path="/*" render={() => <Redirect to="/login" />} />
+      </Switch>
+    );
+  }
   return (
     <Switch>
       <Route exact path="/treegame/:level" component={TreeGames} />
