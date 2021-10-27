@@ -26,6 +26,7 @@ import {
   message,
   Col,
   Form,
+  Modal,
   Input,
 } from 'antd';
 import moment from 'moment';
@@ -34,23 +35,132 @@ import history from 'utils/history';
 import TickMark from 'images/tickmark.svg';
 import CrossMark from 'images/cross.svg';
 import TimeClock from 'components/TimeClock';
+import Rating from '@mui/material/Rating';
+import Box from '@mui/material/Box';
+import StarIcon from '@mui/icons-material/Star';
+import TextField from '@mui/material/TextField';
+// import labels from 'app/utils/constants/labels.js';
 import makeSelectMatchExpressionGame from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
-import { getGamesDataStart, evaluateResponseStart } from './actions';
+import {
+  getGamesDataStart,
+  evaluateResponseStart,
+  putFeedbackStart,
+} from './actions';
+
+const labels = {
+  0.5: 'Useless',
+  1: 'Useless+',
+  1.5: 'Poor',
+  2: 'Poor+',
+  2.5: 'Ok',
+  3: 'Ok+',
+  3.5: 'Good',
+  4: 'Good+',
+  4.5: 'Excellent',
+  5: 'Excellent+',
+};
+
+const errors = [
+  'Silly mistake',
+  'Did not know the concept',
+  'Knew Concept,but unable to apply',
+  'Made a guess',
+  'Attempted in a hurry',
+  'Could not understand the question',
+];
+
+const questions = [
+  'How interesting did you find the question?',
+  'How interesting did you find the question?',
+  'How relevant did you find the question w.r.t. the concept?',
+  'How difficult did you find the question w.r.t. the current level?',
+];
 
 export function MatchExpressionGame(props) {
   useInjectReducer({ key: 'matchExpressionGame', reducer });
   useInjectSaga({ key: 'matchExpressionGame', saga });
 
+  const [checkedState, setCheckedState] = useState(
+    new Array(errors.length).fill(false),
+  );
   const [graphData, setGraphData] = useState(undefined);
   const [items, setItems] = useState(undefined);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [starValue1, setStarValue1] = useState(0);
+  const [starValue2, setStarValue2] = useState(0);
+  const [starValue3, setStarValue3] = useState(0);
+  const [starValue4, setStarValue4] = useState(0);
+  const [qsWrong, setQsWrong] = useState(false);
+  const [qsChanges, setQsChanges] = useState('');
+  // const [hover, setHover] = React.useState(-1);
+
+  useEffect(() => {
+    console.log(qsChanges);
+  }, [qsChanges]);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    const response = {};
+    const sr = {};
+    const res = [];
+    let x = {};
+    x.question = questions[0];
+    x.rating = starValue1;
+    res.push(x);
+    x = {};
+    x.question = questions[1];
+    x.rating = starValue2;
+    res.push(x);
+    x = {};
+    x.question = questions[2];
+    x.rating = starValue3;
+    res.push(x);
+    x = {};
+    x.question = questions[3];
+    x.rating = starValue4;
+    res.push(x);
+
+    sr.ratingFeedback = res;
+    sr.solutionWrong = qsWrong;
+    sr.questionChangeSuggestion = qsChanges;
+
+    const studentResponse = {};
+    studentResponse.feedback = JSON.stringify(sr);
+
+    if (evaluatedAnswer.score !== 1) {
+      const newArr = checkedState.map((isTrue, index) => {
+        if (isTrue) {
+          return errors[index];
+        }
+      });
+      const filtered = newArr.filter(el => {
+        return el != null;
+      });
+      studentResponse.whatwentwrong = JSON.stringify(filtered);
+    }
+    response.studentResponse = studentResponse;
+
+    setIsModalVisible(false);
+
+    props.saveFeedback(response);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
   const [startTime, setStartTime] = useState(0);
   function start() {
     const date = new Date();
     setStartTime(date);
   }
+
   function end() {
     const endTime = new Date();
     let timeDiff = endTime - startTime;
@@ -59,11 +169,20 @@ export function MatchExpressionGame(props) {
     return seconds;
   }
 
+  const handleOnChange = position => {
+    const updatedCheckedState = checkedState.map((item, index) =>
+      index === position ? !item : item,
+    );
+
+    setCheckedState(updatedCheckedState);
+  };
+
   const { level } = props.match.params;
   useEffect(() => {
     props.getGameData(level);
     start();
   }, [level]);
+
   const { gameData } = props.matchExpressionGame;
   const { evaluatedAnswer } = props.matchExpressionGame;
 
@@ -125,7 +244,6 @@ export function MatchExpressionGame(props) {
                 {index}..... {item} ::{' '}
               </h2>
               <Form.Item
-                // label={`${item}`}
                 name={item}
                 rules={[
                   {
@@ -177,6 +295,12 @@ export function MatchExpressionGame(props) {
     }
   }, [gameData, evaluatedAnswer]);
 
+  useEffect(() => {
+    if (evaluatedAnswer) {
+      setIsModalVisible(true);
+    }
+  }, [evaluatedAnswer]);
+
   const prevLevel = () => {
     const lvl = parseInt(level);
     history.push(`/match-expression/${lvl - 1}`);
@@ -207,10 +331,6 @@ export function MatchExpressionGame(props) {
   const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
   };
-
-  if (evaluatedAnswer) {
-    console.log(evaluatedAnswer);
-  }
 
   let myCyRef;
 
@@ -342,16 +462,158 @@ export function MatchExpressionGame(props) {
                   ]}
                   cy={cy => {
                     myCyRef = cy;
-                    console.log('EVT', cy);
-
                     cy.on('tap', 'node', evt => {
                       // var node = evt.target;
                     });
                   }}
-                  abc={console.log('myCyRef', myCyRef)}
                 />
               </div>
               <TimeClock active={!evaluatedAnswer} />
+
+              <Modal
+                title="Feedback"
+                width="800px"
+                visible={isModalVisible}
+                onOk={handleOk}
+                onCancel={handleCancel}
+              >
+                <Box
+                  md={{
+                    width: 200,
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexDirection: 'column',
+                  }}
+                >
+                  <h2>{questions[0]}</h2>
+                  <Rating
+                    name="hover-feedback-1"
+                    value={starValue1}
+                    precision={0.5}
+                    onChange={(event, newValue) => {
+                      setStarValue1(newValue);
+                    }}
+                    // onChangeActive={(event, newHover) => {
+                    //   // setHover(newHover);
+                    // }}
+                    emptyIcon={
+                      <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+                    }
+                  />
+                  <h2>{questions[1]}</h2>
+                  <Rating
+                    name="hover-feedback-2"
+                    value={starValue2}
+                    precision={0.5}
+                    onChange={(event, newValue) => {
+                      setStarValue2(newValue);
+                    }}
+                    // onChangeActive={(event, newHover) => {
+                    //   setHover(newHover);
+                    // }}
+                    emptyIcon={
+                      <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+                    }
+                  />
+                  <h2>{questions[2]}</h2>
+                  <Rating
+                    name="hover-feedback-3"
+                    value={starValue3}
+                    precision={0.5}
+                    onChange={(event, newValue) => {
+                      setStarValue3(newValue);
+                    }}
+                    // onChangeActive={(event, newHover) => {
+                    //   setHover(newHover);
+                    // }}
+                    emptyIcon={
+                      <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+                    }
+                  />
+                  <h2>{questions[3]}</h2>
+                  <Rating
+                    name="hover-feedback-4"
+                    value={starValue4}
+                    precision={0.5}
+                    onChange={(event, newValue) => {
+                      setStarValue4(newValue);
+                    }}
+                    // onChangeActive={(event, newHover) => {
+                    //   setHover(newHover);
+                    // }}
+                    emptyIcon={
+                      <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+                    }
+                  />
+
+                  <h2>Do you think the solution given is wrong?</h2>
+                  <div style={{ display: 'flex' }}>
+                    <Button
+                      onClick={() => {
+                        setQsWrong(false);
+                      }}
+                      style={{
+                        backgroundColor: !qsWrong ? 'red' : 'white',
+                        color: !qsWrong ? 'white' : 'black',
+                      }}
+                    >
+                      No
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        setQsWrong(true);
+                      }}
+                      style={{
+                        backgroundColor: qsWrong ? 'green' : 'white',
+                        color: qsWrong ? 'white' : 'black',
+                      }}
+                    >
+                      Yes
+                    </Button>
+                  </div>
+                  <h2>Do you want changes/improvement in this game?</h2>
+                  <Box
+                    component="form"
+                    sx={{
+                      '& > :not(style)': { m: 1, width: '25ch' },
+                    }}
+                    noValidate
+                    autoComplete="off"
+                  >
+                    <TextField
+                      id="outlined-basic"
+                      label="changes"
+                      variant="outlined"
+                      style={{ width: '200px' }}
+                      onChange={e => {
+                        setQsChanges(e.target.value);
+                      }}
+                    />
+                  </Box>
+                  {evaluatedAnswer && evaluatedAnswer.score < 1 && (
+                    <div>
+                      <h1>What Went Wrong?</h1>
+                      <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        {errors.map((err, index) => (
+                          <div>
+                            <input
+                              type="checkbox"
+                              id={`custom-checkbox-${index}`}
+                              name={err}
+                              value={err}
+                              checked={checkedState[index]}
+                              onChange={() => handleOnChange(index)}
+                            />
+                            <label htmlFor={`custom-checkbox-${index}`}>
+                              {err}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </Box>
+              </Modal>
             </Col>
           </Row>
         ) : null}
@@ -364,6 +626,7 @@ MatchExpressionGame.propTypes = {
   matchExpressionGame: PropTypes.object,
   getGameData: PropTypes.func,
   checkStudentResponse: PropTypes.func,
+  saveFeedback: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -374,6 +637,7 @@ function mapDispatchToProps(dispatch) {
   return {
     getGameData: token => dispatch(getGamesDataStart(token)),
     checkStudentResponse: response => dispatch(evaluateResponseStart(response)),
+    saveFeedback: feedback => dispatch(putFeedbackStart(feedback)),
   };
 }
 

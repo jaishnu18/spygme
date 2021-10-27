@@ -93,24 +93,12 @@ export function GradedMatchExpressionGame(props) {
   const [time, setTime] = useState(0);
   const responses = [];
 
-  function start() {
-    const date = new Date();
-    setStartTime(date);
-  }
-  function end() {
-    const endTime = new Date();
-    let timeDiff = endTime - startTime;
-    timeDiff /= 1000;
-    const seconds = timeDiff;
-    return seconds;
-  }
-
   useEffect(() => {
     props.getGameData();
-    start();
   }, []);
 
   useEffect(() => {
+    console.log(currLevel);
     if (gameData) {
       const elements = [];
       console.log(currLevel);
@@ -182,6 +170,7 @@ export function GradedMatchExpressionGame(props) {
         responses.push(myarr);
       }
     }
+
     const { id } = e.target;
     const myArr = id.split('-');
     const row = parseInt(myArr[0]);
@@ -504,14 +493,34 @@ export function GradedMatchExpressionGame(props) {
                     ]}
                     cy={cy => {
                       myCyRef = cy;
-                      console.log('EVT', cy);
-
                       cy.on('tap', 'node', evt => {
                         // var node = evt.target;
                       });
                     }}
-                    abc={console.log('myCyRef', myCyRef)}
                   />
+                )}
+              </div>
+              <div style={{ display: 'flex' }}>
+                {currLevel > 0 && (
+                  <Button
+                    onClick={() => {
+                      const lvl = Math.max(0, currLevel - 1);
+                      setCurrLevel(lvl);
+                    }}
+                  >
+                    previous
+                  </Button>
+                )}
+                {currLevel < 3 && (
+                  <Button
+                    onClick={() => {
+                      const lvl = Math.min(3, currLevel + 1);
+                      setCurrLevel(lvl);
+                    }}
+                    style={{ marginLeft: 'auto' }}
+                  >
+                    next
+                  </Button>
                 )}
               </div>
             </Col>

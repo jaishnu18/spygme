@@ -12,6 +12,9 @@ import {
   EVALUATE_RESPONSE_START,
   EVALUATE_RESPONSE_SUCCESS,
   EVALUATE_RESPONSE_FAILURE,
+  PUT_FEEDBACK_FAILURE,
+  PUT_FEEDBACK_START,
+  PUT_FEEDBACK_SUCCESS,
 } from './constants';
 
 export function defaultAction() {
@@ -52,6 +55,25 @@ export function evaluateResponseSuccess(payload) {
 export function evaluateResponseFailure(err) {
   return {
     type: EVALUATE_RESPONSE_FAILURE,
+    payload: err,
+  };
+}
+
+export function putFeedbackStart(payload) {
+  return {
+    type: PUT_FEEDBACK_START,
+    payload,
+  };
+}
+export function putFeedbackSuccess(payload) {
+  return {
+    type: PUT_FEEDBACK_SUCCESS,
+    payload,
+  };
+}
+export function putFeedbackFailure(err) {
+  return {
+    type: PUT_FEEDBACK_FAILURE,
     payload: err,
   };
 }

@@ -220,6 +220,7 @@ export function ArcConsistencyGame(props) {
     gameData.response = answer;
     const formatted = moment.utc(secs * 1000).format('mm:ss');
     gameData.timeTaken = formatted;
+    gameData.difficulty = level;
     response.studentResponse = gameData;
 
     console.log(response);

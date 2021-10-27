@@ -117,6 +117,7 @@ export function NodeConsistencyGame(props) {
     gameData.response = answer;
     const formatted = moment.utc(secs * 1000).format('mm:ss');
     gameData.timeTaken = formatted;
+    gameData.difficulty = level;
     response.studentResponse = gameData;
     props.checkStudentResponse(response);
   };
