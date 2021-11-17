@@ -45,6 +45,7 @@ export function App(props) {
   useInjectReducer({ key: 'app', reducer });
   useInjectSaga({ key: 'app', saga });
   const authToken = localStorage._UFT_;
+  console.log(authToken);
 
   useEffect(() => {}, []);
 

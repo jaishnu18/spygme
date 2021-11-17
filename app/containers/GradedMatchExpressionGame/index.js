@@ -25,6 +25,7 @@ import makeSelectGradedMatchExpressionGame from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import { getGamesDataStart, evaluateResponseStart } from './actions';
+import { set } from 'lodash';
 
 const Navigator = props => (
   <div
@@ -33,6 +34,7 @@ const Navigator = props => (
       height: '400px',
       backgroundColor: 'lightgrey',
       display: 'flex',
+      padding: '20px',
       border: '2px solid black',
     }}
   >
@@ -44,9 +46,25 @@ const Navigator = props => (
           marginBottom: '0px',
           marginLeft: '42px',
           textAlign: 'right',
-          backgroundColor: 'yellow',
+          backgroundColor: !props.markedForReview[j]
+            ? props.visited[j]
+              ? props.attempted[j]
+                ? 'green'
+                : 'red'
+              : 'lightgrey'
+            : 'purple',
+          border:
+            props.markedForReview[j] && props.attempted[j]
+              ? '5px solid lightgreen'
+              : '1px solid black',
         }}
-        onClick={() => props.setCurrLevel(j)}
+        onClick={() => {
+          const X = props.visited;
+          X[j] = 1;
+          props.setVisited(X);
+          props.setCurrLevel(j);
+
+        }}
       >
         {j + 1}
       </Button>
@@ -91,7 +109,16 @@ export function GradedMatchExpressionGame(props) {
   const [currLevel, setCurrLevel] = useState(undefined);
   const [duration, setDuration] = useState(45 * 60 * 1000);
   const [time, setTime] = useState(0);
-  const responses = [];
+  const [attempted, setAttempted] = useState([0, 0, 0, 0]);
+  const [markedForReview, setMarkedForReview] = useState([0, 0, 0, 0]);
+  const [visited, setVisited] = useState([1, 0, 0, 0]);
+  const [startTest, setStartTest] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
+  const [responses, setResponses] = useState(undefined);
+
+  const [isExamOver, setExamOver] = useState(false);
+  const [timeStamps, setTimeStamps] = useState([[], [], [], []]);
+  const [lastTime, setLastTime] = useState(new Date());
 
   useEffect(() => {
     props.getGameData();
@@ -150,49 +177,62 @@ export function GradedMatchExpressionGame(props) {
         }
       }
       setGraphData(elements);
+
+      if (!responses) {
+        const R = [];
+        for (let i = 0; i < gameData.length; i += 1) {
+          const myarr = [];
+          for (let j = 0; j < gameData[i].exp_to_display.length; j += 1) {
+            myarr.push(-1);
+          }
+          R.push(myarr);
+        }
+        setResponses(R);
+      }
     }
   }, [currLevel]);
+
+  useEffect(() => {
+    props.getGameData();
+  }, []);
+
+  useEffect(() => {
+    if (isExamOver) {
+      submitTest();
+    }
+  }, [isExamOver]);
 
   const { gameData } = props.gradedMatchExpressionGame;
   const { evaluatedAnswer } = props.gradedMatchExpressionGame;
 
-  console.log(gameData);
-
   const handleChange = e => {
-    console.log(responses);
-    console.log(responses.length);
-    if (!responses.length) {
-      for (let i = 0; i < gameData.length; i += 1) {
-        const myarr = [];
-        for (let j = 0; j < gameData[i].exp_to_display.length; j += 1) {
-          myarr.push(-1);
-        }
-        responses.push(myarr);
-      }
-    }
-
     const { id } = e.target;
     const myArr = id.split('-');
     const row = parseInt(myArr[0]);
     const col = parseInt(myArr[1]);
-    console.log(responses);
     console.log(row, col);
-    responses[row - 1][col] = parseInt(e.target.value);
+
+    const R = [...responses];
+    R[row - 1][col] = parseInt(e.target.value);
+    setResponses(R);
+
+    const demoAttempted = attempted;
+    demoAttempted[row - 1] = 1;
+    setAttempted(demoAttempted);
+
+    submitTest();
   };
 
   const submitTest = () => {
     for (let i = 0; i < gameData.length; i += 1) {
       gameData[i].response = responses[i];
+      gameData[i].isExamOver = isExamOver;
     }
 
     const res = {};
     res.studentResponse = gameData;
     props.checkStudentResponse(res);
   };
-
-  if (evaluatedAnswer) {
-    console.log(evaluatedAnswer);
-  }
 
   const formFields = () => {
     switch (currLevel) {
@@ -204,11 +244,7 @@ export function GradedMatchExpressionGame(props) {
               <h2>
                 {index + 1}. {item} ::{' '}
               </h2>
-              <Form.Item
-                // label={`${item}`}
-                name={`1-${index}`}
-                style={{ marginLeft: '20px' }}
-              >
+              <Form.Item name={`1-${index}`} style={{ marginLeft: '20px' }}>
                 <input
                   type="number"
                   id={`1-${index}`}
@@ -216,36 +252,38 @@ export function GradedMatchExpressionGame(props) {
                 />
               </Form.Item>
             </div>
-            {evaluatedAnswer && evaluatedAnswer[0].correctResponse && (
-              <div>
-                <h1
-                  style={{
-                    color: evaluatedAnswer[0].correctResponse.includes(index)
-                      ? 'green'
-                      : 'red',
-                  }}
-                >
-                  {evaluatedAnswer &&
-                  evaluatedAnswer[0].correctResponse.includes(index) ? (
-                    <img
-                      src={TickMark}
-                      style={{ width: '40px', height: '40px' }}
-                    />
-                  ) : (
-                    <div>
+            {showDetails &&
+              evaluatedAnswer &&
+              evaluatedAnswer[0].correctResponse && (
+                <div>
+                  <h1
+                    style={{
+                      color: evaluatedAnswer[0].correctResponse.includes(index)
+                        ? 'green'
+                        : 'red',
+                    }}
+                  >
+                    {evaluatedAnswer &&
+                    evaluatedAnswer[0].correctResponse.includes(index) ? (
                       <img
-                        src={CrossMark}
-                        style={{ width: '20px', height: '20px' }}
+                        src={TickMark}
+                        style={{ width: '40px', height: '40px' }}
                       />
+                    ) : (
                       <div>
-                        Correct Node-ID: <span />
-                        {evaluatedAnswer[0].wrongResponse[ptr1++][1]}
+                        <img
+                          src={CrossMark}
+                          style={{ width: '20px', height: '20px' }}
+                        />
+                        <div>
+                          Correct Node-ID: <span />
+                          {evaluatedAnswer[0].wrongResponse[ptr1++][1]}
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </h1>
-              </div>
-            )}
+                    )}
+                  </h1>
+                </div>
+              )}
           </div>
         ));
       case 1:
@@ -268,36 +306,38 @@ export function GradedMatchExpressionGame(props) {
                 />
               </Form.Item>
             </div>
-            {evaluatedAnswer && evaluatedAnswer[1].correctResponse && (
-              <div>
-                <h1
-                  style={{
-                    color: evaluatedAnswer[1].correctResponse.includes(index)
-                      ? 'green'
-                      : 'red',
-                  }}
-                >
-                  {evaluatedAnswer &&
-                  evaluatedAnswer[1].correctResponse.includes(index) ? (
-                    <img
-                      src={TickMark}
-                      style={{ width: '40px', height: '40px' }}
-                    />
-                  ) : (
-                    <div>
+            {showDetails &&
+              evaluatedAnswer &&
+              evaluatedAnswer[1].correctResponse && (
+                <div>
+                  <h1
+                    style={{
+                      color: evaluatedAnswer[1].correctResponse.includes(index)
+                        ? 'green'
+                        : 'red',
+                    }}
+                  >
+                    {evaluatedAnswer &&
+                    evaluatedAnswer[1].correctResponse.includes(index) ? (
                       <img
-                        src={CrossMark}
-                        style={{ width: '20px', height: '20px' }}
+                        src={TickMark}
+                        style={{ width: '40px', height: '40px' }}
                       />
+                    ) : (
                       <div>
-                        Correct Node-ID: <span />
-                        {evaluatedAnswer[1].wrongResponse[ptr2++][1]}
+                        <img
+                          src={CrossMark}
+                          style={{ width: '20px', height: '20px' }}
+                        />
+                        <div>
+                          Correct Node-ID: <span />
+                          {evaluatedAnswer[1].wrongResponse[ptr2++][1]}
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </h1>
-              </div>
-            )}
+                    )}
+                  </h1>
+                </div>
+              )}
           </div>
         ));
       case 2:
@@ -320,36 +360,38 @@ export function GradedMatchExpressionGame(props) {
                 />
               </Form.Item>
             </div>
-            {evaluatedAnswer && evaluatedAnswer[2].correctResponse && (
-              <div>
-                <h1
-                  style={{
-                    color: evaluatedAnswer[2].correctResponse.includes(index)
-                      ? 'green'
-                      : 'red',
-                  }}
-                >
-                  {evaluatedAnswer &&
-                  evaluatedAnswer[2].correctResponse.includes(index) ? (
-                    <img
-                      src={TickMark}
-                      style={{ width: '40px', height: '40px' }}
-                    />
-                  ) : (
-                    <div>
+            {showDetails &&
+              evaluatedAnswer &&
+              evaluatedAnswer[2].correctResponse && (
+                <div>
+                  <h1
+                    style={{
+                      color: evaluatedAnswer[2].correctResponse.includes(index)
+                        ? 'green'
+                        : 'red',
+                    }}
+                  >
+                    {evaluatedAnswer &&
+                    evaluatedAnswer[2].correctResponse.includes(index) ? (
                       <img
-                        src={CrossMark}
-                        style={{ width: '20px', height: '20px' }}
+                        src={TickMark}
+                        style={{ width: '40px', height: '40px' }}
                       />
+                    ) : (
                       <div>
-                        Correct Node-ID: <span />
-                        {evaluatedAnswer[2].wrongResponse[ptr3++][1]}
+                        <img
+                          src={CrossMark}
+                          style={{ width: '20px', height: '20px' }}
+                        />
+                        <div>
+                          Correct Node-ID: <span />
+                          {evaluatedAnswer[2].wrongResponse[ptr3++][1]}
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </h1>
-              </div>
-            )}
+                    )}
+                  </h1>
+                </div>
+              )}
           </div>
         ));
       case 3:
@@ -372,36 +414,38 @@ export function GradedMatchExpressionGame(props) {
                 />
               </Form.Item>
             </div>
-            {evaluatedAnswer && evaluatedAnswer[3].correctResponse && (
-              <div>
-                <h1
-                  style={{
-                    color: evaluatedAnswer[3].correctResponse.includes(index)
-                      ? 'green'
-                      : 'red',
-                  }}
-                >
-                  {evaluatedAnswer &&
-                  evaluatedAnswer[3].correctResponse.includes(index) ? (
-                    <img
-                      src={TickMark}
-                      style={{ width: '40px', height: '40px' }}
-                    />
-                  ) : (
-                    <div>
+            {showDetails &&
+              evaluatedAnswer &&
+              evaluatedAnswer[3].correctResponse && (
+                <div>
+                  <h1
+                    style={{
+                      color: evaluatedAnswer[3].correctResponse.includes(index)
+                        ? 'green'
+                        : 'red',
+                    }}
+                  >
+                    {evaluatedAnswer &&
+                    evaluatedAnswer[3].correctResponse.includes(index) ? (
                       <img
-                        src={CrossMark}
-                        style={{ width: '20px', height: '20px' }}
+                        src={TickMark}
+                        style={{ width: '40px', height: '40px' }}
                       />
+                    ) : (
                       <div>
-                        Correct Node-ID: <span />
-                        {evaluatedAnswer[3].wrongResponse[ptr4++][1]}
+                        <img
+                          src={CrossMark}
+                          style={{ width: '20px', height: '20px' }}
+                        />
+                        <div>
+                          Correct Node-ID: <span />
+                          {evaluatedAnswer[3].wrongResponse[ptr4++][1]}
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </h1>
-              </div>
-            )}
+                    )}
+                  </h1>
+                </div>
+              )}
           </div>
         ));
     }
@@ -419,21 +463,36 @@ export function GradedMatchExpressionGame(props) {
       </Helmet>
       <AppWrapper>
         <div style={{ display: 'flex', width: '100%', padding: '40px 10px' }}>
-          <CountDownTimer
-            maxHourDuration="60"
-            duration={duration}
-            time={time}
-          />
-          <Button onClick={submitTest} style={{ marginLeft: 'auto' }}>
+          {startTest && (
+            <CountDownTimer
+              hours={1}
+              minutes={0}
+              seconds={0}
+              setExamOver={setExamOver}
+              isExamOver={isExamOver}
+            />
+          )}
+          <Button
+            onClick={() => {
+              setExamOver(true);
+            }}
+            style={{ marginLeft: 'auto' }}
+            disabled={isExamOver}
+          >
             Submit Test
           </Button>
         </div>
-        {gameData && (
-          <Row style={{ padding: '40px', backgroundColor: 'whitesmoke' }}>
-            <Col>
-              <Navigator levels={gameData.length} setCurrLevel={setCurrLevel} />
-            </Col>
-            <Col offset="2">
+        {gameData && startTest ? (
+          <Row
+            style={{
+              backgroundColor: '#F8FAA7',
+              margin: '10px 50px 50px 50px',
+              borderRadius: '10px',
+              padding: '20px',
+              paddingBlock: '40px',
+            }}
+          >
+            <Col style={{ marginLeft: '20px' }}>
               <Form
                 name="basic"
                 labelCol={{
@@ -460,7 +519,7 @@ export function GradedMatchExpressionGame(props) {
                       border: '4px solid #999676',
                     }}
                     zoomingEnabled
-                    maxZoom={3}
+                    maxZoom={2}
                     minZoom={0.1}
                     autounselectify={false}
                     boxSelectionEnabled
@@ -505,6 +564,9 @@ export function GradedMatchExpressionGame(props) {
                   <Button
                     onClick={() => {
                       const lvl = Math.max(0, currLevel - 1);
+                      const X = visited;
+                      X[lvl] = 1;
+                      setVisited(X);
                       setCurrLevel(lvl);
                     }}
                   >
@@ -515,6 +577,9 @@ export function GradedMatchExpressionGame(props) {
                   <Button
                     onClick={() => {
                       const lvl = Math.min(3, currLevel + 1);
+                      const X = visited;
+                      X[lvl] = 1;
+                      setVisited(X);
                       setCurrLevel(lvl);
                     }}
                     style={{ marginLeft: 'auto' }}
@@ -523,8 +588,72 @@ export function GradedMatchExpressionGame(props) {
                   </Button>
                 )}
               </div>
+              <Button
+                onClick={() => {
+                  const X = markedForReview;
+                  X[currLevel] = !X[currLevel];
+                  setMarkedForReview(X);
+                }}
+              >
+                {markedForReview[currLevel]
+                  ? 'Un-Mark For Review'
+                  : 'Mark For Review'}
+              </Button>
+              {/* {evaluatedAnswer && } */}
+            </Col>
+            <Col style={{ marginLeft: 'auto', marginRight: '20px' }}>
+              <Navigator
+                levels={gameData.length}
+                currLevel={currLevel}
+                setCurrLevel={setCurrLevel}
+                attempted={attempted}
+                markedForReview={markedForReview}
+                visited={visited}
+                setVisited={setVisited}
+              />
+              {evaluatedAnswer && isExamOver && (
+                <div>
+                  <h1>Statistics</h1>
+                  <h2>Score : {evaluatedAnswer[4].score}%</h2>
+                  <h2>Questions Attemted : {evaluatedAnswer[4].attempted}</h2>
+                  <h2>
+                    Questions Not Attempted : {evaluatedAnswer[4].notAttempted}
+                  </h2>
+                  <h2>
+                    Questions Answered Correctly:{' '}
+                    {evaluatedAnswer[4].correctlyAnswered}
+                  </h2>
+                  <h2>
+                    Questions Answered Incorrectly:{' '}
+                    {evaluatedAnswer[4].wrongAnswered}
+                  </h2>
+                  <Button onClick={() => setShowDetails(true)}>
+                    Show Detailed Result
+                  </Button>
+                </div>
+              )}
             </Col>
           </Row>
+        ) : (
+          <div
+            style={{
+              backgroundColor: '#F8FAA7',
+              margin: '10px 50px 50px 50px',
+              borderRadius: '10px',
+              padding: '20px',
+              paddingBlock: '40px',
+            }}
+          >
+            <h1>RULES OF THE TEST</h1>
+            <Button
+              onClick={() => {
+                setStartTest(true);
+                setCurrLevel(0);
+              }}
+            >
+              START TEST
+            </Button>
+          </div>
         )}
       </AppWrapper>
     </div>

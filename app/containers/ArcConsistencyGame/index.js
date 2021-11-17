@@ -370,15 +370,20 @@ export function ArcConsistencyGame(props) {
                             >
                               {evaluatedAnswer &&
                                 evaluatedAnswer.tick_cross && (
-                                  <img
-                                    style={{ width: '100%', height: '20px' }}
-                                    src={
-                                      evaluatedAnswer.tick_cross[row][col]
-                                        ? TickMark
-                                        : CrossMark
-                                    }
-                                  />
-                                )}
+                                <img
+                                  style={{ width: '100%', height: '20px' }}
+                                  src={
+                                    evaluatedAnswer.tick_cross[row][col]
+                                      ? TickMark
+                                      : CrossMark
+                                  }
+                                  title={
+                                    evaluatedAnswer.tick_cross[row][col]
+                                      ? 'Your marked correctly'
+                                      : 'Your marked incorrectly'
+                                  }
+                                />
+                              )}
                             </div>
                           </div>
                         ))}

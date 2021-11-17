@@ -31,6 +31,7 @@ import {
 } from 'antd';
 import moment from 'moment';
 import AppWrapper from 'components/AppWrapper';
+import GameRow from 'components/GameRow';
 import history from 'utils/history';
 import TickMark from 'images/tickmark.svg';
 import CrossMark from 'images/cross.svg';
@@ -371,15 +372,7 @@ export function MatchExpressionGame(props) {
           )}
         </div>
         {gameData && items ? (
-          <Row
-            style={{
-              backgroundColor: '#F8FAA7',
-              margin: '10px 50px 50px 50px',
-              borderRadius: '10px',
-              padding: '20px',
-              paddingBlock: '40px',
-            }}
-          >
+          <GameRow>
             <Col offset="2">
               <h1>Enter the Node Value for each Expression</h1>
               <div>
@@ -615,7 +608,7 @@ export function MatchExpressionGame(props) {
                 </Box>
               </Modal>
             </Col>
-          </Row>
+          </GameRow>
         ) : null}
       </AppWrapper>
     </div>

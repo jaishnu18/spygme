@@ -30,6 +30,7 @@ import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import SideBar from 'components/SideBar';
 import history from 'utils/history';
+import AppWrapper from 'components/AppWrapper';
 
 import makeSelectTreeGamePage from './selectors';
 import reducer from './reducer';
@@ -124,6 +125,7 @@ export function TreeGamePage(props) {
       setGraphData(elements);
 
       gameData.ptr = 0;
+      gameData.ptr2 = 0;
     }
   }, [gameData]);
 
@@ -196,9 +198,35 @@ export function TreeGamePage(props) {
     }
   }
 
+  var animation = function() {
+    if (gameData && gameData.ptr2 < gameData.orderOfEvaluation.length) {
+      const node = gameData.orderOfEvaluation[gameData.ptr2];
+      gameData.ptr2 += 1;
+      myCyRef.getElementById(node).addClass('highlighted');
+
+      const popper = myCyRef.getElementById(node).popper({
+        content: () => {
+          const div = document.createElement('h1');
+          div.style.textAlign = 'left';
+          div.style.width = '50px';
+          div.style.height = '50px';
+          div.style.padding = '5px';
+          div.style.borderRadius = '4px';
+          div.style.border = '2px solid black';
+          div.style.color = 'darkgreen';
+          div.innerHTML = gameData.values[node];
+          document.body.appendChild(div);
+          return div;
+        },
+      });
+
+      setTimeout(animation, 2000);
+    }
+  };
+
   var indents = [];
   if (gameData) {
-    for (var i = 0; i < gameData.num_nodes; i++) {
+    for (var i = 0; i < gameData.num_nodes; i += 1) {
       if (gameData.content[i][0] >= 'a' && gameData.content[i][0] <= 'z') {
         indents.push(
           <div style={{ marginLeft: '10px', marginTop: '2px' }} key={i}>
@@ -215,46 +243,52 @@ export function TreeGamePage(props) {
         <title>TreeGamePage</title>
         <meta name="description" content="Description of TreeGamePage" />
       </Helmet>
-      <SideBar
-        steps={['Tree Games', 'CrossWords', 'New Games']}
-        heading="TreeGame"
-      >
-        <div>
-          <div style={{ display: 'flex', width: '100%', marginBottom: '20px' }}>
-            {level == 1 ? (
+
+      <AppWrapper>
+        <div style={{ display: 'flex', width: '100%', marginBottom: '20px' }}>
+          {level == 1 ? (
+            <Button
+              style={{ marginLeft: 'auto', marginRight: '30px' }}
+              onClick={nextLevel}
+            >
+              Next Level
+            </Button>
+          ) : (
+            <div style={{ display: 'flex', width: '100%' }}>
+              <Button style={{ marginLeft: '10px' }} onClick={prevLevel}>
+                Previous Level
+              </Button>
               <Button
                 style={{ marginLeft: 'auto', marginRight: '30px' }}
                 onClick={nextLevel}
               >
                 Next Level
               </Button>
-            ) : (
-              <div style={{ display: 'flex', width: '100%' }}>
-                <Button style={{ marginLeft: '10px' }} onClick={prevLevel}>
-                  Previous Level
-                </Button>
-                <Button
-                  style={{ marginLeft: 'auto', marginRight: '30px' }}
-                  onClick={nextLevel}
-                >
-                  Next Level
-                </Button>
+            </div>
+          )}
+        </div>
+        {gameData ? (
+          <Row
+            style={{
+              backgroundColor: '#F8FAA7',
+              margin: '10px 50px 50px 50px',
+              borderRadius: '10px',
+              padding: '20px',
+              paddingBlock: '40px',
+            }}
+          >
+            <Col offset="4">
+              <h1>Evaluate:</h1>
+              <h2>{gameData.expression}</h2>
+              <div style={{ display: 'flex' }}>
+                <h3>where</h3>
+                {indents}
               </div>
-            )}
-          </div>
-          {gameData ? (
-            <Row>
-              <Col offset="4">
-                <h1>Evaluate:</h1>
-                <h2>{gameData.expression}</h2>
-                <div style={{ display: 'flex' }}>
-                  <h3>where</h3>
-                  {indents}
-                </div>
 
-                <Demo />
+              <Demo />
 
-                {gameData && (
+              {gameData && (
+                <div style={{ marginTop: '10px' }}>
                   <Button
                     onClick={getVisualization}
                     disabled={
@@ -264,72 +298,93 @@ export function TreeGamePage(props) {
                   >
                     Visualize
                   </Button>
-                )}
-              </Col>
-
-              <Col offset="1">
-                <h1>Graph</h1>
-
-                {graphData && (
-                  <CytoscapeComponent
-                    elements={CytoscapeComponent.normalizeElements(graphData)}
-                    // pan={{ x: 200, y: 200 }}
-                    style={{
-                      width: '600px',
-                      height: '600px',
-                      border: '1px solid black',
-                    }}
-                    zoomingEnabled
-                    maxZoom={3}
-                    minZoom={0.1}
-                    autounselectify={false}
-                    boxSelectionEnabled
-                    stylesheet={[
-                      {
-                        selector: 'node',
-                        style: {
-                          'background-color': '#666',
-                          color: 'white',
-                          label: 'data(label)',
-                          width: '42px',
-                          height: '42px',
-                          'text-valign': 'center',
-                          'text-halign': 'center',
-                          'font-size': '17px',
-                        },
-                      },
-                      {
-                        selector: 'edge',
-                        style: {
-                          width: 3,
-                          'line-color': 'blue',
-                          'target-arrow-color': 'blue',
-                          'target-arrow-shape': 'triangle',
-                          'curve-style': 'unbundled-bezier',
-                          'control-point-weight': '0.5',
-                          'control-point-distance': '0',
-                        },
-                      },
-                    ]}
-                    cy={cy => {
-                      myCyRef = cy;
-                      console.log('EVT', cy);
-
-                      cy.on('tap', 'node', evt => {
-                        var node = evt.target;
-                      });
-                    }}
-                    abc={console.log('myCyRef', myCyRef)}
-                  />
-                )}
-                <div>
-                  <div className="time">{seconds}s</div>
+                  <Button
+                    onClick={animation}
+                    disabled={
+                      answer === undefined ||
+                      gameData.ptr === gameData.num_nodes
+                    }
+                  >
+                    Visualize Animation
+                  </Button>
                 </div>
-              </Col>
-            </Row>
-          ) : null}
-        </div>
-      </SideBar>
+              )}
+            </Col>
+
+            <Col offset="1">
+              <h1>Graph</h1>
+
+              {graphData && (
+                <CytoscapeComponent
+                  elements={CytoscapeComponent.normalizeElements(graphData)}
+                  // pan={{ x: 200, y: 200 }}
+                  style={{
+                    width: '600px',
+                    height: '600px',
+                    border: '1px solid black',
+                  }}
+                  zoomingEnabled
+                  maxZoom={3}
+                  minZoom={0.1}
+                  autounselectify={false}
+                  boxSelectionEnabled
+                  stylesheet={[
+                    {
+                      selector: 'node',
+                      style: {
+                        'background-color': '#666',
+                        color: 'white',
+                        label: 'data(label)',
+                        width: '42px',
+                        height: '42px',
+                        'text-valign': 'center',
+                        'text-halign': 'center',
+                        'font-size': '17px',
+                      },
+                    },
+                    {
+                      selector: 'edge',
+                      style: {
+                        width: 3,
+                        'line-color': 'blue',
+                        'target-arrow-color': 'blue',
+                        'target-arrow-shape': 'triangle',
+                        'curve-style': 'unbundled-bezier',
+                        'control-point-weight': '0.5',
+                        'control-point-distance': '0',
+                        'transition-property':
+                          'background-color, line-color, target-arrow-color',
+                        'transition-duration': '0.5s',
+                      },
+                    },
+                    {
+                      selector: '.highlighted',
+                      style: {
+                        'background-color': '#61bffc',
+                        'line-color': '#61bffc',
+                        'target-arrow-color': '#61bffc',
+                        'transition-property':
+                          'background-color, line-color, target-arrow-color',
+                        'transition-duration': '0.5s',
+                      },
+                    },
+                  ]}
+                  cy={cy => {
+                    myCyRef = cy;
+
+                    cy.on('tap', 'node', evt => {
+                      var node = evt.target;
+                    });
+                  }}
+                />
+              )}
+              <div>
+                <div className="time">{seconds}s</div>
+              </div>
+            </Col>
+          </Row>
+        ) : null}
+      </AppWrapper>
     </div>
   );
 }
