@@ -100,8 +100,32 @@ export function FindCrosswordNodesGame(props) {
           content="Description of FindCrosswordNodesGame"
         />
       </Helmet>
+      <div style={{ width: '100%', background: '#295474', padding: 10 }}>
+        <Row justify="space-around">
+          <Col span={4}>
+            <h1 style={{ color: 'white' }}>Tree Game</h1>
+          </Col>
+          <Col span={4}>
+            <h1 style={{ color: 'white' }}>Level: 1/5</h1>
+          </Col>
+          <Col span={4}>
+            <h1 style={{ color: 'white' }}>Attempts : 1</h1>
+          </Col>
+          <Col span={4}>
+            <h1 className="time" style={{ color: 'white' }}>
+              Time: {<TimeClock active={!evaluatedAnswer} />}
+            </h1>
+          </Col>
+        </Row>
+      </div>
 
-      <div style={{ padding: '20px' }}>
+      <div
+        style={{
+          padding: '20px',
+          background: '#F8FAA7',
+          paddingBottom: '150px',
+        }}
+      >
         <div style={{ display: 'flex', width: '100%', marginBottom: '20px' }}>
           {level == 1 ? (
             <Button
@@ -132,7 +156,7 @@ export function FindCrosswordNodesGame(props) {
         </div>
         {gameData ? (
           <Row>
-            <Col offset="2">
+            <Col span={12}>
               <h1>Crossword</h1>
               <div>
                 <MyGrid size={gameData.grid_size}>
@@ -186,11 +210,18 @@ export function FindCrosswordNodesGame(props) {
                   )}
                 </MyGrid>
               </div>
-              <TimeClock active={!evaluatedAnswer} />
             </Col>
 
-            <Col offset="2" span="10">
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <Col span={12}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  background: 'white',
+                  margin: '20px',
+                  paddingLeft: '20px',
+                }}
+              >
                 <h1 style={{ marginBottom: '30px' }}>Answer</h1>
                 <div style={{ width: '100%' }}>
                   <Form
@@ -264,29 +295,40 @@ export function FindCrosswordNodesGame(props) {
                               )}
                             </Space>
                           ))}
-
-                          <Form.Item>
+                          <Row>
+                            {/* <Form.Item> */}
                             <Button
-                              style={{ width: '20%' }}
+                              style={{
+                                width: '20%',
+                                margin: '10px',
+                                color: 'white',
+                                background: '#C5C0AA',
+                              }}
                               type="dashed"
                               onClick={() => add()}
                               block
                             >
                               Add Nodes
                             </Button>
-                          </Form.Item>
+                            {/* </Form.Item> */}
+                            {/*  */}
+                            {/* <Form.Item offset="3"> */}
+                            <Button
+                              style={{
+                                width: '20%',
+                                margin: '10px',
+                                background: 'green',
+                              }}
+                              type="primary"
+                              htmlType="submit"
+                            >
+                              Check Answer
+                            </Button>
+                            {/* </Form.Item>                             */}
+                          </Row>
                         </>
                       )}
                     </Form.List>
-                    <Form.Item offset="3">
-                      <Button
-                        style={{ width: '20%' }}
-                        type="primary"
-                        htmlType="submit"
-                      >
-                        Check Answer
-                      </Button>
-                    </Form.Item>
                   </Form>
                 </div>
 

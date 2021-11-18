@@ -25,7 +25,6 @@ import makeSelectGradedMatchExpressionGame from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import { getGamesDataStart, evaluateResponseStart } from './actions';
-import { set } from 'lodash';
 
 const Navigator = props => (
   <div
@@ -61,9 +60,16 @@ const Navigator = props => (
         onClick={() => {
           const X = props.visited;
           X[j] = 1;
+          const { timeStamps } = props;
+          const endTime = new Date();
+          console.log(endTime);
+          timeStamps[props.currLevel].push(endTime);
+          timeStamps[j].push(endTime);
+          console.log(timeStamps);
+
+          props.setTimeStamps(timeStamps);
           props.setVisited(X);
           props.setCurrLevel(j);
-
         }}
       >
         {j + 1}
@@ -117,8 +123,7 @@ export function GradedMatchExpressionGame(props) {
   const [responses, setResponses] = useState(undefined);
 
   const [isExamOver, setExamOver] = useState(false);
-  const [timeStamps, setTimeStamps] = useState([[], [], [], []]);
-  const [lastTime, setLastTime] = useState(new Date());
+  const [timeStamps, setTimeStamps] = useState([[new Date()], [], [], []]);
 
   useEffect(() => {
     props.getGameData();
@@ -193,11 +198,19 @@ export function GradedMatchExpressionGame(props) {
   }, [currLevel]);
 
   useEffect(() => {
+    console.log(timeStamps);
+  }, [timeStamps]);
+  console.log(timeStamps);
+
+  useEffect(() => {
     props.getGameData();
   }, []);
 
   useEffect(() => {
     if (isExamOver) {
+      const T = timeStamps;
+      T[currLevel].push(new Date());
+      setTimeStamps(T);
       submitTest();
     }
   }, [isExamOver]);
@@ -210,7 +223,6 @@ export function GradedMatchExpressionGame(props) {
     const myArr = id.split('-');
     const row = parseInt(myArr[0]);
     const col = parseInt(myArr[1]);
-    console.log(row, col);
 
     const R = [...responses];
     R[row - 1][col] = parseInt(e.target.value);
@@ -227,7 +239,10 @@ export function GradedMatchExpressionGame(props) {
     for (let i = 0; i < gameData.length; i += 1) {
       gameData[i].response = responses[i];
       gameData[i].isExamOver = isExamOver;
+      gameData[i].timeStamps = timeStamps[i];
     }
+
+    console.log(gameData);
 
     const res = {};
     res.studentResponse = gameData;
@@ -610,6 +625,8 @@ export function GradedMatchExpressionGame(props) {
                 markedForReview={markedForReview}
                 visited={visited}
                 setVisited={setVisited}
+                timeStamps={timeStamps}
+                setTimeStamps={setTimeStamps}
               />
               {evaluatedAnswer && isExamOver && (
                 <div>

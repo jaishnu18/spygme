@@ -12,10 +12,10 @@ import Timer from 'react-timer-wrapper';
 import Timecode from 'react-timecode';
 
 const StyledTimer = styled(Timer)`
-  width: 400px !important;
-  height: 400px !important;
-  display: flex !important;
-  align-items: center !important;
+  // width: 400px !important;
+  // height: 400px !important;
+  // display: flex !important;
+  // align-items: center !important;
 
   span {
     font-size: 40px !important;

@@ -21,7 +21,8 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     width: '100%',
-    background: '#272c48',
+    // appbar color
+    background: '#295474',
   },
   text: {
     color: '#FFFFFF',
@@ -31,7 +32,9 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1,
-    background: '#272c48',
+
+    // appbar color
+    background: '#295474',
     color: '#FFFFFF',
   },
   backgroundColor: {
