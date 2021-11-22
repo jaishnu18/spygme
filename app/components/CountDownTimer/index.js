@@ -58,9 +58,12 @@ function CountDownTimer(props) {
 
   return (
     <div>
-      <p>{`${hrs.toString().padStart(2, '0')}:${mins
-        .toString()
-        .padStart(2, '0')}:${secs.toString().padStart(2, '0')}`}</p>
+      <p style={{ fontSize: 28, color: 'white' }}>
+        Time Left :{' '}
+        {`${hrs.toString().padStart(2, '0')}:${mins
+          .toString()
+          .padStart(2, '0')}:${secs.toString().padStart(2, '0')}`}
+      </p>
     </div>
   );
 }

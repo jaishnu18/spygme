@@ -36,15 +36,53 @@ const MyGrid = styled.div`
   }
 `;
 
+const labels = {
+  0.5: 'Useless',
+  1: 'Useless+',
+  1.5: 'Poor',
+  2: 'Poor+',
+  2.5: 'Ok',
+  3: 'Ok+',
+  3.5: 'Good',
+  4: 'Good+',
+  4.5: 'Excellent',
+  5: 'Excellent+',
+};
+
+const errors = [
+  'Silly mistake',
+  'Did not know the concept',
+  'Knew Concept,but unable to apply',
+  'Made a guess',
+  'Attempted in a hurry',
+  'Could not understand the question',
+];
+
+const questions = [
+  'How interesting did you find the question?',
+  'How interesting did you find the question?',
+  'How relevant did you find the question w.r.t. the concept?',
+  'How difficult did you find the question w.r.t. the current level?',
+];
+
 export function FindCrosswordNodesGame(props) {
   useInjectReducer({ key: 'findCrosswordNodesGame', reducer });
   useInjectSaga({ key: 'findCrosswordNodesGame', saga });
 
   const [startTime, setStartTime] = useState(0);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [starValue1, setStarValue1] = useState(0);
+  const [starValue2, setStarValue2] = useState(0);
+  const [starValue3, setStarValue3] = useState(0);
+  const [starValue4, setStarValue4] = useState(0);
+  const [qsWrong, setQsWrong] = useState(false);
+  const [qsChanges, setQsChanges] = useState('');
+
   function start() {
     const date = new Date();
     setStartTime(date);
   }
+
   function end() {
     const endTime = new Date();
     let timeDiff = endTime - startTime;
@@ -52,6 +90,10 @@ export function FindCrosswordNodesGame(props) {
     const seconds = timeDiff;
     return seconds;
   }
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
 
   const { gameData } = props.findCrosswordNodesGame;
   const { evaluatedAnswer } = props.findCrosswordNodesGame;
@@ -84,9 +126,34 @@ export function FindCrosswordNodesGame(props) {
   const onFinish = values => {
     const secs = end();
     const response = {};
+
+    const sr = {};
+    const res = [];
+    let x = {};
+    x.question = questions[0];
+    x.rating = starValue1;
+    res.push(x);
+    x = {};
+    x.question = questions[1];
+    x.rating = starValue2;
+    res.push(x);
+    x = {};
+    x.question = questions[2];
+    x.rating = starValue3;
+    res.push(x);
+    x = {};
+    x.question = questions[3];
+    x.rating = starValue4;
+    res.push(x);
+
+    sr.ratingFeedback = res;
+    sr.solutionWrong = qsWrong;
+    sr.questionChangeSuggestion = qsChanges;
+
     gameData.response = values.nodes;
     const formatted = moment.utc(secs * 1000).format('mm:ss');
     gameData.timeTaken = formatted;
+    gameData.difficulty = level;
     response.studentResponse = gameData;
     props.checkStudentResponse(response);
   };

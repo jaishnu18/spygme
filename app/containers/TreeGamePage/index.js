@@ -125,6 +125,8 @@ export function TreeGamePage(props) {
       setGraphData(elements);
 
       gameData.ptr = 0;
+      gameData.ptr2 = 0;
+      gameData.ptr3 = 0;
     }
   }, [gameData]);
 
@@ -146,15 +148,7 @@ export function TreeGamePage(props) {
         onChange={setValue}
         value={value}
       />
-      <Button
-        style={{ background: 'red' }}
-        type="primary"
-        onClick={() => {
-          setValue(0);
-        }}
-      >
-        Reset
-      </Button>
+
       <Button
         type="primary"
         style={{ background: 'green' }}
@@ -181,13 +175,19 @@ export function TreeGamePage(props) {
       const node = gameData.orderOfEvaluation[gameData.ptr];
       console.log(node);
 
-      myCyRef.getElementById(node).style('background-color', '#879ddf');
+      myCyRef.getElementById(node).addClass('highlighted');
+
       gameData.ptr += 1;
 
       const popper = myCyRef.getElementById(node).popper({
         content: () => {
           const div = document.createElement('h1');
           div.style.textAlign = 'left';
+          div.style.paddingLeft = '5px';
+          div.style.color = 'purple';
+          div.style.border = '2px solid black';
+          div.style.borderRadius = '2px';
+          div.style.width = '40px';
           div.innerHTML = gameData.values[node];
           document.body.appendChild(div);
           return div;
@@ -203,6 +203,50 @@ export function TreeGamePage(props) {
       myCyRef.on('pan zoom resize', update);
     }
   }
+
+  const animate = function() {
+    if (gameData) {
+      if (gameData.ptr2 < gameData.orderOfEvaluation.length) {
+        const node = gameData.orderOfEvaluation[gameData.ptr2];
+        myCyRef.getElementById(node).addClass('highlighted');
+        const popper = myCyRef.getElementById(node).popper({
+          content: () => {
+            const div = document.createElement('h1');
+            div.style.textAlign = 'left';
+            div.style.paddingLeft = '5px';
+            div.style.color = 'purple';
+            div.style.border = '2px solid black';
+            div.style.borderRadius = '2px';
+            div.style.width = '40px';
+            // div.id = `Tag0`;
+
+            div.innerHTML = gameData.values[node];
+            document.body.appendChild(div);
+            return div;
+          },
+        });
+        gameData.ptr2 += 1;
+        setTimeout(animate, 2000);
+      }
+    }
+  };
+
+  const reset = function() {
+    if (gameData) {
+      for (let i = 0; i < gameData.orderOfEvaluation.length; i += 1) {
+        const node = gameData.orderOfEvaluation[i];
+        myCyRef.getElementById(node).removeClass('highlighted');
+      }
+
+      // var list = document.getElementsByTagName('h1');
+      // console.log(list.length);
+      // for (let i = 0; i < list.length; i += 1) {
+      //   if (list[i].id === 'Tag0') {
+      //     list[i].remove();
+      //   }
+      // }
+    }
+  };
 
   var indents = [];
   if (gameData) {
@@ -327,14 +371,16 @@ export function TreeGamePage(props) {
                       Visualize
                     </Button>
                     <Button
-                      onClick={get}
+                      onClick={animate}
                       disabled={
                         answer === undefined ||
                         gameData.ptr === gameData.num_nodes
                       }
                     >
-                      Visualize
+                      Animate
                     </Button>
+
+                    <Button onClick={reset}>Reset</Button>
                   </div>
                 )}
               </Col>
@@ -396,6 +442,17 @@ export function TreeGamePage(props) {
                             'curve-style': 'unbundled-bezier',
                             'control-point-weight': '0.5',
                             'control-point-distance': '0',
+                          },
+                        },
+                        {
+                          selector: '.highlighted',
+                          style: {
+                            'background-color': '#61bffc',
+                            'line-color': '#61bffc',
+                            'target-arrow-color': '#61bffc',
+                            'transition-property':
+                              'background-color, line-color, target-arrow-color',
+                            'transition-duration': '0.5s',
                           },
                         },
                       ]}

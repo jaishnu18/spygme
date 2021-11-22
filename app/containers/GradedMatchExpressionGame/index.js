@@ -131,7 +131,7 @@ export function GradedMatchExpressionGame(props) {
 
   useEffect(() => {
     console.log(currLevel);
-    if (gameData) {
+    if (gameData && currLevel >= 0) {
       const elements = [];
       console.log(currLevel);
       const { x_coor } = gameData[currLevel];
@@ -477,25 +477,38 @@ export function GradedMatchExpressionGame(props) {
         />
       </Helmet>
       <AppWrapper>
-        <div style={{ display: 'flex', width: '100%', padding: '40px 10px' }}>
-          {startTest && (
-            <CountDownTimer
-              hours={1}
-              minutes={0}
-              seconds={0}
-              setExamOver={setExamOver}
-              isExamOver={isExamOver}
-            />
-          )}
-          <Button
-            onClick={() => {
-              setExamOver(true);
-            }}
-            style={{ marginLeft: 'auto' }}
-            disabled={isExamOver}
-          >
-            Submit Test
-          </Button>
+        <div style={{ width: '100%', background: '#295474', padding: 20 }}>
+          <Row justify="space-around">
+            <Col span={4}>
+              <h1 style={{ color: 'white' }}>Match-Expression</h1>
+            </Col>
+            <Col span={4}>
+              <h1 style={{ color: 'white' }}>Level: {currLevel + 1} / 4</h1>
+            </Col>
+
+            <Col span={4}>
+              {startTest && (
+                <CountDownTimer
+                  hours={1}
+                  minutes={0}
+                  seconds={0}
+                  setExamOver={setExamOver}
+                  isExamOver={isExamOver}
+                />
+              )}
+            </Col>
+            <Col>
+              <Button
+                onClick={() => {
+                  setExamOver(true);
+                }}
+                style={{ marginLeft: 'auto' }}
+                disabled={isExamOver}
+              >
+                Submit Test
+              </Button>
+            </Col>
+          </Row>
         </div>
         {gameData && startTest ? (
           <Row
