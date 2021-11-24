@@ -11,7 +11,7 @@ export function* activateUser(action) {
     const token = action.payload;
     console.log(token);
     const resp = yield axios.post(
-      `http://localhost:4000/v1/auth/activate`,
+      `http://localhost:5000/v1/auth/activate`,
       querystring.stringify({ token }),
     );
 

@@ -17,6 +17,7 @@ import CytoscapeComponent from 'react-cytoscapejs';
 import { Button, Row, Col } from 'antd';
 import moment from 'moment';
 import TimeClock from 'components/TimeClock';
+import AppStructure from 'components/AppStructure';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
@@ -243,234 +244,260 @@ export function ArcConsistencyGame(props) {
         <title>ArcConsistencyGame</title>
         <meta name="description" content="Description of ArcConsistencyGame" />
       </Helmet>
-
-      <div style={{ padding: '20px' }}>
-        <div style={{ display: 'flex', width: '100%', marginBottom: '20px' }}>
-          {level == 1 ? (
-            <Button
-              style={{ marginLeft: 'auto', marginRight: '30px' }}
-              onClick={nextLevel}
+      <AppStructure
+        heading="Arc Consistency Game"
+        level="Level: 2/5"
+        attempt=" 2"
+        evaluatedAnswer={evaluatedAnswer}
+        divContent={
+          <div style={{ padding: '20px', background: '#F8FAA7' }}>
+            <div
+              style={{
+                display: 'flex',
+                width: '100%',
+                marginBottom: '20px',
+              }}
             >
-              Next Level
-            </Button>
-          ) : level > 1 && level < 2 ? (
-            <div style={{ display: 'flex', width: '100%' }}>
-              <Button style={{ marginLeft: '10px' }} onClick={prevLevel}>
-                Previous Level
-              </Button>
-              <Button
-                style={{ marginLeft: 'auto', marginRight: '30px' }}
-                onClick={nextLevel}
-              >
-                Next Level
-              </Button>
+              {level == 1 ? (
+                <Button
+                  style={{ marginLeft: 'auto', marginRight: '30px' }}
+                  onClick={nextLevel}
+                >
+                  Next Level
+                </Button>
+              ) : level > 1 && level < 2 ? (
+                <div style={{ display: 'flex', width: '100%' }}>
+                  <Button style={{ marginLeft: '10px' }} onClick={prevLevel}>
+                    Previous Level
+                  </Button>
+                  <Button
+                    style={{ marginLeft: 'auto', marginRight: '30px' }}
+                    onClick={nextLevel}
+                  >
+                    Next Level
+                  </Button>
+                </div>
+              ) : (
+                <div style={{ display: 'flex', width: '100%' }}>
+                  <Button style={{ marginLeft: '10px' }} onClick={prevLevel}>
+                    Previous Level
+                  </Button>
+                </div>
+              )}
             </div>
-          ) : (
-            <div style={{ display: 'flex', width: '100%' }}>
-              <Button style={{ marginLeft: '10px' }} onClick={prevLevel}>
-                Previous Level
-              </Button>
-            </div>
-          )}
-        </div>
-        {gameData && selectedArray ? (
-          <Row>
-            <Col offset="2">
-              <h1>Crossword</h1>
-              <div>
-                <MyGrid size={gameData.grid_size}>
-                  <div style={{ display: 'flex', marginBottom: '0px' }}>
-                    {[...Array(gameData.grid_size)].map((k, j) => (
-                      <h1
-                        style={{
-                          width: '100%',
-                          marginBottom: '0px',
-                          marginLeft: '42px',
-                          textAlign: 'right',
-                        }}
-                      >
-                        {j + 1}
-                      </h1>
-                    ))}
-                  </div>
-                  {[...Array(gameData.grid_size + 1)].map(
-                    (x, i) =>
-                      i > 0 && (
-                        <div style={{ display: 'flex' }}>
-                          {[...Array(gameData.grid_size + 1)].map((y, j) => (
-                            <div>
-                              {gameData.grid ? (
-                                j === 0 ? (
-                                  <h1
-                                    style={{
-                                      width: '25px',
-                                      height: '25px',
-                                      marginBottom: '0px',
-                                    }}
-                                  >
-                                    {i}
-                                  </h1>
-                                ) : (
-                                  <div
-                                    style={{
-                                      backgroundColor:
-                                        gameData.grid[i][j] === 35
-                                          ? 'black'
-                                          : 'white',
-                                    }}
-                                    className="chessboard"
-                                  />
-                                )
-                              ) : null}
-                            </div>
-                          ))}
-                        </div>
-                      ),
-                  )}
-                </MyGrid>
-              </div>
-              <TimeClock active={!evaluatedAnswer} />
-            </Col>
-            <Col offset="2" span="10">
-              <div>
-                {gameData.nodes.map((item, row) => (
+            {gameData && selectedArray ? (
+              <Row>
+                <Col span="11">
+                  <h1>Crossword</h1>
                   <div>
-                    <MyDiv>
-                      <h1>
-                        {item[0]}-{item[1]}-{item[2] == 65 ? 'A' : 'D'}
-                      </h1>
-                      <div style={{ display: 'flex' }}>
-                        {gameData.word_bag[row].map((item1, col) => (
-                          <div
+                    <MyGrid size={gameData.grid_size}>
+                      <div style={{ display: 'flex', marginBottom: '0px' }}>
+                        {[...Array(gameData.grid_size)].map((k, j) => (
+                          <h1
                             style={{
-                              display: 'flex',
-                              flexDirection: 'column',
-                              minWidth: '100px',
+                              width: '100%',
+                              marginBottom: '0px',
+                              marginLeft: '42px',
+                              textAlign: 'right',
                             }}
                           >
-                            <button
-                              type="submit"
-                              id={`${row}-${col}`}
-                              onClick={changeState}
-                              style={{
-                                marginLeft: '20px',
-                                backgroundColor: 'lightgreen',
-                                margin: '10px',
-                                color: 'black',
-                              }}
-                            >
-                              {item1}
-                            </button>
-                            <div
-                              style={{
-                                width: '100%',
-                                height: '40px',
-                                padding: '10px',
-                              }}
-                            >
-                              {evaluatedAnswer &&
-                                evaluatedAnswer.tick_cross && (
-                                <img
-                                  style={{ width: '100%', height: '20px' }}
-                                  src={
-                                    evaluatedAnswer.tick_cross[row][col]
-                                      ? TickMark
-                                      : CrossMark
-                                  }
-                                  title={
-                                    evaluatedAnswer.tick_cross[row][col]
-                                      ? 'Your marked correctly'
-                                      : 'Your marked incorrectly'
-                                  }
-                                />
-                              )}
-                            </div>
-                          </div>
+                            {j + 1}
+                          </h1>
                         ))}
                       </div>
-                    </MyDiv>
-                    {evaluatedAnswer && (
+                      {[...Array(gameData.grid_size + 1)].map(
+                        (x, i) =>
+                          i > 0 && (
+                            <div style={{ display: 'flex' }}>
+                              {[...Array(gameData.grid_size + 1)].map(
+                                (y, j) => (
+                                  <div>
+                                    {gameData.grid ? (
+                                      j === 0 ? (
+                                        <h1
+                                          style={{
+                                            width: '25px',
+                                            height: '25px',
+                                            marginBottom: '0px',
+                                          }}
+                                        >
+                                          {i}
+                                        </h1>
+                                      ) : (
+                                        <div
+                                          style={{
+                                            backgroundColor:
+                                              gameData.grid[i][j] === 35
+                                                ? 'black'
+                                                : 'white',
+                                          }}
+                                          className="chessboard"
+                                        />
+                                      )
+                                    ) : null}
+                                  </div>
+                                ),
+                              )}
+                            </div>
+                          ),
+                      )}
+                    </MyGrid>
+                  </div>
+                </Col>
+                <Col span="13">
+                  <div style={{ flexWrap: 'wrap', display: 'flex' }}>
+                    {gameData.nodes.map((item, row) => (
                       <div>
-                        <h1
+                        <MyDiv
                           style={{
-                            color: evaluatedAnswer.result[row]
-                              ? 'green'
-                              : 'red',
+                            background: 'white',
+                            width: '350px',
+                            margin: '5px',
                           }}
                         >
-                          {evaluatedAnswer.result[row]
-                            ? 'CORRECT'
-                            : 'INCORRECT'}
-                        </h1>
+                          <h1>
+                            {item[0]}-{item[1]}-{item[2] == 65 ? 'A' : 'D'}
+                          </h1>
+                          <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                            {gameData.word_bag[row].map((item1, col) => (
+                              <div
+                                style={{
+                                  display: 'flex',
+                                  flexDirection: 'column',
+                                  minWidth: '20px',
+                                }}
+                              >
+                                <button
+                                  type="submit"
+                                  id={`${row}-${col}`}
+                                  onClick={changeState}
+                                  style={{
+                                    margin: '5px',
+                                    backgroundColor: 'lightgreen',
+                                    color: 'black',
+                                  }}
+                                >
+                                  {item1}
+                                </button>
+                                <div
+                                  style={{
+                                    width: '100%',
+                                    // height: '10px',
+                                    // padding: '10px',
+                                  }}
+                                >
+                                  {evaluatedAnswer &&
+                                    evaluatedAnswer.tick_cross && (
+                                      <img
+                                        style={{
+                                          width: '100%',
+                                          height: '20px',
+                                        }}
+                                        src={
+                                          evaluatedAnswer.tick_cross[row][col]
+                                            ? TickMark
+                                            : CrossMark
+                                        }
+                                        title={
+                                          evaluatedAnswer.tick_cross[row][col]
+                                            ? 'Your marked correctly'
+                                            : 'Your marked incorrectly'
+                                        }
+                                      />
+                                    )}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </MyDiv>
+                        {evaluatedAnswer && (
+                          <div>
+                            <h1
+                              style={{
+                                color: evaluatedAnswer.result[row]
+                                  ? 'green'
+                                  : 'red',
+                              }}
+                            >
+                              {evaluatedAnswer.result[row]
+                                ? 'CORRECT'
+                                : 'INCORRECT'}
+                            </h1>
+                          </div>
+                        )}
                       </div>
-                    )}
+                    ))}
                   </div>
-                ))}
-              </div>
-              <div>
-                <Button
-                  style={{ marginTop: '20px' }}
-                  onClick={checkAnswer}
-                  type="primary"
-                >
-                  Check Answer
-                </Button>
-              </div>
-              <div>
-                <CytoscapeComponent
-                  elements={CytoscapeComponent.normalizeElements(graphData)}
-                  // pan={{ x: 200, y: 200 }}
-                  style={{
-                    width: '800px',
-                    height: '800px',
-                    border: '1px solid black',
-                  }}
-                  zoomingEnabled
-                  maxZoom={3}
-                  minZoom={0.1}
-                  autounselectify={false}
-                  boxSelectionEnabled
-                  stylesheet={[
-                    {
-                      selector: 'node',
-                      style: {
-                        'background-color': '#666',
-                        color: 'white',
-                        label: 'data(label)',
-                        width: '60px',
-                        height: '60px',
-                        'text-valign': 'center',
-                        'text-halign': 'center',
-                        'font-size': '17px',
-                      },
-                    },
-                    {
-                      selector: 'edge',
-                      style: {
-                        width: 3,
-                        'line-color': 'blue',
-                        'target-arrow-color': 'blue',
-                        'curve-style': 'unbundled-bezier',
-                        'control-point-weight': '0.5',
-                        'control-point-distance': '0',
-                      },
-                    },
-                  ]}
-                  cy={cy => {
-                    myCyRef = cy;
-                    console.log('EVT', cy);
+                  <div>
+                    <Button
+                      style={{ margin: '10px' }}
+                      onClick={checkAnswer}
+                      type="primary"
+                    >
+                      Check Answer
+                    </Button>
+                  </div>
+                  <div>
+                    <CytoscapeComponent
+                      elements={CytoscapeComponent.normalizeElements(graphData)}
+                      // pan={{ x: 200, y: 200 }}
+                      style={{
+                        // flexDirection: 'column',
+                        width: '90%',
+                        minHeight: '800px',
+                        border: '1px solid black',
+                        background: 'white',
+                      }}
+                      zoomingEnabled
+                      maxZoom={3}
+                      minZoom={0.1}
+                      autounselectify={false}
+                      boxSelectionEnabled
+                      stylesheet={[
+                        {
+                          selector: 'node',
+                          style: {
+                            'background-color': '#666',
+                            color: 'white',
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            label: 'data(label)',
+                            width: '60px',
+                            height: '60px',
+                            'text-valign': 'center',
+                            'text-halign': 'center',
+                            'font-size': '17px',
+                          },
+                        },
+                        {
+                          selector: 'edge',
+                          style: {
+                            width: 3,
+                            'line-color': 'blue',
+                            'target-arrow-color': 'blue',
+                            'curve-style': 'unbundled-bezier',
+                            'control-point-weight': '0.5',
+                            'control-point-distance': '0',
+                          },
+                        },
+                      ]}
+                      cy={cy => {
+                        myCyRef = cy;
+                        console.log('EVT', cy);
 
-                    cy.on('tap', 'node', evt => {
-                      var node = evt.target;
-                    });
-                  }}
-                  abc={console.log('myCyRef', myCyRef)}
-                />
-              </div>
-            </Col>
-          </Row>
-        ) : null}
-      </div>
+                        cy.on('tap', 'node', evt => {
+                          var node = evt.target;
+                        });
+                      }}
+                      abc={console.log('myCyRef', myCyRef)}
+                    />
+                  </div>
+                </Col>
+              </Row>
+            ) : null}
+          </div>
+        }
+      />
     </div>
   );
 }

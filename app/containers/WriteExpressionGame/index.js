@@ -18,6 +18,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import moment from 'moment';
 import TimeClock from 'components/TimeClock';
+import AppStructure from 'components/AppStructure';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
@@ -151,156 +152,208 @@ export function WriteExpressionGame(props) {
         <title>WriteExpressionGame</title>
         <meta name="description" content="Description of WriteExpressionGame" />
       </Helmet>
-
-      <SideBar
-        steps={['Tree Games', 'CrossWords', 'New Games']}
-        heading="TreeGame"
-      >
-        <div>
-          <div style={{ display: 'flex', width: '100%', marginBottom: '20px' }}>
-            {level == 1 ? (
-              <Button
-                style={{ marginLeft: 'auto', marginRight: '30px' }}
-                onClick={nextLevel}
-              >
-                Next Level
-              </Button>
-            ) : level > 1 && level < 4 ? (
-              <div style={{ display: 'flex', width: '100%' }}>
-                <Button style={{ marginLeft: '10px' }} onClick={prevLevel}>
-                  Previous Level
-                </Button>
+      <AppStructure
+        heading="Arc Consistency Game"
+        level="Level: 2/5"
+        attempt=" 2"
+        evaluatedAnswer={evaluatedAnswer}
+        divContent={
+          <div
+            style={{
+              background: '#F8FAA7',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                width: '100%',
+                marginBottom: '20px',
+              }}
+            >
+              {level == 1 ? (
                 <Button
                   style={{ marginLeft: 'auto', marginRight: '30px' }}
                   onClick={nextLevel}
                 >
                   Next Level
                 </Button>
-              </div>
-            ) : (
-              <div style={{ display: 'flex', width: '100%' }}>
-                <Button style={{ marginLeft: '10px' }} onClick={prevLevel}>
-                  Previous Level
-                </Button>
-              </div>
-            )}
-          </div>
-          {gameData ? (
-            <Row>
-              <Col offset="2" span="6">
-                <div>
-                  <h1>
-                    Write Any Equivalent Expression denoted by the following
-                    Graph:
-                  </h1>
-                  <Form
-                    name="basic"
-                    labelCol={{
-                      span: 8,
-                    }}
-                    wrapperCol={{
-                      span: 16,
-                    }}
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
-                    autoComplete="off"
+              ) : level > 1 && level < 4 ? (
+                <div style={{ display: 'flex', width: '100%' }}>
+                  <Button style={{ marginLeft: '10px' }} onClick={prevLevel}>
+                    Previous Level
+                  </Button>
+                  <Button
+                    style={{ marginLeft: 'auto', marginRight: '30px' }}
+                    onClick={nextLevel}
                   >
-                    <Form.Item
-                      label="Expression"
-                      name="response"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Please input your Response!',
-                        },
-                      ]}
-                    >
-                      <Input />
-                    </Form.Item>
-                    <Form.Item
+                    Next Level
+                  </Button>
+                </div>
+              ) : (
+                <div style={{ display: 'flex', width: '100%' }}>
+                  <Button style={{ marginLeft: '10px' }} onClick={prevLevel}>
+                    Previous Level
+                  </Button>
+                </div>
+              )}
+            </div>
+            {gameData ? (
+              <Row>
+                <Col span="11" style={{ padding: '40px' }}>
+                  <div>
+                    <h1>
+                      Write Any Equivalent Expression denoted by the following
+                      Graph:
+                    </h1>
+                    <Form
+                      name="basic"
+                      labelCol={{
+                        span: 8,
+                      }}
                       wrapperCol={{
-                        offset: 8,
                         span: 16,
                       }}
+                      onFinish={onFinish}
+                      onFinishFailed={onFinishFailed}
+                      autoComplete="off"
                     >
-                      <Button type="primary" htmlType="submit">
-                        Submit
-                      </Button>
-                    </Form.Item>
-                  </Form>
-                </div>
-                {evaluatedAnswer && (
-                  <div>
-                    {evaluatedAnswer.syntax_error &&
-                      evaluatedAnswer.syntax_error === 'No syntax error' && (
-                        <div>
-                          <h1
-                            style={{
-                              color: evaluatedAnswer.correct ? 'green' : 'red',
-                            }}
-                          >
-                            {evaluatedAnswer.correct ? 'CORRECT' : 'INCORRECT'}
-                          </h1>
-
-                          {!evaluatedAnswer.correct && (
-                            <h1>{evaluatedAnswer.correct_answer}</h1>
-                          )}
-                        </div>
-                      )}
-
-                    {evaluatedAnswer.syntax_error && (
-                      <h2
-                        style={{
-                          color: 'blue',
+                      <Form.Item
+                        label="Expression"
+                        name="response"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please input your Response!',
+                          },
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                      <Form.Item
+                        wrapperCol={{
+                          offset: 8,
+                          span: 16,
                         }}
                       >
-                        {evaluatedAnswer.syntax_error}
-                      </h2>
-                    )}
+                        <Button type="primary" htmlType="submit">
+                          Submit
+                        </Button>
+                      </Form.Item>
+                    </Form>
                   </div>
-                )}
-              </Col>
+                  {evaluatedAnswer && (
+                    <div>
+                      {evaluatedAnswer.syntax_error &&
+                        evaluatedAnswer.syntax_error === 'No syntax error' && (
+                          <div>
+                            <h1
+                              style={{
+                                color: evaluatedAnswer.correct
+                                  ? 'green'
+                                  : 'red',
+                              }}
+                            >
+                              {evaluatedAnswer.correct
+                                ? 'CORRECT'
+                                : 'INCORRECT'}
+                            </h1>
 
-              <Col offset="1">
-                <h1>Graph</h1>
-                <div style={{ border: '2px solid black' }}>
-                  <CytoscapeComponent
-                    elements={elements}
-                    style={{ minWidth: '600px', minHeight: '650px' }}
-                    stylesheet={[
-                      {
-                        selector: 'node',
-                        style: {
-                          'background-color': '#666',
-                          color: 'white',
-                          label: 'data(label)',
-                          width: '42px',
-                          height: '42px',
-                          'text-valign': 'center',
-                          'text-halign': 'center',
-                        },
-                      },
-                      {
-                        selector: 'edge',
-                        style: {
-                          width: 3,
-                          'line-color': 'blue',
-                          'target-arrow-color': 'blue',
-                          'target-arrow-shape': 'triangle',
-                          'curve-style': 'unbundled-bezier',
-                          'control-point-weight': '0.5',
-                          'control-point-distance': '0',
-                        },
-                      },
-                    ]}
-                  />
-                </div>
-              </Col>
-              <TimeClock active={!evaluatedAnswer} />
-            </Row>
-          ) : null}
-        </div>
-      </SideBar>
+                            {!evaluatedAnswer.correct && (
+                              <h1>{evaluatedAnswer.correct_answer}</h1>
+                            )}
+                          </div>
+                        )}
+
+                      {evaluatedAnswer.syntax_error && (
+                        <h2
+                          style={{
+                            color: 'blue',
+                          }}
+                        >
+                          {evaluatedAnswer.syntax_error}
+                        </h2>
+                      )}
+                    </div>
+                  )}
+                </Col>
+
+                <Col
+                  span="13"
+                  offset="40px"
+                  style={{ padding: '20px', paddingLeft: '80px' }}
+                >
+                  <div
+                    style={{
+                      background: '#6EA5C3',
+                      padding: '10px',
+                      marginBottom: '50px',
+                      textAlign: 'center',
+                      // minWidth: '500px',
+                      width: '500px',
+                    }}
+                  >
+                    {' '}
+                    <h1
+                      style={{
+                        textAlign: 'Center',
+                        color: 'white',
+                        fontWeight: 'bold',
+                      }}
+                    >
+                      Graph
+                    </h1>
+                    <div>
+                      <CytoscapeComponent
+                        elements={elements}
+                        style={{
+                          minWidth: '400px',
+                          height: level * 100 + 400,
+                          background: 'white',
+                          border: '2px solid black',
+                        }}
+                        stylesheet={[
+                          {
+                            selector: 'node',
+                            style: {
+                              'background-color': '#666',
+                              color: 'white',
+                              label: 'data(label)',
+                              width: '42px',
+                              height: '42px',
+                              'text-valign': 'center',
+                              'text-halign': 'center',
+                            },
+                          },
+                          {
+                            selector: 'edge',
+                            style: {
+                              width: 3,
+                              'line-color': 'blue',
+                              'target-arrow-color': 'blue',
+                              'target-arrow-shape': 'triangle',
+                              'curve-style': 'unbundled-bezier',
+                              'control-point-weight': '0.5',
+                              'control-point-distance': '0',
+                            },
+                          },
+                        ]}
+                      />
+                    </div>
+                    {/*  */}
+                  </div>
+                </Col>
+                {/* <TimeClock active={!evaluatedAnswer} /> */}
+              </Row>
+            ) : null}
+          </div>
+        }
+      />
+      {/* <SideBar */}
+      {/* steps={['Tree Games', 'CrossWords', 'New Games']}
+        heading="TreeGame" */}
+      {/* > */}
+
+      {/* </SideBar> */}
     </div>
   );
 }
