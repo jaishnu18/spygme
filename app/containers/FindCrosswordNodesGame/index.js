@@ -12,8 +12,18 @@ import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import moment from 'moment';
+import AppStructure from 'components/AppStructure';
 
-import { Form, InputNumber, Button, Space, Select, Col, Row } from 'antd';
+import {
+  Form,
+  InputNumber,
+  Button,
+  Space,
+  Select,
+  Col,
+  Row,
+  Typography,
+} from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
 import { useInjectSaga } from 'utils/injectSaga';
@@ -167,154 +177,170 @@ export function FindCrosswordNodesGame(props) {
           content="Description of FindCrosswordNodesGame"
         />
       </Helmet>
-      <div style={{ width: '100%', background: '#295474', padding: 10 }}>
-        <Row justify="space-around">
-          <Col span={4}>
-            <h1 style={{ color: 'white' }}>Tree Game</h1>
-          </Col>
-          <Col span={4}>
-            <h1 style={{ color: 'white' }}>Level: 1/5</h1>
-          </Col>
-          <Col span={4}>
-            <h1 style={{ color: 'white' }}>Attempts : 1</h1>
-          </Col>
-          <Col span={4}>
-            <h1 className="time" style={{ color: 'white' }}>
-              Time: {<TimeClock active={!evaluatedAnswer} />}
-            </h1>
-          </Col>
-        </Row>
-      </div>
-
-      <div
-        style={{
-          padding: '20px',
-          background: '#F8FAA7',
-          paddingBottom: '150px',
-        }}
-      >
-        <div style={{ display: 'flex', width: '100%', marginBottom: '20px' }}>
-          {level == 1 ? (
-            <Button
-              style={{ marginLeft: 'auto', marginRight: '30px' }}
-              onClick={nextLevel}
+      <AppStructure
+        heading="Crossword Game"
+        level="Level: 2/5"
+        attempt=" 2"
+        evaluatedAnswer={evaluatedAnswer}
+        divContent={
+          <div
+            style={{
+              padding: '20px',
+              background: '#F8FAA7',
+              paddingBottom: '150px',
+            }}
+          >
+            <div
+              style={{ display: 'flex', width: '100%', marginBottom: '20px' }}
             >
-              Next Level
-            </Button>
-          ) : level > 1 && level < 3 ? (
-            <div style={{ display: 'flex', width: '100%' }}>
-              <Button style={{ marginLeft: '10px' }} onClick={prevLevel}>
-                Previous Level
-              </Button>
-              <Button
-                style={{ marginLeft: 'auto', marginRight: '30px' }}
-                onClick={nextLevel}
-              >
-                Next Level
-              </Button>
-            </div>
-          ) : (
-            <div style={{ display: 'flex', width: '100%' }}>
-              <Button style={{ marginLeft: '10px' }} onClick={prevLevel}>
-                Previous Level
-              </Button>
-            </div>
-          )}
-        </div>
-        {gameData ? (
-          <Row>
-            <Col span={12}>
-              <h1>Crossword</h1>
-              <div>
-                <MyGrid size={gameData.grid_size}>
-                  <div style={{ display: 'flex', marginBottom: '0px' }}>
-                    {[...Array(gameData.grid_size)].map((k, j) => (
-                      <h1
-                        style={{
-                          width: '100%',
-                          marginBottom: '0px',
-                          marginLeft: '42px',
-                          textAlign: 'right',
-                        }}
-                      >
-                        {j + 1}
-                      </h1>
-                    ))}
-                  </div>
-                  {[...Array(gameData.grid_size + 1)].map(
-                    (x, i) =>
-                      i > 0 && (
-                        <div style={{ display: 'flex' }}>
-                          {[...Array(gameData.grid_size + 1)].map((y, j) => (
-                            <div>
-                              {gameData.grid ? (
-                                j === 0 ? (
-                                  <h1
-                                    style={{
-                                      width: '25px',
-                                      height: '25px',
-                                      marginBottom: '0px',
-                                    }}
-                                  >
-                                    {i}
-                                  </h1>
-                                ) : (
-                                  <div
-                                    style={{
-                                      backgroundColor:
-                                        gameData.grid[i][j] === 35
-                                          ? 'black'
-                                          : 'white',
-                                    }}
-                                    className="chessboard"
-                                  />
-                                )
-                              ) : null}
-                            </div>
-                          ))}
-                        </div>
-                      ),
-                  )}
-                </MyGrid>
-              </div>
-            </Col>
-
-            <Col span={12}>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  background: 'white',
-                  margin: '20px',
-                  paddingLeft: '20px',
-                }}
-              >
-                <h1 style={{ marginBottom: '30px' }}>Answer</h1>
-                <div style={{ width: '100%' }}>
-                  <Form
-                    form={form}
-                    name="dynamic_form_nest_item"
-                    onFinish={onFinish}
-                    autoComplete="off"
+              {level == 1 ? (
+                <Button
+                  style={{ marginLeft: 'auto', marginRight: '30px' }}
+                  onClick={nextLevel}
+                >
+                  Next Level
+                </Button>
+              ) : level > 1 && level < 3 ? (
+                <div style={{ display: 'flex', width: '100%' }}>
+                  <Button style={{ marginLeft: '10px' }} onClick={prevLevel}>
+                    Previous Level
+                  </Button>
+                  <Button
+                    style={{ marginLeft: 'auto', marginRight: '30px' }}
+                    onClick={nextLevel}
                   >
-                    <Form.List shouldUpdate name="nodes">
-                      {(fields, { add, remove }) => (
-                        <>
-                          {fields.map((field, index) => (
-                            <Space key={field.key} align="baseline">
-                              <Form.Item
-                                noStyle
-                                shouldUpdate={(prevValues, curValues) =>
-                                  prevValues.area !== curValues.area ||
-                                  prevValues.sights !== curValues.sights
-                                }
-                              >
-                                {() => (
+                    Next Level
+                  </Button>
+                </div>
+              ) : (
+                <div style={{ display: 'flex', width: '100%' }}>
+                  <Button style={{ marginLeft: '10px' }} onClick={prevLevel}>
+                    Previous Level
+                  </Button>
+                </div>
+              )}
+            </div>
+            {gameData ? (
+              <Row>
+                <Col span={12}>
+                  <h1>Crossword</h1>
+                  <div>
+                    <MyGrid size={gameData.grid_size}>
+                      <div style={{ display: 'flex', marginBottom: '0px' }}>
+                        {[...Array(gameData.grid_size)].map((k, j) => (
+                          <h1
+                            style={{
+                              width: '100%',
+                              marginBottom: '0px',
+                              marginLeft: '42px',
+                              textAlign: 'right',
+                            }}
+                          >
+                            {j + 1}
+                          </h1>
+                        ))}
+                      </div>
+                      {[...Array(gameData.grid_size + 1)].map(
+                        (x, i) =>
+                          i > 0 && (
+                            <div style={{ display: 'flex' }}>
+                              {[...Array(gameData.grid_size + 1)].map(
+                                (y, j) => (
+                                  <div>
+                                    {gameData.grid ? (
+                                      j === 0 ? (
+                                        <h1
+                                          style={{
+                                            width: '25px',
+                                            height: '25px',
+                                            marginBottom: '0px',
+                                          }}
+                                        >
+                                          {i}
+                                        </h1>
+                                      ) : (
+                                        <div
+                                          style={{
+                                            backgroundColor:
+                                              gameData.grid[i][j] === 35
+                                                ? 'black'
+                                                : 'white',
+                                          }}
+                                          className="chessboard"
+                                        />
+                                      )
+                                    ) : null}
+                                  </div>
+                                ),
+                              )}
+                            </div>
+                          ),
+                      )}
+                    </MyGrid>
+                  </div>
+                </Col>
+
+                <Col span={12}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      background: 'white',
+                      margin: '20px',
+                      paddingLeft: '20px',
+                    }}
+                  >
+                    <h1 style={{ marginBottom: '30px' }}>Answer</h1>
+                    <div style={{ width: '100%' }}>
+                      <Form
+                        form={form}
+                        name="dynamic_form_nest_item"
+                        onFinish={onFinish}
+                        autoComplete="off"
+                      >
+                        <Form.List shouldUpdate name="nodes">
+                          {(fields, { add, remove }) => (
+                            <>
+                              {fields.map((field, index) => (
+                                <Space key={field.key} align="baseline">
+                                  <Form.Item
+                                    noStyle
+                                    shouldUpdate={(prevValues, curValues) =>
+                                      prevValues.area !== curValues.area ||
+                                      prevValues.sights !== curValues.sights
+                                    }
+                                  >
+                                    {() => (
+                                      <Form.Item
+                                        {...field}
+                                        label={index >= 0 ? 'Node' : ''}
+                                        name={[field.name, 'node']}
+                                        fieldKey={[field.fieldKey, 'node']}
+                                        rules={[
+                                          {
+                                            required: true,
+                                            message: 'Missing Row',
+                                          },
+                                        ]}
+                                      >
+                                        <Select style={{ width: 130 }}>
+                                          {Nodes.map((item, index) => (
+                                            <Option
+                                              key={index}
+                                              value={item.val}
+                                            >
+                                              {item.label}
+                                            </Option>
+                                          ))}
+                                        </Select>
+                                      </Form.Item>
+                                    )}
+                                  </Form.Item>
                                   <Form.Item
                                     {...field}
-                                    label={index >= 0 ? 'Node' : ''}
-                                    name={[field.name, 'node']}
-                                    fieldKey={[field.fieldKey, 'node']}
+                                    label={index >= 0 ? 'Row' : ''}
+                                    name={[field.name, 'row']}
+                                    fieldKey={[field.fieldKey, 'row']}
                                     rules={[
                                       {
                                         required: true,
@@ -322,182 +348,170 @@ export function FindCrosswordNodesGame(props) {
                                       },
                                     ]}
                                   >
-                                    <Select style={{ width: 130 }}>
-                                      {Nodes.map((item, index) => (
-                                        <Option key={index} value={item.val}>
-                                          {item.label}
-                                        </Option>
-                                      ))}
-                                    </Select>
+                                    <InputNumber />
                                   </Form.Item>
-                                )}
-                              </Form.Item>
-                              <Form.Item
-                                {...field}
-                                label={index >= 0 ? 'Row' : ''}
-                                name={[field.name, 'row']}
-                                fieldKey={[field.fieldKey, 'row']}
-                                rules={[
-                                  { required: true, message: 'Missing Row' },
-                                ]}
-                              >
-                                <InputNumber />
-                              </Form.Item>
-                              <Form.Item
-                                {...field}
-                                label={index >= 0 ? 'Column' : ''}
-                                name={[field.name, 'col']}
-                                fieldKey={[field.fieldKey, 'col']}
-                                rules={[
-                                  { required: true, message: 'Missing Column' },
-                                ]}
-                              >
-                                <InputNumber />
-                              </Form.Item>
+                                  <Form.Item
+                                    {...field}
+                                    label={index >= 0 ? 'Column' : ''}
+                                    name={[field.name, 'col']}
+                                    fieldKey={[field.fieldKey, 'col']}
+                                    rules={[
+                                      {
+                                        required: true,
+                                        message: 'Missing Column',
+                                      },
+                                    ]}
+                                  >
+                                    <InputNumber />
+                                  </Form.Item>
 
-                              {index > 0 && (
-                                <MinusCircleOutlined
-                                  onClick={() => remove(field.name)}
-                                />
-                              )}
-                            </Space>
-                          ))}
-                          <Row>
-                            {/* <Form.Item> */}
-                            <Button
-                              style={{
-                                width: '20%',
-                                margin: '10px',
-                                color: 'white',
-                                background: '#C5C0AA',
-                              }}
-                              type="dashed"
-                              onClick={() => add()}
-                              block
-                            >
-                              Add Nodes
-                            </Button>
-                            {/* </Form.Item> */}
-                            {/*  */}
-                            {/* <Form.Item offset="3"> */}
-                            <Button
-                              style={{
-                                width: '20%',
-                                margin: '10px',
-                                background: 'green',
-                              }}
-                              type="primary"
-                              htmlType="submit"
-                            >
-                              Check Answer
-                            </Button>
-                            {/* </Form.Item>                             */}
-                          </Row>
-                        </>
-                      )}
-                    </Form.List>
-                  </Form>
-                </div>
-
-                <div>
-                  {evaluatedAnswer && (
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                      <div style={{ display: 'flex' }}>
-                        All Correct
-                        {evaluatedAnswer.allCorrect ? (
-                          <div style={{ marginLeft: '20px' }}>Yes</div>
-                        ) : (
-                          <div style={{ marginLeft: '20px' }}>No</div>
-                        )}
-                      </div>
-                      <div
-                        style={{
-                          marginTop: '20px',
-                          display: 'flex',
-                          flexDirection: 'column',
-                        }}
-                      >
-                        Correct Answered Nodes
-                        {evaluatedAnswer.correct_nodes_list.length === 0 ? (
-                          <div style={{ marginLeft: '30px' }}> 0 </div>
-                        ) : (
-                          evaluatedAnswer.correct_nodes_list.map(item => (
-                            <div style={{ display: 'flex' }}>
-                              <div> Row : {item[0]}</div>
-                              <div style={{ marginLeft: '20px' }}>
-                                {' '}
-                                Col : {item[1]}
-                              </div>
-                              <div style={{ marginLeft: '30px' }}>
-                                Node Direction :{' '}
-                                {item[2] === 65 ? 'Across' : 'Down'}
-                              </div>
-                            </div>
-                          ))
-                        )}
-                      </div>
-
-                      <div
-                        style={{
-                          marginTop: '20px',
-                          display: 'flex',
-                          flexDirection: 'column',
-                        }}
-                      >
-                        Missing Nodes
-                        {evaluatedAnswer.missed_nodes_list.length === 0 ? (
-                          <div style={{ marginLeft: '30px' }}> 0 </div>
-                        ) : (
-                          evaluatedAnswer.missed_nodes_list.map(item => (
-                            <div style={{ display: 'flex' }}>
-                              <div> Row : {item[0]}</div>
-                              <div style={{ marginLeft: '20px' }}>
-                                {' '}
-                                Col : {item[1]}
-                              </div>
-                              <div style={{ marginLeft: '30px' }}>
-                                Node Direction :{' '}
-                                {item[2] === 65 ? 'Across' : 'Down'}
-                              </div>
-                            </div>
-                          ))
-                        )}
-                      </div>
-
-                      <div
-                        style={{
-                          marginTop: '20px',
-                          display: 'flex',
-                          flexDirection: 'column',
-                        }}
-                      >
-                        Wrong Nodes
-                        {evaluatedAnswer.wrong_nodes_list.length === 0 ? (
-                          <div style={{ marginLeft: '30px' }}> 0 </div>
-                        ) : (
-                          evaluatedAnswer.wrong_nodes_list.map(item => (
-                            <div style={{ display: 'flex' }}>
-                              <div> Row : {item[0]}</div>
-                              <div style={{ marginLeft: '20px' }}>
-                                {' '}
-                                Col : {item[1]}
-                              </div>
-                              <div style={{ marginLeft: '30px' }}>
-                                Node Direction :{' '}
-                                {item[2] === 65 ? 'Across' : 'Down'}
-                              </div>
-                            </div>
-                          ))
-                        )}
-                      </div>
+                                  {index > 0 && (
+                                    <MinusCircleOutlined
+                                      onClick={() => remove(field.name)}
+                                    />
+                                  )}
+                                </Space>
+                              ))}
+                              <Row>
+                                {/* <Form.Item> */}
+                                <Button
+                                  style={{
+                                    width: '20%',
+                                    margin: '10px',
+                                    color: 'white',
+                                    background: '#C5C0AA',
+                                  }}
+                                  type="dashed"
+                                  onClick={() => add()}
+                                  block
+                                >
+                                  Add Nodes
+                                </Button>
+                                {/* </Form.Item> */}
+                                {/*  */}
+                                {/* <Form.Item offset="3"> */}
+                                <Button
+                                  style={{
+                                    width: '20%',
+                                    margin: '10px',
+                                    background: 'green',
+                                  }}
+                                  type="primary"
+                                  htmlType="submit"
+                                >
+                                  Check Answer
+                                </Button>
+                                {/* </Form.Item>                             */}
+                              </Row>
+                            </>
+                          )}
+                        </Form.List>
+                      </Form>
                     </div>
-                  )}
-                </div>
-              </div>
-            </Col>
-          </Row>
-        ) : null}
-      </div>
+
+                    <div>
+                      {evaluatedAnswer && (
+                        <div
+                          style={{ display: 'flex', flexDirection: 'column' }}
+                        >
+                          <div style={{ display: 'flex' }}>
+                            All Correct
+                            {evaluatedAnswer.allCorrect ? (
+                              <div style={{ marginLeft: '20px' }}>Yes</div>
+                            ) : (
+                              <div style={{ marginLeft: '20px' }}>No</div>
+                            )}
+                          </div>
+                          <div
+                            style={{
+                              marginTop: '20px',
+                              display: 'flex',
+                              flexDirection: 'column',
+                            }}
+                          >
+                            Correct Answered Nodes
+                            {evaluatedAnswer.correct_nodes_list.length === 0 ? (
+                              <div style={{ marginLeft: '30px' }}> 0 </div>
+                            ) : (
+                              evaluatedAnswer.correct_nodes_list.map(item => (
+                                <div style={{ display: 'flex' }}>
+                                  <div> Row : {item[0]}</div>
+                                  <div style={{ marginLeft: '20px' }}>
+                                    {' '}
+                                    Col : {item[1]}
+                                  </div>
+                                  <div style={{ marginLeft: '30px' }}>
+                                    Node Direction :{' '}
+                                    {item[2] === 65 ? 'Across' : 'Down'}
+                                  </div>
+                                </div>
+                              ))
+                            )}
+                          </div>
+
+                          <div
+                            style={{
+                              marginTop: '20px',
+                              display: 'flex',
+                              flexDirection: 'column',
+                            }}
+                          >
+                            Missing Nodes
+                            {evaluatedAnswer.missed_nodes_list.length === 0 ? (
+                              <div style={{ marginLeft: '30px' }}> 0 </div>
+                            ) : (
+                              evaluatedAnswer.missed_nodes_list.map(item => (
+                                <div style={{ display: 'flex' }}>
+                                  <div> Row : {item[0]}</div>
+                                  <div style={{ marginLeft: '20px' }}>
+                                    {' '}
+                                    Col : {item[1]}
+                                  </div>
+                                  <div style={{ marginLeft: '30px' }}>
+                                    Node Direction :{' '}
+                                    {item[2] === 65 ? 'Across' : 'Down'}
+                                  </div>
+                                </div>
+                              ))
+                            )}
+                          </div>
+
+                          <div
+                            style={{
+                              marginTop: '20px',
+                              display: 'flex',
+                              flexDirection: 'column',
+                            }}
+                          >
+                            Wrong Nodes
+                            {evaluatedAnswer.wrong_nodes_list.length === 0 ? (
+                              <div style={{ marginLeft: '30px' }}> 0 </div>
+                            ) : (
+                              evaluatedAnswer.wrong_nodes_list.map(item => (
+                                <div style={{ display: 'flex' }}>
+                                  <div> Row : {item[0]}</div>
+                                  <div style={{ marginLeft: '20px' }}>
+                                    {' '}
+                                    Col : {item[1]}
+                                  </div>
+                                  <div style={{ marginLeft: '30px' }}>
+                                    Node Direction :{' '}
+                                    {item[2] === 65 ? 'Across' : 'Down'}
+                                  </div>
+                                </div>
+                              ))
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </Col>
+              </Row>
+            ) : null}
+          </div>
+        }
+      />
     </div>
   );
 }

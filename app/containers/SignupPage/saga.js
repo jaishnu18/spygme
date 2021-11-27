@@ -15,7 +15,7 @@ export function* signupUser(action) {
     const { name } = action.payload;
 
     const posts = yield axios.post(
-      `http://localhost:4000/v1/auth/register`,
+      `http://localhost:5000/v1/auth/register`,
       querystring.stringify({ email, password, name, _class, passwordConfirm }),
     );
     // console.log(posts);

@@ -16,7 +16,7 @@ import { GET_GAME_DATA_START, EVALUATE_RESPONSE_START } from './constants'; // I
 export function* getCrossword() {
   try {
     const response = yield axios.get(
-      `http://localhost:4000/game/match-expression/graded-quiz`,
+      `http://localhost:5000/game/match-expression/graded-quiz`,
     );
     console.log(response);
     yield put(getGamesDataSuccess(response.data.data));
@@ -31,7 +31,7 @@ export function* evaluateAnswer(action) {
     console.log(action.payload);
     const studentResponse = action.payload;
     const response = yield axios.post(
-      `http://localhost:4000/game/match-expression/graded-quiz/validate`,
+      `http://localhost:5000/game/match-expression/graded-quiz/validate`,
       studentResponse,
       { headers: { Authorization: localStorage._UFT_ } },
     );

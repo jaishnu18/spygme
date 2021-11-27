@@ -18,7 +18,7 @@ const StyledTimer = styled(Timer)`
   // align-items: center !important;
 
   span {
-    font-size: 40px !important;
+    font-size: 30px !important;
   }
 `;
 
