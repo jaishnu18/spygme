@@ -5,6 +5,7 @@
  */
 
 import React, { memo } from 'react';
+
 import {
   Typography,
   Grid,
@@ -26,6 +27,33 @@ import history from 'utils/history';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
+import { Image } from 'antd';
+import { Link } from 'react-router-dom';
+import T1_C1_1 from '../../images/ReadingMaterial/Topic1/CONCEPT1_MATERIAL1.png';
+import T1_C1_2 from '../../images/ReadingMaterial/Topic1/CONCEPT1_MATERIAL2.png';
+import T1_C1_3 from '../../images/ReadingMaterial/Topic1/CONCEPT1_MATERIAL3.png';
+import T1_C2_1 from '../../images/ReadingMaterial/Topic1/CONCEPT2_MATERIAL1.png';
+import T1_C2_2 from '../../images/ReadingMaterial/Topic1/CONCEPT2_MATERIAL2.png';
+import T1_C3_1 from '../../images/ReadingMaterial/Topic1/CONCEPT3_MATERIAL1.png';
+import T1_C3_2 from '../../images/ReadingMaterial/Topic1/CONCEPT3_MATERIAL2.png';
+import T1_C4_1 from '../../images/ReadingMaterial/Topic1/CONCEPT4_MATERIAL1.png';
+import T1_C4_2 from '../../images/ReadingMaterial/Topic1/CONCEPT4_MATERIAL2.png';
+import T1_C4_3 from '../../images/ReadingMaterial/Topic1/CONCEPT4_MATERIAL3.png';
+import T1_C4_4 from '../../images/ReadingMaterial/Topic1/CONCEPT4_MATERIAL4.png';
+import T1_C5_1 from '../../images/ReadingMaterial/Topic1/CONCEPT5_MATERIAL1.png';
+import T1_C5_2 from '../../images/ReadingMaterial/Topic1/CONCEPT5_MATERIAL2.png';
+import T2_C1_1 from '../../images/ReadingMaterial/Topic2/CONCEPT1_MATERIAL1.png';
+import T2_C1_2 from '../../images/ReadingMaterial/Topic2/CONCEPT1_MATERIAL2.png';
+import T2_C2_1 from '../../images/ReadingMaterial/Topic2/CONCEPT2_MATERIAL1.png';
+import T2_C2_2 from '../../images/ReadingMaterial/Topic2/CONCEPT2_MATERIAL2.png';
+import T2_C2_3 from '../../images/ReadingMaterial/Topic2/CONCEPT2_MATERIAL3.png';
+import T2_C3_1 from '../../images/ReadingMaterial/Topic2/CONCEPT3_MATERIAL1.png';
+import T2_C3_2 from '../../images/ReadingMaterial/Topic2/CONCEPT3_MATERIAL2.png';
+import T2_C3_3 from '../../images/ReadingMaterial/Topic2/CONCEPT3_MATERIAL3.png';
+import T2_C3_4 from '../../images/ReadingMaterial/Topic2/CONCEPT3_MATERIAL4.png';
+import T2_C4_1 from '../../images/ReadingMaterial/Topic2/CONCEPT4_MATERIAL1.png';
+
+import { concepts } from '../../components/ConceptCardSection/index';
 import SolidButton from '../../components/atoms/SolidButton';
 import makeSelectReadPracticeGradeContainer from './selectors';
 import reducer from './reducer';
@@ -40,10 +68,85 @@ const bull = (
   </Box>
 );
 
+const array = [
+  [],
+  [
+    {},
+    {
+      name: 'Proposition & Boolean Variables',
+      links: [T1_C1_1, T1_C1_2, T1_C1_3],
+      game: false,
+      gameLinks: [],
+    },
+    {
+      name: 'Boolean Operators',
+      links: [T1_C2_1, T1_C2_2],
+      game: false,
+      gameLinks: [],
+    },
+    {
+      name: 'Logical Expressions & Syntax',
+      links: [T1_C3_1, T1_C3_2],
+      game: false,
+      gameLinks: [],
+    },
+    {
+      name: 'Semantics',
+      links: [T1_C4_1, T1_C4_2, T1_C4_3, T1_C4_4],
+      game: false,
+      gameLinks: [],
+    },
+    {
+      name: 'Evaluating Expression',
+      links: [T1_C5_1, T1_C5_2],
+      game: true,
+      gameLinks: [
+        ['/treegame/1', 'Tree Game'],
+        ['/match-expression/1', 'Match Expression'],
+        ['/write-expression/1', 'Write Expression'],
+      ],
+    },
+  ],
+  [
+    {},
+    {
+      name: 'Constraints and Formulation',
+      links: [T2_C1_1, T2_C1_2],
+      game: true,
+      gameLinks: [
+        ['/find-nodes/1', 'Find Crossword Nodes'],
+        ['/draw-crossword-graph/1', 'Draw Crossword Graph'],
+      ],
+    },
+    {
+      name: 'Constraints Propogation',
+      links: [T2_C2_1, T2_C2_2, T2_C2_3],
+      game: true,
+      gameLinks: [
+        ['/node-consistency/1', 'Node Consistency'],
+        ['/arc-consistency/1', 'Arc Consistency'],
+      ],
+    },
+    {
+      name: 'Heuristics',
+      links: [T2_C3_1, T2_C3_2, T2_C3_3, T2_C3_4],
+      game: false,
+      gameLinks: [],
+    },
+    {
+      name: 'Backtracking',
+      links: [T2_C4_1],
+      game: false,
+      gameLinks: [],
+    },
+  ],
+];
+
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     background: '#272c48',
+    minHeight: 'calc(100vh - 70px)',
     // margin: '40px',
     // paddingTop: '40px',
     paddingLeft: '18px',
@@ -56,19 +159,13 @@ const useStyles = makeStyles(theme => ({
     color: '#FFFFFF',
   },
 }));
-export function ReadPracticeGradeContainer() {
+
+export function ReadPracticeGradeContainer(props) {
   useInjectReducer({ key: 'readPracticeGradeContainer', reducer });
   useInjectSaga({ key: 'readPracticeGradeContainer', saga });
 
-  const treeGameGo = () => {
-    history.push('/treegame/1');
-  };
-  const matchExpGameGo = () => {
-    history.push('/match-expression/1');
-  };
-  const writeExpGameGo = () => {
-    history.push('/write-expression/1');
-  };
+  const T = props.topicNo;
+  const C = props.conceptNo;
 
   const classes = useStyles();
   return (
@@ -92,7 +189,7 @@ export function ReadPracticeGradeContainer() {
         {' '}
         <Typography className={classes.paper} variant="h2" gutterBottom>
           <div>
-            <b>Evaluating Expression</b>
+            <b>{array[T][C].name}</b>
           </div>
         </Typography>
         <Grid container spacing={1}>
@@ -100,76 +197,70 @@ export function ReadPracticeGradeContainer() {
             <Card sx={{ minWidth: 275 }}>
               <CardContent>
                 <Typography
-                  variant="h3"
+                  variant="h4"
                   component="div"
                   sx={{ fontSize: 14 }}
                   color="text.secondary"
                   gutterBottom
+                  style={{ display: 'flex', justifyContent: 'center' }}
                 >
                   Reading
                 </Typography>
-                <Typography variant="h5" component="div">
-                  {bull}Material 1
-                </Typography>
-                <Typography variant="h5" component="div">
-                  {bull}Material 2
-                </Typography>
-                <Typography variant="h5" component="div">
-                  {bull}Material 3
-                </Typography>
-                <Typography variant="h5" component="div">
-                  {bull}Material 4
-                </Typography>
+                {array[T][C].links.map((key, index) => (
+                  <div>
+                    <Typography variant="h5" component="div">
+                      {<Image src={key} />}
+                    </Typography>
+                  </div>
+                ))}
               </CardContent>
-              {/* <CardActions>
-                <Button size="small">Learn More</Button>
-              </CardActions> */}
             </Card>
           </Grid>
           <Grid item xs>
             <Card sx={{ minWidth: 275 }}>
               <CardContent>
                 <Typography
-                  variant="h3"
+                  variant="h4"
                   component="div"
                   sx={{ fontSize: 14 }}
                   color="text.secondary"
                   gutterBottom
+                  style={{ display: 'flex', justifyContent: 'center' }}
                 >
                   Practice games
                 </Typography>
-                <Typography variant="h5" component="div">
-                  <SolidButton
-                    colorbg="#00008b"
-                    width="60%"
-                    height="60%"
-                    margintop="5px"
-                    marginbottom="5px"
-                    onClick={treeGameGo}
+                {array[T][C].game ? (
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                    }}
                   >
-                    Expression evaluation
-                  </SolidButton>
-                  <SolidButton
-                    colorbg="#4169e1"
-                    width="60%"
-                    height="60%"
-                    margintop="5px"
-                    marginbottom="5px"
-                    onClick={matchExpGameGo}
+                    {array[T][C].gameLinks.map(key => (
+                      <div style={{ display: 'flex' }}>
+                        {bull}
+                        <Link to={key[0]}>
+                          <h3
+                            style={{
+                              color: 'blue',
+                              fontWeight: '700',
+                            }}
+                          >
+                            {key[1]}
+                          </h3>
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <Typography
+                    variant="h5"
+                    style={{ display: 'flex', justifyContent: 'center' }}
                   >
-                    Match expression with nodes
-                  </SolidButton>
-                  <SolidButton
-                    colorbg="#ff0000"
-                    width="60%"
-                    height="60%"
-                    margintop="5px"
-                    marginbottom="5px"
-                    onClick={writeExpGameGo}
-                  >
-                    Write Equivalent Expression
-                  </SolidButton>
-                </Typography>
+                    COMING SOON
+                  </Typography>
+                )}
               </CardContent>
               {/* <CardActions>
                 <Button size="small">Learn More</Button>
@@ -180,46 +271,47 @@ export function ReadPracticeGradeContainer() {
             <Card sx={{ minWidth: 275 }}>
               <CardContent>
                 <Typography
-                  variant="h3"
+                  variant="h4"
                   component="div"
                   sx={{ fontSize: 14 }}
                   color="text.secondary"
                   gutterBottom
+                  style={{ display: 'flex', justifyContent: 'center' }}
                 >
                   Graded games
                 </Typography>
-                <Typography variant="h5" component="div">
-                  <SolidButton
-                    colorbg="#00008b"
-                    width="60%"
-                    height="60%"
-                    margintop="5px"
-                    marginbottom="5px"
-                    onClick={treeGameGo}
+                {array[T][C].game ? (
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                    }}
                   >
-                    Expression evaluation
-                  </SolidButton>
-                  <SolidButton
-                    colorbg="#4169e1"
-                    width="60%"
-                    height="60%"
-                    margintop="5px"
-                    marginbottom="5px"
-                    onClick={matchExpGameGo}
+                    {array[T][C].gameLinks.map(key => (
+                      <div style={{ display: 'flex' }}>
+                        {bull}
+                        <Link to={key[0]}>
+                          <h3
+                            style={{
+                              color: 'blue',
+                              fontWeight: '700',
+                            }}
+                          >
+                            {key[1]}
+                          </h3>
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <Typography
+                    variant="h5"
+                    style={{ display: 'flex', justifyContent: 'center' }}
                   >
-                    Match expression with nodes
-                  </SolidButton>
-                  <SolidButton
-                    colorbg="#ff0000"
-                    width="60%"
-                    height="60%"
-                    margintop="5px"
-                    marginbottom="5px"
-                    onClick={writeExpGameGo}
-                  >
-                    Write Equivalent Expression
-                  </SolidButton>
-                </Typography>
+                    COMING SOON
+                  </Typography>
+                )}
               </CardContent>
               {/* <CardActions>
                 <Button size="small">Learn More</Button>
@@ -229,13 +321,13 @@ export function ReadPracticeGradeContainer() {
         </Grid>{' '}
       </div>
 
-      <Box
+      {/* <Box
         sx={{
           width: ' 100%',
           height: 300,
           bgcolor: '#272c48',
         }}
-      />
+      /> */}
     </div>
   );
 }

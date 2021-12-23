@@ -2,28 +2,64 @@
 /* eslint-disable no-console */
 import { put, takeLatest, all } from 'redux-saga/effects';
 import axios from 'axios';
-import globalSettings from 'global-settings';
+// import globalSettings from 'global-settings';
 import jwtDecode from 'jwt-decode';
-import { LOGIN_USER_WITH_EMAIL, LOGOUT_START } from './constants';
+import history from 'utils/history';
+import { SIGNIN_START, SIGNOUT_START, SIGNUP_START } from './constants';
 
 import {
-  loginUserWithEmailFailure,
-  loginUserWithEmailSuccess,
-  logoutUserFailure,
-  logoutUserSuccess,
+  signinUserSuccess,
+  signinUserFailure,
+  signupUserSuccess,
+  signupUserFailure,
+  signoutUserSuccess,
+  signoutUserFailure,
 } from './actions';
 
-export function* loginUser(action) {
+export function* signinUser(action) {
   try {
-    // get auth token
-    console.log(action.payload);
-    const { email } = action.payload;
-    const { password } = action.payload;
+    const { email, password, gtoken } = action.payload;
 
     const response = yield axios.post(
-      `${globalSettings.backendApi}${globalSettings.backendApiVersion.v1}/${
-        globalSettings.auth
-      }/login`,
+      `http://localhost:4000/v1/auth/login`,
+      { email, password, gtoken },
+      {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      },
+    );
+
+    console.log(response);
+
+    const userData = response.data;
+    const userToken = userData.data;
+    const info = jwtDecode(userToken);
+    info.token = userToken;
+    info.isLoggedIn = true;
+
+    yield* setTokenToLocalStorage(userToken);
+    yield put(signinUserSuccess(info));
+    history.push('/dashboard');
+  } catch (err) {
+    const { errors, errorsValidation } = err.response.data;
+
+    if (errorsValidation) yield put(signinUserFailure(errorsValidation));
+    else yield put(signupUserFailure(errors));
+
+    console.log(errorsValidation);
+    console.log(errors);
+  }
+}
+
+export function* signupUser(action) {
+  try {
+    const { email, password } = action.payload;
+
+    const response = yield axios.post(
+      `http://localhost:4000/v1/auth/register`,
       { email, password },
       {
         headers: {
@@ -40,30 +76,32 @@ export function* loginUser(action) {
     info.token = userToken;
     info.isLoggedIn = true;
 
-    yield* setTokenToLocalStorage(userToken, action.payload.rememberMe);
-
-    yield put(loginUserWithEmailSuccess(info));
+    yield* setTokenToLocalStorage(userToken);
+    yield put(signupUserSuccess(info));
+    history.push('/dashboard');
   } catch (err) {
-    console.log(err);
-    yield put(loginUserWithEmailFailure('Incorrect Email or Password!'));
+    const { errors, errorsValidation } = err.response.data;
+
+    if (errorsValidation) yield put(signupUserFailure(errorsValidation));
+    else yield put(signupUserFailure(errors));
+
+    console.log(errorsValidation);
+    console.log(errors);
   }
 }
 
-export function* logOutUser() {
-  const currAuthToken = localStorage._UFT_;
+export function* signoutUser() {
   try {
     localStorage.removeItem('_UFT_');
-    localStorage.removeItem('SessionId');
-    yield put(logoutUserSuccess());
-    window.location.reload();
+    yield put(signoutUserSuccess());
+    history.push('/');
   } catch (err) {
     console.log(err);
-    localStorage._UFT_ = currAuthToken;
-    yield put(logoutUserFailure(err.response.data.message));
+    yield put(signoutUserFailure(err.response.data.message));
   }
 }
 
-export function* setTokenToLocalStorage(token, isSessionPersisted) {
+export function* setTokenToLocalStorage(token) {
   const userToken = `${token}`;
   localStorage.setItem('_UFT_', userToken);
 }
@@ -71,13 +109,11 @@ export function* setTokenToLocalStorage(token, isSessionPersisted) {
 /**
  * Root saga manages watcher lifecycle
  */
+
 export default function* appSaga() {
-  // Watches for LOGIN_USER_WITH_EMAIL actions and calls getRepos when one comes in.
-  // By using `takeLatest` only the result of the latest API call is applied.
-  // It returns task descriptor (just like fork) so we can continue execution
-  // It will be cancelled automatically on component unmount
   yield all([
-    takeLatest(LOGIN_USER_WITH_EMAIL, loginUser),
-    takeLatest(LOGOUT_START, logOutUser),
+    takeLatest(SIGNIN_START, signinUser),
+    takeLatest(SIGNUP_START, signupUser),
+    takeLatest(SIGNOUT_START, signoutUser),
   ]);
 }

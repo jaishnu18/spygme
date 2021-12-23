@@ -13,7 +13,7 @@ export function* getExpression(action) {
     const level = action.payload;
 
     const response = yield axios.get(
-      `http://localhost:5000/game/treegame/question/${level}`,
+      `http://localhost:4000/game/treegame/question/${level}`,
     );
     console.log(response);
     yield put(getExpressionSuccess(response.data.data));

@@ -231,7 +231,6 @@ export function GradedMatchExpressionGame(props) {
     const demoAttempted = attempted;
     demoAttempted[row - 1] = 1;
     setAttempted(demoAttempted);
-
     submitTest();
   };
 

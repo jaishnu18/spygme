@@ -46,7 +46,7 @@ function SimpleCard(props) {
         </Typography>
         <Typography variant="h5" component="h2">
           {bull}
-          {props.title} {bull}
+          {props.title}
         </Typography>
 
         <ProgressBar />

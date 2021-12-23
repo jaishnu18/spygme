@@ -16,12 +16,12 @@ import { red } from '@material-ui/core/colors';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    margin: 40,
-    maxWidth: 345,
+    width: '24vw',
+    height: '60vh',
     textAlign: 'center',
   },
   media: {
-    height: 360,
+    height: '100%',
     paddingTop: '56.25%', // 16:9
   },
   expand: {

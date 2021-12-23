@@ -22,7 +22,7 @@ export function* getGraph(action) {
     const level = action.payload;
 
     const response = yield axios.get(
-      `http://localhost:5000/game/write-expression/question/${level}`,
+      `http://localhost:4000/game/write-expression/question/${level}`,
     );
     console.log(response);
     yield put(getGraphSuccess(response.data.data));
@@ -37,7 +37,7 @@ export function* evaluateAnswer(action) {
     console.log(action.payload);
     const studentResponse = action.payload;
     const response = yield axios.post(
-      `http://localhost:5000/game/write-expression/question/validate`,
+      `http://localhost:4000/game/write-expression/question/validate`,
       studentResponse,
       { headers: { Authorization: localStorage._UFT_ } },
     );

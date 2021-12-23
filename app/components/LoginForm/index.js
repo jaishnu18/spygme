@@ -10,7 +10,32 @@ import styled from 'styled-components';
 import { Form, Button, Row } from 'antd';
 import CustomInput from 'components/atoms/CustomInput';
 import SolidButton from 'components/atoms/SolidButton';
+import { GoogleLogin } from 'react-google-login';
+import { GOOGLE_CLIENT_ID } from 'utils/constants';
+import { GoogleOutlined } from '@ant-design/icons';
+
 import { Link } from 'react-router-dom';
+
+export function GoogleButton(props) {
+  return (
+    <GoogleLogin
+      clientId={GOOGLE_CLIENT_ID}
+      render={renderProps => (
+        <Button
+          type="primary"
+          style={{ backgroundColor: 'blue' }}
+          icon={<GoogleOutlined />}
+          onClick={renderProps.onClick}
+          disabled={renderProps.disabled}
+        >
+          {props.text}
+        </Button>
+      )}
+      onSuccess={props.onSuccess}
+      cookiePolicy="single_host_origin"
+    />
+  );
+}
 
 const layout = {
   wrapperCol: { xs: { span: 20 }, md: { span: 24 } },
@@ -32,14 +57,6 @@ const CustomForm = styled(Form)`
 `;
 
 function LoginForm(props) {
-  const onFinish = values => {
-    console.log(values);
-    props.loginIn(values);
-  };
-
-  const onFinishFailed = errorInfo => {
-    console.log('Failed:', errorInfo);
-  };
   return (
     <div>
       <Row justify="center">
@@ -63,8 +80,8 @@ function LoginForm(props) {
         wrapperCol={{
           span: 21,
         }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
+        onFinish={props.handleSignIn}
+        onFinishFailed={props.handleError}
       >
         <Form.Item
           justify="center"
@@ -104,6 +121,12 @@ function LoginForm(props) {
               Login
             </SolidButton>
           </div>
+          <div style={{ textAlign: 'center' }}>
+            <GoogleButton
+              text="Sign In with Google"
+              onSuccess={props.googleSignIn}
+            />
+          </div>
           <div
             style={{
               display: 'flex',
@@ -125,6 +148,7 @@ function LoginForm(props) {
             >
               New Here? Register Here
             </Link>
+
             <Link
               to="/forgot-password"
               style={{
@@ -144,7 +168,11 @@ function LoginForm(props) {
 }
 
 LoginForm.propTypes = {
-  loginIn: PropTypes.func,
+  handleSignUp: PropTypes.func,
+  handleSignIn: PropTypes.func,
+  handleError: PropTypes.func,
+  googleSignIn: PropTypes.func,
+  errorMessages: PropTypes.array,
 };
 
 export default memo(LoginForm);

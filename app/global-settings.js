@@ -1,6 +1,6 @@
 const globalSettings = {
   messageTimeout: 3,
-  backendApi: 'http://localhost:5000/',
+  backendApi: 'http://localhost:4000/',
   backendApiVersion: {
     v1: 'v1',
   },

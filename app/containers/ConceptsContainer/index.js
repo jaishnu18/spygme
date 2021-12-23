@@ -24,6 +24,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     background: '#272c48',
+    height: 'calc(100vh - 64px)',
     paddingTop: '40px',
     paddingLeft: '18px',
     paddingRight: '18px',
@@ -35,11 +36,16 @@ const useStyles = makeStyles(theme => ({
     color: '#FFFFFF',
   },
 }));
+
+const topicDescription = [
+  '',
+  'Concepts of Propositional Logic',
+  'Concepts of Constraints Satisfaction Problem',
+  'Concepts of Automated Problem Solving',
+];
 export function ConceptsContainer(props) {
   useInjectReducer({ key: 'conceptsContainer', reducer });
   useInjectSaga({ key: 'conceptsContainer', saga });
-
-  const { conceptNo } = props.match.params;
 
   const classes = useStyles();
   return (
@@ -49,9 +55,9 @@ export function ConceptsContainer(props) {
         <meta name="description" content="Description of ConceptsContainer" />
       </Helmet>
       <Typography className={classes.paper} variant="h2" gutterBottom>
-        <b>Concepts of Propositional Logic</b>
+        <b>{topicDescription[props.topicNo]}</b>
       </Typography>
-      <ConceptCardSection conceptNo={conceptNo} />
+      <ConceptCardSection topicNo={props.topicNo} />
       <div className={classes.root} />
     </div>
   );

@@ -71,8 +71,8 @@ minified and served gzipped.
 ### Host and Port
 
 To change the host and/or port the app is accessible at, pass the `--host` and/or `--port` option to the command
-with `--`. E.g. to make the app visible at `my-local-hostname:5000`, run the following:
-`npm start -- --host my-local-hostname --port 5000`
+with `--`. E.g. to make the app visible at `my-local-hostname:4000`, run the following:
+`npm start -- --host my-local-hostname --port 4000`
 
 ## Building
 

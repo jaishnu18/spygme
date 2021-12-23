@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import LoginPage from 'containers/LoginPage';
 import TreeGames from 'containers/TreeGamePage';
 import WriteExpressionGame from 'containers/WriteExpressionGame';
 import NotFoundPage from 'containers/NotFoundPage';
-import SignupPage from 'containers/SignupPage';
-import OnBoardingPage from 'containers/OnBoardingPage';
+// import OnBoardingPage from 'containers/OnBoardingPage';
 import RPG from 'containers/ReadPracticeGradeContainer';
 
 import TopicContainer from 'containers/TopicContainer';
@@ -18,37 +18,52 @@ import ArcConsistencyGame from 'containers/ArcConsistencyGame';
 import DrawCrosswordGraphGame from 'containers/DrawCrosswordGraphGame';
 import GradedMatchExpressionGame from 'containers/GradedMatchExpressionGame';
 //
-//
-
-import { AuthContext } from 'contexts';
 
 function Routes(props) {
-  const context = useContext(AuthContext);
-
-  const authToken = context[0];
-  const { isLoggedIn } = context[1];
-  console.log(authToken, isLoggedIn);
-
-  // if (!authToken) {
-  //   return (
-  //     <Switch>
-  //       <Route exact path="/login" component={LoginPage} />
-  //       <Route exact path="/signup" component={LoginPage} />
-  //       <Route exact path="/onboard/:token" component={LoginPage} />
-  //       <Route exact path="/verify-email" component={LoginPage} />
-  //       <Route exact path="/forgot-password" component={LoginPage} />
-  //       <Route exact path="/*" render={() => <Redirect to="/login" />} />
-  //     </Switch>
-  //   );
-  // }
+  if (!props.authData.isLoggedIn) {
+    return (
+      <Switch>
+        <Route
+          exact
+          path="/auth/*"
+          render={() => (
+            <LoginPage
+              signin={props.signin}
+              signup={props.signup}
+              AuthState={props.AuthState}
+            />
+          )}
+        />
+        <Route exact path="/*" render={() => <Redirect to="auth/login" />} />
+      </Switch>
+    );
+  }
   return (
     <Switch>
-      <Route exact path="/treegame/:level" component={TreeGames} />
+      <Route
+        path="/treegame/:level"
+        render={({ match }) => <TreeGames level={match.params.level} />}
+      />
       <Route exact path="/topics" component={TopicContainer} />
 
-      <Route exact path="/topic1/concepts" component={ConceptsContainer} />
+      <Route
+        exact
+        path="/topics/:topicNo"
+        render={({ match }) => (
+          <ConceptsContainer topicNo={match.params.topicNo} />
+        )}
+      />
 
-      <Route exact path="/topic1/concepts/:conceptNo" component={RPG} />
+      <Route
+        exact
+        path="/topics/:topicNo/:conceptNo"
+        render={({ match }) => (
+          <RPG
+            conceptNo={match.params.conceptNo}
+            topicNo={match.params.topicNo}
+          />
+        )}
+      />
 
       <Route
         exact
@@ -92,9 +107,15 @@ function Routes(props) {
         component={DrawCrosswordGraphGame}
       />
 
-      <Route exact path="/*" render={() => <Redirect to="/topics" />} />
+      <Route exact path="/*" render={() => <NotFoundPage />} />
     </Switch>
   );
 }
 
+Routes.propTypes = {
+  authData: PropTypes.object.isRequired,
+  signin: PropTypes.func.isRequired,
+  signup: PropTypes.func.isRequired,
+  AuthState: PropTypes.object.isRequired,
+};
 export default Routes;

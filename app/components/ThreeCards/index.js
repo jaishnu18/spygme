@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 // import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 import { makeStyles } from '@material-ui/core/styles';
+import { Row, Col } from 'antd';
 import Grid from '@material-ui/core/Grid';
 import RecipeReviewCard from 'components/Card';
 
@@ -31,29 +32,26 @@ function ThreeCards(props) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={4}>
-          <Link to="/topic1/concepts">
-            <div>
-              <RecipeReviewCard
-                heading="Propositional Logic"
-                photo={PropLogic}
-              />
-            </div>
+      <Row>
+        <Col style={{ display: 'flex', justifyContent: 'center' }} span={8}>
+          <Link to="/topics/1">
+            <RecipeReviewCard heading="Propositional Logic" photo={PropLogic} />
           </Link>
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          <Link to="/topic2/concepts">
+        </Col>
+        <Col style={{ display: 'flex', justifyContent: 'center' }} span={8}>
+          <Link to="/topics/2">
+            <RecipeReviewCard heading="Automated problem solving" photo={APS} />
+          </Link>
+        </Col>
+        <Col style={{ display: 'flex', justifyContent: 'center' }} span={8}>
+          <Link to="/topics/3">
             <RecipeReviewCard
               heading="Constraint satisfaction problems"
               photo={CSP}
-            />
+            />{' '}
           </Link>
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          <RecipeReviewCard heading="Automated problem solving" photo={APS} />
-        </Grid>
-      </Grid>
+        </Col>
+      </Row>
     </div>
   );
 }

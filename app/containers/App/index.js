@@ -10,33 +10,37 @@
 import React, { memo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import history from 'utils/history';
+import jwtDecode from 'jwt-decode';
 
-import LoginPage from 'containers/LoginPage';
-// Component imports
-
-import { UserProvider, AuthProvider } from 'contexts';
 // container essentials
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { useInjectReducer } from 'utils/injectReducer';
 import { useInjectSaga } from 'utils/injectSaga';
+import SplashScreen from 'components/SplashScreen';
 
 import GlobalStyle from 'global-styles';
 import Routes from 'routes';
 import Header from 'components/Header';
+import AuthProvider from './AuthContext';
 import {
   makeSelectAuthData,
   makeSelectLocation,
   makeSelectResponsive,
 } from './selectors';
 
-import reducer from './reducer';
-import saga, { loginUser } from './saga';
-import { logoutUserStart, getUserData } from './actions';
+import {
+  signinUserStart,
+  signinUserSuccess,
+  signoutUserStart,
+  signupUserStart,
+} from './actions';
 
-const Wrapper = styled.div`
+import reducer from './reducer';
+import saga from './saga';
+
+const AppWrapper = styled.div`
   min-height: 100%;
 `;
 
@@ -44,32 +48,47 @@ export function App(props) {
   // initiate reducer and saga
   useInjectReducer({ key: 'app', reducer });
   useInjectSaga({ key: 'app', saga });
-  const authToken = localStorage._UFT_;
-  console.log(authToken);
 
-  useEffect(() => {}, []);
+  const userToken = localStorage.getItem('_UFT_');
 
-  console.log('AuthData');
-  console.log(props.AuthData);
+  useEffect(() => {
+    if (userToken) {
+      const info = jwtDecode(userToken);
+      info.token = userToken;
+      info.isLoggedIn = true;
 
-  return (
-    <UserProvider value={props.AuthData}>
-      <Wrapper>
+      if (Date.now() >= info.exp * 1000) {
+        props.signout();
+      } else {
+        props.setAuthData(info);
+      }
+    }
+  }, []);
+
+  return userToken && !props.AuthData.isLoggedIn ? (
+    <SplashScreen />
+  ) : (
+    <AuthProvider value={props.AuthData}>
+      <AppWrapper>
         <Header />
-        <AuthProvider value={[authToken, props.AuthData]}>
-          <Routes />
-        </AuthProvider>
+        <Routes
+          signin={props.signin}
+          signout={props.signout}
+          signup={props.signup}
+          authData={props.AuthData}
+        />
         <GlobalStyle />
-      </Wrapper>
-    </UserProvider>
+      </AppWrapper>
+    </AuthProvider>
   );
 }
 
 App.propTypes = {
-  getUserDataFunc: PropTypes.func.isRequired,
   AuthData: PropTypes.object.isRequired,
-  // router: PropTypes.object.isRequired,
-  // logoutUser: PropTypes.func.isRequired,
+  setAuthData: PropTypes.func.isRequired,
+  signin: PropTypes.func.isRequired,
+  signup: PropTypes.func.isRequired,
+  signout: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -80,8 +99,10 @@ const mapStateToProps = createStructuredSelector({
 
 export function mapDispatchToProps(dispatch) {
   return {
-    getUserDataFunc: payload => dispatch(getUserData(payload)),
-    logoutUser: () => dispatch(logoutUserStart()),
+    signin: payload => dispatch(signinUserStart(payload)),
+    signup: payload => dispatch(signupUserStart(payload)),
+    signout: () => dispatch(signoutUserStart()),
+    setAuthData: payload => dispatch(signinUserSuccess(payload)),
   };
 }
 

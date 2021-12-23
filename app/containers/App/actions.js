@@ -24,49 +24,74 @@
  */
 
 import {
-  LOGIN_USER_WITH_EMAIL,
-  LOGIN_USER_WITH_EMAIL_SUCCESS,
-  LOGIN_USER_WITH_EMAIL_ERROR,
-  LOGOUT_SUCCESS,
-  LOGOUT_START,
-  LOGOUT_FAILURE,
+  SIGNIN_START,
+  SIGNIN_SUCCESS,
+  SIGNIN_FAILURE,
+  SIGNUP_START,
+  SIGNUP_SUCCESS,
+  SIGNUP_FAILURE,
+  SIGNOUT_START,
+  SIGNOUT_SUCCESS,
+  SIGNOUT_FAILURE,
 } from './constants';
 
-export function loginUserWithEmail(payload) {
+export function signupUserStart(payload) {
   return {
-    type: LOGIN_USER_WITH_EMAIL,
-    payload,
-  };
-}
-export function loginUserWithEmailSuccess(payload) {
-  return {
-    type: LOGIN_USER_WITH_EMAIL_SUCCESS,
+    type: SIGNUP_START,
     payload,
   };
 }
 
-export function loginUserWithEmailFailure(err) {
+export function signupUserSuccess(payload) {
   return {
-    type: LOGIN_USER_WITH_EMAIL_ERROR,
+    type: SIGNUP_SUCCESS,
+    payload,
+  };
+}
+
+export function signupUserFailure(err) {
+  return {
+    type: SIGNUP_FAILURE,
     payload: err,
   };
 }
 
-export function logoutUserStart() {
+export function signinUserStart(payload) {
   return {
-    type: LOGOUT_START,
+    type: SIGNIN_START,
+    payload,
   };
 }
 
-export function logoutUserSuccess() {
+export function signinUserSuccess(payload) {
   return {
-    type: LOGOUT_SUCCESS,
+    type: SIGNIN_SUCCESS,
+    payload,
   };
 }
 
-export function logoutUserFailure(err) {
+export function signinUserFailure(err) {
   return {
-    type: LOGOUT_FAILURE,
+    type: SIGNIN_FAILURE,
+    payload: err,
+  };
+}
+
+export function signoutUserStart() {
+  return {
+    type: SIGNOUT_START,
+  };
+}
+
+export function signoutUserSuccess() {
+  return {
+    type: SIGNOUT_SUCCESS,
+  };
+}
+
+export function signoutUserFailure(err) {
+  return {
+    type: SIGNOUT_FAILURE,
     payload: err,
   };
 }

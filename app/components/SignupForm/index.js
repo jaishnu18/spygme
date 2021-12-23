@@ -10,6 +10,9 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Form, Button, Row } from 'antd';
 import CustomInput from 'components/atoms/CustomInput';
+import { GoogleLogin } from 'react-google-login';
+import { GOOGLE_CLIENT_ID } from 'utils/constants';
+
 import { Link } from 'react-router-dom';
 
 import SolidButton from '../atoms/SolidButton';

@@ -1,13 +1,15 @@
 import produce from 'immer';
 import {
-  LOGIN_USER_WITH_EMAIL,
-  LOGIN_USER_WITH_EMAIL_SUCCESS,
-  LOGIN_USER_WITH_EMAIL_ERROR,
-  LOGOUT_SUCCESS,
-  LOGOUT_FAILURE,
+  SIGNUP_START,
+  SIGNUP_SUCCESS,
+  SIGNUP_FAILURE,
+  SIGNIN_FAILURE,
+  SIGNIN_START,
+  SIGNIN_SUCCESS,
+  SIGNOUT_SUCCESS,
+  SIGNOUT_FAILURE,
 } from './constants';
 
-// The initial state of the App
 export const initialState = {
   logging: false,
   loggingError: undefined,
@@ -20,29 +22,45 @@ export const initialState = {
 const appReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
-      case LOGIN_USER_WITH_EMAIL:
+      case SIGNUP_START:
         draft.logging = true;
         draft.loggingError = undefined;
         break;
 
-      case LOGIN_USER_WITH_EMAIL_SUCCESS:
+      case SIGNUP_SUCCESS:
         draft.logging = false;
         draft.authData = action.payload;
         draft.loggingError = undefined;
         break;
 
-      case LOGIN_USER_WITH_EMAIL_ERROR:
+      case SIGNUP_FAILURE:
         draft.logging = false;
         draft.loggingError = action.payload;
         break;
 
-      case LOGOUT_SUCCESS:
+      case SIGNIN_START:
+        draft.logging = true;
+        draft.loggingError = undefined;
+        break;
+
+      case SIGNIN_SUCCESS:
+        draft.logging = false;
+        draft.authData = action.payload;
+        draft.loggingError = undefined;
+        break;
+
+      case SIGNIN_FAILURE:
+        draft.logging = false;
+        draft.loggingError = action.payload;
+        break;
+
+      case SIGNOUT_SUCCESS:
         draft.authData = {
           isLoggedIn: false,
         };
         break;
 
-      case LOGOUT_FAILURE:
+      case SIGNOUT_FAILURE:
         draft.error = action.payload;
         break;
     }

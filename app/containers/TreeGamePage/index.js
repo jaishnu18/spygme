@@ -46,10 +46,9 @@ export function TreeGamePage(props) {
   const [answer, setAnswer] = useState(undefined);
   const [graphData, setGraphData] = useState(undefined);
 
-  const { level } = props.match.params;
   useEffect(() => {
-    props.getGameData(level);
-  }, [level]);
+    props.getGameData(props.level);
+  }, [props.level]);
 
   const { gameData } = props.treeGamePage;
 
@@ -160,11 +159,11 @@ export function TreeGamePage(props) {
   );
 
   const prevLevel = () => {
-    const lvl = parseInt(level);
+    const lvl = parseInt(props.level);
     history.push(`/treegame/${lvl - 1}`);
   };
   const nextLevel = () => {
-    const lvl = parseInt(level);
+    const lvl = parseInt(props.level);
     history.push(`/treegame/${lvl + 1}`);
   };
 
@@ -306,7 +305,7 @@ export function TreeGamePage(props) {
               padding: '10px',
             }}
           >
-            {level == 1 ? (
+            {props.level == 1 ? (
               <Button
                 style={{ marginLeft: 'auto', marginRight: '30px' }}
                 onClick={nextLevel}
@@ -409,7 +408,7 @@ export function TreeGamePage(props) {
                       // pan={{ x: 200, y: 200 }}
                       style={{
                         width: '600px',
-                        height: level * 100 + 400,
+                        height: props.level * 100 + 400,
                         border: '1px solid black',
                         background: 'white',
                       }}

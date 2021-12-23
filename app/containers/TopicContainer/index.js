@@ -26,6 +26,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     background: '#272c48',
+    minHeight: 'calc(100vh - 64px)',
     paddingTop: '40px',
     paddingLeft: '18px',
     paddingRight: '18px',
@@ -37,6 +38,7 @@ const useStyles = makeStyles(theme => ({
     color: '#FFFFFF',
   },
 }));
+
 export function TopicContainer() {
   useInjectReducer({ key: 'topicContainer', reducer });
   useInjectSaga({ key: 'topicContainer', saga });
@@ -70,7 +72,9 @@ export function TopicContainer() {
 
       {/*  */}
       {/*  */}
-      <ThreeCards />
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <ThreeCards />
+      </div>
     </div>
   );
 }

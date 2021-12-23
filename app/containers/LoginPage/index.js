@@ -81,7 +81,7 @@ export function LoginPage(props) {
 
   useEffect(() => {
     // page redirect
-    if (history.location.pathname.startsWith('/onboard')) {
+    if (history.location.pathname.startsWith('auth/onboard')) {
       const { token } = props.match.params;
       const object = jwt_decode(token);
       setName(object.name);
@@ -99,20 +99,28 @@ export function LoginPage(props) {
     history.push('/verify-email');
   };
 
-  const signIn = async values => {
-    await props.signInUser(values);
-    await shiftToVerify();
-  };
-
-  const loginIn = async values => {
-    console.log(values);
-    await props.loginIn(values);
-  };
-
   const activateAccount = async () => {
     const { token } = props.match.params;
     await props.activateUser(token);
     history.push('/login');
+  };
+
+  const googleSignIn = async res => {
+    const gtoken = res.tokenId;
+    console.log(gtoken);
+    props.signin({ gtoken });
+  };
+
+  const handleSignIn = values => {
+    props.signin(values);
+  };
+
+  const handleSignUp = values => {
+    props.signup(values);
+  };
+
+  const handleError = errorInfo => {
+    console.log('Failed:', errorInfo);
   };
 
   return (
@@ -133,13 +141,23 @@ export function LoginPage(props) {
           }}
         >
           <FormContainer>
-            {history.location.pathname === '/login' ? (
+            {history.location.pathname === '/auth/login' ? (
               <CenterDiv>
-                <LoginForm loginIn={loginIn} />
+                <LoginForm
+                  handleSignIn={handleSignIn}
+                  googleSignIn={googleSignIn}
+                  handleError={handleError}
+                  // errorMessages={props.AuthState.loggingError}
+                />
               </CenterDiv>
-            ) : history.location.pathname === '/signup' ? (
+            ) : history.location.pathname === '/auth/signup' ? (
               <CenterDiv>
-                <SignupForm signIn={signIn} />
+                <SignupForm
+                  handleSignUp={handleSignUp}
+                  googleSignIn={googleSignIn}
+                  handleError={handleError}
+                  // errorMessages={props.AuthState.loggingError}
+                />
               </CenterDiv>
             ) : history.location.pathname.startsWith('/onboard') ? (
               name && (
@@ -219,12 +237,15 @@ export function LoginPage(props) {
 
 LoginPage.propTypes = {
   history: PropTypes.object,
-  AuthData: PropTypes.object.isRequired,
+  // AuthData: PropTypes.object.isRequired,
   isLogginIn: PropTypes.bool,
   loginIn: PropTypes.func,
-  error: PropTypes.string,
+  // error: PropTypes.string,
   signInUser: PropTypes.func,
   activateUser: PropTypes.func,
+  signin: PropTypes.func,
+  signup: PropTypes.func,
+  AuthState: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({

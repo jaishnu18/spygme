@@ -1,6 +1,6 @@
 /**
  *
- * Asynchronously loads the component for SignupPage
+ * Asynchronously loads the component for DashBoard
  *
  */
 
