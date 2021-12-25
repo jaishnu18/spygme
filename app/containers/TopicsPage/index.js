@@ -1,11 +1,10 @@
 /**
  *
- * TopicContainer
+ * TopicsPage
  *
  */
 
-import React, { memo } from 'react';
-import Typography from '@material-ui/core/Typography';
+import React, { memo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -14,13 +13,14 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import ThreeCards from 'components/ThreeCards';
-
+import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Typewriter from 'typewriter-effect';
-import makeSelectTopicContainer from './selectors';
+import ThreeCards from 'components/ThreeCards';
+import makeSelectTopicsPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+import { getTopicsStart } from './actions';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,31 +35,35 @@ const useStyles = makeStyles(theme => ({
     background: '#272c48',
     padding: theme.spacing(2),
     textAlign: 'center',
+    minHeight: 'calc(100vh - 64px)',
     color: '#FFFFFF',
   },
 }));
 
-export function TopicContainer() {
-  useInjectReducer({ key: 'topicContainer', reducer });
-  useInjectSaga({ key: 'topicContainer', saga });
+export function TopicsPage(props) {
+  useInjectReducer({ key: 'topicsPage', reducer });
+  useInjectSaga({ key: 'topicsPage', saga });
 
+  useEffect(() => {
+    props.getAllTopics();
+  }, []);
+
+  const { topics } = props.topicsPage;
   const classes = useStyles();
   return (
-    <div className={classes.root}>
+    <div>
       <Helmet>
-        {/* // make components here */}
-        <title>TopicContainer</title>
-        <meta name="description" content="Description of TopicContainer" />
+        <title>TopicsPage</title>
+        <meta name="description" content="Description of TopicsPage" />
       </Helmet>
+
       <Typography className={classes.paper} variant="h2" gutterBottom>
         <div>
           <b>
             <Typewriter
               onInit={typewriter => {
                 typewriter
-
-                  .typeString('Select your prefered Topic')
-
+                  .typeString('SELECT YOUR PREFERRED TOPIC!')
                   // .pauseFor(1000)
                   // .deleteAll()
                   // .typeString('Select your prefered Topic')
@@ -68,28 +72,26 @@ export function TopicContainer() {
             />
           </b>
         </div>
+        <div style={{ marginTop: '4%', display: 'flex', alignItems: 'center' }}>
+          <ThreeCards topics={topics} />
+        </div>
       </Typography>
-
-      {/*  */}
-      {/*  */}
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <ThreeCards />
-      </div>
     </div>
   );
 }
 
-TopicContainer.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+TopicsPage.propTypes = {
+  topicsPage: PropTypes.object.isRequired,
+  getAllTopics: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
-  topicContainer: makeSelectTopicContainer(),
+  topicsPage: makeSelectTopicsPage(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    getAllTopics: () => dispatch(getTopicsStart()),
   };
 }
 
@@ -101,4 +103,4 @@ const withConnect = connect(
 export default compose(
   withConnect,
   memo,
-)(TopicContainer);
+)(TopicsPage);

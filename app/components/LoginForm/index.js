@@ -136,8 +136,8 @@ function LoginForm(props) {
               marginLeft: 'auto',
             }}
           >
-            <Link
-              to="/signup"
+            {/* <Link
+              to="/auth/signup"
               style={{
                 color: 'whitesmoke',
                 fontWeight: 700,
@@ -145,11 +145,11 @@ function LoginForm(props) {
                 marginTop: '12px',
                 fontSize: '18px',
               }}
-            >
+            > */}
               New Here? Register Here
-            </Link>
+            {/* </Link> */}
 
-            <Link
+            {/* <Link
               to="/forgot-password"
               style={{
                 color: 'whitesmoke',
@@ -157,9 +157,9 @@ function LoginForm(props) {
                 marginBottom: '20px',
                 fontSize: '18px',
               }}
-            >
+            > */}
               Forgot Password? Recover your Account!
-            </Link>
+            {/* </Link> */}
           </div>
         </Form.Item>
       </CustomForm>

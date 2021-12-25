@@ -1,10 +1,11 @@
+/* eslint-disable radix */
 /**
  *
  * ConceptsContainer
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -13,12 +14,16 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import ConceptCardSection from 'components/ConceptCardSection';
 
+import NotFoundPage from 'containers/NotFoundPage';
+
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import { makeStyles } from '@material-ui/core/styles';
 import makeSelectConceptsContainer from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+
+import { getConceptsStart, getTopicStart } from './actions';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -37,15 +42,21 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const topicDescription = [
-  '',
-  'Concepts of Propositional Logic',
-  'Concepts of Constraints Satisfaction Problem',
-  'Concepts of Automated Problem Solving',
-];
 export function ConceptsContainer(props) {
   useInjectReducer({ key: 'conceptsContainer', reducer });
   useInjectSaga({ key: 'conceptsContainer', saga });
+
+  const { topicNo } = props;
+
+  useEffect(() => {
+    props.getTopicData({ topicId: parseInt(topicNo) });
+    props.getConcepts({ topicId: parseInt(topicNo) });
+  }, []);
+
+  const { concepts } = props.conceptsContainer;
+  const { topicData } = props.conceptsContainer;
+
+  console.log(topicData);
 
   const classes = useStyles();
   return (
@@ -54,17 +65,25 @@ export function ConceptsContainer(props) {
         <title>ConceptsContainer</title>
         <meta name="description" content="Description of ConceptsContainer" />
       </Helmet>
-      <Typography className={classes.paper} variant="h2" gutterBottom>
-        <b>{topicDescription[props.topicNo]}</b>
-      </Typography>
-      <ConceptCardSection topicNo={props.topicNo} />
-      <div className={classes.root} />
+      {topicData && concepts ? (
+        <div>
+          <Typography className={classes.paper} variant="h2" gutterBottom>
+            <b>{topicData.name}</b>
+          </Typography>
+          <ConceptCardSection topicNo={props.topicNo} concepts={concepts} />
+        </div>
+      ) : (
+        <NotFoundPage />
+      )}
     </div>
   );
 }
 
 ConceptsContainer.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  getTopicData: PropTypes.func,
+  getConcepts: PropTypes.func,
+  topicNo: PropTypes.string,
+  conceptsContainer: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -73,7 +92,8 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    getTopicData: payload => dispatch(getTopicStart(payload)),
+    getConcepts: payload => dispatch(getConceptsStart(payload)),
   };
 }
 

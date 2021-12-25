@@ -75,7 +75,7 @@ export function LevelScreen(props) {
       </StarDiv>
       <div style={{ textAlign: 'center', marginTop: '80px' }}>
         {' '}
-        <Link to={`/topic1/concepts/${conceptNo}/RPG`}>
+        {/* <Link to={`/topic1/concepts/${conceptNo}/RPG`}> */}
           {' '}
           <SolidButton
             borderradius="0"
@@ -86,7 +86,7 @@ export function LevelScreen(props) {
           >
             Start the game
           </SolidButton>
-        </Link>
+        {/* </Link> */}
       </div>
     </div>
   );

@@ -164,7 +164,7 @@ function SignupForm(props) {
             }}
           >
             <Link
-              to="/login"
+              to="/auth/login"
               style={{
                 color: 'whitesmoke',
                 fontWeight: 700,

@@ -1,6 +1,6 @@
 /**
  *
- * Asynchronously loads the component for TopicContainer
+ * Asynchronously loads the component for TopicsPage
  *
  */
 

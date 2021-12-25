@@ -5,10 +5,11 @@ import LoginPage from 'containers/LoginPage';
 import TreeGames from 'containers/TreeGamePage';
 import WriteExpressionGame from 'containers/WriteExpressionGame';
 import NotFoundPage from 'containers/NotFoundPage';
+import DashBoard from 'containers/DashBoard';
 // import OnBoardingPage from 'containers/OnBoardingPage';
 import RPG from 'containers/ReadPracticeGradeContainer';
 
-import TopicContainer from 'containers/TopicContainer';
+import TopicsPage from 'containers/TopicsPage';
 import ConceptsContainer from 'containers/ConceptsContainer';
 import LevelScreen from 'containers/LevelScreen';
 import MatchExpressionGame from 'containers/MatchExpressionGame';
@@ -44,7 +45,13 @@ function Routes(props) {
         path="/treegame/:level"
         render={({ match }) => <TreeGames level={match.params.level} />}
       />
-      <Route exact path="/topics" component={TopicContainer} />
+      <Route exact path="/topics" component={TopicsPage} />
+
+      <Route
+        exact
+        path="/dashboard"
+        component={prop => <DashBoard {...prop} />}
+      />
 
       <Route
         exact
@@ -76,7 +83,8 @@ function Routes(props) {
         component={WriteExpressionGame}
       />
       <Route
-        exact
+        exactNotFoundPage
+        NotFoundPage
         path="/match-expression/:level"
         component={MatchExpressionGame}
       />
@@ -113,9 +121,9 @@ function Routes(props) {
 }
 
 Routes.propTypes = {
-  authData: PropTypes.object.isRequired,
-  signin: PropTypes.func.isRequired,
-  signup: PropTypes.func.isRequired,
-  AuthState: PropTypes.object.isRequired,
+  authData: PropTypes.object,
+  signin: PropTypes.func,
+  signup: PropTypes.func,
+  AuthState: PropTypes.object,
 };
 export default Routes;

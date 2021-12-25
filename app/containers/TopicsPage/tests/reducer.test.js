@@ -1,9 +1,9 @@
 // import produce from 'immer';
-import topicContainerReducer from '../reducer';
+import topicsPageReducer from '../reducer';
 // import { someAction } from '../actions';
 
 /* eslint-disable default-case, no-param-reassign */
-describe('topicContainerReducer', () => {
+describe('topicsPageReducer', () => {
   let state;
   beforeEach(() => {
     state = {
@@ -13,7 +13,7 @@ describe('topicContainerReducer', () => {
 
   it('returns the initial state', () => {
     const expectedResult = state;
-    expect(topicContainerReducer(undefined, {})).toEqual(expectedResult);
+    expect(topicsPageReducer(undefined, {})).toEqual(expectedResult);
   });
 
   /**

@@ -112,16 +112,16 @@ function ForgotPasswordEmailForm(props) {
                 Verify Email
               </SolidButton>
             </div>
-            <Link
-              to="/login"
+            {/* <Link
+              to="/auth/login"
               style={{
                 color: 'whitesmoke',
                 fontSize: '18px',
                 marginBottom: '20px',
               }}
-            >
-              Login Here!
-            </Link>
+            > */}
+            Login Here!
+            {/* </Link> */}
           </div>
         </Form.Item>
       </CustomForm>

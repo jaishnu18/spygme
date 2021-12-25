@@ -34,7 +34,6 @@ import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 
 import LoginCover from 'images/loginCover.png';
-import { Link } from 'react-router-dom';
 import SignupForm from 'components/SignupForm';
 import EmailIcon from 'images/email.svg';
 import { getSignupStart, activateAccountStart } from './actions';

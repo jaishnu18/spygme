@@ -6,7 +6,7 @@
 
 import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 import { makeStyles } from '@material-ui/core/styles';
 import { Row, Col } from 'antd';
@@ -33,29 +33,26 @@ function ThreeCards(props) {
   return (
     <div className={classes.root}>
       <Row>
-        <Col style={{ display: 'flex', justifyContent: 'center' }} span={8}>
-          <Link to="/topics/1">
-            <RecipeReviewCard heading="Propositional Logic" photo={PropLogic} />
-          </Link>
-        </Col>
-        <Col style={{ display: 'flex', justifyContent: 'center' }} span={8}>
-          <Link to="/topics/2">
-            <RecipeReviewCard heading="Automated problem solving" photo={APS} />
-          </Link>
-        </Col>
-        <Col style={{ display: 'flex', justifyContent: 'center' }} span={8}>
-          <Link to="/topics/3">
-            <RecipeReviewCard
-              heading="Constraint satisfaction problems"
-              photo={CSP}
-            />{' '}
-          </Link>
-        </Col>
+        {props.topics &&
+          props.topics.map((key, index) => (
+            <Col style={{ display: 'flex', justifyContent: 'center' }} span={8}>
+              <Link
+                to={{
+                  pathname: `/topics/${index + 1}`,
+                  state: { topicData: key },
+                }}
+              >
+                <RecipeReviewCard heading={key.name} photo={PropLogic} />
+              </Link>
+            </Col>
+          ))}
       </Row>
     </div>
   );
 }
 
-ThreeCards.propTypes = {};
+ThreeCards.propTypes = {
+  topics: PropTypes.array,
+};
 
 export default memo(ThreeCards);

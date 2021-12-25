@@ -61,16 +61,13 @@ function Header(props) {
             Home
           </Button>
           <Button className={classes.text} color="inherit">
-            About
+            DashBoard
           </Button>
           <Button className={classes.text} color="inherit">
-            Courses
+            Profile
           </Button>
           <Button className={classes.text} color="inherit">
-            Blogs
-          </Button>
-          <Button className={classes.text} color="inherit">
-            Contacts
+            About us
           </Button>
           <Button className={classes.text} color="inherit">
             Logout

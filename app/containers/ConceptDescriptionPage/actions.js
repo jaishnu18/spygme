@@ -1,6 +1,6 @@
 /*
  *
- * TopicContainer actions
+ * ConceptDescriptionPage actions
  *
  */
 

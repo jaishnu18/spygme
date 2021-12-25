@@ -1,6 +1,6 @@
 // import { take, call, put, select } from 'redux-saga/effects';
 
 // Individual exports for testing
-export default function* topicContainerSaga() {
+export default function* conceptDescriptionPageSaga() {
   // See example in containers/HomePage/saga.js
 }
