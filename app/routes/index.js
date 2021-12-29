@@ -18,6 +18,7 @@ import NodeConsistency from 'containers/NodeConsistencyGame';
 import ArcConsistencyGame from 'containers/ArcConsistencyGame';
 import DrawCrosswordGraphGame from 'containers/DrawCrosswordGraphGame';
 import GradedMatchExpressionGame from 'containers/GradedMatchExpressionGame';
+import HomePage from 'containers/HomePage';
 //
 
 function Routes(props) {
@@ -52,6 +53,8 @@ function Routes(props) {
         path="/dashboard"
         component={prop => <DashBoard {...prop} />}
       />
+
+      <Route exact path="/home" component={prop => <HomePage {...prop} />} />
 
       <Route
         exact
