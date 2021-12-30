@@ -20,6 +20,7 @@ import NodeConsistency from 'containers/NodeConsistencyGame';
 import ArcConsistencyGame from 'containers/ArcConsistencyGame';
 import DrawCrosswordGraphGame from 'containers/DrawCrosswordGraphGame';
 import GradedMatchExpressionGame from 'containers/GradedMatchExpressionGame';
+import HomePage from 'containers/HomePage';
 //
 
 function Routes(props) {
@@ -50,6 +51,8 @@ function Routes(props) {
         render={({ match }) => <TreeGames level={match.params.level} />}
       />
       <Route exact path="/topics" component={TopicsPage} />
+
+      <Route exact path="/home" component={prop => <HomePage {...prop} />} />
 
       <Route
         exact
