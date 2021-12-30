@@ -30,12 +30,15 @@ const useStyles = makeStyles({
     flexGrow: 1,
   },
 });
-function LinearBar() {
+function LinearBar(props) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <br />
-      <BorderLinearProgress variant="determinate" value={50} />
+      <BorderLinearProgress
+        variant="determinate"
+        value={props.progress * 100}
+      />
     </div>
   );
 }

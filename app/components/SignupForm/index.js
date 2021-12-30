@@ -10,8 +10,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Form, Button, Row } from 'antd';
 import CustomInput from 'components/atoms/CustomInput';
-import { GoogleLogin } from 'react-google-login';
-import { GOOGLE_CLIENT_ID } from 'utils/constants';
+
+import { GoogleButton } from 'components/LoginForm';
 
 import { Link } from 'react-router-dom';
 
@@ -37,14 +37,6 @@ const CustomForm = styled(Form)`
 `;
 
 function SignupForm(props) {
-  const onFinish = values => {
-    console.log(values);
-    props.signIn(values);
-  };
-
-  const onFinishFailed = errorInfo => {
-    console.log('Failed:', errorInfo);
-  };
   return (
     <div>
       <Row justify="center">
@@ -68,8 +60,8 @@ function SignupForm(props) {
         wrapperCol={{
           span: 22,
         }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
+        onFinish={props.handleSignUp}
+        onFinishFailed={[props.handleError]}
       >
         <Form.Item
           justify="center"
@@ -155,6 +147,12 @@ function SignupForm(props) {
               Submit
             </SolidButton>
           </div>
+          <div style={{ textAlign: 'center', marginBottom: '10px' }}>
+            <GoogleButton
+              text="Sign Up with Google"
+              onSuccess={props.googleSignIn}
+            />
+          </div>
           <div
             style={{
               display: 'flex',
@@ -181,7 +179,10 @@ function SignupForm(props) {
 }
 
 SignupForm.propTypes = {
-  signIn: PropTypes.func,
+  handleSignUp: PropTypes.func,
+  handleSignIn: PropTypes.func,
+  handleError: PropTypes.func,
+  googleSignIn: PropTypes.func,
 };
 
 export default memo(SignupForm);

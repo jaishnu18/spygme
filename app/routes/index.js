@@ -5,9 +5,11 @@ import LoginPage from 'containers/LoginPage';
 import TreeGames from 'containers/TreeGamePage';
 import WriteExpressionGame from 'containers/WriteExpressionGame';
 import NotFoundPage from 'containers/NotFoundPage';
-import DashBoard from 'containers/DashBoard';
+import DashboardPage from 'containers/DashboardPage';
 // import OnBoardingPage from 'containers/OnBoardingPage';
 import RPG from 'containers/ReadPracticeGradeContainer';
+import ConceptDescriptionPage from 'containers/ConceptDescriptionPage';
+import MyProfilePage from 'containers/MyProfilePage';
 
 import TopicsPage from 'containers/TopicsPage';
 import ConceptsContainer from 'containers/ConceptsContainer';
@@ -25,7 +27,6 @@ function Routes(props) {
     return (
       <Switch>
         <Route
-          exact
           path="/auth/*"
           render={() => (
             <LoginPage
@@ -41,17 +42,14 @@ function Routes(props) {
   }
   return (
     <Switch>
-      <Route
-        path="/treegame/:level"
-        render={({ match }) => <TreeGames level={match.params.level} />}
-      />
-      <Route exact path="/topics" component={TopicsPage} />
+      <Route path="/dashboard" component={DashboardPage} />
 
       <Route
         exact
-        path="/dashboard"
-        component={prop => <DashBoard {...prop} />}
+        path="/evaluate-expression/:gameId/:level"
+        render={({ match }) => <TreeGames level={match.params.level} />}
       />
+      <Route exact path="/topics" component={TopicsPage} />
 
       <Route
         exact
@@ -63,12 +61,9 @@ function Routes(props) {
 
       <Route
         exact
-        path="/topics/:topicNo/:conceptNo"
+        path="/concept/:conceptId"
         render={({ match }) => (
-          <RPG
-            conceptNo={match.params.conceptNo}
-            topicNo={match.params.topicNo}
-          />
+          <ConceptDescriptionPage conceptId={match.params.conceptId} />
         )}
       />
 
@@ -79,13 +74,13 @@ function Routes(props) {
       />
       <Route
         exact
-        path="/write-expression/:level"
+        path="/write-expression/:gameId/:level"
         component={WriteExpressionGame}
       />
       <Route
         exactNotFoundPage
         NotFoundPage
-        path="/match-expression/:level"
+        path="/match-expression/:gameId/:level"
         component={MatchExpressionGame}
       />
       <Route
@@ -96,24 +91,26 @@ function Routes(props) {
 
       <Route
         exact
-        path="/find-nodes/:level"
+        path="/find-nodes/:gameId/:level"
         component={FindCrosswordNodesGame}
       />
       <Route
         exact
-        path="/node-consistency/:level"
+        path="/node-consistency/:gameId/:level"
         component={NodeConsistency}
       />
       <Route
         exact
-        path="/arc-consistency/:level"
+        path="/arc-consistency/:gameId/:level"
         component={ArcConsistencyGame}
       />
       <Route
         exact
-        path="/draw-crossword-graph/:level"
+        path="/draw-crossword-graph/:gameId/:level"
         component={DrawCrosswordGraphGame}
       />
+
+      <Route exact path="/my/profile" component={MyProfilePage} />
 
       <Route exact path="/*" render={() => <NotFoundPage />} />
     </Switch>

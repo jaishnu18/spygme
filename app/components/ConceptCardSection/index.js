@@ -16,8 +16,8 @@ import PropTypes from 'prop-types';
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    background: '#272c48',
-    paddingTop: '40px',
+    paddingTop: '20px',
+    marginBottom: '20px',
     paddingLeft: '18px',
     paddingRight: '18px',
   },
@@ -36,9 +36,16 @@ function ConceptCardSection(props) {
         <Grid container spacing={4}>
           {props.concepts.map((obj, index) => (
             <Grid key={index + 1} item xs={12} sm={3}>
-              <Link to={`/topics/${props.topicNo}/${obj.id}`}>
+              <Link
+                to={obj.link ? `${obj.link}${obj.id}/1` : `/concept/${obj.id}`}
+              >
                 <div>
-                  <SimpleCard number={index + 1} title={obj.name} />
+                  <SimpleCard
+                    type={props.type}
+                    number={index + 1}
+                    title={obj.name}
+                    progress={obj.progress}
+                  />
                 </div>
               </Link>
             </Grid>

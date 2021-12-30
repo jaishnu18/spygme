@@ -32,6 +32,11 @@ const useStyles = makeStyles({
 });
 
 function SimpleCard(props) {
+  console.log(typeof props.progress);
+
+  const x = parseFloat(props.progress * 100);
+  const y = Math.round(x);
+
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
   return (
@@ -42,20 +47,22 @@ function SimpleCard(props) {
           color="textSecondary"
           gutterBottom
         >
-          Concept : {props.number}
+          {props.type} : {props.number}
         </Typography>
-        <Typography variant="h5" component="h2">
+        <Typography noWrap variant="h5" component="h2">
           {bull}
           {props.title}
         </Typography>
 
-        <ProgressBar />
+        <ProgressBar progress={props.progress} />
         <Typography variant="body2" component="p">
-          you have completed 50%
+          you have completed {y}%
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Play More</Button>
+        <Button size="small">
+          {props.type === 'Concept' ? 'Learn More' : 'Play More'}
+        </Button>
       </CardActions>
     </Card>
   );
@@ -64,6 +71,7 @@ function SimpleCard(props) {
 SimpleCard.propTypes = {
   number: PropTypes.number,
   title: PropTypes.string,
+  type: PropTypes.string,
 };
 
 export default memo(SimpleCard);

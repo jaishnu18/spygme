@@ -1,6 +1,6 @@
 /**
  *
- * Tests for DashBoard
+ * Tests for CustomProfile
  *
  * @see https://github.com/react-boilerplate/react-boilerplate/tree/master/docs/testing
  *
@@ -10,13 +10,12 @@ import React from 'react';
 import { render } from 'react-testing-library';
 // import 'jest-dom/extend-expect'; // add some helpful assertions
 
-import { DashBoard } from '../index';
+import CustomProfile from '../index';
 
-describe('<DashBoard />', () => {
+describe('<CustomProfile />', () => {
   it('Expect to not log errors in console', () => {
     const spy = jest.spyOn(global.console, 'error');
-    const dispatch = jest.fn();
-    render(<DashBoard dispatch={dispatch} />);
+    render(<CustomProfile />);
     expect(spy).not.toHaveBeenCalled();
   });
 
@@ -32,7 +31,7 @@ describe('<DashBoard />', () => {
   it.skip('Should render and match the snapshot', () => {
     const {
       container: { firstChild },
-    } = render(<DashBoard />);
+    } = render(<CustomProfile />);
     expect(firstChild).toMatchSnapshot();
   });
 });

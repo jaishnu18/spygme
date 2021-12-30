@@ -41,7 +41,9 @@ import reducer from './reducer';
 import saga from './saga';
 
 const AppWrapper = styled.div`
-  min-height: 100%;
+  min-height: 100vh;
+  padding-bottom: 40px;
+  background-color: #272c48;
 `;
 
 export function App(props) {

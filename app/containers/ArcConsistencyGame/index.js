@@ -73,6 +73,7 @@ export function ArcConsistencyGame(props) {
   }
 
   const { level } = props.match.params;
+  const { gameId } = props.match.params;
   useEffect(() => {
     props.getGameData(level);
     start();
@@ -221,10 +222,9 @@ export function ArcConsistencyGame(props) {
     gameData.response = answer;
     const formatted = moment.utc(secs * 1000).format('mm:ss');
     gameData.timeTaken = formatted;
-    gameData.difficulty = level;
+    gameData.level = level;
+    gameData.gameId = gameId;
     response.studentResponse = gameData;
-
-    console.log(response);
 
     props.checkStudentResponse(response);
   };

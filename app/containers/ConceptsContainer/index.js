@@ -70,7 +70,11 @@ export function ConceptsContainer(props) {
           <Typography className={classes.paper} variant="h2" gutterBottom>
             <b>{topicData.name}</b>
           </Typography>
-          <ConceptCardSection topicNo={props.topicNo} concepts={concepts} />
+          <ConceptCardSection
+            type="Concept"
+            topicNo={props.topicNo}
+            concepts={concepts}
+          />
         </div>
       ) : (
         <NotFoundPage />

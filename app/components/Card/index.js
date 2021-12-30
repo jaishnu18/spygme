@@ -19,6 +19,7 @@ const useStyles = makeStyles(theme => ({
     width: '24vw',
     height: '60vh',
     textAlign: 'center',
+    
   },
   media: {
     height: '100%',

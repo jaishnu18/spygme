@@ -1,9 +1,9 @@
 // import produce from 'immer';
-import dashBoardReducer from '../reducer';
+import dashboardPageReducer from '../reducer';
 // import { someAction } from '../actions';
 
 /* eslint-disable default-case, no-param-reassign */
-describe('dashBoardReducer', () => {
+describe('dashboardPageReducer', () => {
   let state;
   beforeEach(() => {
     state = {
@@ -13,7 +13,7 @@ describe('dashBoardReducer', () => {
 
   it('returns the initial state', () => {
     const expectedResult = state;
-    expect(dashBoardReducer(undefined, {})).toEqual(expectedResult);
+    expect(dashboardPageReducer(undefined, {})).toEqual(expectedResult);
   });
 
   /**

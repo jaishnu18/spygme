@@ -66,6 +66,7 @@ export function NodeConsistencyGame(props) {
   const { evaluatedAnswer } = props.nodeConsistencyGame;
 
   const { level } = props.match.params;
+  const { gameId } = props.match.params;
   useEffect(() => {
     props.getGameData(level);
     start();
@@ -118,7 +119,8 @@ export function NodeConsistencyGame(props) {
     gameData.response = answer;
     const formatted = moment.utc(secs * 1000).format('mm:ss');
     gameData.timeTaken = formatted;
-    gameData.difficulty = level;
+    gameData.level = level;
+    gameData.gameId = gameId;
     response.studentResponse = gameData;
     props.checkStudentResponse(response);
   };

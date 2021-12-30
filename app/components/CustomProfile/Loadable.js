@@ -1,6 +1,6 @@
 /**
  *
- * Asynchronously loads the component for DashBoard
+ * Asynchronously loads the component for CustomProfile
  *
  */
 

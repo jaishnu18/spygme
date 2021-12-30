@@ -15,6 +15,14 @@ export function* getTopic(action) {
   try {
     const response = yield axios.get(
       `http://localhost:4000/v1/get-topics/${topicId} `,
+      {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: localStorage.getItem('_UFT_'),
+        },
+        withCredentials: true,
+      },
     );
     yield put(getTopicSuccess(response.data.data));
   } catch (err) {

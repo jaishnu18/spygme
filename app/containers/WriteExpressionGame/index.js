@@ -39,7 +39,6 @@ import makeSelectWriteExpressionGame from './selectors';
 import reducer from './reducer';
 import saga, { evaluateAnswer } from './saga';
 import { getGraphStart, evaluateExpressionStart } from './actions';
-import { startCase } from 'lodash';
 
 export function WriteExpressionGame(props) {
   useInjectReducer({ key: 'writeExpressionGame', reducer });
@@ -59,6 +58,7 @@ export function WriteExpressionGame(props) {
   }
 
   const { level } = props.match.params;
+  const { gameId } = props.match.params;
   useEffect(() => {
     props.getGameData(level);
     start();
@@ -134,6 +134,8 @@ export function WriteExpressionGame(props) {
     gameData.response = values.response;
     const formatted = moment.utc(secs * 1000).format('mm:ss');
     gameData.timeTaken = formatted;
+    gameData.level = parseInt(level);
+    gameData.gameId = parseInt(gameId);
     response.studentResponse = gameData;
     props.checkStudentResponse(response);
   };

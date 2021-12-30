@@ -28,7 +28,6 @@ import history from 'utils/history';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import { Image } from 'antd';
-import { Link } from 'react-router-dom';
 import T1_C1_1 from '../../images/ReadingMaterial/Topic1/CONCEPT1_MATERIAL1.png';
 import T1_C1_2 from '../../images/ReadingMaterial/Topic1/CONCEPT1_MATERIAL2.png';
 import T1_C1_3 from '../../images/ReadingMaterial/Topic1/CONCEPT1_MATERIAL3.png';

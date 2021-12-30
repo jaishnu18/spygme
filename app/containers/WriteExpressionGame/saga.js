@@ -34,16 +34,22 @@ export function* getGraph(action) {
 
 export function* evaluateAnswer(action) {
   try {
-    console.log(action.payload);
     const studentResponse = action.payload;
+    console.log(studentResponse);
     const response = yield axios.post(
       `http://localhost:4000/game/write-expression/question/validate`,
       studentResponse,
-      { headers: { Authorization: localStorage._UFT_ } },
+      {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: localStorage.getItem('_UFT_'),
+        },
+        withCredentials: true,
+      },
     );
     yield put(evaluateExpressionSuccess(response.data.data));
   } catch (err) {
-    console.log(err);
     yield put(evaluateExpressionFailure(err.data.message));
   }
 }

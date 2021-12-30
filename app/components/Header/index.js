@@ -5,6 +5,7 @@
  */
 
 import React, { memo } from 'react';
+import history from 'utils/history';
 // import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 import { Typography } from '@material-ui/core';
@@ -63,13 +64,26 @@ function Header(props) {
           <Button className={classes.text} color="inherit">
             DashBoard
           </Button>
-          <Button className={classes.text} color="inherit">
+          <Button
+            onClick={() => {
+              history.push('/my/profile');
+            }}
+            className={classes.text}
+            color="inherit"
+          >
             Profile
           </Button>
           <Button className={classes.text} color="inherit">
             About us
           </Button>
-          <Button className={classes.text} color="inherit">
+          <Button
+            onClick={() => {
+              localStorage.removeItem('_UFT_');
+              history.push('/auth/login');
+            }}
+            className={classes.text}
+            color="inherit"
+          >
             Logout
           </Button>
         </Toolbar>

@@ -80,6 +80,11 @@ export function LoginPage(props) {
 
   useEffect(() => {
     // page redirect
+    console.log(history.location.pathname);
+  }, [history.location.pathname]);
+
+  useEffect(() => {
+    // page redirect
     if (history.location.pathname.startsWith('auth/onboard')) {
       const { token } = props.match.params;
       const object = jwt_decode(token);
@@ -106,7 +111,6 @@ export function LoginPage(props) {
 
   const googleSignIn = async res => {
     const gtoken = res.tokenId;
-    console.log(gtoken);
     props.signin({ gtoken });
   };
 
@@ -121,6 +125,7 @@ export function LoginPage(props) {
   const handleError = errorInfo => {
     console.log('Failed:', errorInfo);
   };
+
 
   return (
     <div>

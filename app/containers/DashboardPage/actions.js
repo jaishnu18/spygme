@@ -1,6 +1,6 @@
 /*
  *
- * DashBoard actions
+ * DashboardPage actions
  *
  */
 

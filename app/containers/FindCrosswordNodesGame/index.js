@@ -109,6 +109,7 @@ export function FindCrosswordNodesGame(props) {
   const { evaluatedAnswer } = props.findCrosswordNodesGame;
 
   const { level } = props.match.params;
+  const { gameId } = props.match.params;
   useEffect(() => {
     console.log('Hii');
     props.getGameData(level);
@@ -163,7 +164,8 @@ export function FindCrosswordNodesGame(props) {
     gameData.response = values.nodes;
     const formatted = moment.utc(secs * 1000).format('mm:ss');
     gameData.timeTaken = formatted;
-    gameData.difficulty = level;
+    gameData.level = level;
+    gameData.gameId = gameId;
     response.studentResponse = gameData;
     props.checkStudentResponse(response);
   };

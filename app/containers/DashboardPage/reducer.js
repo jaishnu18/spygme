@@ -1,6 +1,6 @@
 /*
  *
- * DashBoard reducer
+ * DashboardPage reducer
  *
  */
 import produce from 'immer';
@@ -9,7 +9,7 @@ import { DEFAULT_ACTION } from './constants';
 export const initialState = {};
 
 /* eslint-disable default-case, no-param-reassign */
-const dashBoardReducer = (state = initialState, action) =>
+const dashboardPageReducer = (state = initialState, action) =>
   produce(state, (/* draft */) => {
     switch (action.type) {
       case DEFAULT_ACTION:
@@ -17,4 +17,4 @@ const dashBoardReducer = (state = initialState, action) =>
     }
   });
 
-export default dashBoardReducer;
+export default dashboardPageReducer;

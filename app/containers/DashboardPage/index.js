@@ -1,6 +1,6 @@
 /**
  *
- * DashBoard
+ * DashboardPage
  *
  */
 
@@ -15,13 +15,13 @@ import { useAuth } from 'containers/App/AuthContext';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import makeSelectDashBoard from './selectors';
+import makeSelectDashboardPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
-export function DashBoard(props) {
-  useInjectReducer({ key: 'dashBoard', reducer });
-  useInjectSaga({ key: 'dashBoard', saga });
+export function DashboardPage(props) {
+  useInjectReducer({ key: 'dashboardPage', reducer });
+  useInjectSaga({ key: 'dashboardPage', saga });
 
   const AuthData = useAuth();
 
@@ -32,24 +32,20 @@ export function DashBoard(props) {
   return (
     <div>
       <Helmet>
-        <title>DashBoard</title>
-        <meta name="description" content="Description of DashBoard" />
-        {AuthData.isLoggedIn && (
-          <div>
-            <h1>Hi {AuthData.email}</h1>
-          </div>
-        )}
+        <title>DashboardPage</title>
+        <meta name="description" content="Description of DashboardPage" />
+        HIIIIIIIIIIIIIIIIII
       </Helmet>
     </div>
   );
 }
 
-DashBoard.propTypes = {
+DashboardPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  dashBoard: makeSelectDashBoard(),
+  dashboardPage: makeSelectDashboardPage(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -66,4 +62,4 @@ const withConnect = connect(
 export default compose(
   withConnect,
   memo,
-)(DashBoard);
+)(DashboardPage);
