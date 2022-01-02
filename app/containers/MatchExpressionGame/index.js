@@ -44,12 +44,16 @@ import TextField from '@mui/material/TextField';
 import makeSelectMatchExpressionGame from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+import cytoscape from 'cytoscape';
+import popper from 'cytoscape-popper';
 
 import {
   getGamesDataStart,
   evaluateResponseStart,
   putFeedbackStart,
 } from './actions';
+
+cytoscape.use(popper);
 
 const labels = {
   0.5: 'Useless',
@@ -189,6 +193,33 @@ export function MatchExpressionGame(props) {
   const { gameData } = props.matchExpressionGame;
   const { evaluatedAnswer } = props.matchExpressionGame;
 
+  let myCyRef;
+  function showNodeIDs() {
+    for (let i = 0; i < gameData.num_nodes; i += 1) {
+      const popper = myCyRef.getElementById(i).popper({
+        content: () => {
+          const div = document.createElement('h2');
+          div.style.textAlign = 'left';
+          div.style.paddingLeft = '5px';
+          div.style.color = 'purple';
+          div.style.border = '2px solid black';
+          div.style.borderRadius = '2px';
+          div.style.width = '30px';
+          div.innerHTML = i;
+          document.body.appendChild(div);
+          return div;
+        },
+      });
+
+      const update = () => {
+        popper.update();
+      };
+
+      myCyRef.getElementById(i).on('position', update);
+
+      myCyRef.on('pan zoom resize', update);
+    }
+  }
   useEffect(() => {
     if (gameData) {
       const elements = [];
@@ -200,7 +231,7 @@ export function MatchExpressionGame(props) {
 
       for (let i = 0; i < gameData.num_nodes; i += 1) {
         const obj = {
-          data: { id: i, label: `${gameData.content[i]} : ${i}` },
+          data: { id: i, label: `${gameData.content[i]}` },
           position: {
             x: 100 * (x_coor[i] + 1),
             y: 100 * (y_coor[i] + 1),
@@ -224,7 +255,7 @@ export function MatchExpressionGame(props) {
             },
             style: {
               'control-point-weight': 0.5,
-              'control-point-distance': -50 * edge_carvature[i][j],
+              'control-point-distance': -20 * edge_carvature[i][j],
               'line-color':
                 content[i] === '~' ? '#000' : j == 0 ? 'red' : 'blue',
               'target-arrow-color':
@@ -270,7 +301,7 @@ export function MatchExpressionGame(props) {
                   }}
                 >
                   {evaluatedAnswer &&
-                  evaluatedAnswer.correctResponse.includes(index) ? (
+                    evaluatedAnswer.correctResponse.includes(index) ? (
                     <img
                       src={TickMark}
                       style={{ width: '40px', height: '40px' }}
@@ -335,7 +366,6 @@ export function MatchExpressionGame(props) {
     console.log('Failed:', errorInfo);
   };
 
-  let myCyRef;
 
   return (
     <div>
@@ -410,58 +440,83 @@ export function MatchExpressionGame(props) {
               </div>
             </Col>
 
-            <Col offset="1">
-              <h1>Graph</h1>
-
-              <div>
-                <CytoscapeComponent
-                  elements={CytoscapeComponent.normalizeElements(graphData)}
-                  // pan={{ x: 200, y: 200 }}
+            <Col
+              span="13"
+              offset="40px"
+              style={{ padding: '20px', paddingLeft: '80px' }}
+            >
+              <div
+                style={{
+                  background: '#6EA5C3',
+                  padding: '10px',
+                  marginBottom: '50px',
+                  textAlign: 'center',
+                  // minWidth: '500px',
+                  width: '500px',
+                }}
+              >
+                {' '}
+                <h1
                   style={{
-                    minWidth: '500px',
-                    minHeight: '500px',
-                    borderRadius: '5px',
-                    border: '4px solid #999676',
+                    textAlign: 'Center',
+                    color: 'white',
+                    fontWeight: 'bold',
                   }}
-                  zoomingEnabled
-                  maxZoom={3}
-                  minZoom={0.1}
-                  autounselectify={false}
-                  boxSelectionEnabled
-                  stylesheet={[
-                    {
-                      selector: 'node',
-                      style: {
-                        'background-color': '#666',
-                        color: 'white',
-                        label: 'data(label)',
-                        width: '60px',
-                        height: '60px',
-                        'text-valign': 'center',
-                        'text-halign': 'center',
-                        'font-size': '17px',
+                >
+                  Graph
+                </h1>
+                <Button onClick={function (event) { myCyRef.reset(); }}>Reset Graph Layout</Button>
+                <div>
+                  <CytoscapeComponent
+                    elements={CytoscapeComponent.normalizeElements(graphData)}
+                    // pan={{ x: 200, y: 200 }}
+                    style={{
+                      minWidth: '500px',
+                      minHeight: '500px',
+                      borderRadius: '5px',
+                      border: '4px solid #999676',
+                    }}
+                    zoomingEnabled
+                    maxZoom={3}
+                    minZoom={0.1}
+                    autounselectify={false}
+                    boxSelectionEnabled
+                    stylesheet={[
+                      {
+                        selector: 'node',
+                        style: {
+                          'background-color': '#666',
+                          color: 'white',
+                          label: 'data(label)',
+                          width: '42px',
+                          height: '42px',
+                          'text-valign': 'center',
+                          'text-halign': 'center',
+                          'font-size': '17px',
+                        },
                       },
-                    },
-                    {
-                      selector: 'edge',
-                      style: {
-                        width: 3,
-                        'line-color': 'blue',
-                        'target-arrow-color': 'blue',
-                        'target-arrow-shape': 'triangle',
-                        'curve-style': 'unbundled-bezier',
-                        'control-point-weight': '0.5',
-                        'control-point-distance': '0',
+                      {
+                        selector: 'edge',
+                        style: {
+                          width: 3,
+                          'line-color': 'blue',
+                          'target-arrow-color': 'blue',
+                          'target-arrow-shape': 'triangle',
+                          'curve-style': 'unbundled-bezier',
+                          'control-point-weight': '0.5',
+                          'control-point-distance': '0',
+                        },
                       },
-                    },
-                  ]}
-                  cy={cy => {
-                    myCyRef = cy;
-                    cy.on('tap', 'node', evt => {
-                      // var node = evt.target;
-                    });
-                  }}
-                />
+                    ]}
+                    cy={cy => {
+                      myCyRef = cy;
+                      showNodeIDs();
+                      cy.on('tap', 'node', evt => {
+                        var node = evt.target;
+                      });
+                    }}
+                  />
+                </div>
               </div>
               <TimeClock active={!evaluatedAnswer} />
 

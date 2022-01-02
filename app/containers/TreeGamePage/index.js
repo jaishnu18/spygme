@@ -45,6 +45,7 @@ export function TreeGamePage(props) {
   const [value, setValue] = useState(0);
   const [answer, setAnswer] = useState(undefined);
   const [graphData, setGraphData] = useState(undefined);
+  const [visualizeStarted, setvisualizeStarted]=useState(false);
 
   useEffect(() => {
     props.getGameData(props.level);
@@ -146,12 +147,15 @@ export function TreeGamePage(props) {
         placeholder="Enter your answer"
         onChange={setValue}
         value={value}
+        min='0'
+        max='1'
       />
 
       <Button
         type="primary"
         style={{ background: 'green' }}
         onClick={submitAnswer}
+        disabled={answer !== undefined}
       >
         Submit
       </Button>
@@ -170,6 +174,7 @@ export function TreeGamePage(props) {
   let myCyRef;
   function getVisualization() {
     if (gameData) {
+      setvisualizeStarted(true);
       console.log(gameData.values);
       const node = gameData.orderOfEvaluation[gameData.ptr];
       console.log(node);
@@ -197,13 +202,13 @@ export function TreeGamePage(props) {
         popper.update();
       };
 
-      node.on('position', update);
+      myCyRef.getElementById(node).on('position', update);
 
       myCyRef.on('pan zoom resize', update);
     }
   }
 
-  const animate = function() {
+  const animate = function () {
     if (gameData) {
       if (gameData.ptr2 < gameData.orderOfEvaluation.length) {
         const node = gameData.orderOfEvaluation[gameData.ptr2];
@@ -217,25 +222,45 @@ export function TreeGamePage(props) {
             div.style.border = '2px solid black';
             div.style.borderRadius = '2px';
             div.style.width = '40px';
-            // div.id = `Tag0`;
+            div.className = `Popper`;
 
             div.innerHTML = gameData.values[node];
             document.body.appendChild(div);
             return div;
           },
         });
+        const update = () => {
+          popper.update();
+        };
+
+        myCyRef.getElementById(node).on('position', update);
+
+        myCyRef.on('pan zoom resize', update);
         gameData.ptr2 += 1;
         setTimeout(animate, 2000);
       }
+      else
+        return;
     }
   };
 
-  const reset = function() {
+  const resetGraph = function () {
+    if (gameData) {
+      reset();
+      myCyRef.reset();
+    }
+  }
+
+  const reset = function () {
     if (gameData) {
       for (let i = 0; i < gameData.orderOfEvaluation.length; i += 1) {
         const node = gameData.orderOfEvaluation[i];
         myCyRef.getElementById(node).removeClass('highlighted');
       }
+      gameData.ptr = 0;
+      gameData.ptr2 = 0;
+
+      setvisualizeStarted(false);
 
       // var list = document.getElementsByTagName('h1');
       // console.log(list.length);
@@ -253,7 +278,7 @@ export function TreeGamePage(props) {
       if (gameData.content[i][0] >= 'a' && gameData.content[i][0] <= 'z') {
         indents.push(
           <div style={{ marginLeft: '10px', marginTop: '2px' }} key={i}>
-            {gameData.content[i]} : {gameData.values[i]}
+            {gameData.content[i]} = {gameData.values[i]},
           </div>,
         );
       }
@@ -348,7 +373,7 @@ export function TreeGamePage(props) {
                     fontWeight: 'bold',
                   }}
                 >
-                  Enter the node value for each Expression :
+                  Evaluate the given logical expression :
                 </h1>
                 <h2>{gameData.expression}</h2>
                 <div style={{ display: 'flex' }}>
@@ -358,30 +383,7 @@ export function TreeGamePage(props) {
 
                 <Demo />
 
-                {gameData && (
-                  <div>
-                    <Button
-                      onClick={getVisualization}
-                      disabled={
-                        answer === undefined ||
-                        gameData.ptr === gameData.num_nodes
-                      }
-                    >
-                      Visualize
-                    </Button>
-                    <Button
-                      onClick={animate}
-                      disabled={
-                        answer === undefined ||
-                        gameData.ptr === gameData.num_nodes
-                      }
-                    >
-                      Animate
-                    </Button>
 
-                    <Button onClick={reset}>Reset</Button>
-                  </div>
-                )}
               </Col>
 
               <Col offset="3">
@@ -390,6 +392,7 @@ export function TreeGamePage(props) {
                     background: '#6EA5C3',
                     padding: '10px',
                     marginBottom: '50px',
+                    textAlign: 'center'
                   }}
                 >
                   <h1
@@ -401,6 +404,32 @@ export function TreeGamePage(props) {
                   >
                     Graph
                   </h1>
+                  {gameData && (
+                    <div>
+                      <Button onClick={resetGraph}>Reset Graph Layout</Button>
+                      <Button
+                        onClick={getVisualization}
+                        disabled={
+                          answer === undefined ||
+                          gameData.ptr === gameData.num_nodes ||
+                          gameData.ptr2 !== 0
+                        }
+                      >
+                        {visualizeStarted?'Next':'Visualize in steps'}
+                      </Button>
+                      <Button
+                        onClick={function (event) { resetGraph(); animate(); }}
+                        disabled={
+                          answer === undefined
+                        }
+                      >
+                        Animate
+                      </Button>
+
+                      {/* <Button onClick={reset}>Reset</Button> */}
+                    </div>
+                  )}
+
 
                   {graphData && (
                     <CytoscapeComponent

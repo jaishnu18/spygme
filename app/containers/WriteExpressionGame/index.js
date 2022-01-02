@@ -144,6 +144,7 @@ export function WriteExpressionGame(props) {
     console.log('Failed:', errorInfo);
   };
 
+  let myCyRef;
   if (evaluatedAnswer) {
     console.log(evaluatedAnswer);
   }
@@ -304,6 +305,7 @@ export function WriteExpressionGame(props) {
                     >
                       Graph
                     </h1>
+                    <Button onClick={function (event) { myCyRef.reset(); }}>Reset Graph Layout</Button>
                     <div>
                       <CytoscapeComponent
                         elements={elements}
@@ -339,6 +341,9 @@ export function WriteExpressionGame(props) {
                             },
                           },
                         ]}
+                        cy={cy => {
+                          myCyRef = cy;
+                        }}
                       />
                     </div>
                     {/*  */}
