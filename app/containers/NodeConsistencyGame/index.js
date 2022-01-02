@@ -240,7 +240,7 @@ export function NodeConsistencyGame(props) {
                 <Col span="13" style={{ flexWrap: 'wrap' }}>
                   <div style={{ flexWrap: 'wrap', display: 'flex' }}>
                     {gameData.nodes.map((item, row) => (
-                      <div style={{ flexWrap: 'wrap' }}>
+                      <div style={{ flexWrap: 'wrap'}}>
                         <MyDiv
                           style={{
                             background: 'white',

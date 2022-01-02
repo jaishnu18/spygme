@@ -14,7 +14,7 @@ import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import CytoscapeComponent from 'react-cytoscapejs';
-import { Button, Row, Col } from 'antd';
+import { Button, Row, Col, Collapse } from 'antd';
 import moment from 'moment';
 import TimeClock from 'components/TimeClock';
 import AppStructure from 'components/AppStructure';
@@ -28,6 +28,8 @@ import reducer from './reducer';
 import saga from './saga';
 
 import { getGamesDataStart, evaluateResponseStart } from './actions';
+
+const { Panel } = Collapse;
 
 const MyGrid = styled.div`
   width: ${props => props.size * 72}px;
@@ -88,7 +90,7 @@ export function ArcConsistencyGame(props) {
             data: { id: `${i}-${j}`, label: gameData.word_bag[i][j] },
             position: {
               x: 100 * (i + 1),
-              y: 100 * (j + 1),
+              y: 100 * (j + 0.5),
             },
           };
           console.log(obj);
@@ -159,9 +161,8 @@ export function ArcConsistencyGame(props) {
             const obj = {
               data: {
                 source: `${i}-${j}`,
-                target: `${evaluatedAnswer.consistency_graph[i][j][k][0]}-${
-                  evaluatedAnswer.consistency_graph[i][j][k][1]
-                }`,
+                target: `${evaluatedAnswer.consistency_graph[i][j][k][0]}-${evaluatedAnswer.consistency_graph[i][j][k][1]
+                  }`,
                 label: '',
                 key: `${i}t${j}`,
               },
@@ -196,7 +197,7 @@ export function ArcConsistencyGame(props) {
     if (nestedList[row][col]) {
       event.target.style.backgroundColor = 'lightgreen';
     } else {
-      event.target.style.backgroundColor = '#ffc5ab';
+      event.target.style.backgroundColor = '#ff5454';
     }
     setSelectedArray(nestedList);
 
@@ -437,61 +438,65 @@ export function ArcConsistencyGame(props) {
                       Check Answer
                     </Button>
                   </div>
-                  <div>
-                    <CytoscapeComponent
-                      elements={CytoscapeComponent.normalizeElements(graphData)}
-                      // pan={{ x: 200, y: 200 }}
-                      style={{
-                        // flexDirection: 'column',
-                        width: '90%',
-                        minHeight: '800px',
-                        border: '1px solid black',
-                        background: 'white',
-                      }}
-                      zoomingEnabled
-                      maxZoom={3}
-                      minZoom={0.1}
-                      autounselectify={false}
-                      boxSelectionEnabled
-                      stylesheet={[
-                        {
-                          selector: 'node',
-                          style: {
-                            'background-color': '#666',
-                            color: 'white',
-                            display: 'flex',
-                            flexWrap: 'wrap',
-                            label: 'data(label)',
-                            width: '60px',
-                            height: '60px',
-                            'text-valign': 'center',
-                            'text-halign': 'center',
-                            'font-size': '17px',
-                          },
-                        },
-                        {
-                          selector: 'edge',
-                          style: {
-                            width: 3,
-                            'line-color': 'blue',
-                            'target-arrow-color': 'blue',
-                            'curve-style': 'unbundled-bezier',
-                            'control-point-weight': '0.5',
-                            'control-point-distance': '0',
-                          },
-                        },
-                      ]}
-                      cy={cy => {
-                        myCyRef = cy;
-                        console.log('EVT', cy);
 
-                        cy.on('tap', 'node', evt => {
-                          var node = evt.target;
-                        });
-                      }}
-                      abc={console.log('myCyRef', myCyRef)}
-                    />
-                  </div>
+                  <Collapse accordion>
+                    <Panel header="Visualization" key="1" disabled={evaluatedAnswer===undefined ? 'false' : 'true'}>
+                      <Button onClick={function (event) { myCyRef.reset(); }}>Reset Graph Layout</Button>
+                      <CytoscapeComponent
+                        elements={CytoscapeComponent.normalizeElements(graphData)}
+                        // pan={{ x: 200, y: 200 }}
+                        style={{
+                          // flexDirection: 'column',
+                          width: '90%',
+                          minHeight: '800px',
+                          border: '1px solid black',
+                          background: 'white',
+                        }}
+                        zoomingEnabled
+                        maxZoom={3}
+                        minZoom={0.1}
+                        autounselectify={false}
+                        boxSelectionEnabled
+                        stylesheet={[
+                          {
+                            selector: 'node',
+                            style: {
+                              'background-color': '#666',
+                              color: 'white',
+                              display: 'flex',
+                              flexWrap: 'wrap',
+                              label: 'data(label)',
+                              width: '60px',
+                              height: '40px',
+                              'text-valign': 'center',
+                              'text-halign': 'center',
+                              'font-size': '17px',
+                            },
+                          },
+                          {
+                            selector: 'edge',
+                            style: {
+                              width: 3,
+                              'line-color': 'blue',
+                              'target-arrow-color': 'blue',
+                              'curve-style': 'unbundled-bezier',
+                              'control-point-weight': '0.5',
+                              'control-point-distance': '0',
+                            },
+                          },
+                        ]}
+                        cy={cy => {
+                          myCyRef = cy;
+                          console.log('EVT', cy);
+
+                          cy.on('tap', 'node', evt => {
+                            var node = evt.target;
+                          });
+                        }}
+                        abc={console.log('myCyRef', myCyRef)}
+                      />
+                    </Panel>
+                  </Collapse>
                 </Col>
               </Row>
             ) : null}
