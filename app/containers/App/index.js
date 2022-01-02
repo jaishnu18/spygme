@@ -22,7 +22,7 @@ import SplashScreen from 'components/SplashScreen';
 
 import GlobalStyle from 'global-styles';
 import Routes from 'routes';
-import Header from 'components/Header';
+import NavBar from 'components/NavBar';
 import AuthProvider from './AuthContext';
 import {
   makeSelectAuthData,
@@ -72,7 +72,7 @@ export function App(props) {
   ) : (
     <AuthProvider value={props.AuthData}>
       <AppWrapper>
-        <Header />
+        <NavBar signout={props.signout} />
         <Routes
           signin={props.signin}
           signout={props.signout}

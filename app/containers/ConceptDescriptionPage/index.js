@@ -15,15 +15,16 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import { Row, Typography } from 'antd';
+import { Row, Typography, Card } from 'antd';
 import styled from 'styled-components';
 import ConceptCardSection from 'components/ConceptCardSection';
 import NotFoundPage from 'containers/NotFoundPage';
+import { Link } from 'react-router-dom';
 import makeSelectConceptDescriptionPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
-import { getGamesStart } from './actions';
+import { getGamesStart, getReadingMaterialStart } from './actions';
 
 const StyledRow = styled.div`
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, #fff2b3 0px 6px 6px;
@@ -42,10 +43,12 @@ export function ConceptDescriptionPage(props) {
 
   useEffect(() => {
     props.getGames({ conceptId });
+    props.getReadingMaterials({ conceptId });
   }, []);
 
   const { games } = props.conceptDescriptionPage;
-  console.log(games);
+  const { readingMaterials } = props.conceptDescriptionPage;
+  console.log(readingMaterials);
 
   return (
     <div>
@@ -61,9 +64,20 @@ export function ConceptDescriptionPage(props) {
           <Typography.Title style={{ padding: '20px' }}>
             Reading Material
           </Typography.Title>
-          <Typography.Text style={{ paddingLeft: '20px' }}>
-            Link to Reading Material
-          </Typography.Text>
+          {readingMaterials && (
+            <Row>
+              {readingMaterials.map((key, idx) => (
+                <Link to={`/reading/${key.id}`}>
+                  <Card
+                    style={{ width: '200px', marginRight: '20px' }}
+                    title={`Module ${idx + 1}`}
+                  >
+                    READ
+                  </Card>
+                </Link>
+              ))}
+            </Row>
+          )}
         </div>
       </StyledRow>
       <StyledRow>
@@ -126,6 +140,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     getGames: payload => dispatch(getGamesStart(payload)),
+    getReadingMaterials: payload => dispatch(getReadingMaterialStart(payload)),
   };
 }
 

@@ -1,6 +1,6 @@
 /**
  *
- * Tests for Header
+ * Tests for H4
  *
  * @see https://github.com/react-boilerplate/react-boilerplate/tree/master/docs/testing
  *
@@ -10,12 +10,12 @@ import React from 'react';
 import { render } from 'react-testing-library';
 // import 'jest-dom/extend-expect'; // add some helpful assertions
 
-import Header from '../index';
+import H4 from '../index';
 
-describe('<Header />', () => {
+describe('<H4 />', () => {
   it('Expect to not log errors in console', () => {
     const spy = jest.spyOn(global.console, 'error');
-    render(<Header />);
+    render(<H4 />);
     expect(spy).not.toHaveBeenCalled();
   });
 
@@ -31,7 +31,7 @@ describe('<Header />', () => {
   it.skip('Should render and match the snapshot', () => {
     const {
       container: { firstChild },
-    } = render(<Header />);
+    } = render(<H4 />);
     expect(firstChild).toMatchSnapshot();
   });
 });

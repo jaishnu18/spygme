@@ -16,3 +16,7 @@ export const GET_GAMES_PROGRESS_SUCCESS =
   'app/ConceptDescriptionPage/GET_GAMES_PROGRESS_SUCCESS';
 export const GET_GAMES_PROGRESS_FAILURE =
   'app/ConceptDescriptionPage/GET_GAMES_PROGRESS_FAILURE';
+
+export const GET_RM_START = 'app/ConceptDescriptionPage/GET_RM_START';
+export const GET_RM_SUCCESS = 'app/ConceptDescriptionPage/GET_RM_SUCCESS';
+export const GET_RM_FAILURE = 'app/ConceptDescriptionPage/GET_RM_FAILURE';
