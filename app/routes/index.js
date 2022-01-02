@@ -27,6 +27,8 @@ function Routes(props) {
   if (!props.authData.isLoggedIn) {
     return (
       <Switch>
+        <Route exact path="/" component={HomePage} />
+
         <Route
           path="/auth/*"
           render={() => (
@@ -43,6 +45,8 @@ function Routes(props) {
   }
   return (
     <Switch>
+      <Route exact path="/" component={HomePage} />
+
       <Route path="/dashboard" component={DashboardPage} />
 
       <Route
