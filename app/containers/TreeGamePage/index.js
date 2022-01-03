@@ -164,11 +164,11 @@ export function TreeGamePage(props) {
 
   const prevLevel = () => {
     const lvl = parseInt(props.level);
-    history.push(`/treegame/${lvl - 1}`);
+    window.location.href = `/evaluate-expression/${gameId}/${lvl - 1}`;
   };
   const nextLevel = () => {
     const lvl = parseInt(props.level);
-    history.push(`/treegame/${lvl + 1}`);
+    window.location.href = `/evaluate-expression/${gameId}/${lvl - 1}`;
   };
 
   let myCyRef;
@@ -302,7 +302,7 @@ export function TreeGamePage(props) {
             <h1 style={{ color: 'white' }}>Tree Game</h1>
           </Col>
           <Col span={4}>
-            <h1 style={{ color: 'white' }}>Level: 1/5</h1>
+            <h1 style={{ color: 'white' }}>Level</h1>
           </Col>
           <Col span={4}>
             {' '}

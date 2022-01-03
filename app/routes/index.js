@@ -20,6 +20,7 @@ import NodeConsistency from 'containers/NodeConsistencyGame';
 import ArcConsistencyGame from 'containers/ArcConsistencyGame';
 import DrawCrosswordGraphGame from 'containers/DrawCrosswordGraphGame';
 import GradedMatchExpressionGame from 'containers/GradedMatchExpressionGame';
+import ReadingMaterialPage from 'containers/ReadingMaterialPage';
 import HomePage from 'containers/HomePage';
 //
 
@@ -115,6 +116,11 @@ function Routes(props) {
         exact
         path="/draw-crossword-graph/:gameId/:level"
         component={DrawCrosswordGraphGame}
+      />
+      <Route
+        exact
+        path="/reading/:Id"
+        component={ReadingMaterialPage}
       />
 
       <Route exact path="/my/profile" component={MyProfilePage} />

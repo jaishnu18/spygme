@@ -23,6 +23,7 @@ import {
   Col,
   Row,
   Typography,
+  Collapse
 } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
@@ -33,6 +34,8 @@ import makeSelectFindCrosswordNodesGame from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import { getGamesDataStart, evaluateResponseStart } from './actions';
+
+const { Panel } = Collapse;
 
 const { Option } = Select;
 
@@ -121,12 +124,12 @@ export function FindCrosswordNodesGame(props) {
   const prevLevel = () => {
     const lvl = parseInt(level);
     form.resetFields(undefined);
-    window.location.href = `/find-nodes/${lvl - 1}`;
+    window.location.href = `/find-nodes/${gameId}/${lvl - 1}`;
   };
   const nextLevel = () => {
     const lvl = parseInt(level);
     form.resetFields(undefined);
-    window.location.href = `/find-nodes/${lvl + 1}`;
+    window.location.href = `/find-nodes/${gameId}/${lvl + 1}`;
   };
 
   const Nodes = [
@@ -180,9 +183,9 @@ export function FindCrosswordNodesGame(props) {
         />
       </Helmet>
       <AppStructure
-        heading="Crossword Game"
-        level="Level: 2/5"
-        attempt=" 2"
+        heading="Find Crossword Nodes"
+        level={"Level: " + level + "/3"}
+        attempt={gameData ? " " + (gameData.attempt) : " 1"}
         evaluatedAnswer={evaluatedAnswer}
         divContent={
           <div
@@ -224,8 +227,12 @@ export function FindCrosswordNodesGame(props) {
             </div>
             {gameData ? (
               <Row>
+                <Collapse accordion style={{ width: '100%' }} defaultActiveKey={['1']}>
+                  <Panel key="1" header="How to play?">
+                    <p>{gameData ? gameData.gameDescription : ""}</p>
+                  </Panel>
+                </Collapse>
                 <Col span={12}>
-                  <h1>Crossword</h1>
                   <div>
                     <MyGrid size={gameData.grid_size}>
                       <div style={{ display: 'flex', marginBottom: '0px' }}>
@@ -292,7 +299,7 @@ export function FindCrosswordNodesGame(props) {
                       paddingLeft: '20px',
                     }}
                   >
-                    <h1 style={{ marginBottom: '30px' }}>Answer</h1>
+                    <h1 style={{ marginBottom: '30px' }}>Enter the nodes</h1>
                     <div style={{ width: '100%' }}>
                       <Form
                         form={form}
@@ -315,7 +322,7 @@ export function FindCrosswordNodesGame(props) {
                                     {() => (
                                       <Form.Item
                                         {...field}
-                                        label={index >= 0 ? 'Node' : ''}
+                                        label={index >= 0 ? 'Direction' : ''}
                                         name={[field.name, 'node']}
                                         fieldKey={[field.fieldKey, 'node']}
                                         rules={[

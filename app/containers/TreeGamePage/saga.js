@@ -14,6 +14,7 @@ export function* getExpression(action) {
 
     const response = yield axios.get(
       `http://localhost:4000/game/treegame/question/${level}`,
+      { headers: { Authorization: localStorage._UFT_ } },
     );
     console.log(response);
     yield put(getExpressionSuccess(response.data.data));
