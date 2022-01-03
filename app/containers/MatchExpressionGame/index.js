@@ -337,11 +337,11 @@ export function MatchExpressionGame(props) {
 
   const prevLevel = () => {
     const lvl = parseInt(level);
-    history.push(`/match-expression/${lvl - 1}`);
+    window.location.href = `/match-expression/${gameId}/${lvl - 1}`;
   };
   const nextLevel = () => {
     const lvl = parseInt(level);
-    history.push(`/match-expression/${lvl + 1}`);
+    window.location.href = `/match-expression/${gameId}/${lvl + 1}`;
   };
 
   const onFinish = values => {

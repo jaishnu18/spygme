@@ -25,6 +25,7 @@ export function* getGraph(action) {
 
     const response = yield axios.get(
       `http://localhost:4000/game/match-expression/question/${level}`,
+      { headers: { Authorization: localStorage._UFT_ } },
     );
     console.log(response);
     yield put(getGamesDataSuccess(response.data.data));

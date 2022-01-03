@@ -143,8 +143,8 @@ export function ArcConsistencyGame(props) {
           const obj = {
             data: { id: `${i}-${j}`, label: gameData.word_bag[i][j] },
             position: {
-              x: 200 * (i + 1),
-              y: 200 * (j + 1),
+              x: 100 * (2*i + 1),
+              y: 100 * (j + 0.5),
             },
           };
           elements.push(obj);
@@ -232,11 +232,11 @@ export function ArcConsistencyGame(props) {
 
   const prevLevel = () => {
     const lvl = parseInt(level);
-    window.location.href = `/arc-consistency/${lvl - 1}`;
+    window.location.href = `/arc-consistency/${gameId}/${lvl - 1}`;
   };
   const nextLevel = () => {
     const lvl = parseInt(level);
-    window.location.href = `/arc-consistency/${lvl + 1}`;
+    window.location.href = `/arc-consistency/${gameId}/${lvl + 1}`;
   };
 
   return (
@@ -246,9 +246,9 @@ export function ArcConsistencyGame(props) {
         <meta name="description" content="Description of ArcConsistencyGame" />
       </Helmet>
       <AppStructure
-        heading="Arc Consistency Game"
-        level="Level: 2/5"
-        attempt=" 2"
+        heading="Arc Consistency"
+        level={"Level: " + level + "/2"}
+        attempt={gameData ? " " + gameData.attempt : " 1"}
         evaluatedAnswer={evaluatedAnswer}
         divContent={
           <div style={{ padding: '20px', background: '#F8FAA7' }}>
@@ -288,8 +288,12 @@ export function ArcConsistencyGame(props) {
             </div>
             {gameData && selectedArray ? (
               <Row>
+                <Collapse accordion style={{width:'100%'}} defaultActiveKey={['1']}>
+                  <Panel key="1" header="How to play?">
+                    <p>{gameData ? gameData.gameDescription : ""}</p>
+                  </Panel>
+                </Collapse>
                 <Col span="11">
-                  <h1>Crossword</h1>
                   <div>
                     <MyGrid size={gameData.grid_size}>
                       <div style={{ display: 'flex', marginBottom: '0px' }}>
@@ -440,7 +444,7 @@ export function ArcConsistencyGame(props) {
                   </div>
 
                   <Collapse accordion>
-                    <Panel header="Visualization" key="1" disabled={evaluatedAnswer===undefined ? 'false' : 'true'}>
+                    <Panel header="Visualize consistency" key="1" disabled={evaluatedAnswer !== undefined ? false : true}>
                       <Button onClick={function (event) { myCyRef.reset(); }}>Reset Graph Layout</Button>
                       <CytoscapeComponent
                         elements={CytoscapeComponent.normalizeElements(graphData)}

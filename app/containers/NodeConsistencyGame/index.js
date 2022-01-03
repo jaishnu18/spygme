@@ -22,9 +22,11 @@ import AppStructure from 'components/AppStructure';
 import makeSelectNodeConsistencyGame from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+import { Collapse } from 'antd';
 
 import { getGamesDataStart, evaluateResponseStart } from './actions';
 
+const { Panel } = Collapse;
 const MyGrid = styled.div`
   width: ${props => props.size * 72}px;
   height: ${props => props.size * 72}px;
@@ -74,6 +76,7 @@ export function NodeConsistencyGame(props) {
 
   useEffect(() => {
     if (gameData) {
+      console.log(gameData.gameDescription);
       const nestedArray = Array.from(Array(gameData.nodes.length), _ =>
         Array(gameData.shuffled_bag.length).fill(true),
       );
@@ -127,11 +130,11 @@ export function NodeConsistencyGame(props) {
 
   const prevLevel = () => {
     const lvl = parseInt(level);
-    window.location.href = `/node-consistency/${lvl - 1}`;
+    window.location.href = `/node-consistency/${gameId}/${lvl - 1}`;
   };
   const nextLevel = () => {
     const lvl = parseInt(level);
-    window.location.href = `/node-consistency/${lvl + 1}`;
+    window.location.href = `/node-consistency/${gameId}/${lvl + 1}`;
   };
 
   return (
@@ -141,9 +144,9 @@ export function NodeConsistencyGame(props) {
         <meta name="description" content="Description of NodeConsistencyGame" />
       </Helmet>
       <AppStructure
-        heading="Node Consistency Game"
-        level="Level: 2/5"
-        attempt=" 2"
+        heading="Node Consistency"
+        level={"Level: " + level + "/2"}
+        attempt={gameData ? " " + (gameData.attempt) : " 1"}
         evaluatedAnswer={evaluatedAnswer}
         divContent={
           <div style={{ padding: '20px', background: '#F8FAA7' }}>
@@ -157,7 +160,7 @@ export function NodeConsistencyGame(props) {
                 >
                   Next Level
                 </Button>
-              ) : level > 1 && level < 3 ? (
+              ) : level > 1 && level < 2 ? (
                 <div style={{ display: 'flex', width: '100%' }}>
                   <Button style={{ marginLeft: '10px' }} onClick={prevLevel}>
                     Previous Level
@@ -179,8 +182,12 @@ export function NodeConsistencyGame(props) {
             </div>
             {gameData && selectedArray ? (
               <Row>
+                <Collapse accordion style={{width:'100%'}} defaultActiveKey={['1']}>
+                  <Panel key="1" header="How to play?">
+                    <p>{gameData ? gameData.gameDescription : ""}</p>
+                  </Panel>
+                </Collapse>
                 <Col span="11">
-                  <h1>Crossword</h1>
                   <div>
                     <MyGrid size={gameData.grid_size}>
                       <div style={{ display: 'flex', marginBottom: '0px' }}>
@@ -240,7 +247,7 @@ export function NodeConsistencyGame(props) {
                 <Col span="13" style={{ flexWrap: 'wrap' }}>
                   <div style={{ flexWrap: 'wrap', display: 'flex' }}>
                     {gameData.nodes.map((item, row) => (
-                      <div style={{ flexWrap: 'wrap'}}>
+                      <div style={{ flexWrap: 'wrap' }}>
                         <MyDiv
                           style={{
                             background: 'white',

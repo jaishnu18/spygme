@@ -70,7 +70,7 @@ export function ConceptDescriptionPage(props) {
                 <Link to={`/reading/${key.id}`}>
                   <Card
                     style={{ width: '200px', marginRight: '20px' }}
-                    title={`Module ${idx + 1}`}
+                    title={`Material ${idx + 1}`}
                   >
                     READ
                   </Card>

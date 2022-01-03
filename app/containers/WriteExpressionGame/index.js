@@ -32,6 +32,7 @@ import {
   Col,
   Form,
   Input,
+  Collapse
 } from 'antd';
 import SideBar from 'components/SideBar';
 import history from 'utils/history';
@@ -57,6 +58,7 @@ export function WriteExpressionGame(props) {
     return seconds;
   }
 
+  const { Panel } = Collapse;
   const { level } = props.match.params;
   const { gameId } = props.match.params;
   useEffect(() => {
@@ -119,11 +121,11 @@ export function WriteExpressionGame(props) {
 
   const prevLevel = () => {
     const lvl = parseInt(level);
-    history.push(`/write-expression/${lvl - 1}`);
+    window.location.href = `/write-expression/${gameId}/${lvl - 1}`;
   };
   const nextLevel = () => {
     const lvl = parseInt(level);
-    history.push(`/write-expression/${lvl + 1}`);
+    window.location.href = `/write-expression/${gameId}/${lvl + 1}`;
   };
 
   const onFinish = values => {
@@ -156,9 +158,9 @@ export function WriteExpressionGame(props) {
         <meta name="description" content="Description of WriteExpressionGame" />
       </Helmet>
       <AppStructure
-        heading="Arc Consistency Game"
-        level="Level: 2/5"
-        attempt=" 2"
+        heading="Arc Consistency"
+        level={"Level: " + level + "/4"}
+        attempt={gameData ? " " + gameData.attempt : " 1"}
         evaluatedAnswer={evaluatedAnswer}
         divContent={
           <div
@@ -202,6 +204,11 @@ export function WriteExpressionGame(props) {
             </div>
             {gameData ? (
               <Row>
+                <Collapse accordion style={{ width: '100%' }} defaultActiveKey={['1']}>
+                  <Panel key="1" header="How to play?">
+                    <p>{gameData ? gameData.gameDescription : ""}</p>
+                  </Panel>
+                </Collapse>
                 <Col span="11" style={{ padding: '40px' }}>
                   <div>
                     <h1>
@@ -221,7 +228,7 @@ export function WriteExpressionGame(props) {
                       autoComplete="off"
                     >
                       <Form.Item
-                        label="Expression"
+                        label="Enter your expression"
                         name="response"
                         rules={[
                           {
@@ -249,6 +256,15 @@ export function WriteExpressionGame(props) {
                       {evaluatedAnswer.syntax_error &&
                         evaluatedAnswer.syntax_error === 'No syntax error' && (
                           <div>
+                            {evaluatedAnswer.syntax_error && (
+                              <h2
+                                style={{
+                                  color: 'blue',
+                                }}
+                              >
+                                {evaluatedAnswer.syntax_error}
+                              </h2>
+                            )}
                             <h1
                               style={{
                                 color: evaluatedAnswer.correct
@@ -262,20 +278,11 @@ export function WriteExpressionGame(props) {
                             </h1>
 
                             {!evaluatedAnswer.correct && (
-                              <h1>{evaluatedAnswer.correct_answer}</h1>
+                              <h2><pre>{"One of the correct answer :\n" + evaluatedAnswer.correct_answer}</pre></h2>
                             )}
                           </div>
                         )}
 
-                      {evaluatedAnswer.syntax_error && (
-                        <h2
-                          style={{
-                            color: 'blue',
-                          }}
-                        >
-                          {evaluatedAnswer.syntax_error}
-                        </h2>
-                      )}
                     </div>
                   )}
                 </Col>

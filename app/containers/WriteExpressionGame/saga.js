@@ -23,6 +23,7 @@ export function* getGraph(action) {
 
     const response = yield axios.get(
       `http://localhost:4000/game/write-expression/question/${level}`,
+      { headers: { Authorization: localStorage._UFT_ } },
     );
     console.log(response);
     yield put(getGraphSuccess(response.data.data));
