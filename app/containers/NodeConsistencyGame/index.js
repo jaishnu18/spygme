@@ -136,6 +136,9 @@ export function NodeConsistencyGame(props) {
     const lvl = parseInt(level);
     window.location.href = `/node-consistency/${gameId}/${lvl + 1}`;
   };
+  const backToConcepts=()=>{
+    window.location.href = `/concept/7`;
+  }
 
   return (
     <div>
@@ -151,34 +154,30 @@ export function NodeConsistencyGame(props) {
         divContent={
           <div style={{ padding: '20px', background: '#F8FAA7' }}>
             <div
-              style={{ display: 'flex', width: '100%', marginBottom: '20px' }}
+              style={{
+                display: 'flex',
+                width: '100%',
+                marginBottom: '20px',
+              }}
             >
-              {level == 1 ? (
-                <Button
-                  style={{ marginLeft: 'auto', marginRight: '30px' }}
-                  onClick={nextLevel}
-                >
-                  Next Level
-                </Button>
-              ) : level > 1 && level < 2 ? (
+              <Button
+                style={{ marginLeft: '10px' }}
+                onClick={backToConcepts}
+              >
+                Back to Materials
+              </Button>
                 <div style={{ display: 'flex', width: '100%' }}>
-                  <Button style={{ marginLeft: '10px' }} onClick={prevLevel}>
+                  <Button style={ { marginLeft: 'auto', marginRight: '30px' }} onClick={prevLevel} disabled={level==1}>
                     Previous Level
                   </Button>
                   <Button
                     style={{ marginLeft: 'auto', marginRight: '30px' }}
                     onClick={nextLevel}
+                    disabled={level==2}
                   >
                     Next Level
                   </Button>
                 </div>
-              ) : (
-                <div style={{ display: 'flex', width: '100%' }}>
-                  <Button style={{ marginLeft: '10px' }} onClick={prevLevel}>
-                    Previous Level
-                  </Button>
-                </div>
-              )}
             </div>
             {gameData && selectedArray ? (
               <Row>

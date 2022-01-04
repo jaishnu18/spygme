@@ -131,6 +131,9 @@ export function FindCrosswordNodesGame(props) {
     form.resetFields(undefined);
     window.location.href = `/find-nodes/${gameId}/${lvl + 1}`;
   };
+  const backToConcepts=()=>{
+    window.location.href = `/concept/6`;
+  }
 
   const Nodes = [
     { label: 'Across Node', val: 65 },
@@ -196,34 +199,30 @@ export function FindCrosswordNodesGame(props) {
             }}
           >
             <div
-              style={{ display: 'flex', width: '100%', marginBottom: '20px' }}
+              style={{
+                display: 'flex',
+                width: '100%',
+                marginBottom: '20px',
+              }}
             >
-              {level == 1 ? (
-                <Button
-                  style={{ marginLeft: 'auto', marginRight: '30px' }}
-                  onClick={nextLevel}
-                >
-                  Next Level
-                </Button>
-              ) : level > 1 && level < 3 ? (
+              <Button
+                style={{ marginLeft: '10px' }}
+                onClick={backToConcepts}
+              >
+                Back to Materials
+              </Button>
                 <div style={{ display: 'flex', width: '100%' }}>
-                  <Button style={{ marginLeft: '10px' }} onClick={prevLevel}>
+                  <Button style={ { marginLeft: 'auto', marginRight: '30px' }} onClick={prevLevel} disabled={level==1}>
                     Previous Level
                   </Button>
                   <Button
                     style={{ marginLeft: 'auto', marginRight: '30px' }}
                     onClick={nextLevel}
+                    disabled={level==3}
                   >
                     Next Level
                   </Button>
                 </div>
-              ) : (
-                <div style={{ display: 'flex', width: '100%' }}>
-                  <Button style={{ marginLeft: '10px' }} onClick={prevLevel}>
-                    Previous Level
-                  </Button>
-                </div>
-              )}
             </div>
             {gameData ? (
               <Row>

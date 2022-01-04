@@ -85,6 +85,9 @@ export function DrawCrosswordGraphGame(props) {
     const lvl = parseInt(level);
     window.location.href = `/draw-crossword-graph/${gameId}/${lvl + 1}`;
   };
+  const backToConcepts=()=>{
+    window.location.href = `/concept/6`;
+  }
 
   useEffect(() => {
     const elements = [];
@@ -220,35 +223,31 @@ export function DrawCrosswordGraphGame(props) {
               }}
             >
               <div
-                style={{ display: 'flex', width: '100%', marginBottom: '20px' }}
+              style={{
+                display: 'flex',
+                width: '100%',
+                marginBottom: '20px',
+              }}
+            >
+              <Button
+                style={{ marginLeft: '10px' }}
+                onClick={backToConcepts}
               >
-                {level == 1 ? (
+                Back to Materials
+              </Button>
+                <div style={{ display: 'flex', width: '100%' }}>
+                  <Button style={ { marginLeft: 'auto', marginRight: '30px' }} onClick={prevLevel} disabled={level==1}>
+                    Previous Level
+                  </Button>
                   <Button
                     style={{ marginLeft: 'auto', marginRight: '30px' }}
                     onClick={nextLevel}
+                    disabled={level==3}
                   >
                     Next Level
                   </Button>
-                ) : level > 1 && level < 3 ? (
-                  <div style={{ display: 'flex', width: '100%' }}>
-                    <Button style={{ marginLeft: '10px' }} onClick={prevLevel}>
-                      Previous Level
-                    </Button>
-                    <Button
-                      style={{ marginLeft: 'auto', marginRight: '30px' }}
-                      onClick={nextLevel}
-                    >
-                      Next Level
-                    </Button>
-                  </div>
-                ) : (
-                  <div style={{ display: 'flex', width: '100%' }}>
-                    <Button style={{ marginLeft: '10px' }} onClick={prevLevel}>
-                      Previous Level
-                    </Button>
-                  </div>
-                )}
-              </div>
+                </div>
+            </div>
               <Row style={{ backgroundColor: '#F8FAA7', paddingTop: '40px' }}>
                 <Col offset="1">
                   {gameData && (

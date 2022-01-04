@@ -86,7 +86,7 @@ export function ReadingMaterialPage(props) {
         <div style={{ padding: '20px', background: '#F8FAA7' }}>
           <pre style={{ whiteSpace: 'pre-wrap' }}>{readingMaterialContent ? readingMaterialContent.content.replace(/<new_line>/g, '\n') : ""}</pre>
           <Button>Mark as read</Button>
-          <Button onClick={backToConcepts}>Back to concepts</Button>
+          <Button onClick={backToConcepts}>Back to Materials</Button>
         </div>
 
       </div>

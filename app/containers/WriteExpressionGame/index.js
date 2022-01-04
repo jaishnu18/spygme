@@ -61,6 +61,7 @@ export function WriteExpressionGame(props) {
   const { Panel } = Collapse;
   const { level } = props.match.params;
   const { gameId } = props.match.params;
+  console.log(props);
   useEffect(() => {
     props.getGameData(level);
     start();
@@ -119,6 +120,9 @@ export function WriteExpressionGame(props) {
     }
   }
 
+  const backToConcepts=()=>{
+    window.location.href = `/concept/5`;
+  }
   const prevLevel = () => {
     const lvl = parseInt(level);
     window.location.href = `/write-expression/${gameId}/${lvl - 1}`;
@@ -158,7 +162,7 @@ export function WriteExpressionGame(props) {
         <meta name="description" content="Description of WriteExpressionGame" />
       </Helmet>
       <AppStructure
-        heading="Arc Consistency"
+        heading="Write Expression"
         level={"Level: " + level + "/4"}
         attempt={gameData ? " " + gameData.attempt : " 1"}
         evaluatedAnswer={evaluatedAnswer}
@@ -175,32 +179,24 @@ export function WriteExpressionGame(props) {
                 marginBottom: '20px',
               }}
             >
-              {level == 1 ? (
-                <Button
-                  style={{ marginLeft: 'auto', marginRight: '30px' }}
-                  onClick={nextLevel}
-                >
-                  Next Level
-                </Button>
-              ) : level > 1 && level < 4 ? (
+              <Button
+                style={{ marginLeft: '10px' }}
+                onClick={backToConcepts}
+              >
+                Back to Materials
+              </Button>
                 <div style={{ display: 'flex', width: '100%' }}>
-                  <Button style={{ marginLeft: '10px' }} onClick={prevLevel}>
+                  <Button style={ { marginLeft: 'auto', marginRight: '30px' }} onClick={prevLevel} disabled={level==1}>
                     Previous Level
                   </Button>
                   <Button
                     style={{ marginLeft: 'auto', marginRight: '30px' }}
                     onClick={nextLevel}
+                    disabled={level==4}
                   >
                     Next Level
                   </Button>
                 </div>
-              ) : (
-                <div style={{ display: 'flex', width: '100%' }}>
-                  <Button style={{ marginLeft: '10px' }} onClick={prevLevel}>
-                    Previous Level
-                  </Button>
-                </div>
-              )}
             </div>
             {gameData ? (
               <Row>
@@ -251,40 +247,47 @@ export function WriteExpressionGame(props) {
                       </Form.Item>
                     </Form>
                   </div>
-                  {evaluatedAnswer && (
+                  {evaluatedAnswer && evaluatedAnswer.syntax_error ? (
                     <div>
-                      {evaluatedAnswer.syntax_error &&
-                        evaluatedAnswer.syntax_error === 'No syntax error' && (
-                          <div>
-                            {evaluatedAnswer.syntax_error && (
-                              <h2
-                                style={{
-                                  color: 'blue',
-                                }}
-                              >
-                                {evaluatedAnswer.syntax_error}
-                              </h2>
-                            )}
-                            <h1
-                              style={{
-                                color: evaluatedAnswer.correct
-                                  ? 'green'
-                                  : 'red',
-                              }}
-                            >
-                              {evaluatedAnswer.correct
-                                ? 'CORRECT'
-                                : 'INCORRECT'}
-                            </h1>
+                      {evaluatedAnswer.syntax_error === 'No syntax error' ? (
+                        <div>
+                          <h2
+                            style={{
+                              color: 'blue',
+                            }}
+                          >
+                            No syntax error
+                          </h2>
+                          <h1
+                            style={{
+                              color: evaluatedAnswer.correct
+                                ? 'green'
+                                : 'red',
+                            }}
+                          >
+                            {evaluatedAnswer.correct
+                              ? 'CORRECT'
+                              : 'INCORRECT'}
+                          </h1>
 
-                            {!evaluatedAnswer.correct && (
-                              <h2><pre>{"One of the correct answer :\n" + evaluatedAnswer.correct_answer}</pre></h2>
-                            )}
-                          </div>
-                        )}
+                          {!evaluatedAnswer.correct && (
+                            <h2><pre>{"One of the correct answer :\n" + evaluatedAnswer.correct_answer}</pre></h2>
+                          )}
+
+                        </div>
+                      ) :
+                        <h2
+                          style={{
+                            color: 'blue',
+                          }}
+                        >
+                          {evaluatedAnswer.syntax_error}
+                        </h2>
+
+                      }
 
                     </div>
-                  )}
+                  ) : null}
                 </Col>
 
                 <Col
