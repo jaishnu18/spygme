@@ -59,7 +59,9 @@ export function ConceptDescriptionPage(props) {
           content="Description of ConceptDescriptionPage"
         />
       </Helmet>
-      <Button onClick={function(event){window.location.href = `/topics/1`;}}>Back to Concepts</Button>
+      <Link to={`/topics/1`}>
+        <Button>Back to Concepts</Button>
+      </Link>
 
       <StyledRow>
 
@@ -127,7 +129,7 @@ export function ConceptDescriptionPage(props) {
           <NotFoundPage />
         )}
       </StyledRow>
-    </div>
+    </div >
   );
 }
 

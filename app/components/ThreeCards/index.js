@@ -16,6 +16,7 @@ import RecipeReviewCard from 'components/Card';
 import PropLogic from 'images/propLogic.png';
 import APS from 'images/aps.png';
 import CSP from 'images/csp.png';
+import SimpleCard from 'components/SimpleCard';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,16 +36,20 @@ function ThreeCards(props) {
       <Row>
         {props.topics &&
           props.topics.map((key, index) => (
-            <Col style={{ display: 'flex', justifyContent: 'center' }} span={8}>
+            <Grid key={index + 1} item xs={12} sm={3}>
               <Link
-                to={{
-                  pathname: `/topics/${index + 1}`,
-                  state: { topicData: key },
-                }}
+                to={`topics/${key.id}`}
               >
-                <RecipeReviewCard heading={key.name} photo={PropLogic} />
+                <div>
+                  <SimpleCard
+                    type="Topic"
+                    number={index + 1}
+                    title={key.name}
+                    progress={key.progress}
+                  />
+                </div>
               </Link>
-            </Col>
+            </Grid>
           ))}
       </Row>
     </div>

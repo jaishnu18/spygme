@@ -7,8 +7,8 @@ import { GET_TOPICS_START } from './constants';
 
 export function* getTopics() {
   try {
-    const response = yield axios.get(`http://localhost:4000/v1/get-topics/all`);
-    console.log(response);
+    const response = yield axios.get(`http://localhost:4000/v1/get-topics/all`,
+      { headers: { Authorization: localStorage._UFT_ } });
 
     yield put(getTopicsSuccess(response.data.data));
   } catch (err) {

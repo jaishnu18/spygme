@@ -43,18 +43,17 @@ export function HomePage() {
       <div
         style={{
           backgroundColor: '#6EA5C3',
-          height: '220px',
+          height: '240px',
           textAlign: 'center',
         }}
       >
         <h1 style={{ fontSize: 50 }}>
           <b>What is it all about ?</b>
         </h1>
-        <h2 style={{ color: 'white' }}>
-          Discover the platform that givies you the freedom to explore, learn
-          and develop the basic knowledge of Artificial Intelligence from the
-          scratch. Our motive is to provide the basic knowlege from the school
-          level itself so that it can help in your future.{' '}
+        <h2 style={{color: 'white' }}>
+          In today's world, AI has got diverse applications and is used in fields like Healthcare, Self-driving Cars, Agriculture and so on.
+          We want you to start learning AI from the very basic concepts so that you can build a strong foundation and have no problem while understanding more advanced stuffs.  
+          Don't worry!! We don't give lecture videos and take exams. We use AI to teach you AI. You will learn each and every concept while playing interesting games and reading short reading materials. 
         </h2>
       </div>
 
@@ -86,7 +85,7 @@ export function HomePage() {
           <p>Answer2</p>
         </Panel>
         <Panel header="Does it help in my school exam as well ?" key="3">
-          <p>Answer3</p>
+          <p>It does not help you directly in your school curriculum. But learning on our platform can improve your logical thinking skills, make you smarter than others and this may indirectly influence your performance in school exams</p>
         </Panel>
       </Collapse>
 
