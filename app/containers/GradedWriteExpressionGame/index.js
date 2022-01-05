@@ -181,15 +181,11 @@ export function GradedWriteExpressionGame(props) {
       setGraphData(elements);
 
       if (!responses) {
-        // const R = [];
-        // for (let i = 0; i < gameData.length; i += 1) {
-        //   const myarr = [];
-        //   for (let j = 0; j < gameData[i].exp_to_display.length; j += 1) {
-        //     myarr.push(-1);
-        //   }
-        //   R.push(myarr);
-        // }
-        // setResponses(R);
+        const R = [];
+        for (let i = 0; i < gameData.length; i += 1) {
+          R.push(' ');
+        }
+        setResponses(R);
       }
     }
   }, [currLevel]);
@@ -222,7 +218,7 @@ export function GradedWriteExpressionGame(props) {
     const col = parseInt(myArr[1]);
 
     const R = [...responses];
-    R[row - 1][col] = parseInt(e.target.value);
+    R[row - 1] = e.target.value;
     setResponses(R);
 
     const demoAttempted = attempted;
@@ -596,8 +592,8 @@ export function GradedWriteExpressionGame(props) {
               paddingBlock: '40px',
             }}
           >
-            <h1>RULES OF THE TEST</h1>
-            <pre>{`General Instructions -\n
+            <h1>General Instructions</h1>
+            <pre>{`
               1. Total duration of the graded quiz is 1 hour.\n
               2. The clock will be set at the server. The countdown timer in the top right corner of the screen will display the remaining time available for you to complete the examination. When the timer reaches zero, the examination will end by itself. You will not be required to end or submit your examination.\n
               3. The Questions Palette displayed on the right side of screen will show the status of each question using one of the following symbols:\n

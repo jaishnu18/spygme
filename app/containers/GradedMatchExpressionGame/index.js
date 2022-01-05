@@ -673,8 +673,8 @@ export function GradedMatchExpressionGame(props) {
               paddingBlock: '40px',
             }}
           >
-            <h1>RULES OF THE TEST</h1>
-            <pre>{`General Instructions -\n
+            <h1>General Instructions</h1>
+            <pre>{`
               1. Total duration of the graded quiz is 1 hour.\n
               2. The clock will be set at the server. The countdown timer in the top right corner of the screen will display the remaining time available for you to complete the examination. When the timer reaches zero, the examination will end by itself. You will not be required to end or submit your examination.\n
               3. The Questions Palette displayed on the right side of screen will show the status of each question using one of the following symbols:\n
