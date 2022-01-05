@@ -20,6 +20,7 @@ import NodeConsistency from 'containers/NodeConsistencyGame';
 import ArcConsistencyGame from 'containers/ArcConsistencyGame';
 import DrawCrosswordGraphGame from 'containers/DrawCrosswordGraphGame';
 import GradedMatchExpressionGame from 'containers/GradedMatchExpressionGame';
+import GradedWriteExpressionGame from 'containers/GradedWriteExpressionGame';
 import ReadingMaterialPage from 'containers/ReadingMaterialPage';
 import HomePage from 'containers/HomePage';
 //
@@ -95,8 +96,14 @@ function Routes(props) {
       />
       <Route
         exact
-        path="/match-expression/graded-quiz/id"
+        path="/graded-match-expression/:gameId/:level"
         component={GradedMatchExpressionGame}
+      />
+
+      <Route
+        exact
+        path="/graded-write-expression/:gameId/:level"
+        component={GradedWriteExpressionGame}
       />
 
       <Route
