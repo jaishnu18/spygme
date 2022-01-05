@@ -119,7 +119,7 @@ function Routes(props) {
       />
       <Route
         exact
-        path="/reading/:Id"
+        path="/reading/:rmId"
         component={ReadingMaterialPage}
       />
 

@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+import AppStructure from 'components/AppStructure';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
@@ -28,6 +29,7 @@ import {
   Form,
   Modal,
   Input,
+  Collapse
 } from 'antd';
 import moment from 'moment';
 import AppWrapper from 'components/AppWrapper';
@@ -105,6 +107,7 @@ export function MatchExpressionGame(props) {
   const [qsChanges, setQsChanges] = useState('');
   // const [hover, setHover] = React.useState(-1);
 
+  // const { Panel } = Collapse;
   useEffect(() => {
     console.log(qsChanges);
   }, [qsChanges]);
@@ -176,7 +179,7 @@ export function MatchExpressionGame(props) {
     const seconds = timeDiff;
     return seconds;
   }
-
+  const { Panel } = Collapse;
   const handleOnChange = position => {
     const updatedCheckedState = checkedState.map((item, index) =>
       index === position ? !item : item,
@@ -200,11 +203,11 @@ export function MatchExpressionGame(props) {
         content: () => {
           const div = document.createElement('h2');
           div.style.textAlign = 'left';
-          div.style.paddingLeft = '5px';
+          div.style.paddingLeft = '1px';
           div.style.color = 'purple';
           div.style.border = '2px solid black';
           div.style.borderRadius = '2px';
-          div.style.width = '30px';
+          div.style.width = '40px';
           div.innerHTML = i;
           document.body.appendChild(div);
           return div;
@@ -220,62 +223,63 @@ export function MatchExpressionGame(props) {
       myCyRef.on('pan zoom resize', update);
     }
   }
-  useEffect(() => {
-    if (gameData) {
-      const elements = [];
-      const { x_coor } = gameData;
-      const { y_coor } = gameData;
 
-      const { edge_carvature } = gameData;
-      const { content } = gameData;
+  const elements = [];
+  if (gameData) {
+    console.log(gameData);
+    const { x_coor } = gameData;
+    const { y_coor } = gameData;
 
-      for (let i = 0; i < gameData.num_nodes; i += 1) {
+    const { edge_carvature } = gameData;
+    const { content } = gameData;
+
+    for (let i = 0; i < gameData.num_nodes; i += 1) {
+      const obj = {
+        data: { id: i, label: gameData.content[i] },
+        position: {
+          x: 100 * (x_coor[i] + 1),
+          y: 100 * (y_coor[i] + 1),
+        },
+      };
+      elements.push(obj);
+    }
+    const { adjList } = gameData;
+    for (let i = 0; i < gameData.num_nodes; i += 1) {
+      let j = 0;
+
+      while (adjList[i][j] != null) {
+        const tar = adjList[i][j];
+
         const obj = {
-          data: { id: i, label: `${gameData.content[i]}` },
-          position: {
-            x: 100 * (x_coor[i] + 1),
-            y: 100 * (y_coor[i] + 1),
+          data: {
+            source: i,
+            target: tar,
+            label: '',
+            key: `${i}t${tar}`,
+          },
+          style: {
+            'control-point-weight': 0.5,
+            'control-point-distance': -20 * edge_carvature[i][j],
+            'line-color': content[i] === '~' ? '#000' : j == 0 ? 'red' : 'blue',
+            'target-arrow-color':
+              content[i] === '~' ? '#000' : j == 0 ? 'red' : 'blue',
           },
         };
         elements.push(obj);
+
+        j += 1;
       }
-      const { adjList } = gameData;
-      for (let i = 0; i < gameData.num_nodes; i += 1) {
-        let j = 0;
-
-        while (adjList[i][j] != null) {
-          const tar = adjList[i][j];
-
-          const obj = {
-            data: {
-              source: i,
-              target: tar,
-              label: '',
-              key: `${i}t${tar}`,
-            },
-            style: {
-              'control-point-weight': 0.5,
-              'control-point-distance': -20 * edge_carvature[i][j],
-              'line-color':
-                content[i] === '~' ? '#000' : j == 0 ? 'red' : 'blue',
-              'target-arrow-color':
-                content[i] === '~' ? '#000' : j == 0 ? 'red' : 'blue',
-            },
-          };
-          elements.push(obj);
-
-          j += 1;
-        }
-      }
-      setGraphData(elements);
+    }
+  }
+  useEffect(() => {
+    if (gameData) {
       let ptr = 0;
-
       if (gameData.exp_to_display) {
         const exp = gameData.exp_to_display.map((item, index) => (
           <div>
             <div style={{ display: 'flex' }}>
               <h2>
-                {index}..... {item} ::{' '}
+                {index + 1}. {item} {' '}
               </h2>
               <Form.Item
                 name={item}
@@ -343,6 +347,9 @@ export function MatchExpressionGame(props) {
     const lvl = parseInt(level);
     window.location.href = `/match-expression/${gameId}/${lvl + 1}`;
   };
+  const backToConcepts=()=>{
+    window.location.href = `/concept/5`;
+  }
 
   const onFinish = values => {
     const secs = end();
@@ -373,302 +380,162 @@ export function MatchExpressionGame(props) {
         <title>MatchExpressionGame</title>
         <meta name="description" content="Description of MatchExpressionGame" />
       </Helmet>
-
-      <AppWrapper>
-        <div style={{ display: 'flex', width: '100%', padding: '40px 10px' }}>
-          {level == 1 ? (
-            <Button
-              style={{ marginLeft: 'auto', marginRight: '30px' }}
-              onClick={nextLevel}
+      <AppStructure
+        heading="Match Expression with Node"
+        level={"Level: " + level + "/4"}
+        attempt={gameData ? " " + gameData.attempt : " 1"}
+        evaluatedAnswer={evaluatedAnswer}
+        divContent={
+          <div
+            style={{
+              background: '#F8FAA7',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                width: '100%',
+                marginBottom: '20px',
+              }}
             >
-              Next Level
-            </Button>
-          ) : level > 1 && level < 4 ? (
-            <div style={{ display: 'flex', width: '100%' }}>
-              <Button style={{ marginLeft: '10px' }} onClick={prevLevel}>
-                Previous Level
-              </Button>
               <Button
-                style={{ marginLeft: 'auto', marginRight: '30px' }}
-                onClick={nextLevel}
+                style={{ marginLeft: '10px' }}
+                onClick={backToConcepts}
               >
-                Next Level
+                Back to Materials
               </Button>
-            </div>
-          ) : (
-            <div style={{ display: 'flex', width: '100%' }}>
-              <Button style={{ marginLeft: '10px' }} onClick={prevLevel}>
-                Previous Level
-              </Button>
-            </div>
-          )}
-        </div>
-        {gameData && items ? (
-          <GameRow>
-            <Col offset="2">
-              <h1>Enter the Node Value for each Expression</h1>
-              <div>
-                {items && (
-                  <Form
-                    name="basic"
-                    labelCol={{
-                      span: 8,
-                    }}
-                    wrapperCol={{
-                      span: 16,
-                    }}
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
+                <div style={{ display: 'flex', width: '100%' }}>
+                  <Button style={ { marginLeft: 'auto', marginRight: '30px' }} onClick={prevLevel} disabled={level==1}>
+                    Previous Level
+                  </Button>
+                  <Button
+                    style={{ marginLeft: 'auto', marginRight: '30px' }}
+                    onClick={nextLevel}
+                    disabled={level==4}
                   >
-                    {items}
-                    <Form.Item
-                      wrapperCol={{
-                        offset: 8,
-                        span: 16,
-                      }}
-                    >
-                      <Button
-                        type="primary"
-                        htmlType="submit"
-                        disabled={evaluatedAnswer}
-                      >
-                        Submit
-                      </Button>
-                    </Form.Item>
-                  </Form>
-                )}
-              </div>
-            </Col>
-
-            <Col
-              span="13"
-              offset="40px"
-              style={{ padding: '20px', paddingLeft: '80px' }}
-            >
-              <div
-                style={{
-                  background: '#6EA5C3',
-                  padding: '10px',
-                  marginBottom: '50px',
-                  textAlign: 'center',
-                  // minWidth: '500px',
-                  width: '500px',
-                }}
-              >
-                {' '}
-                <h1
-                  style={{
-                    textAlign: 'Center',
-                    color: 'white',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  Graph
-                </h1>
-                <Button onClick={function (event) { myCyRef.reset(); }}>Reset Graph Layout</Button>
-                <div>
-                  <CytoscapeComponent
-                    elements={CytoscapeComponent.normalizeElements(graphData)}
-                    // pan={{ x: 200, y: 200 }}
-                    style={{
-                      minWidth: '500px',
-                      minHeight: '500px',
-                      borderRadius: '5px',
-                      border: '4px solid #999676',
-                    }}
-                    zoomingEnabled
-                    maxZoom={3}
-                    minZoom={0.1}
-                    autounselectify={false}
-                    boxSelectionEnabled
-                    stylesheet={[
-                      {
-                        selector: 'node',
-                        style: {
-                          'background-color': '#666',
-                          color: 'white',
-                          label: 'data(label)',
-                          width: '42px',
-                          height: '42px',
-                          'text-valign': 'center',
-                          'text-halign': 'center',
-                          'font-size': '17px',
-                        },
-                      },
-                      {
-                        selector: 'edge',
-                        style: {
-                          width: 3,
-                          'line-color': 'blue',
-                          'target-arrow-color': 'blue',
-                          'target-arrow-shape': 'triangle',
-                          'curve-style': 'unbundled-bezier',
-                          'control-point-weight': '0.5',
-                          'control-point-distance': '0',
-                        },
-                      },
-                    ]}
-                    cy={cy => {
-                      myCyRef = cy;
-                      showNodeIDs();
-                      cy.on('tap', 'node', evt => {
-                        var node = evt.target;
-                      });
-                    }}
-                  />
+                    Next Level
+                  </Button>
                 </div>
-              </div>
-              <TimeClock active={!evaluatedAnswer} />
-
-              <Modal
-                title="Feedback"
-                width="800px"
-                visible={isModalVisible}
-                onOk={handleOk}
-                onCancel={handleCancel}
-              >
-                <Box
-                  md={{
-                    width: 200,
-                    display: 'flex',
-                    alignItems: 'center',
-                    flexDirection: 'column',
-                  }}
-                >
-                  <h2>{questions[0]}</h2>
-                  <Rating
-                    name="hover-feedback-1"
-                    value={starValue1}
-                    precision={0.5}
-                    onChange={(event, newValue) => {
-                      setStarValue1(newValue);
-                    }}
-                    // onChangeActive={(event, newHover) => {
-                    //   // setHover(newHover);
-                    // }}
-                    emptyIcon={
-                      <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
-                    }
-                  />
-                  <h2>{questions[1]}</h2>
-                  <Rating
-                    name="hover-feedback-2"
-                    value={starValue2}
-                    precision={0.5}
-                    onChange={(event, newValue) => {
-                      setStarValue2(newValue);
-                    }}
-                    // onChangeActive={(event, newHover) => {
-                    //   setHover(newHover);
-                    // }}
-                    emptyIcon={
-                      <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
-                    }
-                  />
-                  <h2>{questions[2]}</h2>
-                  <Rating
-                    name="hover-feedback-3"
-                    value={starValue3}
-                    precision={0.5}
-                    onChange={(event, newValue) => {
-                      setStarValue3(newValue);
-                    }}
-                    // onChangeActive={(event, newHover) => {
-                    //   setHover(newHover);
-                    // }}
-                    emptyIcon={
-                      <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
-                    }
-                  />
-                  <h2>{questions[3]}</h2>
-                  <Rating
-                    name="hover-feedback-4"
-                    value={starValue4}
-                    precision={0.5}
-                    onChange={(event, newValue) => {
-                      setStarValue4(newValue);
-                    }}
-                    // onChangeActive={(event, newHover) => {
-                    //   setHover(newHover);
-                    // }}
-                    emptyIcon={
-                      <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
-                    }
-                  />
-
-                  <h2>Do you think the solution given is wrong?</h2>
-                  <div style={{ display: 'flex' }}>
-                    <Button
-                      onClick={() => {
-                        setQsWrong(false);
-                      }}
-                      style={{
-                        backgroundColor: !qsWrong ? 'red' : 'white',
-                        color: !qsWrong ? 'white' : 'black',
-                      }}
-                    >
-                      No
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        setQsWrong(true);
-                      }}
-                      style={{
-                        backgroundColor: qsWrong ? 'green' : 'white',
-                        color: qsWrong ? 'white' : 'black',
-                      }}
-                    >
-                      Yes
-                    </Button>
+            </div>
+            {gameData ? (
+              <Row>
+                <Collapse accordion style={{ width: '100%' }} defaultActiveKey={['1']}>
+                  <Panel key="1" header="How to play?">
+                    <p>{gameData ? gameData.gameDescription : ""}</p>
+                  </Panel>
+                </Collapse>
+                <Col span="11" style={{ padding: '40px' }}>
+                  <h1>Enter the Node ID for each Expression</h1>
+                  <div>
+                    {items && (
+                      <Form
+                        name="basic"
+                        labelCol={{
+                          span: 8,
+                        }}
+                        wrapperCol={{
+                          span: 16,
+                        }}
+                        onFinish={onFinish}
+                        onFinishFailed={onFinishFailed}
+                      >
+                        {items}
+                        <Form.Item
+                          wrapperCol={{
+                            offset: 8,
+                            span: 16,
+                          }}
+                        >
+                          <Button
+                            type="primary"
+                            htmlType="submit"
+                            disabled={evaluatedAnswer}
+                          >
+                            Submit
+                          </Button>
+                        </Form.Item>
+                      </Form>
+                    )}
                   </div>
-                  <h2>Do you want changes/improvement in this game?</h2>
-                  <Box
-                    component="form"
-                    sx={{
-                      '& > :not(style)': { m: 1, width: '25ch' },
+                </Col>
+                <Col
+                  span="13"
+                  offset="40px"
+                  style={{ padding: '20px', paddingLeft: '80px' }}
+                >
+                  <div
+                    style={{
+                      background: '#6EA5C3',
+                      padding: '10px',
+                      marginBottom: '50px',
+                      textAlign: 'center',
+                      // minWidth: '500px',
+                      width: '500px',
                     }}
-                    noValidate
-                    autoComplete="off"
                   >
-                    <TextField
-                      id="outlined-basic"
-                      label="changes"
-                      variant="outlined"
-                      style={{ width: '200px' }}
-                      onChange={e => {
-                        setQsChanges(e.target.value);
+                    {' '}
+                    <h1
+                      style={{
+                        textAlign: 'Center',
+                        color: 'white',
+                        fontWeight: 'bold',
                       }}
-                    />
-                  </Box>
-                  {evaluatedAnswer && evaluatedAnswer.score < 1 && (
+                    >
+                      Graph
+                    </h1>
+                    <Button onClick={function (event) { myCyRef.reset(); }}>Reset Graph Layout</Button>
                     <div>
-                      <h1>What Went Wrong?</h1>
-                      <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        {errors.map((err, index) => (
-                          <div>
-                            <input
-                              type="checkbox"
-                              id={`custom-checkbox-${index}`}
-                              name={err}
-                              value={err}
-                              checked={checkedState[index]}
-                              onChange={() => handleOnChange(index)}
-                            />
-                            <label htmlFor={`custom-checkbox-${index}`}>
-                              {err}
-                            </label>
-                          </div>
-                        ))}
-                      </div>
+                      <CytoscapeComponent
+                        elements={elements}
+                        style={{
+                          minWidth: '400px',
+                          height: level * 100 + 400,
+                          background: 'white',
+                          border: '2px solid black',
+                        }}
+                        stylesheet={[
+                          {
+                            selector: 'node',
+                            style: {
+                              'background-color': '#666',
+                              color: 'white',
+                              label: 'data(label)',
+                              width: '42px',
+                              height: '42px',
+                              'text-valign': 'center',
+                              'text-halign': 'center',
+                            },
+                          },
+                          {
+                            selector: 'edge',
+                            style: {
+                              width: 3,
+                              'line-color': 'blue',
+                              'target-arrow-color': 'blue',
+                              'target-arrow-shape': 'triangle',
+                              'curve-style': 'unbundled-bezier',
+                              'control-point-weight': '0.5',
+                              'control-point-distance': '0',
+                            },
+                          },
+                        ]}
+                        cy={cy => {
+                          myCyRef = cy;
+                          showNodeIDs();
+                          cy.on('tap', 'node', evt => {
+                            var node = evt.target;
+                          });
+                        }}
+                      />
                     </div>
-                  )}
-                </Box>
-              </Modal>
-            </Col>
-          </GameRow>
-        ) : null}
-      </AppWrapper>
-    </div>
+                    {/*  */}
+                  </div>
+                </Col>
+              </Row>
+            ) : null}
+          </div>
+        } />
+    </div >
   );
 }
 

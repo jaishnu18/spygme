@@ -13,6 +13,7 @@ import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import ConceptCardSection from 'components/ConceptCardSection';
+import { Button } from 'antd';
 
 import NotFoundPage from 'containers/NotFoundPage';
 
@@ -65,6 +66,7 @@ export function ConceptsContainer(props) {
         <title>ConceptsContainer</title>
         <meta name="description" content="Description of ConceptsContainer" />
       </Helmet>
+      <Button onClick={function(event){window.location.href=`/topics`}}>Back to Topics</Button>
       {topicData && concepts ? (
         <div>
           <Typography className={classes.paper} variant="h2" gutterBottom>

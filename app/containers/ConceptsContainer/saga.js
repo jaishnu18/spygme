@@ -35,6 +35,7 @@ export function* getConcepts(action) {
   try {
     const response = yield axios.get(
       `http://localhost:4000/v1/get-concepts/${topicId} `,
+      { headers: { Authorization: localStorage._UFT_ } },
     );
 
     yield put(getConceptsSuccess(response.data.data));

@@ -15,7 +15,7 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import { Row, Typography, Card } from 'antd';
+import { Row, Typography, Card, Button } from 'antd';
 import styled from 'styled-components';
 import ConceptCardSection from 'components/ConceptCardSection';
 import NotFoundPage from 'containers/NotFoundPage';
@@ -48,7 +48,7 @@ export function ConceptDescriptionPage(props) {
 
   const { games } = props.conceptDescriptionPage;
   const { readingMaterials } = props.conceptDescriptionPage;
-  console.log(readingMaterials);
+  console.log(props);
 
   return (
     <div>
@@ -59,7 +59,10 @@ export function ConceptDescriptionPage(props) {
           content="Description of ConceptDescriptionPage"
         />
       </Helmet>
+      <Button onClick={function(event){window.location.href = `/topics/1`;}}>Back to Concepts</Button>
+
       <StyledRow>
+
         <div style={{ padding: '10px' }}>
           <Typography.Title style={{ padding: '20px' }}>
             Reading Material

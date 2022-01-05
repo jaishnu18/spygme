@@ -82,7 +82,7 @@ function NavBar(props) {
                     Dashboard
                   </Menu.Item>
 
-                  <Menu.Item key="3" onClick={() => history.push('/profile')}>
+                  <Menu.Item key="3" onClick={() => history.push('/my/profile')}>
                     Profile
                   </Menu.Item>
                   <Menu.Item key="4">About</Menu.Item>

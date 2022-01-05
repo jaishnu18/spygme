@@ -24,7 +24,8 @@ import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import CytoscapeComponent from 'react-cytoscapejs';
-import { Row, InputNumber, Button, Space, message, Col, Divider } from 'antd';
+import { Row, InputNumber, Button, Space, message, Col, Divider, Collapse } from 'antd';
+import AppStructure from 'components/AppStructure';
 
 import AppWrapper from 'components/AppWrapper';
 
@@ -45,16 +46,16 @@ export function TreeGamePage(props) {
   const [value, setValue] = useState(0);
   const [answer, setAnswer] = useState(undefined);
   const [graphData, setGraphData] = useState(undefined);
-  const [visualizeStarted, setvisualizeStarted]=useState(false);
+  const [visualizeStarted, setvisualizeStarted] = useState(false);
 
   useEffect(() => {
     props.getGameData(props.level);
   }, [props.level]);
 
   const { gameData } = props.treeGamePage;
+  const level = props.level;
 
-  console.log(localStorage.UFT);
-
+  const { Panel } = Collapse;
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [isActive, setIsActive] = useState(true);
@@ -164,12 +165,16 @@ export function TreeGamePage(props) {
 
   const prevLevel = () => {
     const lvl = parseInt(props.level);
-    window.location.href = `/evaluate-expression/${gameId}/${lvl - 1}`;
+    window.location.href = `/evaluate-expression/1/${lvl - 1}`;
   };
   const nextLevel = () => {
     const lvl = parseInt(props.level);
-    window.location.href = `/evaluate-expression/${gameId}/${lvl - 1}`;
+    window.location.href = `/evaluate-expression/1/${lvl + 1}`;
   };
+
+  const backToConcepts=()=>{
+    window.location.href = `/concept/5`;
+  }
 
   let myCyRef;
   function getVisualization() {
@@ -277,9 +282,9 @@ export function TreeGamePage(props) {
     for (var i = 0; i < gameData.num_nodes; i++) {
       if (gameData.content[i][0] >= 'a' && gameData.content[i][0] <= 'z') {
         indents.push(
-          <div style={{ marginLeft: '10px', marginTop: '2px' }} key={i}>
+          <h2 style={{ marginLeft: '10px' }} key={i}>
             {gameData.content[i]} = {gameData.values[i]},
-          </div>,
+          </h2>,
         );
       }
     }
@@ -295,217 +300,184 @@ export function TreeGamePage(props) {
          steps={['Tree Games', 'CrossWords', 'New Games']}
          heading="TreeGame"
        > */}
-      <AppWrapper>
-        {/* <Divider orientation="left">sub-element align left</Divider> */}
-        <Row justify="space-around">
-          <Col span={4}>
-            <h1 style={{ color: 'white' }}>Tree Game</h1>
-          </Col>
-          <Col span={4}>
-            <h1 style={{ color: 'white' }}>Level</h1>
-          </Col>
-          <Col span={4}>
-            {' '}
-            <h1 style={{ color: 'white' }}>Attempts : 1</h1>
-          </Col>
-          <Col span={4}>
-            <h1 className="time" style={{ color: 'white' }}>
-              <h4 style={{ color: 'white' }}>Time: {seconds}s </h4>
-            </h1>
-          </Col>
-        </Row>
-
-        <div
-          style={{
-            margin: 20,
-            background: '#F8FAA7',
-            height: '100%',
-          }}
-        >
+      <AppStructure
+        heading="Evaluate Expression"
+        level={"Level: " + level + "/4"}
+        attempt={gameData ? " " + gameData.attempt : " 1"}
+        evaluatedAnswer={answer !== undefined}
+        divContent={
           <div
             style={{
-              display: 'flex',
-              width: '100%',
-              marginBottom: '20px',
-              padding: '10px',
+              background: '#F8FAA7',
             }}
           >
-            {props.level == 1 ? (
+            <div
+              style={{
+                display: 'flex',
+                width: '100%',
+                marginBottom: '20px',
+              }}
+            >
               <Button
-                style={{ marginLeft: 'auto', marginRight: '30px' }}
-                onClick={nextLevel}
+                style={{ marginLeft: '10px' }}
+                onClick={backToConcepts}
               >
-                Next Level
+                Back to Materials
               </Button>
-            ) : (
-              <div
-                style={{ display: 'flex', width: '100%', marginTop: '20px' }}
-              >
-                <Button
-                  style={{
-                    marginLeft: '10px',
-                    background: 'brown',
-                    color: 'white',
-                  }}
-                  onClick={prevLevel}
-                >
-                  Previous Level
-                </Button>
-                <Button
-                  style={{
-                    marginLeft: 'auto',
-                    marginRight: '30px',
-                    background: 'brown',
-                    color: 'white',
-                  }}
-                  onClick={nextLevel}
-                >
-                  Next Level
-                </Button>
-              </div>
-            )}
-          </div>
-          {gameData ? (
-            <Row>
-              <Col offset="1">
-                <h1
-                  style={{
-                    fontWeight: 'bold',
-                  }}
-                >
-                  Evaluate the given logical expression :
-                </h1>
-                <h2>{gameData.expression}</h2>
-                <div style={{ display: 'flex' }}>
-                  <h3>where</h3>
-                  {indents}
+                <div style={{ display: 'flex', width: '100%' }}>
+                  <Button style={ { marginLeft: 'auto', marginRight: '30px' }} onClick={prevLevel} disabled={level==1}>
+                    Previous Level
+                  </Button>
+                  <Button
+                    style={{ marginLeft: 'auto', marginRight: '30px' }}
+                    onClick={nextLevel}
+                    disabled={level==4}
+                  >
+                    Next Level
+                  </Button>
                 </div>
-
-                <Demo />
-
-
-              </Col>
-
-              <Col offset="3">
-                <div
-                  style={{
-                    background: '#6EA5C3',
-                    padding: '10px',
-                    marginBottom: '50px',
-                    textAlign: 'center'
-                  }}
-                >
+            </div>
+            {gameData ? (
+              <Row>
+                <Collapse accordion style={{ width: '100%' }} defaultActiveKey={['1']}>
+                  <Panel key="1" header="How to play?">
+                    <p>{gameData ? gameData.gameDescription : ""}</p>
+                  </Panel>
+                </Collapse>
+                <Col offset="1" >
                   <h1
                     style={{
-                      textAlign: 'Center',
-                      color: 'white',
                       fontWeight: 'bold',
                     }}
                   >
-                    Graph
+                    Evaluate the given logical expression :
                   </h1>
-                  {gameData && (
-                    <div>
-                      <Button onClick={resetGraph}>Reset Graph Layout</Button>
-                      <Button
-                        onClick={getVisualization}
-                        disabled={
-                          answer === undefined ||
-                          gameData.ptr === gameData.num_nodes ||
-                          gameData.ptr2 !== 0
-                        }
-                      >
-                        {visualizeStarted?'Next':'Visualize in steps'}
-                      </Button>
-                      <Button
-                        onClick={function (event) { resetGraph(); animate(); }}
-                        disabled={
-                          answer === undefined
-                        }
-                      >
-                        Animate
-                      </Button>
-
-                      {/* <Button onClick={reset}>Reset</Button> */}
-                    </div>
-                  )}
-
-
-                  {graphData && (
-                    <CytoscapeComponent
-                      elements={CytoscapeComponent.normalizeElements(graphData)}
-                      // pan={{ x: 200, y: 200 }}
+                  <h2>{gameData.expression}</h2>
+                  <div style={{ display: 'flex' }}>
+                    <h2>where</h2>
+                    {indents}
+                  </div>
+                  <Demo />
+                </Col>
+                <Col offset="3">
+                  <div
+                    style={{
+                      background: '#6EA5C3',
+                      padding: '10px',
+                      marginBottom: '50px',
+                      textAlign: 'center'
+                    }}
+                  >
+                    <h1
                       style={{
-                        width: '600px',
-                        height: props.level * 100 + 400,
-                        border: '1px solid black',
-                        background: 'white',
+                        textAlign: 'Center',
+                        color: 'white',
+                        fontWeight: 'bold',
                       }}
-                      zoomingEnabled
-                      maxZoom={3}
-                      minZoom={0.1}
-                      autounselectify={false}
-                      boxSelectionEnabled
-                      stylesheet={[
-                        {
-                          selector: 'node',
-                          style: {
-                            'background-color': '#666',
-                            color: 'white',
-                            label: 'data(label)',
-                            width: '42px',
-                            height: '42px',
-                            'text-valign': 'center',
-                            'text-halign': 'center',
-                            'font-size': '17px',
-                          },
-                        },
-                        {
-                          selector: 'edge',
-                          style: {
-                            width: 3,
-                            'line-color': 'blue',
-                            'target-arrow-color': 'blue',
-                            'target-arrow-shape': 'triangle',
-                            'curve-style': 'unbundled-bezier',
-                            'control-point-weight': '0.5',
-                            'control-point-distance': '0',
-                          },
-                        },
-                        {
-                          selector: '.highlighted',
-                          style: {
-                            'background-color': '#61bffc',
-                            'line-color': '#61bffc',
-                            'target-arrow-color': '#61bffc',
-                            'transition-property':
-                              'background-color, line-color, target-arrow-color',
-                            'transition-duration': '0.5s',
-                          },
-                        },
-                      ]}
-                      cy={cy => {
-                        myCyRef = cy;
-                        console.log('EVT', cy);
+                    >
+                      Graph
+                    </h1>
+                    {gameData && (
+                      <div>
+                        <Button onClick={resetGraph}>Reset Graph Layout</Button>
+                        <Button
+                          onClick={getVisualization}
+                          disabled={
+                            answer === undefined ||
+                            gameData.ptr === gameData.num_nodes ||
+                            gameData.ptr2 !== 0
+                          }
+                        >
+                          {visualizeStarted ? 'Next' : 'Visualize in steps'}
+                        </Button>
+                        <Button
+                          onClick={function (event) { resetGraph(); animate(); }}
+                          disabled={
+                            answer === undefined
+                          }
+                        >
+                          Animate
+                        </Button>
 
-                        cy.on('tap', 'node', evt => {
-                          var node = evt.target;
-                        });
-                      }}
-                      abc={console.log('myCyRef', myCyRef)}
-                    />
-                  )}
-                </div>
+                        {/* <Button onClick={reset}>Reset</Button> */}
+                      </div>
+                    )}
 
-                {/* <div> */}
 
-                {/* </div> */}
-              </Col>
-            </Row>
-          ) : null}
-        </div>
-        {/* <div /> */}
-      </AppWrapper>
+                    {graphData && (
+                      <CytoscapeComponent
+                        elements={CytoscapeComponent.normalizeElements(graphData)}
+                        // pan={{ x: 200, y: 200 }}
+                        style={{
+                          width: '500px',
+                          height: props.level * 100 + 400,
+                          border: '1px solid black',
+                          background: 'white',
+                        }}
+                        zoomingEnabled
+                        maxZoom={3}
+                        minZoom={0.1}
+                        autounselectify={false}
+                        boxSelectionEnabled
+                        stylesheet={[
+                          {
+                            selector: 'node',
+                            style: {
+                              'background-color': '#666',
+                              color: 'white',
+                              label: 'data(label)',
+                              width: '42px',
+                              height: '42px',
+                              'text-valign': 'center',
+                              'text-halign': 'center',
+                              'font-size': '17px',
+                            },
+                          },
+                          {
+                            selector: 'edge',
+                            style: {
+                              width: 3,
+                              'line-color': 'blue',
+                              'target-arrow-color': 'blue',
+                              'target-arrow-shape': 'triangle',
+                              'curve-style': 'unbundled-bezier',
+                              'control-point-weight': '0.5',
+                              'control-point-distance': '0',
+                            },
+                          },
+                          {
+                            selector: '.highlighted',
+                            style: {
+                              'background-color': '#61bffc',
+                              'line-color': '#61bffc',
+                              'target-arrow-color': '#61bffc',
+                              'transition-property':
+                                'background-color, line-color, target-arrow-color',
+                              'transition-duration': '0.5s',
+                            },
+                          },
+                        ]}
+                        cy={cy => {
+                          myCyRef = cy;
+                          console.log('EVT', cy);
+
+                          cy.on('tap', 'node', evt => {
+                            var node = evt.target;
+                          });
+                        }}
+                        abc={console.log('myCyRef', myCyRef)}
+                      />
+                    )}
+                  </div>
+
+                  {/* <div> */}
+
+                  {/* </div> */}
+                </Col>
+              </Row>
+            ) : null}
+          </div>
+        } />
       {/* </SideBar> */}
     </div>
   );

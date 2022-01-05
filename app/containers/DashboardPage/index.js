@@ -12,12 +12,15 @@ import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { useAuth } from 'containers/App/AuthContext';
+import { Button } from 'antd';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import makeSelectDashboardPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+import { Link } from 'react-router-dom';
+
 
 export function DashboardPage(props) {
   useInjectReducer({ key: 'dashboardPage', reducer });
@@ -34,8 +37,10 @@ export function DashboardPage(props) {
       <Helmet>
         <title>DashboardPage</title>
         <meta name="description" content="Description of DashboardPage" />
-        HIIIIIIIIIIIIIIIIII
       </Helmet>
+      <Link to='/topics'>
+        <Button>Learn AI</Button>
+      </Link>
     </div>
   );
 }
