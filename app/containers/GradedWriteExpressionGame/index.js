@@ -1,30 +1,30 @@
-/* eslint-disable radix */
 /**
  *
- * GradedMatchExpressionGame
+ * GradedWriteExpressionGame
  *
  */
 
 import React, { memo, useState, useEffect } from 'react';
-import PropTypes, { number } from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
+import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+import AppWrapper from 'components/AppWrapper';
 import { Button, Col, Row, Form, InputNumber, Input } from 'antd';
-
 import CytoscapeComponent from 'react-cytoscapejs';
-import CountDownTimer from 'components/CountDownTimer';
+
+
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import AppWrapper from 'components/AppWrapper';
-import CustomInput from 'components/atoms/CustomInput';
-import TickMark from 'images/tickmark.svg';
-import CrossMark from 'images/cross.svg';
-import makeSelectGradedMatchExpressionGame from './selectors';
+import makeSelectGradedWriteExpressionGame from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+import messages from './messages';
 import { getGamesDataStart, evaluateResponseStart } from './actions';
+import CountDownTimer from 'components/CountDownTimer';
+
 
 const Navigator = props => (
   <div
@@ -104,10 +104,9 @@ const Timer = props => {
     </div>
   );
 };
-
-export function GradedMatchExpressionGame(props) {
-  useInjectReducer({ key: 'gradedMatchExpressionGame', reducer });
-  useInjectSaga({ key: 'gradedMatchExpressionGame', saga });
+export function GradedWriteExpressionGame(props) {
+  useInjectReducer({ key: 'gradedWriteExpressionGame', reducer });
+  useInjectSaga({ key: 'gradedWriteExpressionGame', saga });
 
   const [startTime, setStartTime] = useState(0);
   const [graphData, setGraphData] = useState(undefined);
@@ -124,7 +123,6 @@ export function GradedMatchExpressionGame(props) {
 
   const [isExamOver, setExamOver] = useState(false);
   const [timeStamps, setTimeStamps] = useState([[new Date()], [], [], []]);
-
   useEffect(() => {
     props.getGameData();
   }, []);
@@ -144,7 +142,7 @@ export function GradedMatchExpressionGame(props) {
         const obj = {
           data: {
             id: i,
-            label: `${gameData[currLevel].content[i]} : ${i}`,
+            label: `${gameData[currLevel].content[i]}`,
           },
           position: {
             x: 100 * (x_coor[i] + 1),
@@ -169,9 +167,8 @@ export function GradedMatchExpressionGame(props) {
             },
             style: {
               'control-point-weight': 0.5,
-              'control-point-distance': -50 * edge_carvature[i][j],
-              'line-color':
-                content[i] === '~' ? '#000' : j == 0 ? 'red' : 'blue',
+              'control-point-distance': -20 * edge_carvature[i][j],
+              'line-color': content[i] === '~' ? '#000' : j == 0 ? 'red' : 'blue',
               'target-arrow-color':
                 content[i] === '~' ? '#000' : j == 0 ? 'red' : 'blue',
             },
@@ -184,15 +181,15 @@ export function GradedMatchExpressionGame(props) {
       setGraphData(elements);
 
       if (!responses) {
-        const R = [];
-        for (let i = 0; i < gameData.length; i += 1) {
-          const myarr = [];
-          for (let j = 0; j < gameData[i].exp_to_display.length; j += 1) {
-            myarr.push(-1);
-          }
-          R.push(myarr);
-        }
-        setResponses(R);
+        // const R = [];
+        // for (let i = 0; i < gameData.length; i += 1) {
+        //   const myarr = [];
+        //   for (let j = 0; j < gameData[i].exp_to_display.length; j += 1) {
+        //     myarr.push(-1);
+        //   }
+        //   R.push(myarr);
+        // }
+        // setResponses(R);
       }
     }
   }, [currLevel]);
@@ -215,8 +212,8 @@ export function GradedMatchExpressionGame(props) {
     }
   }, [isExamOver]);
 
-  const { gameData } = props.gradedMatchExpressionGame;
-  const { evaluatedAnswer } = props.gradedMatchExpressionGame;
+  const { gameData } = props.gradedWriteExpressionGame;
+  const { evaluatedAnswer } = props.gradedWriteExpressionGame;
 
   const handleChange = e => {
     const { id } = e.target;
@@ -247,242 +244,169 @@ export function GradedMatchExpressionGame(props) {
     res.studentResponse = gameData;
     props.checkStudentResponse(res);
   };
-
   const formFields = () => {
     switch (currLevel) {
       default:
         let ptr1 = 0;
-        return gameData[0].exp_to_display.map((item, index) => (
+        return (
           <div>
-            <div style={{ display: 'flex' }}>
-              <h2>
-                {index + 1}. {item} ::{' '}
-              </h2>
-              <Form.Item name={`1-${index}`} style={{ marginLeft: '20px' }}>
-                <input
-                  type="number"
-                  id={`1-${index}`}
-                  onChange={handleChange}
-                />
+            <h1>
+              Write Any Equivalent Expression denoted by the following
+              Graph:
+            </h1>
+            <Form
+              name="basic"
+              labelCol={{
+                span: 8,
+              }}
+              wrapperCol={{
+                span: 16,
+              }}
+              // onFinish={onFinish}
+              // onFinishFailed={onFinishFailed}
+              autoComplete="off"
+            >
+              <Form.Item
+                label="Enter your expression"
+                name="1"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your Response!',
+                  },
+                ]}
+              >
+                <Input id='1'/>
               </Form.Item>
-            </div>
-            {showDetails &&
-              evaluatedAnswer &&
-              evaluatedAnswer[0].correctResponse && (
-                <div>
-                  <h1
-                    style={{
-                      color: evaluatedAnswer[0].correctResponse.includes(index)
-                        ? 'green'
-                        : 'red',
-                    }}
-                  >
-                    {evaluatedAnswer &&
-                      evaluatedAnswer[0].correctResponse.includes(index) ? (
-                      <img
-                        src={TickMark}
-                        style={{ width: '40px', height: '40px' }}
-                      />
-                    ) : (
-                      <div>
-                        <img
-                          src={CrossMark}
-                          style={{ width: '20px', height: '20px' }}
-                        />
-                        <div>
-                          Correct Node-ID: <span />
-                          {evaluatedAnswer[0].wrongResponse[ptr1++][1]}
-                        </div>
-                      </div>
-                    )}
-                  </h1>
-                </div>
-              )}
+            </Form>
           </div>
-        ));
+        );
       case 1:
         let ptr2 = 0;
-        return gameData[1].exp_to_display.map((item, index) => (
+        return (
           <div>
-            <div style={{ display: 'flex' }}>
-              <h2>
-                {index + 1}..... {item} ::{' '}
-              </h2>
+            <h1>
+              Write Any Equivalent Expression denoted by the following
+              Graph:
+            </h1>
+            <Form
+              name="basic"
+              labelCol={{
+                span: 8,
+              }}
+              wrapperCol={{
+                span: 16,
+              }}
+              // onFinish={onFinish}
+              // onFinishFailed={onFinishFailed}
+              autoComplete="off"
+            >
               <Form.Item
-                // label={`${item}`}
-                name={`2-${index}`}
-                style={{ marginLeft: '20px' }}
+                label="Enter your expression"
+                name="2"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your Response!',
+                  },
+                ]}
               >
-                <input
-                  type="number"
-                  id={`2-${index}`}
-                  onChange={handleChange}
-                />
+                <Input id='2'/>
               </Form.Item>
-            </div>
-            {showDetails &&
-              evaluatedAnswer &&
-              evaluatedAnswer[1].correctResponse && (
-                <div>
-                  <h1
-                    style={{
-                      color: evaluatedAnswer[1].correctResponse.includes(index)
-                        ? 'green'
-                        : 'red',
-                    }}
-                  >
-                    {evaluatedAnswer &&
-                      evaluatedAnswer[1].correctResponse.includes(index) ? (
-                      <img
-                        src={TickMark}
-                        style={{ width: '40px', height: '40px' }}
-                      />
-                    ) : (
-                      <div>
-                        <img
-                          src={CrossMark}
-                          style={{ width: '20px', height: '20px' }}
-                        />
-                        <div>
-                          Correct Node-ID: <span />
-                          {evaluatedAnswer[1].wrongResponse[ptr2++][1]}
-                        </div>
-                      </div>
-                    )}
-                  </h1>
-                </div>
-              )}
+            </Form>
           </div>
-        ));
+        );
       case 2:
         let ptr3 = 0;
-        return gameData[2].exp_to_display.map((item, index) => (
+        return (
           <div>
-            <div style={{ display: 'flex' }}>
-              <h2>
-                {index + 1}..... {item} ::{' '}
-              </h2>
+            <h1>
+              Write Any Equivalent Expression denoted by the following
+              Graph:
+            </h1>
+            <Form
+              name="basic"
+              labelCol={{
+                span: 8,
+              }}
+              wrapperCol={{
+                span: 16,
+              }}
+              // onFinish={onFinish}
+              // onFinishFailed={onFinishFailed}
+              autoComplete="off"
+            >
               <Form.Item
-                // label={`${item}`}
-                name={`3-${index}`}
-                style={{ marginLeft: '20px' }}
+                label="Enter your expression"
+                name="3"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your Response!',
+                  },
+                ]}
               >
-                <input
-                  type="number"
-                  id={`3-${index}`}
-                  onChange={handleChange}
-                />
+                <Input id='3'/>
               </Form.Item>
-            </div>
-            {showDetails &&
-              evaluatedAnswer &&
-              evaluatedAnswer[2].correctResponse && (
-                <div>
-                  <h1
-                    style={{
-                      color: evaluatedAnswer[2].correctResponse.includes(index)
-                        ? 'green'
-                        : 'red',
-                    }}
-                  >
-                    {evaluatedAnswer &&
-                      evaluatedAnswer[2].correctResponse.includes(index) ? (
-                      <img
-                        src={TickMark}
-                        style={{ width: '40px', height: '40px' }}
-                      />
-                    ) : (
-                      <div>
-                        <img
-                          src={CrossMark}
-                          style={{ width: '20px', height: '20px' }}
-                        />
-                        <div>
-                          Correct Node-ID: <span />
-                          {evaluatedAnswer[2].wrongResponse[ptr3++][1]}
-                        </div>
-                      </div>
-                    )}
-                  </h1>
-                </div>
-              )}
+            </Form>
           </div>
-        ));
+        );
       case 3:
         let ptr4 = 0;
-        return gameData[3].exp_to_display.map((item, index) => (
+        return (
           <div>
-            <div style={{ display: 'flex' }}>
-              <h2>
-                {index + 1}..... {item} ::{' '}
-              </h2>
+            <h1>
+              Write Any Equivalent Expression denoted by the following
+              Graph:
+            </h1>
+            <Form
+              name="basic"
+              labelCol={{
+                span: 8,
+              }}
+              wrapperCol={{
+                span: 16,
+              }}
+              // onFinish={onFinish}
+              // onFinishFailed={onFinishFailed}
+              autoComplete="off"
+            >
               <Form.Item
-                // label={`${item}`}
-                name={`4-${index}`}
-                style={{ marginLeft: '20px' }}
+                label="Enter your expression"
+                name="4"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your Response!',
+                  },
+                ]}
               >
-                <input
-                  type="number"
-                  id={`4-${index}`}
-                  onChange={handleChange}
-                />
+                <Input id='4'/>
               </Form.Item>
-            </div>
-            {showDetails &&
-              evaluatedAnswer &&
-              evaluatedAnswer[3].correctResponse && (
-                <div>
-                  <h1
-                    style={{
-                      color: evaluatedAnswer[3].correctResponse.includes(index)
-                        ? 'green'
-                        : 'red',
-                    }}
-                  >
-                    {evaluatedAnswer &&
-                      evaluatedAnswer[3].correctResponse.includes(index) ? (
-                      <img
-                        src={TickMark}
-                        style={{ width: '40px', height: '40px' }}
-                      />
-                    ) : (
-                      <div>
-                        <img
-                          src={CrossMark}
-                          style={{ width: '20px', height: '20px' }}
-                        />
-                        <div>
-                          Correct Node-ID: <span />
-                          {evaluatedAnswer[3].wrongResponse[ptr4++][1]}
-                        </div>
-                      </div>
-                    )}
-                  </h1>
-                </div>
-              )}
+            </Form>
           </div>
-        ));
+
+        );
     }
   };
   let myCyRef;
-
   return (
     <div>
       <Helmet>
-        <title>GradedMatchExpressionGame</title>
+        <title>GradedWriteExpressionGame</title>
         <meta
           name="description"
-          content="Description of GradedMatchExpressionGame"
+          content="Description of GradedWriteExpressionGame"
         />
       </Helmet>
       <AppWrapper>
         <div style={{ width: '100%', background: '#295474', padding: 20 }}>
           <Row justify="space-around">
             <Col span={4}>
-              <h1 style={{ color: 'white' }}>Match Expression</h1>
+              <h1 style={{ color: 'white' }}>Write Expression</h1>
             </Col>
             <Col span={4}>
-              <h1 style={{ color: 'white' }}>Level: {currLevel+1 ? currLevel + 1 : 0} / 4</h1>
+              <h1 style={{ color: 'white' }}>Level: {currLevel + 1 ? currLevel + 1 : 0} / 4</h1>
             </Col>
 
             <Col span={4}>
@@ -557,11 +481,10 @@ export function GradedMatchExpressionGame(props) {
                           'background-color': '#666',
                           color: 'white',
                           label: 'data(label)',
-                          width: '60px',
-                          height: '60px',
+                          width: '42px',
+                          height: '42px',
                           'text-valign': 'center',
                           'text-halign': 'center',
-                          'font-size': '17px',
                         },
                       },
                       {
@@ -702,14 +625,14 @@ export function GradedMatchExpressionGame(props) {
   );
 }
 
-GradedMatchExpressionGame.propTypes = {
-  gradedMatchExpressionGame: PropTypes.object,
+GradedWriteExpressionGame.propTypes = {
+  gradedWriteExpressionGame: PropTypes.object,
   getGameData: PropTypes.func,
   checkStudentResponse: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
-  gradedMatchExpressionGame: makeSelectGradedMatchExpressionGame(),
+  gradedWriteExpressionGame: makeSelectGradedWriteExpressionGame(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -727,4 +650,4 @@ const withConnect = connect(
 export default compose(
   withConnect,
   memo,
-)(GradedMatchExpressionGame);
+)(GradedWriteExpressionGame);
