@@ -23,7 +23,7 @@ import {
   Col,
   Row,
   Typography,
-  Collapse
+  Collapse,
 } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
@@ -131,9 +131,9 @@ export function FindCrosswordNodesGame(props) {
     form.resetFields(undefined);
     window.location.href = `/find-nodes/${gameId}/${lvl + 1}`;
   };
-  const backToConcepts=()=>{
+  const backToConcepts = () => {
     window.location.href = `/concept/6`;
-  }
+  };
 
   const Nodes = [
     { label: 'Across Node', val: 65 },
@@ -167,6 +167,8 @@ export function FindCrosswordNodesGame(props) {
     sr.solutionWrong = qsWrong;
     sr.questionChangeSuggestion = qsChanges;
 
+    console.log(values);
+
     gameData.response = values.nodes;
     const formatted = moment.utc(secs * 1000).format('mm:ss');
     gameData.timeTaken = formatted;
@@ -187,8 +189,8 @@ export function FindCrosswordNodesGame(props) {
       </Helmet>
       <AppStructure
         heading="Find Crossword Nodes"
-        level={"Level: " + level + "/3"}
-        attempt={gameData ? " " + (gameData.attempt) : " 1"}
+        level={'Level: ' + level + '/3'}
+        attempt={gameData ? ' ' + gameData.attempt : ' 1'}
         evaluatedAnswer={evaluatedAnswer}
         divContent={
           <div
@@ -205,30 +207,35 @@ export function FindCrosswordNodesGame(props) {
                 marginBottom: '20px',
               }}
             >
-              <Button
-                style={{ marginLeft: '10px' }}
-                onClick={backToConcepts}
-              >
+              <Button style={{ marginLeft: '10px' }} onClick={backToConcepts}>
                 Back to Materials
               </Button>
-                <div style={{ display: 'flex', width: '100%' }}>
-                  <Button style={ { marginLeft: 'auto', marginRight: '30px' }} onClick={prevLevel} disabled={level==1}>
-                    Previous Level
-                  </Button>
-                  <Button
-                    style={{ marginLeft: 'auto', marginRight: '30px' }}
-                    onClick={nextLevel}
-                    disabled={level==3}
-                  >
-                    Next Level
-                  </Button>
-                </div>
+              <div style={{ display: 'flex', width: '100%' }}>
+                <Button
+                  style={{ marginLeft: 'auto', marginRight: '30px' }}
+                  onClick={prevLevel}
+                  disabled={level == 1}
+                >
+                  Previous Level
+                </Button>
+                <Button
+                  style={{ marginLeft: 'auto', marginRight: '30px' }}
+                  onClick={nextLevel}
+                  disabled={level == 3}
+                >
+                  Next Level
+                </Button>
+              </div>
             </div>
             {gameData ? (
               <Row>
-                <Collapse accordion style={{ width: '100%' }} defaultActiveKey={['1']}>
+                <Collapse
+                  accordion
+                  style={{ width: '100%' }}
+                  defaultActiveKey={['1']}
+                >
                   <Panel key="1" header="How to play?">
-                    <p>{gameData ? gameData.gameDescription : ""}</p>
+                    <p>{gameData ? gameData.gameDescription : ''}</p>
                   </Panel>
                 </Collapse>
                 <Col span={12}>
@@ -304,6 +311,9 @@ export function FindCrosswordNodesGame(props) {
                         form={form}
                         name="dynamic_form_nest_item"
                         onFinish={onFinish}
+                        initialValues={{
+                          nodes: [{ node: null, row: null, col: null }],
+                        }}
                         autoComplete="off"
                       >
                         <Form.List shouldUpdate name="nodes">

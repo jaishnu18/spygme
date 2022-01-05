@@ -16,7 +16,16 @@ import AppStructure from 'components/AppStructure';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import { Form, InputNumber, Button, Space, Select, Col, Row, Collapse } from 'antd';
+import {
+  Form,
+  InputNumber,
+  Button,
+  Space,
+  Select,
+  Col,
+  Row,
+  Collapse,
+} from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
 import CytoscapeComponent from 'react-cytoscapejs';
@@ -85,9 +94,9 @@ export function DrawCrosswordGraphGame(props) {
     const lvl = parseInt(level);
     window.location.href = `/draw-crossword-graph/${gameId}/${lvl + 1}`;
   };
-  const backToConcepts=()=>{
+  const backToConcepts = () => {
     window.location.href = `/concept/6`;
-  }
+  };
 
   useEffect(() => {
     const elements = [];
@@ -101,10 +110,12 @@ export function DrawCrosswordGraphGame(props) {
           ac.push(`${gameData.nodes[i][0]}-${gameData.nodes[i][1]}-A`);
           const obj = {
             data: {
-              id: `${gameData.nodes[i][0]}-${gameData.nodes[i][1]}-${gameData.nodes[i][2] === 65 ? 'A' : 'D'
-                }`,
-              label: `${gameData.nodes[i][0]}-${gameData.nodes[i][1]}-${gameData.nodes[i][2] === 65 ? 'A' : 'D'
-                }`,
+              id: `${gameData.nodes[i][0]}-${gameData.nodes[i][1]}-${
+                gameData.nodes[i][2] === 65 ? 'A' : 'D'
+              }`,
+              label: `${gameData.nodes[i][0]}-${gameData.nodes[i][1]}-${
+                gameData.nodes[i][2] === 65 ? 'A' : 'D'
+              }`,
             },
             position: {
               x: 100 * (i + 1),
@@ -120,10 +131,12 @@ export function DrawCrosswordGraphGame(props) {
           }
           const obj = {
             data: {
-              id: `${gameData.nodes[i][0]}-${gameData.nodes[i][1]}-${gameData.nodes[i][2] === 65 ? 'A' : 'D'
-                }`,
-              label: `${gameData.nodes[i][0]}-${gameData.nodes[i][1]}-${gameData.nodes[i][2] === 65 ? 'A' : 'D'
-                }`,
+              id: `${gameData.nodes[i][0]}-${gameData.nodes[i][1]}-${
+                gameData.nodes[i][2] === 65 ? 'A' : 'D'
+              }`,
+              label: `${gameData.nodes[i][0]}-${gameData.nodes[i][1]}-${
+                gameData.nodes[i][2] === 65 ? 'A' : 'D'
+              }`,
             },
             position: {
               x: 100 * (i - gameData.ptr + 1),
@@ -190,7 +203,8 @@ export function DrawCrosswordGraphGame(props) {
     gameData.response = res;
     const formatted = moment.utc(secs * 1000).format('mm:ss');
     gameData.timeTaken = formatted;
-    gameData.difficulty = level;
+    gameData.level = level;
+    gameData.gameId = gameId;
     response.studentResponse = gameData;
     props.checkStudentResponse(response);
   };
@@ -210,8 +224,8 @@ export function DrawCrosswordGraphGame(props) {
       </Helmet>
       <AppStructure
         heading="Draw Crossword Graph"
-        level={"Level: " + level + "/3"}
-        attempt={gameData ? " " + (gameData.attempt) : " 1"}
+        level={'Level: ' + level + '/3'}
+        attempt={gameData ? ' ' + gameData.attempt : ' 1'}
         evaluatedAnswer={evaluatedAnswer}
         divContent={
           <AppWrapper>
@@ -223,38 +237,43 @@ export function DrawCrosswordGraphGame(props) {
               }}
             >
               <div
-              style={{
-                display: 'flex',
-                width: '100%',
-                marginBottom: '20px',
-              }}
-            >
-              <Button
-                style={{ marginLeft: '10px' }}
-                onClick={backToConcepts}
+                style={{
+                  display: 'flex',
+                  width: '100%',
+                  marginBottom: '20px',
+                }}
               >
-                Back to Materials
-              </Button>
+                <Button style={{ marginLeft: '10px' }} onClick={backToConcepts}>
+                  Back to Materials
+                </Button>
                 <div style={{ display: 'flex', width: '100%' }}>
-                  <Button style={ { marginLeft: 'auto', marginRight: '30px' }} onClick={prevLevel} disabled={level==1}>
+                  <Button
+                    style={{ marginLeft: 'auto', marginRight: '30px' }}
+                    onClick={prevLevel}
+                    disabled={level == 1}
+                  >
                     Previous Level
                   </Button>
                   <Button
                     style={{ marginLeft: 'auto', marginRight: '30px' }}
                     onClick={nextLevel}
-                    disabled={level==3}
+                    disabled={level == 3}
                   >
                     Next Level
                   </Button>
                 </div>
-            </div>
+              </div>
               <Row style={{ backgroundColor: '#F8FAA7', paddingTop: '40px' }}>
                 <Col offset="1">
                   {gameData && (
                     <div>
-                      <Collapse accordion style={{ width: '100%' }} defaultActiveKey={['1']}>
+                      <Collapse
+                        accordion
+                        style={{ width: '100%' }}
+                        defaultActiveKey={['1']}
+                      >
                         <Panel key="1" header="How to play?">
-                          <p>{gameData ? gameData.gameDescription : ""}</p>
+                          <p>{gameData ? gameData.gameDescription : ''}</p>
                         </Panel>
                       </Collapse>
                       <div>
@@ -380,6 +399,9 @@ export function DrawCrosswordGraphGame(props) {
                         form={form}
                         name="dynamic_form_nest_item"
                         onFinish={onFinish}
+                        initialValues={{
+                          nodes: [{ across: null, down: null }],
+                        }}
                         onFieldsChange={value => console.log(value)}
                         autoComplete="off"
                         style={{ display: 'flex', flexDirection: 'column' }}
@@ -484,7 +506,9 @@ export function DrawCrosswordGraphGame(props) {
                     </div>
                     <div>
                       {evaluatedAnswer && (
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <div
+                          style={{ display: 'flex', flexDirection: 'column' }}
+                        >
                           <div style={{ display: 'flex' }}>
                             All Correct
                             {evaluatedAnswer.allCorrect ? (
@@ -523,15 +547,18 @@ export function DrawCrosswordGraphGame(props) {
                               >
                                 Missing Edges
                                 {evaluatedAnswer.missed_edges_list.length ===
-                                  0 ? (
+                                0 ? (
                                   <div style={{ marginLeft: '30px' }}> 0 </div>
                                 ) : (
-                                  evaluatedAnswer.missed_edges_list.map(item => (
-                                    <div>
-                                      {item[0]}-{item[1]}-A :- {item[3]}-{item[4]}
-                                      -D
-                                    </div>
-                                  ))
+                                  evaluatedAnswer.missed_edges_list.map(
+                                    item => (
+                                      <div>
+                                        {item[0]}-{item[1]}-A :- {item[3]}-
+                                        {item[4]}
+                                        -D
+                                      </div>
+                                    ),
+                                  )
                                 )}
                               </div>
                             )}
@@ -546,12 +573,14 @@ export function DrawCrosswordGraphGame(props) {
                                 }}
                               >
                                 Wrong Nodes
-                                {evaluatedAnswer.wrong_edges_list.length === 0 ? (
+                                {evaluatedAnswer.wrong_edges_list.length ===
+                                0 ? (
                                   <div style={{ marginLeft: '30px' }}> 0 </div>
                                 ) : (
                                   evaluatedAnswer.wrong_edges_list.map(item => (
                                     <div>
-                                      {item[0]}-{item[1]}-A :- {item[3]}-{item[4]}
+                                      {item[0]}-{item[1]}-A :- {item[3]}-
+                                      {item[4]}
                                       -D
                                     </div>
                                   ))
