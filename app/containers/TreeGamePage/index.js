@@ -24,7 +24,16 @@ import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import CytoscapeComponent from 'react-cytoscapejs';
-import { Row, InputNumber, Button, Space, message, Col, Divider, Collapse } from 'antd';
+import {
+  Row,
+  InputNumber,
+  Button,
+  Space,
+  message,
+  Col,
+  Divider,
+  Collapse,
+} from 'antd';
 import AppStructure from 'components/AppStructure';
 
 import AppWrapper from 'components/AppWrapper';
@@ -33,10 +42,11 @@ import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import history from 'utils/history';
 
+import moment from 'moment';
 import makeSelectTreeGamePage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { getExpressionStart } from './actions';
+import { getExpressionStart, evaluateExpressionStart } from './actions';
 
 cytoscape.use(popper);
 
@@ -44,37 +54,32 @@ export function TreeGamePage(props) {
   useInjectReducer({ key: 'treeGamePage', reducer });
   useInjectSaga({ key: 'treeGamePage', saga });
   const [value, setValue] = useState(0);
-  const [answer, setAnswer] = useState(undefined);
   const [graphData, setGraphData] = useState(undefined);
   const [visualizeStarted, setvisualizeStarted] = useState(false);
 
+  const [startTime, setStartTime] = useState(0);
+  function start() {
+    const date = new Date();
+    setStartTime(date);
+  }
+  function end() {
+    const endTime = new Date();
+    let timeDiff = endTime - startTime;
+    timeDiff /= 1000;
+    const seconds = timeDiff;
+    return seconds;
+  }
+
   useEffect(() => {
     props.getGameData(props.level);
+    start();
   }, [props.level]);
 
   const { gameData } = props.treeGamePage;
-  const level = props.level;
+  const { evaluatedAnswer } = props.treeGamePage;
+  const { level } = props;
 
   const { Panel } = Collapse;
-  const [seconds, setSeconds] = useState(0);
-  const [minutes, setMinutes] = useState(0);
-  const [isActive, setIsActive] = useState(true);
-
-  useEffect(() => {
-    let interval = null;
-    if (isActive) {
-      interval = setInterval(() => {
-        setSeconds(seconds => seconds + 1);
-        // if(seconds > 59){
-        //   const  minutes = Math.floor(time / 60);
-        //   const seconds =
-        // }
-      }, 1000);
-    } else if (!isActive && seconds !== 0) {
-      clearInterval(interval);
-    }
-    return () => clearInterval(interval);
-  }, [isActive, seconds]);
 
   useEffect(() => {
     if (gameData) {
@@ -132,15 +137,22 @@ export function TreeGamePage(props) {
   }, [gameData]);
 
   const submitAnswer = async () => {
-    console.log(value === gameData.answer);
-    if (value === gameData.answer) {
-      message.success('Correct Answer.', 5);
-      setAnswer(true);
-    } else {
-      message.error('Wrong Answer.', 5);
-      setAnswer(false);
-    }
+    const secs = end();
+    const response = {};
+    gameData.response = value;
+    const formatted = moment.utc(secs * 1000).format('mm:ss');
+    gameData.timeTaken = formatted;
+    gameData.level = parseInt(level);
+    gameData.gameId = parseInt(props.gameId);
+    response.studentResponse = gameData;
+
+    console.log(response);
+    props.checkStudentResponse(response);
   };
+
+  if (evaluatedAnswer) {
+    console.log(evaluatedAnswer);
+  }
 
   const Demo = () => (
     <Space style={{ marginTop: '40px' }}>
@@ -148,18 +160,23 @@ export function TreeGamePage(props) {
         placeholder="Enter your answer"
         onChange={setValue}
         value={value}
-        min='0'
-        max='1'
+        min="0"
+        max="1"
       />
 
       <Button
         type="primary"
         style={{ background: 'green' }}
         onClick={submitAnswer}
-        disabled={answer !== undefined}
+        disabled={evaluatedAnswer !== undefined}
       >
         Submit
       </Button>
+      <div>
+        {evaluatedAnswer && (
+          <h2>{evaluatedAnswer.result ? 'Correct' : 'Incorrect'}</h2>
+        )}
+      </div>
     </Space>
   );
 
@@ -172,9 +189,9 @@ export function TreeGamePage(props) {
     window.location.href = `/evaluate-expression/1/${lvl + 1}`;
   };
 
-  const backToConcepts=()=>{
+  const backToConcepts = () => {
     window.location.href = `/concept/5`;
-  }
+  };
 
   let myCyRef;
   function getVisualization() {
@@ -213,7 +230,7 @@ export function TreeGamePage(props) {
     }
   }
 
-  const animate = function () {
+  const animate = function() {
     if (gameData) {
       if (gameData.ptr2 < gameData.orderOfEvaluation.length) {
         const node = gameData.orderOfEvaluation[gameData.ptr2];
@@ -243,20 +260,18 @@ export function TreeGamePage(props) {
         myCyRef.on('pan zoom resize', update);
         gameData.ptr2 += 1;
         setTimeout(animate, 2000);
-      }
-      else
-        return;
+      } else return;
     }
   };
 
-  const resetGraph = function () {
+  const resetGraph = function() {
     if (gameData) {
       reset();
       myCyRef.reset();
     }
-  }
+  };
 
-  const reset = function () {
+  const reset = function() {
     if (gameData) {
       for (let i = 0; i < gameData.orderOfEvaluation.length; i += 1) {
         const node = gameData.orderOfEvaluation[i];
@@ -279,7 +294,7 @@ export function TreeGamePage(props) {
 
   var indents = [];
   if (gameData) {
-    for (var i = 0; i < gameData.num_nodes; i++) {
+    for (var i = 0; i < gameData.num_nodes; i += 1) {
       if (gameData.content[i][0] >= 'a' && gameData.content[i][0] <= 'z') {
         indents.push(
           <h2 style={{ marginLeft: '10px' }} key={i}>
@@ -302,9 +317,9 @@ export function TreeGamePage(props) {
        > */}
       <AppStructure
         heading="Evaluate Expression"
-        level={"Level: " + level + "/4"}
-        attempt={gameData ? " " + gameData.attempt : " 1"}
-        evaluatedAnswer={answer !== undefined}
+        level={`Level: ${level}/4`}
+        attempt={gameData ? ` ${gameData.attempt}` : ' 1'}
+        evaluatedAnswer={evaluatedAnswer !== undefined}
         divContent={
           <div
             style={{
@@ -318,33 +333,38 @@ export function TreeGamePage(props) {
                 marginBottom: '20px',
               }}
             >
-              <Button
-                style={{ marginLeft: '10px' }}
-                onClick={backToConcepts}
-              >
+              <Button style={{ marginLeft: '10px' }} onClick={backToConcepts}>
                 Back to Materials
               </Button>
-                <div style={{ display: 'flex', width: '100%' }}>
-                  <Button style={ { marginLeft: 'auto', marginRight: '30px' }} onClick={prevLevel} disabled={level==1}>
-                    Previous Level
-                  </Button>
-                  <Button
-                    style={{ marginLeft: 'auto', marginRight: '30px' }}
-                    onClick={nextLevel}
-                    disabled={level==4}
-                  >
-                    Next Level
-                  </Button>
-                </div>
+              <div style={{ display: 'flex', width: '100%' }}>
+                <Button
+                  style={{ marginLeft: 'auto', marginRight: '30px' }}
+                  onClick={prevLevel}
+                  disabled={level == 1}
+                >
+                  Previous Level
+                </Button>
+                <Button
+                  style={{ marginLeft: 'auto', marginRight: '30px' }}
+                  onClick={nextLevel}
+                  disabled={level == 4}
+                >
+                  Next Level
+                </Button>
+              </div>
             </div>
             {gameData ? (
               <Row>
-                <Collapse accordion style={{ width: '100%' }} defaultActiveKey={['1']}>
+                <Collapse
+                  accordion
+                  style={{ width: '100%' }}
+                  defaultActiveKey={['1']}
+                >
                   <Panel key="1" header="How to play?">
-                    <p>{gameData ? gameData.gameDescription : ""}</p>
+                    <p>{gameData ? gameData.gameDescription : ''}</p>
                   </Panel>
                 </Collapse>
-                <Col offset="1" >
+                <Col offset="1">
                   <h1
                     style={{
                       fontWeight: 'bold',
@@ -365,7 +385,7 @@ export function TreeGamePage(props) {
                       background: '#6EA5C3',
                       padding: '10px',
                       marginBottom: '50px',
-                      textAlign: 'center'
+                      textAlign: 'center',
                     }}
                   >
                     <h1
@@ -373,6 +393,7 @@ export function TreeGamePage(props) {
                         textAlign: 'Center',
                         color: 'white',
                         fontWeight: 'bold',
+                        gameData,
                       }}
                     >
                       Graph
@@ -383,7 +404,7 @@ export function TreeGamePage(props) {
                         <Button
                           onClick={getVisualization}
                           disabled={
-                            answer === undefined ||
+                            evaluatedAnswer === undefined ||
                             gameData.ptr === gameData.num_nodes ||
                             gameData.ptr2 !== 0
                           }
@@ -391,10 +412,11 @@ export function TreeGamePage(props) {
                           {visualizeStarted ? 'Next' : 'Visualize in steps'}
                         </Button>
                         <Button
-                          onClick={function (event) { resetGraph(); animate(); }}
-                          disabled={
-                            answer === undefined
-                          }
+                          onClick={function(event) {
+                            resetGraph();
+                            animate();
+                          }}
+                          disabled={evaluatedAnswer === undefined}
                         >
                           Animate
                         </Button>
@@ -403,10 +425,11 @@ export function TreeGamePage(props) {
                       </div>
                     )}
 
-
                     {graphData && (
                       <CytoscapeComponent
-                        elements={CytoscapeComponent.normalizeElements(graphData)}
+                        elements={CytoscapeComponent.normalizeElements(
+                          graphData,
+                        )}
                         // pan={{ x: 200, y: 200 }}
                         style={{
                           width: '500px',
@@ -477,7 +500,8 @@ export function TreeGamePage(props) {
               </Row>
             ) : null}
           </div>
-        } />
+        }
+      />
       {/* </SideBar> */}
     </div>
   );
@@ -486,6 +510,7 @@ export function TreeGamePage(props) {
 TreeGamePage.propTypes = {
   treeGamePage: PropTypes.object,
   getGameData: PropTypes.func.isRequired,
+  checkStudentResponse: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -495,6 +520,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     getGameData: level => dispatch(getExpressionStart(level)),
+    checkStudentResponse: level => dispatch(evaluateExpressionStart(level)),
   };
 }
 

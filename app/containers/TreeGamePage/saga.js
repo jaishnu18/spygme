@@ -3,8 +3,13 @@ import { put, takeLatest, all } from 'redux-saga/effects';
 import axios from 'axios';
 // import globalSettings from 'global-settings';
 // import querystring from 'querystring';
-import { getExpressionFailure, getExpressionSuccess } from './actions';
-import { GET_EXPRESSION_START } from './constants';
+import {
+  getExpressionFailure,
+  getExpressionSuccess,
+  evaluateExpressionFailure,
+  evaluateExpressionSuccess,
+} from './actions';
+import { GET_EXPRESSION_START, VALIDATE_EXPRESSION_START } from './constants';
 
 // Individual exports for testing
 
@@ -24,9 +29,32 @@ export function* getExpression(action) {
   }
 }
 
+export function* evaluateAnswer(action) {
+  try {
+    const studentResponse = action.payload;
+    console.log(studentResponse);
+    const response = yield axios.post(
+      `http://localhost:4000/game/treegame/question/validate`,
+      studentResponse,
+      {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: localStorage.getItem('_UFT_'),
+        },
+        withCredentials: true,
+      },
+    );
+    yield put(evaluateExpressionSuccess(response.data.data));
+  } catch (err) {
+    yield put(evaluateExpressionFailure(err.data.message));
+  }
+}
+
 export default function* treeGamePageSaga() {
   yield all([
     takeLatest(GET_EXPRESSION_START, getExpression),
+    takeLatest(VALIDATE_EXPRESSION_START, evaluateAnswer),
     // takeLatest(LOGOUT_START, logOutUser),
   ]);
 }

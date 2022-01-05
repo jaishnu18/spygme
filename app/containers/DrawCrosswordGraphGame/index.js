@@ -224,8 +224,8 @@ export function DrawCrosswordGraphGame(props) {
       </Helmet>
       <AppStructure
         heading="Draw Crossword Graph"
-        level={'Level: ' + level + '/3'}
-        attempt={gameData ? ' ' + gameData.attempt : ' 1'}
+        level={`Level: ${level}/3`}
+        attempt={gameData ? ` ${gameData.attempt}` : ' 1'}
         evaluatedAnswer={evaluatedAnswer}
         divContent={
           <AppWrapper>
@@ -538,15 +538,15 @@ export function DrawCrosswordGraphGame(props) {
 
                           {evaluatedAnswer &&
                             evaluatedAnswer.missed_edges_list.length > 0 && (
-                              <div
-                                style={{
-                                  marginTop: '20px',
-                                  display: 'flex',
-                                  flexDirection: 'column',
-                                }}
-                              >
+                            <div
+                              style={{
+                                marginTop: '20px',
+                                display: 'flex',
+                                flexDirection: 'column',
+                              }}
+                            >
                                 Missing Edges
-                                {evaluatedAnswer.missed_edges_list.length ===
+                              {evaluatedAnswer.missed_edges_list.length ===
                                 0 ? (
                                   <div style={{ marginLeft: '30px' }}> 0 </div>
                                 ) : (
@@ -560,20 +560,20 @@ export function DrawCrosswordGraphGame(props) {
                                     ),
                                   )
                                 )}
-                              </div>
-                            )}
+                            </div>
+                          )}
 
                           {evaluatedAnswer &&
                             evaluatedAnswer.wrong_edges_list.length > 0 && (
-                              <div
-                                style={{
-                                  marginTop: '20px',
-                                  display: 'flex',
-                                  flexDirection: 'column',
-                                }}
-                              >
+                            <div
+                              style={{
+                                marginTop: '20px',
+                                display: 'flex',
+                                flexDirection: 'column',
+                              }}
+                            >
                                 Wrong Nodes
-                                {evaluatedAnswer.wrong_edges_list.length ===
+                              {evaluatedAnswer.wrong_edges_list.length ===
                                 0 ? (
                                   <div style={{ marginLeft: '30px' }}> 0 </div>
                                 ) : (
@@ -585,8 +585,8 @@ export function DrawCrosswordGraphGame(props) {
                                     </div>
                                   ))
                                 )}
-                              </div>
-                            )}
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>

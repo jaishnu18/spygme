@@ -53,7 +53,9 @@ function Routes(props) {
       <Route
         exact
         path="/evaluate-expression/:gameId/:level"
-        render={({ match }) => <TreeGames level={match.params.level} />}
+        render={({ match }) => (
+          <TreeGames level={match.params.level} gameId={match.params.gameId} />
+        )}
       />
       <Route exact path="/topics" component={TopicsPage} />
 
@@ -117,11 +119,7 @@ function Routes(props) {
         path="/draw-crossword-graph/:gameId/:level"
         component={DrawCrosswordGraphGame}
       />
-      <Route
-        exact
-        path="/reading/:rmId"
-        component={ReadingMaterialPage}
-      />
+      <Route exact path="/reading/:rmId" component={ReadingMaterialPage} />
 
       <Route exact path="/my/profile" component={MyProfilePage} />
 
