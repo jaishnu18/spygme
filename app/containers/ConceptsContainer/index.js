@@ -23,6 +23,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import makeSelectConceptsContainer from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+import { Link } from 'react-router-dom';
+
 
 import { getConceptsStart, getTopicStart } from './actions';
 
@@ -66,7 +68,9 @@ export function ConceptsContainer(props) {
         <title>ConceptsContainer</title>
         <meta name="description" content="Description of ConceptsContainer" />
       </Helmet>
-      <Button onClick={function(event){window.location.href=`/topics`}}>Back to Topics</Button>
+      <Link to={`/topics`}>
+        <Button>Back to Topics</Button>
+      </Link>
       {topicData && concepts ? (
         <div>
           <Typography className={classes.paper} variant="h2" gutterBottom>
