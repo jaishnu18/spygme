@@ -10,6 +10,7 @@ export const initialState = {
   isReadingMaterialLoading: false,
   error: undefined,
   readingMaterialContent: undefined,
+  isResponseLoading: false,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -28,6 +29,17 @@ const readingMaterialPageReducer = (state = initialState, action) =>
       case GET_RM_FAILURE:
         draft.isReadingMaterialLoading = false;
         draft.readingMaterialContent = action.payload;
+        break;
+      case MARK_READ_START:
+        draft.isResponseLoading = true;
+        break;
+      case MARK_READ_SUCCESS:
+        draft.isResponseLoading = false;
+        draft.markedRead = action.payload;
+        break;
+      case MARK_READ_FAILURE:
+        draft.isResponseLoading = false;
+        draft.markedRead = action.payload;
         break;
     }
   });
