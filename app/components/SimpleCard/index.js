@@ -61,7 +61,7 @@ function SimpleCard(props) {
       </CardContent>
       <CardActions>
         <Button size="small">
-          {props.type === 'Concept' || props.type === 'Topic' ? 'Learn More' : 'Play More'}
+          {props.type === 'Concept' || props.type === 'Topic' ? 'Learn More' : (props.type === 'Progress' ? 'Read or Play new items to increase progress' :(props.type === 'Proficiency' ? 'Perform better at graded tests to improve proficiency':'Play More'))}
         </Button>
       </CardActions>
     </Card>

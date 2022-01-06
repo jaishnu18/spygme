@@ -18,7 +18,7 @@ import makeSelectReadingMaterialPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { getReadingMaterialStart } from './actions'
+import { getReadingMaterialStart, markAsReadStart } from './actions'
 
 
 export function ReadingMaterialPage(props) {
@@ -49,6 +49,12 @@ export function ReadingMaterialPage(props) {
   };
   const { readingMaterialContent } = props.readingMaterialPage;
   // console.log(readingMaterialContent.content);
+
+  const markAsReadfunc = () => {
+    const response = {};
+    response.rmId = rmId;
+    props.markAsRead(response);
+  };
   return (
     <div>
       <Helmet>
@@ -85,7 +91,7 @@ export function ReadingMaterialPage(props) {
         </div>
         <div style={{ padding: '20px', background: '#F8FAA7' }}>
           <pre style={{ whiteSpace: 'pre-wrap' }}>{readingMaterialContent ? readingMaterialContent.content.replace(/<new_line>/g, '\n') : ""}</pre>
-          <Button>Mark as read</Button>
+          <Button onClick={markAsReadfunc}>Mark as read</Button>
           <Button onClick={backToConcepts}>Back to Materials</Button>
         </div>
 
@@ -96,7 +102,8 @@ export function ReadingMaterialPage(props) {
 }
 
 ReadingMaterialPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  getReadingMaterialContent: PropTypes.func,
+  markAsRead: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -106,6 +113,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     getReadingMaterialContent: payload => dispatch(getReadingMaterialStart(payload)),
+    markAsRead: response => dispatch(markAsReadStart(response)),
   };
 }
 

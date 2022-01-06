@@ -38,19 +38,19 @@ export function getReadingMaterialFailure(err) {
   };
 }
 
-export function marksReadStart(payload) {
+export function markAsReadStart(payload) {
   return {
     type: MARK_READ_START,
     payload,
   };
 }
-export function marksReadSuccess(payload) {
+export function markAsReadSuccess(payload) {
   return {
     type: MARK_READ_SUCCESS,
     payload,
   };
 }
-export function marksReadFailure(err) {
+export function markAsReadFailure(err) {
   return {
     type: MARK_READ_FAILURE,
     payload: err,
