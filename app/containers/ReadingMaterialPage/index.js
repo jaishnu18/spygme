@@ -102,6 +102,7 @@ export function ReadingMaterialPage(props) {
 }
 
 ReadingMaterialPage.propTypes = {
+  readingMaterialPage: PropTypes.object,
   getReadingMaterialContent: PropTypes.func,
   markAsRead: PropTypes.func,
 };

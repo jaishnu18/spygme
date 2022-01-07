@@ -15,7 +15,7 @@ export const initialState = {
 
 /* eslint-disable default-case, no-param-reassign */
 const readingMaterialPageReducer = (state = initialState, action) =>
-  produce(state, (draft) => {
+  produce(state, draft => {
     switch (action.type) {
       case DEFAULT_ACTION:
         break;
@@ -35,11 +35,9 @@ const readingMaterialPageReducer = (state = initialState, action) =>
         break;
       case MARK_READ_SUCCESS:
         draft.isResponseLoading = false;
-        draft.markedRead = action.payload;
         break;
       case MARK_READ_FAILURE:
         draft.isResponseLoading = false;
-        draft.markedRead = action.payload;
         break;
     }
   });

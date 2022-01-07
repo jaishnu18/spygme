@@ -12,6 +12,8 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+import SimpleCard from 'components/SimpleCard';
+
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
@@ -48,7 +50,7 @@ export function ConceptDescriptionPage(props) {
 
   const { games } = props.conceptDescriptionPage;
   const { readingMaterials } = props.conceptDescriptionPage;
-  console.log(props);
+  console.log(readingMaterials);
 
   return (
     <div>
@@ -73,12 +75,12 @@ export function ConceptDescriptionPage(props) {
             <Row>
               {readingMaterials.map((key, idx) => (
                 <Link to={`/reading/${key.id}`}>
-                  <Card
+                  <SimpleCard
                     style={{ width: '200px', marginRight: '20px' }}
+                    type="Reading Material"
                     title={`Material ${idx + 1}`}
-                  >
-                    READ
-                  </Card>
+                    progress={key.read === false ? 0 : 1}
+                  />
                 </Link>
               ))}
             </Row>
