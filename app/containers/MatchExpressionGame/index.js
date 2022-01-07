@@ -122,29 +122,6 @@ export function MatchExpressionGame(props) {
 
   const handleFeedbackOk = () => {
     const response = {};
-    const sr = {};
-    const res = [];
-    // let x = {};
-    // x.question = questions[0];
-    // x.rating = starValue1;
-    // res.push(x);
-    // x = {};
-    // x.question = questions[1];
-    // x.rating = starValue2;
-    // res.push(x);
-    // x = {};
-    // x.question = questions[2];
-    // x.rating = starValue3;
-    // res.push(x);
-    // x = {};
-    // x.question = questions[3];
-    // x.rating = starValue4;
-    // res.push(x);
-
-    // sr.ratingFeedback = res;
-    // sr.solutionWrong = qsWrong;
-    // sr.questionChangeSuggestion = qsChanges;
-
     const studentResponse = {};
     studentResponse.feedback = JSON.stringify(starValue);
 
@@ -157,21 +134,15 @@ export function MatchExpressionGame(props) {
 
     props.saveFeedback(response);
   };
-  const handleWWWOk = () => {
-    setIsWWWModalVisible(false);
-  };
 
   const handleFeedbackCancel = () => {
-    const response={},studentResponse = {};
+    const response = {}, studentResponse = {};
     if (evaluatedAnswer.score !== 1) {
       studentResponse.whatwentwrong = JSON.stringify(checkedState);
     }
     response.studentResponse = studentResponse;
     props.saveFeedback(response);
     setIsFeedbackModalVisible(false);
-  };
-  const handleWWWCancel = () => {
-    setIsWWWModalVisible(false);
   };
 
   const [startTime, setStartTime] = useState(0);
@@ -413,25 +384,7 @@ export function MatchExpressionGame(props) {
               background: '#F8FAA7',
             }}
           >
-            <Modal title="Feedback" visible={isFeedbackModalVisible} onOk={handleFeedbackOk} onCancel={handleFeedbackCancel}>
-              <h3>Please answer the following questions and then press OK. Your feedback will ultimately help you</h3>
-              {
-                questions.map((ques, idx) => (
-                  <div>
-                    <p>{(idx + 1) + ". " + ques}</p>
-                    <Rate allowClear={false} onChange={function handleChange(value) { starValue[idx] = value; }} />
-                  </div>
-                )
 
-                )
-              }
-            </Modal>
-            <Modal title="Why did you make mistake?" visible={isWWWModalVisible} onOk={handleWWWOk} onCancel={handleWWWCancel}>
-              <h3>Please answer the following questions and then press OK. Your feedback will ultimately help you</h3>
-              {
-                <Checkbox.Group options={errors} onChange={onChangeCheckbox} />
-              }
-            </Modal>
             <div
               style={{
                 display: 'flex',
@@ -458,6 +411,40 @@ export function MatchExpressionGame(props) {
                 </Button>
               </div>
             </div>
+            {isWWWModalVisible ?
+              (
+                <div >
+                  <h1>Why you made mistake?</h1>
+                  <h3>Please answer the following questions and then press OK. Your feedback will ultimately help you</h3>
+                  <div>
+                    <Checkbox.Group options={errors} onChange={onChangeCheckbox} />
+                    <Button type='primary' onClick={function (event) {
+                      setIsWWWModalVisible(false);
+                      setIsFeedbackModalVisible(true);
+                    }}>DONE</Button>
+                  </div>
+                </div>
+              ) : (isFeedbackModalVisible ? (
+                <div>
+                  <h1>Feedback</h1>
+                  <h3>Please answer the following questions and then press OK. Your feedback will ultimately help you</h3>
+                  <div>
+                    {
+                      questions.map((ques, idx) => (
+                        <div>
+                          <p>{(idx + 1) + ". " + ques}</p>
+                          <Rate allowClear={false} onChange={function handleChange(value) { starValue[idx] = value; }} />
+                        </div>
+                      )
+
+                      )
+                    }
+                    <Button type='primary' onClick={function (event) {
+                      handleFeedbackOk();
+                    }}>DONE</Button>
+                  </div>
+                </div>
+              ) : null)}
             {gameData ? (
               <Row>
                 <Collapse accordion style={{ width: '100%' }} defaultActiveKey={['1']}>

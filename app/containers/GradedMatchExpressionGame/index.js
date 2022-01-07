@@ -482,7 +482,7 @@ export function GradedMatchExpressionGame(props) {
               <h1 style={{ color: 'white' }}>Match Expression</h1>
             </Col>
             <Col span={4}>
-              <h1 style={{ color: 'white' }}>Level: {currLevel+1 ? currLevel + 1 : 0} / 4</h1>
+              <h1 style={{ color: 'white' }}>Level: {currLevel + 1 ? currLevel + 1 : 0} / 4</h1>
             </Col>
 
             <Col span={4}>
@@ -536,54 +536,78 @@ export function GradedMatchExpressionGame(props) {
 
               <div style={{ padding: '20px' }}>
                 {graphData && (
-                  <CytoscapeComponent
-                    elements={CytoscapeComponent.normalizeElements(graphData)}
-                    // pan={{ x: 200, y: 200 }}
-                    style={{
-                      minWidth: '500px',
-                      minHeight: '500px',
-                      borderRadius: '5px',
-                      border: '4px solid #999676',
-                    }}
-                    zoomingEnabled
-                    maxZoom={2}
-                    minZoom={0.1}
-                    autounselectify={false}
-                    boxSelectionEnabled
-                    stylesheet={[
-                      {
-                        selector: 'node',
-                        style: {
-                          'background-color': '#666',
+                  <Col
+                    span="13"
+                    offset="40px"
+                    style={{ padding: '20px', paddingLeft: '80px' }}
+                  >
+                    <div
+                      style={{
+                        background: '#6EA5C3',
+                        padding: '10px',
+                        marginBottom: '50px',
+                        textAlign: 'center',
+                        // minWidth: '500px',
+                        width: '500px',
+                      }}
+                    >
+                      {' '}
+                      <h1
+                        style={{
+                          textAlign: 'Center',
                           color: 'white',
-                          label: 'data(label)',
-                          width: '60px',
-                          height: '60px',
-                          'text-valign': 'center',
-                          'text-halign': 'center',
-                          'font-size': '17px',
-                        },
-                      },
-                      {
-                        selector: 'edge',
-                        style: {
-                          width: 3,
-                          'line-color': 'blue',
-                          'target-arrow-color': 'blue',
-                          'target-arrow-shape': 'triangle',
-                          'curve-style': 'unbundled-bezier',
-                          'control-point-weight': '0.5',
-                          'control-point-distance': '0',
-                        },
-                      },
-                    ]}
-                    cy={cy => {
-                      myCyRef = cy;
-                      cy.on('tap', 'node', evt => {
-                        // var node = evt.target;
-                      });
-                    }}
-                  />
+                          fontWeight: 'bold',
+                        }}
+                      >
+                        Graph
+                      </h1>
+                      <Button onClick={function (event) { myCyRef.reset(); }}>Reset Graph Layout</Button>
+                      <div>
+                        <CytoscapeComponent
+                          elements={CytoscapeComponent.normalizeElements(graphData)}
+                          style={{
+                            minWidth: '400px',
+                            height: '500px',
+                            background: 'white',
+                            border: '2px solid black',
+                          }}
+                          stylesheet={[
+                            {
+                              selector: 'node',
+                              style: {
+                                'background-color': '#666',
+                                color: 'white',
+                                label: 'data(label)',
+                                width: '60px',
+                                height: '60px',
+                                'text-valign': 'center',
+                                'text-halign': 'center',
+                              },
+                            },
+                            {
+                              selector: 'edge',
+                              style: {
+                                width: 3,
+                                'line-color': 'blue',
+                                'target-arrow-color': 'blue',
+                                'target-arrow-shape': 'triangle',
+                                'curve-style': 'unbundled-bezier',
+                                'control-point-weight': '0.5',
+                                'control-point-distance': '0',
+                              },
+                            },
+                          ]}
+                          cy={cy => {
+                            myCyRef = cy;
+                            cy.on('tap', 'node', evt => {
+                              var node = evt.target;
+                            });
+                          }}
+                        />
+                      </div>
+                      {/*  */}
+                    </div>
+                  </Col>
                 )}
               </div>
               <div style={{ display: 'flex' }}>
@@ -674,7 +698,7 @@ export function GradedMatchExpressionGame(props) {
             }}
           >
             <h1>General Instructions</h1>
-            <pre>{`
+            <pre style={{ whiteSpace: 'pre-line' }}>{`
               1. Total duration of the graded quiz is 1 hour.\n
               2. The clock will be set at the server. The countdown timer in the top right corner of the screen will display the remaining time available for you to complete the examination. When the timer reaches zero, the examination will end by itself. You will not be required to end or submit your examination.\n
               3. The Questions Palette displayed on the right side of screen will show the status of each question using one of the following symbols:\n
