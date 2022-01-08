@@ -24,6 +24,8 @@ import {
   Row,
   Typography,
   Collapse,
+  Checkbox, Rate
+
 } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
@@ -33,34 +35,11 @@ import TimeClock from 'components/TimeClock';
 import makeSelectFindCrosswordNodesGame from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { getGamesDataStart, evaluateResponseStart } from './actions';
+import { getGamesDataStart, evaluateResponseStart, putFeedbackStart } from './actions';
 
 const { Panel } = Collapse;
 
 const { Option } = Select;
-
-const MyGrid = styled.div`
-  width: ${props => props.size * 72}px;
-  height: ${props => props.size * 72}px;
-  .chessboard {
-    width: 70px;
-    height: 70px;
-    border: 2px solid #333;
-  }
-`;
-
-const labels = {
-  0.5: 'Useless',
-  1: 'Useless+',
-  1.5: 'Poor',
-  2: 'Poor+',
-  2.5: 'Ok',
-  3: 'Ok+',
-  3.5: 'Good',
-  4: 'Good+',
-  4.5: 'Excellent',
-  5: 'Excellent+',
-};
 
 const errors = [
   'Silly mistake',
@@ -73,21 +52,34 @@ const errors = [
 
 const questions = [
   'How interesting did you find the question?',
-  'How interesting did you find the question?',
   'How relevant did you find the question w.r.t. the concept?',
   'How difficult did you find the question w.r.t. the current level?',
 ];
+
+
+const MyGrid = styled.div`
+  width: ${props => props.size * 72}px;
+  height: ${props => props.size * 72}px;
+  .chessboard {
+    width: 70px;
+    height: 70px;
+    border: 2px solid #333;
+  }
+`;
 
 export function FindCrosswordNodesGame(props) {
   useInjectReducer({ key: 'findCrosswordNodesGame', reducer });
   useInjectSaga({ key: 'findCrosswordNodesGame', saga });
 
   const [startTime, setStartTime] = useState(0);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [starValue1, setStarValue1] = useState(0);
-  const [starValue2, setStarValue2] = useState(0);
-  const [starValue3, setStarValue3] = useState(0);
-  const [starValue4, setStarValue4] = useState(0);
+  const [isFeedbackModalVisible, setIsFeedbackModalVisible] = useState(false);
+  const [isWWWModalVisible, setIsWWWModalVisible] = useState(false);
+  const [checkedState, setCheckedState] = useState(
+    new Array(errors.length).fill(false),
+  );
+  const [starValue, setStarValue] = useState(
+    new Array(questions.length).fill(0),
+  );
   const [qsWrong, setQsWrong] = useState(false);
   const [qsChanges, setQsChanges] = useState('');
 
@@ -104,15 +96,45 @@ export function FindCrosswordNodesGame(props) {
     return seconds;
   }
 
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
 
   const { gameData } = props.findCrosswordNodesGame;
   const { evaluatedAnswer } = props.findCrosswordNodesGame;
 
   const { level } = props.match.params;
   const { gameId } = props.match.params;
+
+  const showFeedbackModal = () => {
+    setIsFeedbackModalVisible(true);
+  };
+  const showWWWModal = () => {
+    setIsWWWModalVisible(true);
+  };
+
+
+  const handleFeedbackOk = () => {
+    const response = {};
+    const studentResponse = {};
+    studentResponse.feedback = JSON.stringify(starValue);
+
+    if (evaluatedAnswer.score !== 1) {
+      studentResponse.whatwentwrong = JSON.stringify(checkedState);
+    }
+    response.studentResponse = studentResponse;
+
+    setIsFeedbackModalVisible(false);
+
+    props.saveFeedback(response);
+  };
+
+
+  useEffect(() => {
+    if (evaluatedAnswer) {
+      showFeedbackModal();
+      if (evaluatedAnswer.score !== 1)
+        showWWWModal();
+    }
+  }, [evaluatedAnswer]);
+
   useEffect(() => {
     console.log('Hii');
     props.getGameData(level);
@@ -143,32 +165,7 @@ export function FindCrosswordNodesGame(props) {
   const onFinish = values => {
     const secs = end();
     const response = {};
-
-    const sr = {};
-    const res = [];
-    let x = {};
-    x.question = questions[0];
-    x.rating = starValue1;
-    res.push(x);
-    x = {};
-    x.question = questions[1];
-    x.rating = starValue2;
-    res.push(x);
-    x = {};
-    x.question = questions[2];
-    x.rating = starValue3;
-    res.push(x);
-    x = {};
-    x.question = questions[3];
-    x.rating = starValue4;
-    res.push(x);
-
-    sr.ratingFeedback = res;
-    sr.solutionWrong = qsWrong;
-    sr.questionChangeSuggestion = qsChanges;
-
-    console.log(values);
-
+    
     gameData.response = values.nodes;
     const formatted = moment.utc(secs * 1000).format('mm:ss');
     gameData.timeTaken = formatted;
@@ -200,6 +197,46 @@ export function FindCrosswordNodesGame(props) {
               paddingBottom: '150px',
             }}
           >
+            {isWWWModalVisible ?
+              (
+                <div style={{ color: 'white', paddingLeft: '50px', justifyContent: 'center', background: '#295474', }}>
+                  <h1 style={{ color: 'white' }}>Why you made mistake?</h1>
+                  <h3 style={{ color: 'white' }}>Please answer the following questions and then press OK. Your feedback will ultimately help you</h3>
+                  <div>
+                    {
+                      errors.map((ques, idx) => (
+                        <Checkbox style={{ color: 'white' }} onChange={function handleChange(event) {
+                          checkedState[idx] = event.target.checked;
+                        }}>{ques}</Checkbox>
+                      ))
+                    }
+                    <Button type='primary' onClick={function (event) {
+                      setIsWWWModalVisible(false);
+                      setIsFeedbackModalVisible(true);
+                    }}>DONE</Button>
+                  </div>
+                </div>
+              ) : (isFeedbackModalVisible ? (
+                <div style={{ color: 'white', paddingLeft: '50px', justifyContent: 'center', background: '#295474', }}>
+                  <h1 style={{ color: 'white' }}>Feedback</h1>
+                  <h3 style={{ color: 'white' }}>Please answer the following questions and then press OK. Your feedback will ultimately help you</h3>
+                  <div>
+                    {
+                      questions.map((ques, idx) => (
+                        <div>
+                          <p>{(idx + 1) + ". " + ques}</p>
+                          <Rate allowClear={false} onChange={function handleChange(value) { starValue[idx] = value; }} />
+                        </div>
+                      )
+
+                      )
+                    }
+                    <Button type='primary' onClick={function (event) {
+                      handleFeedbackOk();
+                    }}>DONE</Button>
+                  </div>
+                </div>
+              ) : null)}
             <div
               style={{
                 display: 'flex',
@@ -538,6 +575,7 @@ FindCrosswordNodesGame.propTypes = {
   getGameData: PropTypes.func,
   checkStudentResponse: PropTypes.func,
   findCrosswordNodesGame: PropTypes.object,
+  saveFeedback: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -548,6 +586,8 @@ function mapDispatchToProps(dispatch) {
   return {
     getGameData: token => dispatch(getGamesDataStart(token)),
     checkStudentResponse: response => dispatch(evaluateResponseStart(response)),
+    saveFeedback: feedback => dispatch(putFeedbackStart(feedback)),
+
   };
 }
 

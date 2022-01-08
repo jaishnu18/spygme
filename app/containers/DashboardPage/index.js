@@ -41,28 +41,36 @@ export function DashboardPage(props) {
 
   console.log(props.dashboardPage);
   return (
-    <div>
+    <div style={{padding:'30px'}}>
       <Helmet>
         <title>DashboardPage</title>
         <meta name="description" content="Description of DashboardPage" />
       </Helmet>
-      {dashboard ?
-        (
-          <div>
-            <h1 style={{color:'white'}}>{"Hello,"} <b>{dashboard.username}</b></h1>
-            <Link to='/topics'>
-              <Button type="primary" style={{ height: '50px' }}>Learn AI</Button>
-            </Link>
-            <div style={{ display: 'flex' }}>
-              <div style={{ width: '300px' }}>
-                <SimpleCard type="Progress" title="Overall Progress" progress={dashboard.overallProgress} />
-              </div>
-              <div style={{ width: '300px' }}>
-                <SimpleCard type="Proficiency" title="Overall Proficiency" progress={dashboard.overallProficiency} />
+      <div
+        style={{
+          padding: '20px',
+          background: '#F8FAA7',
+          paddingBottom: '150px',
+        }}
+      >
+        {dashboard ?
+          (
+            <div>
+              <h1>{"Hello,"} <b>{dashboard.username}</b></h1>
+              <Link to='/topics'>
+                <Button type="primary" style={{ height: '50px' }}>Learn AI</Button>
+              </Link>
+              <div style={{paddingTop:'10px', display: 'flex' }}>
+                <div style={{ width: '300px' }}>
+                  <SimpleCard type="Progress" title="Overall Progress" progress={dashboard.overallProgress} />
+                </div>
+                <div style={{width: '300px' }}>
+                  <SimpleCard type="Proficiency" title="Overall Proficiency" progress={dashboard.overallProficiency} />
+                </div>
               </div>
             </div>
-          </div>
-        ) : null}
+          ) : null}
+      </div>
     </div>
   );
 }

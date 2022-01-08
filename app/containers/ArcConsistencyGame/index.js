@@ -14,7 +14,7 @@ import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import CytoscapeComponent from 'react-cytoscapejs';
-import { Button, Row, Col, Collapse } from 'antd';
+import { Button, Row, Col, Collapse, Checkbox, Rate } from 'antd';
 import moment from 'moment';
 import TimeClock from 'components/TimeClock';
 import AppStructure from 'components/AppStructure';
@@ -27,9 +27,24 @@ import makeSelectArcConsistencyGame from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
-import { getGamesDataStart, evaluateResponseStart } from './actions';
+import { getGamesDataStart, evaluateResponseStart, putFeedbackStart } from './actions';
 
 const { Panel } = Collapse;
+
+const errors = [
+  'Silly mistake',
+  'Did not know the concept',
+  'Knew Concept,but unable to apply',
+  'Made a guess',
+  'Attempted in a hurry',
+  'Could not understand the question',
+];
+
+const questions = [
+  'How interesting did you find the question?',
+  'How relevant did you find the question w.r.t. the concept?',
+  'How difficult did you find the question w.r.t. the current level?',
+];
 
 const MyGrid = styled.div`
   width: ${props => props.size * 72}px;
@@ -60,6 +75,14 @@ export function ArcConsistencyGame(props) {
 
   const { gameData } = props.arcConsistencyGame;
   const { evaluatedAnswer } = props.arcConsistencyGame;
+  const [isFeedbackModalVisible, setIsFeedbackModalVisible] = useState(false);
+  const [isWWWModalVisible, setIsWWWModalVisible] = useState(false);
+  const [checkedState, setCheckedState] = useState(
+    new Array(errors.length).fill(false),
+  );
+  const [starValue, setStarValue] = useState(
+    new Array(questions.length).fill(0),
+  );
 
   const [startTime, setStartTime] = useState(0);
   function start() {
@@ -76,6 +99,38 @@ export function ArcConsistencyGame(props) {
 
   const { level } = props.match.params;
   const { gameId } = props.match.params;
+  const showFeedbackModal = () => {
+    setIsFeedbackModalVisible(true);
+  };
+  const showWWWModal = () => {
+    setIsWWWModalVisible(true);
+  };
+
+
+  const handleFeedbackOk = () => {
+    const response = {};
+    const studentResponse = {};
+    studentResponse.feedback = JSON.stringify(starValue);
+
+    if (evaluatedAnswer.score !== 1) {
+      studentResponse.whatwentwrong = JSON.stringify(checkedState);
+    }
+    response.studentResponse = studentResponse;
+
+    setIsFeedbackModalVisible(false);
+
+    props.saveFeedback(response);
+  };
+
+
+  useEffect(() => {
+    if (evaluatedAnswer) {
+      showFeedbackModal();
+      if (evaluatedAnswer.score !== 1)
+        showWWWModal();
+    }
+  }, [evaluatedAnswer]);
+
   useEffect(() => {
     props.getGameData(level);
     start();
@@ -143,7 +198,7 @@ export function ArcConsistencyGame(props) {
           const obj = {
             data: { id: `${i}-${j}`, label: gameData.word_bag[i][j] },
             position: {
-              x: 100 * (2*i + 1),
+              x: 100 * (2 * i + 1),
               y: 100 * (j + 0.5),
             },
           };
@@ -238,7 +293,7 @@ export function ArcConsistencyGame(props) {
     const lvl = parseInt(level);
     window.location.href = `/arc-consistency/${gameId}/${lvl + 1}`;
   };
-  const backToConcepts=()=>{
+  const backToConcepts = () => {
     window.location.href = `/concept/7`;
   }
 
@@ -255,6 +310,46 @@ export function ArcConsistencyGame(props) {
         evaluatedAnswer={evaluatedAnswer}
         divContent={
           <div style={{ padding: '20px', background: '#F8FAA7' }}>
+            {isWWWModalVisible ?
+              (
+                <div style={{ color: 'white', paddingLeft: '50px', justifyContent: 'center', background: '#295474', }}>
+                  <h1 style={{ color: 'white' }}>Why you made mistake?</h1>
+                  <h3 style={{ color: 'white' }}>Please answer the following questions and then press OK. Your feedback will ultimately help you</h3>
+                  <div>
+                    {
+                      errors.map((ques, idx) => (
+                        <Checkbox style={{ color: 'white' }} onChange={function handleChange(event) {
+                          checkedState[idx] = event.target.checked;
+                        }}>{ques}</Checkbox>
+                      ))
+                    }
+                    <Button type='primary' onClick={function (event) {
+                      setIsWWWModalVisible(false);
+                      setIsFeedbackModalVisible(true);
+                    }}>DONE</Button>
+                  </div>
+                </div>
+              ) : (isFeedbackModalVisible ? (
+                <div style={{ color: 'white', paddingLeft: '50px', justifyContent: 'center', background: '#295474', }}>
+                  <h1 style={{ color: 'white' }}>Feedback</h1>
+                  <h3 style={{ color: 'white' }}>Please answer the following questions and then press OK. Your feedback will ultimately help you</h3>
+                  <div>
+                    {
+                      questions.map((ques, idx) => (
+                        <div>
+                          <p>{(idx + 1) + ". " + ques}</p>
+                          <Rate allowClear={false} onChange={function handleChange(value) { starValue[idx] = value; }} />
+                        </div>
+                      )
+
+                      )
+                    }
+                    <Button type='primary' onClick={function (event) {
+                      handleFeedbackOk();
+                    }}>DONE</Button>
+                  </div>
+                </div>
+              ) : null)}
             <div
               style={{
                 display: 'flex',
@@ -268,22 +363,22 @@ export function ArcConsistencyGame(props) {
               >
                 Back to Materials
               </Button>
-                <div style={{ display: 'flex', width: '100%' }}>
-                  <Button style={ { marginLeft: 'auto', marginRight: '30px' }} onClick={prevLevel} disabled={level==1}>
-                    Previous Level
-                  </Button>
-                  <Button
-                    style={{ marginLeft: 'auto', marginRight: '30px' }}
-                    onClick={nextLevel}
-                    disabled={level==2}
-                  >
-                    Next Level
-                  </Button>
-                </div>
+              <div style={{ display: 'flex', width: '100%' }}>
+                <Button style={{ marginLeft: 'auto', marginRight: '30px' }} onClick={prevLevel} disabled={level == 1}>
+                  Previous Level
+                </Button>
+                <Button
+                  style={{ marginLeft: 'auto', marginRight: '30px' }}
+                  onClick={nextLevel}
+                  disabled={level == 2}
+                >
+                  Next Level
+                </Button>
+              </div>
             </div>
             {gameData && selectedArray ? (
               <Row>
-                <Collapse accordion style={{width:'100%'}} defaultActiveKey={['1']}>
+                <Collapse accordion style={{ width: '100%' }} defaultActiveKey={['1']}>
                   <Panel key="1" header="How to play?">
                     <p>{gameData ? gameData.gameDescription : ""}</p>
                   </Panel>
@@ -510,6 +605,7 @@ ArcConsistencyGame.propTypes = {
   getGameData: PropTypes.func,
   checkStudentResponse: PropTypes.func,
   arcConsistencyGame: PropTypes.object,
+  saveFeedback: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -520,6 +616,7 @@ function mapDispatchToProps(dispatch) {
   return {
     getGameData: token => dispatch(getGamesDataStart(token)),
     checkStudentResponse: response => dispatch(evaluateResponseStart(response)),
+    saveFeedback: feedback => dispatch(putFeedbackStart(feedback)),
   };
 }
 

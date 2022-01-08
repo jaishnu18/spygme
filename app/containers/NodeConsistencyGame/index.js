@@ -11,7 +11,10 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { Row, Col, Button, Image } from 'antd';
+import {
+  Row, Col, Button, Image,
+  Checkbox, Rate
+} from 'antd';
 import moment from 'moment';
 import TimeClock from 'components/TimeClock';
 import { useInjectSaga } from 'utils/injectSaga';
@@ -24,7 +27,7 @@ import reducer from './reducer';
 import saga from './saga';
 import { Collapse } from 'antd';
 
-import { getGamesDataStart, evaluateResponseStart } from './actions';
+import { getGamesDataStart, evaluateResponseStart, putFeedbackStart } from './actions';
 
 const { Panel } = Collapse;
 const MyGrid = styled.div`
@@ -36,6 +39,20 @@ const MyGrid = styled.div`
     border: 2px solid #333;
   }
 `;
+const errors = [
+  'Silly mistake',
+  'Did not know the concept',
+  'Knew Concept,but unable to apply',
+  'Made a guess',
+  'Attempted in a hurry',
+  'Could not understand the question',
+];
+
+const questions = [
+  'How interesting did you find the question?',
+  'How relevant did you find the question w.r.t. the concept?',
+  'How difficult did you find the question w.r.t. the current level?',
+];
 
 const MyDiv = styled.div`
   width: 100%;
@@ -51,6 +68,14 @@ export function NodeConsistencyGame(props) {
 
   const [selectedArray, setSelectedArray] = useState(undefined);
   const [startTime, setStartTime] = useState(0);
+  const [isFeedbackModalVisible, setIsFeedbackModalVisible] = useState(false);
+  const [isWWWModalVisible, setIsWWWModalVisible] = useState(false);
+  const [checkedState, setCheckedState] = useState(
+    new Array(errors.length).fill(false),
+  );
+  const [starValue, setStarValue] = useState(
+    new Array(questions.length).fill(0),
+  );
 
   function start() {
     const date = new Date();
@@ -66,6 +91,38 @@ export function NodeConsistencyGame(props) {
 
   const { gameData } = props.nodeConsistencyGame;
   const { evaluatedAnswer } = props.nodeConsistencyGame;
+
+  const showFeedbackModal = () => {
+    setIsFeedbackModalVisible(true);
+  };
+  const showWWWModal = () => {
+    setIsWWWModalVisible(true);
+  };
+
+
+  const handleFeedbackOk = () => {
+    const response = {};
+    const studentResponse = {};
+    studentResponse.feedback = JSON.stringify(starValue);
+
+    if (evaluatedAnswer.score !== 1) {
+      studentResponse.whatwentwrong = JSON.stringify(checkedState);
+    }
+    response.studentResponse = studentResponse;
+
+    setIsFeedbackModalVisible(false);
+
+    props.saveFeedback(response);
+  };
+
+
+  useEffect(() => {
+    if (evaluatedAnswer) {
+      showFeedbackModal();
+      if (evaluatedAnswer.score !== 1)
+        showWWWModal();
+    }
+  }, [evaluatedAnswer]);
 
   const { level } = props.match.params;
   const { gameId } = props.match.params;
@@ -136,7 +193,7 @@ export function NodeConsistencyGame(props) {
     const lvl = parseInt(level);
     window.location.href = `/node-consistency/${gameId}/${lvl + 1}`;
   };
-  const backToConcepts=()=>{
+  const backToConcepts = () => {
     window.location.href = `/concept/7`;
   }
 
@@ -153,6 +210,46 @@ export function NodeConsistencyGame(props) {
         evaluatedAnswer={evaluatedAnswer}
         divContent={
           <div style={{ padding: '20px', background: '#F8FAA7' }}>
+            {isWWWModalVisible ?
+              (
+                <div style={{ color: 'white', paddingLeft: '50px', justifyContent: 'center', background: '#295474', }}>
+                  <h1 style={{ color: 'white' }}>Why you made mistake?</h1>
+                  <h3 style={{ color: 'white' }}>Please answer the following questions and then press OK. Your feedback will ultimately help you</h3>
+                  <div>
+                    {
+                      errors.map((ques, idx) => (
+                        <Checkbox style={{ color: 'white' }} onChange={function handleChange(event) {
+                          checkedState[idx] = event.target.checked;
+                        }}>{ques}</Checkbox>
+                      ))
+                    }
+                    <Button type='primary' onClick={function (event) {
+                      setIsWWWModalVisible(false);
+                      setIsFeedbackModalVisible(true);
+                    }}>DONE</Button>
+                  </div>
+                </div>
+              ) : (isFeedbackModalVisible ? (
+                <div style={{ color: 'white', paddingLeft: '50px', justifyContent: 'center', background: '#295474', }}>
+                  <h1 style={{ color: 'white' }}>Feedback</h1>
+                  <h3 style={{ color: 'white' }}>Please answer the following questions and then press OK. Your feedback will ultimately help you</h3>
+                  <div>
+                    {
+                      questions.map((ques, idx) => (
+                        <div>
+                          <p>{(idx + 1) + ". " + ques}</p>
+                          <Rate allowClear={false} onChange={function handleChange(value) { starValue[idx] = value; }} />
+                        </div>
+                      )
+
+                      )
+                    }
+                    <Button type='primary' onClick={function (event) {
+                      handleFeedbackOk();
+                    }}>DONE</Button>
+                  </div>
+                </div>
+              ) : null)}
             <div
               style={{
                 display: 'flex',
@@ -166,22 +263,22 @@ export function NodeConsistencyGame(props) {
               >
                 Back to Materials
               </Button>
-                <div style={{ display: 'flex', width: '100%' }}>
-                  <Button style={ { marginLeft: 'auto', marginRight: '30px' }} onClick={prevLevel} disabled={level==1}>
-                    Previous Level
-                  </Button>
-                  <Button
-                    style={{ marginLeft: 'auto', marginRight: '30px' }}
-                    onClick={nextLevel}
-                    disabled={level==2}
-                  >
-                    Next Level
-                  </Button>
-                </div>
+              <div style={{ display: 'flex', width: '100%' }}>
+                <Button style={{ marginLeft: 'auto', marginRight: '30px' }} onClick={prevLevel} disabled={level == 1}>
+                  Previous Level
+                </Button>
+                <Button
+                  style={{ marginLeft: 'auto', marginRight: '30px' }}
+                  onClick={nextLevel}
+                  disabled={level == 2}
+                >
+                  Next Level
+                </Button>
+              </div>
             </div>
             {gameData && selectedArray ? (
               <Row>
-                <Collapse accordion style={{width:'100%'}} defaultActiveKey={['1']}>
+                <Collapse accordion style={{ width: '100%' }} defaultActiveKey={['1']}>
                   <Panel key="1" header="How to play?">
                     <p>{gameData ? gameData.gameDescription : ""}</p>
                   </Panel>
@@ -348,6 +445,7 @@ export function NodeConsistencyGame(props) {
 NodeConsistencyGame.propTypes = {
   getGameData: PropTypes.func,
   checkStudentResponse: PropTypes.func,
+  saveFeedback: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -358,6 +456,7 @@ function mapDispatchToProps(dispatch) {
   return {
     getGameData: token => dispatch(getGamesDataStart(token)),
     checkStudentResponse: response => dispatch(evaluateResponseStart(response)),
+    saveFeedback: feedback => dispatch(putFeedbackStart(feedback)),
   };
 }
 

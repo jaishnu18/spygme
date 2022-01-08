@@ -12,6 +12,9 @@ import {
   VALIDATE_EXPRESSION_FAILURE,
   VALIDATE_EXPRESSION_START,
   VALIDATE_EXPRESSION_SUCCESS,
+  PUT_FEEDBACK_FAILURE,
+  PUT_FEEDBACK_START,
+  PUT_FEEDBACK_SUCCESS,
 } from './constants';
 
 export const initialState = {
@@ -19,6 +22,7 @@ export const initialState = {
   isExpressionLoading: false,
   isCheckingAnswer: false,
   evaluatedAnswer: undefined,
+  isFeedbackSaving: false,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -46,6 +50,15 @@ const treeGamePageReducer = (state = initialState, action) =>
         break;
       case VALIDATE_EXPRESSION_FAILURE:
         draft.isCheckingAnswer = false;
+        break;
+      case PUT_FEEDBACK_START:
+        draft.isFeedbackSaving = true;
+        break;
+      case PUT_FEEDBACK_SUCCESS:
+        draft.isFeedbackSaving = false;
+        break;
+      case PUT_FEEDBACK_FAILURE:
+        draft.isFeedbackSaving = false;
         break;
     }
   });

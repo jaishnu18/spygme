@@ -11,6 +11,9 @@ import {
   EVALUATE_RESPONSE_START,
   EVALUATE_RESPONSE_SUCCESS,
   EVALUATE_RESPONSE_FAILURE,
+  PUT_FEEDBACK_FAILURE,
+  PUT_FEEDBACK_START,
+  PUT_FEEDBACK_SUCCESS,
 } from './constants';
 
 export const initialState = {
@@ -18,6 +21,7 @@ export const initialState = {
   gameData: undefined,
   isResponseLoading: false,
   evaluatedAnswer: undefined,
+  isFeedbackSaving: false,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -45,6 +49,15 @@ const findCrosswordNodesGameReducer = (state = initialState, action) =>
       case EVALUATE_RESPONSE_FAILURE:
         draft.isResponseLoading = false;
         draft.evaluatedAnswer = action.payload;
+        break;
+      case PUT_FEEDBACK_START:
+        draft.isFeedbackSaving = true;
+        break;
+      case PUT_FEEDBACK_SUCCESS:
+        draft.isFeedbackSaving = false;
+        break;
+      case PUT_FEEDBACK_FAILURE:
+        draft.isFeedbackSaving = false;
         break;
     }
   });

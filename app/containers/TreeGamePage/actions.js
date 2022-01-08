@@ -12,6 +12,9 @@ import {
   VALIDATE_EXPRESSION_FAILURE,
   VALIDATE_EXPRESSION_START,
   VALIDATE_EXPRESSION_SUCCESS,
+  PUT_FEEDBACK_FAILURE,
+  PUT_FEEDBACK_START,
+  PUT_FEEDBACK_SUCCESS,
 } from './constants';
 
 export function defaultAction() {
@@ -58,6 +61,25 @@ export function evaluateExpressionSuccess(payload) {
 export function evaluateExpressionFailure(err) {
   return {
     type: VALIDATE_EXPRESSION_FAILURE,
+    payload: err,
+  };
+}
+
+export function putFeedbackStart(payload) {
+  return {
+    type: PUT_FEEDBACK_START,
+    payload,
+  };
+}
+export function putFeedbackSuccess(payload) {
+  return {
+    type: PUT_FEEDBACK_SUCCESS,
+    payload,
+  };
+}
+export function putFeedbackFailure(err) {
+  return {
+    type: PUT_FEEDBACK_FAILURE,
     payload: err,
   };
 }

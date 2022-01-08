@@ -18,3 +18,8 @@ export const EVALUATE_RESPONSE_SUCCESS =
   'app/DrawCrosswordGraphGame/EVALUATE_RESPONSE_SUCCESS';
 export const EVALUATE_RESPONSE_FAILURE =
   'app/DrawCrosswordGraphGame/EVALUATE_RESPONSE_FAILURE';
+  export const PUT_FEEDBACK_START = 'app/MatchExpressionGame/PUT_FEEDBACK_START';
+  export const PUT_FEEDBACK_SUCCESS =
+    'app/MatchExpressionGame/PUT_FEEDBACK_SUCCESS';
+  export const PUT_FEEDBACK_FAILURE =
+    'app/MatchExpressionGame/PUT_FEEDBACK_FAILURE';
