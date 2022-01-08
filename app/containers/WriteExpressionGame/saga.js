@@ -12,8 +12,13 @@ import {
   getGraphFailure,
   evaluateExpressionSuccess,
   evaluateExpressionFailure,
+  putFeedbackFailure,
+  putFeedbackSuccess,
 } from './actions';
-import { GET_GRAPH_START, VALIDATE_EXPRESSION_START } from './constants';
+import {
+  GET_GRAPH_START, VALIDATE_EXPRESSION_START
+  , PUT_FEEDBACK_START,
+} from './constants';
 
 // Individual exports for testing
 
@@ -54,10 +59,25 @@ export function* evaluateAnswer(action) {
     yield put(evaluateExpressionFailure(err.data.message));
   }
 }
-
+export function* saveFeedback(action) {
+  try {
+    console.log(action.payload);
+    const studentResponse = action.payload;
+    const response = yield axios.put(
+      `http://localhost:4000/game/write-expression/feedback-save`,
+      studentResponse,
+      { headers: { Authorization: localStorage._UFT_ } },
+    );
+    yield put(putFeedbackSuccess(response.data.data));
+  } catch (err) {
+    console.log(err);
+    yield put(putFeedbackFailure(err.data.message));
+  }
+}
 export default function* writeExpressionGameSaga() {
   yield all([
     takeLatest(GET_GRAPH_START, getGraph),
     takeLatest(VALIDATE_EXPRESSION_START, evaluateAnswer),
+    takeLatest(PUT_FEEDBACK_START, saveFeedback),
   ]);
 }

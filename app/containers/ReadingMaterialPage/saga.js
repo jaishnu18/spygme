@@ -33,10 +33,11 @@ export function* getRMContent(action) {
 export function* markAsRead(action) {
   try {
     console.log(action.payload);
-    const { rmId } = action.payload;
-    console.log(rmId);
-    const response = yield api.post(
+    const studentResponse = action.payload;
+    const { rmId } = studentResponse;
+    const response = yield api.put(
       `/get-reading-materials/mark-as-read/${rmId}`,
+
       { headers: { Authorization: localStorage._UFT_ } },
     );
     console.log(response);

@@ -15,3 +15,9 @@ export const VALIDATE_EXPRESSION_SUCCESS =
   'app/TreeGamePage/VALIDATE_EXPRESSIOn_SUCCESS';
 export const VALIDATE_EXPRESSION_FAILURE =
   'app/TreeGamePage/VALIDATE_EXPRESSIOn_FAILURE';
+
+  export const PUT_FEEDBACK_START = 'app/TreeGamePage/PUT_FEEDBACK_START';
+export const PUT_FEEDBACK_SUCCESS =
+  'app/TreeGamePage/PUT_FEEDBACK_SUCCESS';
+export const PUT_FEEDBACK_FAILURE =
+  'app/TreeGamePage/PUT_FEEDBACK_FAILURE';

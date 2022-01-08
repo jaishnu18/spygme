@@ -29,7 +29,9 @@ import {
   Form,
   Modal,
   Input,
-  Collapse
+  Collapse,
+  Checkbox,
+  Rate
 } from 'antd';
 import moment from 'moment';
 import AppWrapper from 'components/AppWrapper';
@@ -81,7 +83,6 @@ const errors = [
 
 const questions = [
   'How interesting did you find the question?',
-  'How interesting did you find the question?',
   'How relevant did you find the question w.r.t. the concept?',
   'How difficult did you find the question w.r.t. the current level?',
 ];
@@ -96,13 +97,13 @@ export function MatchExpressionGame(props) {
   const [checkedState, setCheckedState] = useState(
     new Array(errors.length).fill(false),
   );
+  const [starValue, setStarValue] = useState(
+    new Array(questions.length).fill(0),
+  );
   const [graphData, setGraphData] = useState(undefined);
   const [items, setItems] = useState(undefined);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [starValue1, setStarValue1] = useState(0);
-  const [starValue2, setStarValue2] = useState(0);
-  const [starValue3, setStarValue3] = useState(0);
-  const [starValue4, setStarValue4] = useState(0);
+  const [isFeedbackModalVisible, setIsFeedbackModalVisible] = useState(false);
+  const [isWWWModalVisible, setIsWWWModalVisible] = useState(false);
   const [qsWrong, setQsWrong] = useState(false);
   const [qsChanges, setQsChanges] = useState('');
   // const [hover, setHover] = React.useState(-1);
@@ -112,58 +113,26 @@ export function MatchExpressionGame(props) {
     console.log(qsChanges);
   }, [qsChanges]);
 
-  const showModal = () => {
-    setIsModalVisible(true);
+  const showFeedbackModal = () => {
+    setIsFeedbackModalVisible(true);
+  };
+  const showWWWModal = () => {
+    setIsWWWModalVisible(true);
   };
 
-  const handleOk = () => {
+  const handleFeedbackOk = () => {
     const response = {};
-    const sr = {};
-    const res = [];
-    let x = {};
-    x.question = questions[0];
-    x.rating = starValue1;
-    res.push(x);
-    x = {};
-    x.question = questions[1];
-    x.rating = starValue2;
-    res.push(x);
-    x = {};
-    x.question = questions[2];
-    x.rating = starValue3;
-    res.push(x);
-    x = {};
-    x.question = questions[3];
-    x.rating = starValue4;
-    res.push(x);
-
-    sr.ratingFeedback = res;
-    sr.solutionWrong = qsWrong;
-    sr.questionChangeSuggestion = qsChanges;
-
     const studentResponse = {};
-    studentResponse.feedback = JSON.stringify(sr);
+    studentResponse.feedback = JSON.stringify(starValue);
 
     if (evaluatedAnswer.score !== 1) {
-      const newArr = checkedState.map((isTrue, index) => {
-        if (isTrue) {
-          return errors[index];
-        }
-      });
-      const filtered = newArr.filter(el => {
-        return el != null;
-      });
-      studentResponse.whatwentwrong = JSON.stringify(filtered);
+      studentResponse.whatwentwrong = JSON.stringify(checkedState);
     }
     response.studentResponse = studentResponse;
 
-    setIsModalVisible(false);
+    setIsFeedbackModalVisible(false);
 
     props.saveFeedback(response);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
   };
 
   const [startTime, setStartTime] = useState(0);
@@ -180,13 +149,25 @@ export function MatchExpressionGame(props) {
     return seconds;
   }
   const { Panel } = Collapse;
-  const handleOnChange = position => {
-    const updatedCheckedState = checkedState.map((item, index) =>
-      index === position ? !item : item,
-    );
-
-    setCheckedState(updatedCheckedState);
-  };
+  function onChangeCheckbox(checkedValues) {
+    let newArray = new Array(errors.length).fill(false);
+    for (let i = 0; i < checkedValues.length; i += 1) {
+      let ch = checkedValues[i][0];
+      if (ch === 'S')
+        newArray[0] = true;
+      else if (ch === 'D')
+        newArray[1] = true;
+      else if (ch === 'K')
+        newArray[2] = true;
+      else if (ch === 'M')
+        newArray[3] = true;
+      else if (ch === 'A')
+        newArray[4] = true;
+      else
+        newArray[5] = true;
+    }
+    setCheckedState(newArray);
+  }
 
   useEffect(() => {
     props.getGameData(level);
@@ -335,7 +316,9 @@ export function MatchExpressionGame(props) {
 
   useEffect(() => {
     if (evaluatedAnswer) {
-      setIsModalVisible(true);
+      showFeedbackModal();
+      if (evaluatedAnswer.score !== 1)
+        showWWWModal();
     }
   }, [evaluatedAnswer]);
 
@@ -347,7 +330,7 @@ export function MatchExpressionGame(props) {
     const lvl = parseInt(level);
     window.location.href = `/match-expression/${gameId}/${lvl + 1}`;
   };
-  const backToConcepts=()=>{
+  const backToConcepts = () => {
     window.location.href = `/concept/5`;
   }
 
@@ -391,6 +374,47 @@ export function MatchExpressionGame(props) {
               background: '#F8FAA7',
             }}
           >
+            {isWWWModalVisible ?
+              (
+                <div style={{ color: 'white', paddingLeft: '50px', justifyContent: 'center', background: '#295474', }}>
+                  <h1 style={{ color: 'white' }}>Why you made mistake?</h1>
+                  <h3 style={{ color: 'white' }}>Please answer the following questions and then press OK. Your feedback will ultimately help you</h3>
+                  <div>
+                    {
+                      errors.map((ques, idx) => (
+                        <Checkbox style={{ color: 'white' }} onChange={function handleChange(event) {
+                          checkedState[idx] = event.target.checked;
+                        }}>{ques}</Checkbox>
+                      ))
+                    }
+                    <Button type='primary' onClick={function (event) {
+                      setIsWWWModalVisible(false);
+                      setIsFeedbackModalVisible(true);
+                    }}>DONE</Button>
+                  </div>
+                </div>
+              ) : (isFeedbackModalVisible ? (
+                <div style={{ color: 'white', paddingLeft: '50px', justifyContent: 'center', background: '#295474', }}>
+                  <h1 style={{ color: 'white' }}>Feedback</h1>
+                  <h3 style={{ color: 'white' }}>Please answer the following questions and then press OK. Your feedback will ultimately help you</h3>
+                  <div>
+                    {
+                      questions.map((ques, idx) => (
+                        <div>
+                          <p>{(idx + 1) + ". " + ques}</p>
+                          <Rate allowClear={false} onChange={function handleChange(value) { starValue[idx] = value; }} />
+                        </div>
+                      )
+
+                      )
+                    }
+                    <Button type='primary' onClick={function (event) {
+                      handleFeedbackOk();
+                    }}>DONE</Button>
+                  </div>
+                </div>
+              ) : null)}
+
             <div
               style={{
                 display: 'flex',
@@ -404,18 +428,18 @@ export function MatchExpressionGame(props) {
               >
                 Back to Materials
               </Button>
-                <div style={{ display: 'flex', width: '100%' }}>
-                  <Button style={ { marginLeft: 'auto', marginRight: '30px' }} onClick={prevLevel} disabled={level==1}>
-                    Previous Level
-                  </Button>
-                  <Button
-                    style={{ marginLeft: 'auto', marginRight: '30px' }}
-                    onClick={nextLevel}
-                    disabled={level==4}
-                  >
-                    Next Level
-                  </Button>
-                </div>
+              <div style={{ display: 'flex', width: '100%' }}>
+                <Button style={{ marginLeft: 'auto', marginRight: '30px' }} onClick={prevLevel} disabled={level == 1}>
+                  Previous Level
+                </Button>
+                <Button
+                  style={{ marginLeft: 'auto', marginRight: '30px' }}
+                  onClick={nextLevel}
+                  disabled={level == 4}
+                >
+                  Next Level
+                </Button>
+              </div>
             </div>
             {gameData ? (
               <Row>

@@ -33,6 +33,7 @@ import {
   Col,
   Divider,
   Collapse,
+  Checkbox, Rate
 } from 'antd';
 import AppStructure from 'components/AppStructure';
 
@@ -46,9 +47,24 @@ import moment from 'moment';
 import makeSelectTreeGamePage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { getExpressionStart, evaluateExpressionStart } from './actions';
+import { getExpressionStart, evaluateExpressionStart, putFeedbackStart } from './actions';
 
 cytoscape.use(popper);
+
+const errors = [
+  'Silly mistake',
+  'Did not know the concept',
+  'Knew Concept,but unable to apply',
+  'Made a guess',
+  'Attempted in a hurry',
+  'Could not understand the question',
+];
+
+const questions = [
+  'How interesting did you find the question?',
+  'How relevant did you find the question w.r.t. the concept?',
+  'How difficult did you find the question w.r.t. the current level?',
+];
 
 export function TreeGamePage(props) {
   useInjectReducer({ key: 'treeGamePage', reducer });
@@ -56,6 +72,9 @@ export function TreeGamePage(props) {
   const [value, setValue] = useState(0);
   const [graphData, setGraphData] = useState(undefined);
   const [visualizeStarted, setvisualizeStarted] = useState(false);
+  const [isFeedbackModalVisible, setIsFeedbackModalVisible] = useState(false);
+  const [isWWWModalVisible, setIsWWWModalVisible] = useState(false);
+
 
   const [startTime, setStartTime] = useState(0);
   function start() {
@@ -78,8 +97,47 @@ export function TreeGamePage(props) {
   const { gameData } = props.treeGamePage;
   const { evaluatedAnswer } = props.treeGamePage;
   const { level } = props;
+  const [checkedState, setCheckedState] = useState(
+    new Array(errors.length).fill(false),
+  );
+  const [starValue, setStarValue] = useState(
+    new Array(questions.length).fill(0),
+  );
 
   const { Panel } = Collapse;
+
+
+  const showFeedbackModal = () => {
+    setIsFeedbackModalVisible(true);
+  };
+  const showWWWModal = () => {
+    setIsWWWModalVisible(true);
+  };
+
+
+  const handleFeedbackOk = () => {
+    const response = {};
+    const studentResponse = {};
+    studentResponse.feedback = JSON.stringify(starValue);
+
+    if (evaluatedAnswer.score !== 1) {
+      studentResponse.whatwentwrong = JSON.stringify(checkedState);
+    }
+    response.studentResponse = studentResponse;
+
+    setIsFeedbackModalVisible(false);
+
+    props.saveFeedback(response);
+  };
+
+
+  useEffect(() => {
+    if (evaluatedAnswer) {
+      showFeedbackModal();
+      if (evaluatedAnswer.score !== 1)
+        showWWWModal();
+    }
+  }, [evaluatedAnswer]);
 
   useEffect(() => {
     if (gameData) {
@@ -230,7 +288,7 @@ export function TreeGamePage(props) {
     }
   }
 
-  const animate = function() {
+  const animate = function () {
     if (gameData) {
       if (gameData.ptr2 < gameData.orderOfEvaluation.length) {
         const node = gameData.orderOfEvaluation[gameData.ptr2];
@@ -264,14 +322,14 @@ export function TreeGamePage(props) {
     }
   };
 
-  const resetGraph = function() {
+  const resetGraph = function () {
     if (gameData) {
       reset();
       myCyRef.reset();
     }
   };
 
-  const reset = function() {
+  const reset = function () {
     if (gameData) {
       for (let i = 0; i < gameData.orderOfEvaluation.length; i += 1) {
         const node = gameData.orderOfEvaluation[i];
@@ -326,6 +384,46 @@ export function TreeGamePage(props) {
               background: '#F8FAA7',
             }}
           >
+            {isWWWModalVisible ?
+              (
+                <div style={{ color: 'white', paddingLeft: '50px', justifyContent: 'center', background: '#295474', }}>
+                  <h1 style={{ color: 'white' }}>Why you made mistake?</h1>
+                  <h3 style={{ color: 'white' }}>Please answer the following questions and then press OK. Your feedback will ultimately help you</h3>
+                  <div>
+                    {
+                      errors.map((ques, idx) => (
+                        <Checkbox style={{ color: 'white' }} onChange={function handleChange(event) {
+                          checkedState[idx] = event.target.checked;
+                        }}>{ques}</Checkbox>
+                      ))
+                    }
+                    <Button type='primary' onClick={function (event) {
+                      setIsWWWModalVisible(false);
+                      setIsFeedbackModalVisible(true);
+                    }}>DONE</Button>
+                  </div>
+                </div>
+              ) : (isFeedbackModalVisible ? (
+                <div style={{ color: 'white', paddingLeft: '50px', justifyContent: 'center', background: '#295474', }}>
+                  <h1 style={{ color: 'white' }}>Feedback</h1>
+                  <h3 style={{ color: 'white' }}>Please answer the following questions and then press OK. Your feedback will ultimately help you</h3>
+                  <div>
+                    {
+                      questions.map((ques, idx) => (
+                        <div>
+                          <p>{(idx + 1) + ". " + ques}</p>
+                          <Rate allowClear={false} onChange={function handleChange(value) { starValue[idx] = value; }} />
+                        </div>
+                      )
+
+                      )
+                    }
+                    <Button type='primary' onClick={function (event) {
+                      handleFeedbackOk();
+                    }}>DONE</Button>
+                  </div>
+                </div>
+              ) : null)}
             <div
               style={{
                 display: 'flex',
@@ -412,7 +510,7 @@ export function TreeGamePage(props) {
                           {visualizeStarted ? 'Next' : 'Visualize in steps'}
                         </Button>
                         <Button
-                          onClick={function(event) {
+                          onClick={function (event) {
                             resetGraph();
                             animate();
                           }}
@@ -511,6 +609,7 @@ TreeGamePage.propTypes = {
   treeGamePage: PropTypes.object,
   getGameData: PropTypes.func.isRequired,
   checkStudentResponse: PropTypes.func.isRequired,
+  saveFeedback: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -521,6 +620,7 @@ function mapDispatchToProps(dispatch) {
   return {
     getGameData: level => dispatch(getExpressionStart(level)),
     checkStudentResponse: level => dispatch(evaluateExpressionStart(level)),
+    saveFeedback: feedback => dispatch(putFeedbackStart(feedback)),
   };
 }
 

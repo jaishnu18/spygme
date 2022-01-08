@@ -10,8 +10,10 @@ import {
   getGamesDataFailure,
   evaluateResponseSuccess,
   evaluateResponseFailure,
+  putFeedbackFailure,
+  putFeedbackSuccess,
 } from './actions';
-import { GET_GAME_DATA_START, EVALUATE_RESPONSE_START } from './constants'; // Individual exports for testing
+import { GET_GAME_DATA_START, EVALUATE_RESPONSE_START, PUT_FEEDBACK_START, } from './constants'; // Individual exports for testing
 
 export function* getCrossword(action) {
   try {
@@ -44,11 +46,27 @@ export function* evaluateAnswer(action) {
     yield put(evaluateResponseFailure(err.data.message));
   }
 }
+export function* saveFeedback(action) {
+  try {
+    console.log(action.payload);
+    const studentResponse = action.payload;
+    const response = yield axios.put(
+      `http://localhost:4000/game/node-consistency-check/feedback-save`,
+      studentResponse,
+      { headers: { Authorization: localStorage._UFT_ } },
+    );
+    yield put(putFeedbackSuccess(response.data.data));
+  } catch (err) {
+    console.log(err);
+    yield put(putFeedbackFailure(err.data.message));
+  }
+}
 
 export default function* nodeConsistencyGameSaga() {
   yield all([
     takeLatest(GET_GAME_DATA_START, getCrossword),
     takeLatest(EVALUATE_RESPONSE_START, evaluateAnswer),
+    takeLatest(PUT_FEEDBACK_START, saveFeedback),
   ]);
   // See example in containers/HomePage/saga.js
 }

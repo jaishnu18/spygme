@@ -25,6 +25,8 @@ import {
   Col,
   Row,
   Collapse,
+  Checkbox, Rate
+
 } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
@@ -35,7 +37,7 @@ import AppWrapper from 'components/AppWrapper';
 import makeSelectDrawCrosswordGraphGame from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { getGamesDataStart, evaluateResponseStart } from './actions';
+import { getGamesDataStart, evaluateResponseStart, putFeedbackStart } from './actions';
 
 const { Panel } = Collapse;
 const { Option } = Select;
@@ -49,6 +51,22 @@ const MyGrid = styled.div`
     border: 2px solid #333;
   }
 `;
+const errors = [
+  'Silly mistake',
+  'Did not know the concept',
+  'Knew Concept,but unable to apply',
+  'Made a guess',
+  'Attempted in a hurry',
+  'Could not understand the question',
+];
+
+const questions = [
+  'How interesting did you find the question?',
+  'How relevant did you find the question w.r.t. the concept?',
+  'How difficult did you find the question w.r.t. the current level?',
+];
+
+
 
 export function DrawCrosswordGraphGame(props) {
   useInjectReducer({ key: 'drawCrosswordGraphGame', reducer });
@@ -59,6 +77,14 @@ export function DrawCrosswordGraphGame(props) {
   const [AcrossNodes, setAcrossNodes] = useState([]);
   const [DownNodes, setDownNodes] = useState([]);
   const [edgeList, setEdgeList] = useState([]);
+  const [isFeedbackModalVisible, setIsFeedbackModalVisible] = useState(false);
+  const [isWWWModalVisible, setIsWWWModalVisible] = useState(false);
+  const [checkedState, setCheckedState] = useState(
+    new Array(errors.length).fill(false),
+  );
+  const [starValue, setStarValue] = useState(
+    new Array(questions.length).fill(0),
+  );
 
   const [nodeX, setNodeX] = useState(undefined);
   const [toAdd, setToAdd] = useState(true);
@@ -86,6 +112,38 @@ export function DrawCrosswordGraphGame(props) {
     start();
   }, [level]);
 
+  const showFeedbackModal = () => {
+    setIsFeedbackModalVisible(true);
+  };
+  const showWWWModal = () => {
+    setIsWWWModalVisible(true);
+  };
+
+
+  const handleFeedbackOk = () => {
+    const response = {};
+    const studentResponse = {};
+    studentResponse.feedback = JSON.stringify(starValue);
+
+    if (evaluatedAnswer.score !== 1) {
+      studentResponse.whatwentwrong = JSON.stringify(checkedState);
+    }
+    response.studentResponse = studentResponse;
+
+    setIsFeedbackModalVisible(false);
+
+    props.saveFeedback(response);
+  };
+
+
+  useEffect(() => {
+    if (evaluatedAnswer) {
+      showFeedbackModal();
+      if (evaluatedAnswer.score !== 1)
+        showWWWModal();
+    }
+  }, [evaluatedAnswer]);
+
   const prevLevel = () => {
     const lvl = parseInt(level);
     window.location.href = `/draw-crossword-graph/${gameId}/${lvl - 1}`;
@@ -110,12 +168,10 @@ export function DrawCrosswordGraphGame(props) {
           ac.push(`${gameData.nodes[i][0]}-${gameData.nodes[i][1]}-A`);
           const obj = {
             data: {
-              id: `${gameData.nodes[i][0]}-${gameData.nodes[i][1]}-${
-                gameData.nodes[i][2] === 65 ? 'A' : 'D'
-              }`,
-              label: `${gameData.nodes[i][0]}-${gameData.nodes[i][1]}-${
-                gameData.nodes[i][2] === 65 ? 'A' : 'D'
-              }`,
+              id: `${gameData.nodes[i][0]}-${gameData.nodes[i][1]}-${gameData.nodes[i][2] === 65 ? 'A' : 'D'
+                }`,
+              label: `${gameData.nodes[i][0]}-${gameData.nodes[i][1]}-${gameData.nodes[i][2] === 65 ? 'A' : 'D'
+                }`,
             },
             position: {
               x: 100 * (i + 1),
@@ -131,12 +187,10 @@ export function DrawCrosswordGraphGame(props) {
           }
           const obj = {
             data: {
-              id: `${gameData.nodes[i][0]}-${gameData.nodes[i][1]}-${
-                gameData.nodes[i][2] === 65 ? 'A' : 'D'
-              }`,
-              label: `${gameData.nodes[i][0]}-${gameData.nodes[i][1]}-${
-                gameData.nodes[i][2] === 65 ? 'A' : 'D'
-              }`,
+              id: `${gameData.nodes[i][0]}-${gameData.nodes[i][1]}-${gameData.nodes[i][2] === 65 ? 'A' : 'D'
+                }`,
+              label: `${gameData.nodes[i][0]}-${gameData.nodes[i][1]}-${gameData.nodes[i][2] === 65 ? 'A' : 'D'
+                }`,
             },
             position: {
               x: 100 * (i - gameData.ptr + 1),
@@ -236,6 +290,46 @@ export function DrawCrosswordGraphGame(props) {
                 paddingBottom: '150px',
               }}
             >
+              {isWWWModalVisible ?
+              (
+                <div style={{ color: 'white', paddingLeft: '50px', justifyContent: 'center', background: '#295474', }}>
+                  <h1 style={{ color: 'white' }}>Why you made mistake?</h1>
+                  <h3 style={{ color: 'white' }}>Please answer the following questions and then press OK. Your feedback will ultimately help you</h3>
+                  <div>
+                    {
+                      errors.map((ques, idx) => (
+                        <Checkbox style={{ color: 'white' }} onChange={function handleChange(event) {
+                          checkedState[idx] = event.target.checked;
+                        }}>{ques}</Checkbox>
+                      ))
+                    }
+                    <Button type='primary' onClick={function (event) {
+                      setIsWWWModalVisible(false);
+                      setIsFeedbackModalVisible(true);
+                    }}>DONE</Button>
+                  </div>
+                </div>
+              ) : (isFeedbackModalVisible ? (
+                <div style={{ color: 'white', paddingLeft: '50px', justifyContent: 'center', background: '#295474', }}>
+                  <h1 style={{ color: 'white' }}>Feedback</h1>
+                  <h3 style={{ color: 'white' }}>Please answer the following questions and then press OK. Your feedback will ultimately help you</h3>
+                  <div>
+                    {
+                      questions.map((ques, idx) => (
+                        <div>
+                          <p>{(idx + 1) + ". " + ques}</p>
+                          <Rate allowClear={false} onChange={function handleChange(value) { starValue[idx] = value; }} />
+                        </div>
+                      )
+
+                      )
+                    }
+                    <Button type='primary' onClick={function (event) {
+                      handleFeedbackOk();
+                    }}>DONE</Button>
+                  </div>
+                </div>
+              ) : null)}
               <div
                 style={{
                   display: 'flex',
@@ -538,16 +632,16 @@ export function DrawCrosswordGraphGame(props) {
 
                           {evaluatedAnswer &&
                             evaluatedAnswer.missed_edges_list.length > 0 && (
-                            <div
-                              style={{
-                                marginTop: '20px',
-                                display: 'flex',
-                                flexDirection: 'column',
-                              }}
-                            >
+                              <div
+                                style={{
+                                  marginTop: '20px',
+                                  display: 'flex',
+                                  flexDirection: 'column',
+                                }}
+                              >
                                 Missing Edges
-                              {evaluatedAnswer.missed_edges_list.length ===
-                                0 ? (
+                                {evaluatedAnswer.missed_edges_list.length ===
+                                  0 ? (
                                   <div style={{ marginLeft: '30px' }}> 0 </div>
                                 ) : (
                                   evaluatedAnswer.missed_edges_list.map(
@@ -560,21 +654,21 @@ export function DrawCrosswordGraphGame(props) {
                                     ),
                                   )
                                 )}
-                            </div>
-                          )}
+                              </div>
+                            )}
 
                           {evaluatedAnswer &&
                             evaluatedAnswer.wrong_edges_list.length > 0 && (
-                            <div
-                              style={{
-                                marginTop: '20px',
-                                display: 'flex',
-                                flexDirection: 'column',
-                              }}
-                            >
+                              <div
+                                style={{
+                                  marginTop: '20px',
+                                  display: 'flex',
+                                  flexDirection: 'column',
+                                }}
+                              >
                                 Wrong Nodes
-                              {evaluatedAnswer.wrong_edges_list.length ===
-                                0 ? (
+                                {evaluatedAnswer.wrong_edges_list.length ===
+                                  0 ? (
                                   <div style={{ marginLeft: '30px' }}> 0 </div>
                                 ) : (
                                   evaluatedAnswer.wrong_edges_list.map(item => (
@@ -585,8 +679,8 @@ export function DrawCrosswordGraphGame(props) {
                                     </div>
                                   ))
                                 )}
-                            </div>
-                          )}
+                              </div>
+                            )}
                         </div>
                       )}
                     </div>
@@ -605,6 +699,7 @@ DrawCrosswordGraphGame.propTypes = {
   drawCrosswordGraphGame: PropTypes.object.isRequired,
   getGameData: PropTypes.func,
   checkStudentResponse: PropTypes.func,
+  saveFeedback: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -615,6 +710,8 @@ function mapDispatchToProps(dispatch) {
   return {
     getGameData: token => dispatch(getGamesDataStart(token)),
     checkStudentResponse: response => dispatch(evaluateResponseStart(response)),
+    saveFeedback: feedback => dispatch(putFeedbackStart(feedback)),
+
   };
 }
 

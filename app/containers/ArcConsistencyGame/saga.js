@@ -10,8 +10,10 @@ import {
   getGamesDataFailure,
   evaluateResponseSuccess,
   evaluateResponseFailure,
+  putFeedbackFailure,
+  putFeedbackSuccess,
 } from './actions';
-import { GET_GAME_DATA_START, EVALUATE_RESPONSE_START } from './constants';
+import { GET_GAME_DATA_START, EVALUATE_RESPONSE_START ,PUT_FEEDBACK_START,} from './constants';
 
 export function* getArcConsistency(action) {
   try {
@@ -43,6 +45,21 @@ export function* evaluateAnswer(action) {
     yield put(evaluateResponseFailure(err.data.message));
   }
 }
+export function* saveFeedback(action) {
+  try {
+    console.log(action.payload);
+    const studentResponse = action.payload;
+    const response = yield axios.put(
+      `http://localhost:4000/game/arc-consistency/feedback-save`,
+      studentResponse,
+      { headers: { Authorization: localStorage._UFT_ } },
+    );
+    yield put(putFeedbackSuccess(response.data.data));
+  } catch (err) {
+    console.log(err);
+    yield put(putFeedbackFailure(err.data.message));
+  }
+}
 
 // Individual exports for testing
 export default function* arcConsistencyGameSaga() {
@@ -50,5 +67,6 @@ export default function* arcConsistencyGameSaga() {
   yield all([
     takeLatest(GET_GAME_DATA_START, getArcConsistency),
     takeLatest(EVALUATE_RESPONSE_START, evaluateAnswer),
+    takeLatest(PUT_FEEDBACK_START, saveFeedback),
   ]);
 }
