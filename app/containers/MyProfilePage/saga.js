@@ -1,6 +1,6 @@
 import { put, all, takeLatest } from 'redux-saga/effects';
 
-import axios from 'axios';
+import api from 'global-settings';
 
 import {
   getProfileFailure,
@@ -19,7 +19,7 @@ import {
 
 export function* getProfile() {
   try {
-    const response = yield axios.get(`http://localhost:4000/v1/auth/profile`, {
+    const response = yield api.get(`/auth/profile`, {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -42,8 +42,8 @@ export function* updateProfile(action) {
   try {
     const { name, phoneNumber, __class, school } = action.payload;
 
-    const response = yield axios.post(
-      `http://localhost:4000/v1/auth/profile`,
+    const response = yield api.post(
+      `/auth/profile`,
       { name, phoneNumber, __class, school },
       {
         headers: {

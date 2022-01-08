@@ -1,11 +1,10 @@
-const globalSettings = {
-  messageTimeout: 3,
-  backendApi: 'http://localhost:4000/',
-  backendApiVersion: {
-    v1: 'v1',
-  },
-  auth: 'auth',
-  users: 'users',
-};
+import axios from 'axios';
 
-export default globalSettings;
+const baseURL =
+  process.env.NODE_ENV === 'production'
+    ? '/api/v1/'
+    : 'http://localhost:4000/api/v1/';
+
+export default axios.create({
+  baseURL,
+});

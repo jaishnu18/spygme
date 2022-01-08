@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
 import { put, takeLatest, all } from 'redux-saga/effects';
-import axios from 'axios';
+import api from 'global-settings';
 // import globalSettings from 'global-settings';
 import jwtDecode from 'jwt-decode';
 import history from 'utils/history';
@@ -20,8 +20,8 @@ export function* signinUser(action) {
   try {
     const { email, password, gtoken } = action.payload;
 
-    const response = yield axios.post(
-      `http://localhost:4000/v1/auth/login`,
+    const response = yield api.post(
+      `/auth/login`,
       { email, password, gtoken },
       {
         headers: {
@@ -58,8 +58,8 @@ export function* signupUser(action) {
   try {
     const { email, password } = action.payload;
 
-    const response = yield axios.post(
-      `http://localhost:4000/v1/auth/register`,
+    const response = yield api.post(
+      `/auth/register`,
       { email, password },
       {
         headers: {

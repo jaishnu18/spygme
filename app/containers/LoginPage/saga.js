@@ -1,6 +1,6 @@
 import { take, call, put, select, takeLatest, all } from 'redux-saga/effects';
 
-import axios from 'axios';
+import api from 'global-settings';
 import querystring from 'querystring';
 import {
   getSignupSuccess,
@@ -18,8 +18,8 @@ export function* signupUser(action) {
     const { _class } = action.payload;
     const { name } = action.payload;
 
-    const posts = yield axios.post(
-      `http://localhost:4000/v1/auth/register`,
+    const posts = yield api.post(
+      `/auth/register`,
       querystring.stringify({ email, password, name, _class, passwordConfirm }),
     );
     // console.log(posts);
@@ -35,8 +35,8 @@ export function* activateUser(action) {
   try {
     const token = action.payload;
     console.log(token);
-    const resp = yield axios.post(
-      `http://localhost:4000/v1/auth/activate`,
+    const resp = yield api.post(
+      `/auth/activate`,
       querystring.stringify({ token }),
     );
 
