@@ -2,7 +2,7 @@
 
 import { put, takeLatest, all } from 'redux-saga/effects';
 
-import axios from 'axios';
+import api from 'global-settings';
 // import globalSettings from 'global-settings';
 // import querystring from 'querystring';
 import {
@@ -22,8 +22,8 @@ export function* getCrossword(action) {
   try {
     const level = action.payload;
 
-    const response = yield axios.get(
-      `http://localhost:4000/game/find-crossword-nodes/question/${level}`,
+    const response = yield api.get(
+      `/game/find-crossword-nodes/question/${level}`,
       { headers: { Authorization: localStorage._UFT_ } },
     );
     console.log(response);
@@ -38,8 +38,8 @@ export function* evaluateAnswer(action) {
   try {
     console.log(action.payload);
     const studentResponse = action.payload;
-    const response = yield axios.post(
-      `http://localhost:4000/game/find-crossword-nodes/question/validate`,
+    const response = yield api.post(
+      `/game/find-crossword-nodes/question/validate`,
       studentResponse,
       { headers: { Authorization: localStorage._UFT_ } },
     );

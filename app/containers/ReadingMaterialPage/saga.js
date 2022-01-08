@@ -1,7 +1,7 @@
 // import { take, call, put, select } from 'redux-saga/effects';
 import { put, takeLatest, all } from 'redux-saga/effects';
 
-import axios from 'axios';
+import api from 'global-settings';
 
 import {
   getReadingMaterialStart,
@@ -18,8 +18,8 @@ export function* getRMContent(action) {
   try {
     const { rmId } = action.payload;
     console.log(rmId);
-    const response = yield axios.get(
-      `http://localhost:4000/v1/get-reading-materials/rmContent/${rmId}`,
+    const response = yield api.get(
+      `/get-reading-materials/rmContent/${rmId}`,
       { headers: { Authorization: localStorage._UFT_ } },
     );
     console.log(response);
@@ -35,9 +35,9 @@ export function* markAsRead(action) {
     console.log(action.payload);
     const studentResponse = action.payload;
     const { rmId } = studentResponse;
-    const response = yield axios.put(
-      `http://localhost:4000/v1/get-reading-materials/mark-as-read/${rmId}`,
-      studentResponse,
+    const response = yield api.put(
+      `/get-reading-materials/mark-as-read/${rmId}`,
+
       { headers: { Authorization: localStorage._UFT_ } },
     );
     console.log(response);

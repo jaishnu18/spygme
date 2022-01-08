@@ -1,6 +1,6 @@
 import { put, takeLatest, all } from 'redux-saga/effects';
 
-import axios from 'axios';
+import api from 'global-settings';
 
 import {
   getConceptsSuccess,
@@ -13,8 +13,8 @@ import { GET_TOPIC_START, GET_CONCEPTS_START } from './constants';
 export function* getTopic(action) {
   const { topicId } = action.payload;
   try {
-    const response = yield axios.get(
-      `http://localhost:4000/v1/get-topics/${topicId} `,
+    const response = yield api.get(
+      `/get-topics/${topicId} `,
       {
         headers: {
           Accept: 'application/json',
@@ -33,8 +33,8 @@ export function* getTopic(action) {
 export function* getConcepts(action) {
   const { topicId } = action.payload;
   try {
-    const response = yield axios.get(
-      `http://localhost:4000/v1/get-concepts/${topicId} `,
+    const response = yield api.get(
+      `/get-concepts/${topicId} `,
       { headers: { Authorization: localStorage._UFT_ } },
     );
 

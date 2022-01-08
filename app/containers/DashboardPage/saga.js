@@ -1,7 +1,7 @@
 // import { take, call, put, select } from 'redux-saga/effects';
 import { put, takeLatest, all } from 'redux-saga/effects';
 
-import axios from 'axios';
+import api from 'global-settings';
 
 import { getDashboardSuccess, getDashboardFailure } from './actions';
 import { GET_DASHBOARD_START } from './constants';
@@ -9,7 +9,7 @@ import { GET_DASHBOARD_START } from './constants';
 
 export function* getDashboard() {
   try {
-    const response = yield axios.get(`http://localhost:4000/v1/get-dashboard/all`,
+    const response = yield api.get(`/get-dashboard/all`,
       { headers: { Authorization: localStorage._UFT_ } });
 
     yield put(getDashboardSuccess(response.data.data));

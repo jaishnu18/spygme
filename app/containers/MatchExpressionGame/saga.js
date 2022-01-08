@@ -2,7 +2,7 @@
 
 import { put, takeLatest, all } from 'redux-saga/effects';
 
-import axios from 'axios';
+import api from 'global-settings';
 // import globalSettings from 'global-settings';
 // import querystring from 'querystring';
 import {
@@ -23,8 +23,8 @@ export function* getGraph(action) {
   try {
     const level = action.payload;
 
-    const response = yield axios.get(
-      `http://localhost:4000/game/match-expression/question/${level}`,
+    const response = yield api.get(
+      `/game/match-expression/question/${level}`,
       { headers: { Authorization: localStorage._UFT_ } },
     );
     console.log(response);
@@ -39,8 +39,8 @@ export function* evaluateAnswer(action) {
   try {
     console.log(action.payload);
     const studentResponse = action.payload;
-    const response = yield axios.post(
-      `http://localhost:4000/game/match-expression/question/validate`,
+    const response = yield api.post(
+      `/game/match-expression/question/validate`,
       studentResponse,
       { headers: { Authorization: localStorage._UFT_ } },
     );
@@ -55,8 +55,8 @@ export function* saveFeedback(action) {
   try {
     console.log(action.payload);
     const studentResponse = action.payload;
-    const response = yield axios.put(
-      `http://localhost:4000/game/match-expression/feedback-save`,
+    const response = yield api.put(
+      `/game/match-expression/feedback-save`,
       studentResponse,
       { headers: { Authorization: localStorage._UFT_ } },
     );
