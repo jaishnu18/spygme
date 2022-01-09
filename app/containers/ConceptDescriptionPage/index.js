@@ -42,6 +42,7 @@ export function ConceptDescriptionPage(props) {
   useInjectSaga({ key: 'conceptDescriptionPage', saga });
 
   const { conceptId } = props;
+  console.log(props);
 
   useEffect(() => {
     props.getGames({ conceptId });
@@ -49,8 +50,8 @@ export function ConceptDescriptionPage(props) {
   }, []);
 
   const { games } = props.conceptDescriptionPage;
-  const { readingMaterials } = props.conceptDescriptionPage;
-  console.log(readingMaterials);
+  const response = props.conceptDescriptionPage.readingMaterials;
+  const readingMaterials = response ? response.rmArray : null;
 
   return (
     <div>
@@ -61,9 +62,12 @@ export function ConceptDescriptionPage(props) {
           content="Description of ConceptDescriptionPage"
         />
       </Helmet>
-      <Link to={`/topics/1`}>
-        <Button>Back to Concepts</Button>
-      </Link>
+      {response ?
+        (
+          <Link to={`/topics/${response.parent_topic}`}>
+            <Button>Back to Concepts</Button>
+          </Link>
+        ) : null}
 
       <StyledRow>
 
@@ -115,13 +119,19 @@ export function ConceptDescriptionPage(props) {
         </Typography.Title>
         {games ? (
           games.length > 0 ? (
-            <div>
-              <ConceptCardSection
-                type="Game"
-                topicNo={props.topicNo}
-                concepts={games}
-              />
-            </div>
+            <Row>
+              {games.map((key, idx) => (
+                <Link to={`/graded-${key.link.substring(1)}${key.id}/1`}>
+                  <SimpleCard
+                    style={{ width: '200px', marginRight: '20px' }}
+                    type="Graded Game"
+                    title={key.name}
+                    // graded_done={graded_done}
+                    progress={key.graded_done ? key.graded_score : 0}
+                  />
+                </Link>
+              ))}
+            </Row>
           ) : (
             <Typography.Title style={{ padding: '20px', marginBottom: '0px' }}>
               WILL BE ADDED SOON!!

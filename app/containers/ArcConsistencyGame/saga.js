@@ -49,8 +49,8 @@ export function* saveFeedback(action) {
   try {
     console.log(action.payload);
     const studentResponse = action.payload;
-    const response = yield axios.put(
-      `http://localhost:4000/game/arc-consistency/feedback-save`,
+    const response = yield api.put(
+      `/game/arc-consistency/feedback-save`,
       studentResponse,
       { headers: { Authorization: localStorage._UFT_ } },
     );

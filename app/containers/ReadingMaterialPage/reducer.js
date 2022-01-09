@@ -19,7 +19,6 @@ export const initialState = {
   error: undefined,
   readingMaterialContent: undefined,
   isResponseLoading: false,
-  responseRead: undefined,
 };
 
 /* eslint-disable default-case, no-param-reassign */

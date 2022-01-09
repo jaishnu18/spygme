@@ -29,13 +29,11 @@ export function* getRMContent(action) {
 export function* markAsRead(action) {
   try {
     const { rmId } = action.payload;
-    const response = yield api.post(`/get-reading-materials/mark/${rmId}`, {
+    console.log(rmId);
+    const response = yield api.put(`/get-reading-materials/mark/${rmId}`, {
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: localStorage.getItem('_UFT_'),
+        Authorization: localStorage._UFT_,
       },
-      withCredentials: true,
     });
     yield put(markAsReadSuccess(response.data));
   } catch (err) {

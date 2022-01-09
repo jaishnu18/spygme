@@ -55,8 +55,8 @@ export function* saveFeedback(action) {
   try {
     console.log(action.payload);
     const studentResponse = action.payload;
-    const response = yield axios.put(
-      `http://localhost:4000/game/find-crossword-nodes/feedback-save`,
+    const response = yield api.put(
+      `/game/find-crossword-nodes/feedback-save`,
       studentResponse,
       { headers: { Authorization: localStorage._UFT_ } },
     );
