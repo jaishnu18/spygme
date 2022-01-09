@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
 import { put, takeLatest, all } from 'redux-saga/effects';
@@ -56,11 +57,12 @@ export function* signinUser(action) {
 
 export function* signupUser(action) {
   try {
-    const { email, password } = action.payload;
+    const { name, email, password, confirm_password, _class } = action.payload;
+    console.log(email, password, _class, confirm_password);
 
     const response = yield api.post(
       `/auth/register`,
-      { email, password },
+      { name, email, password, _class, confirm_password },
       {
         headers: {
           Accept: 'application/json',
@@ -75,6 +77,8 @@ export function* signupUser(action) {
     const info = jwtDecode(userToken);
     info.token = userToken;
     info.isLoggedIn = true;
+
+    console.log(userToken, info);
 
     yield* setTokenToLocalStorage(userToken);
     yield put(signupUserSuccess(info));

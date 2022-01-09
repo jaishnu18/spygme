@@ -8,9 +8,11 @@ import { GET_DASHBOARD_START } from './constants';
 // Individual exports for testing
 
 export function* getDashboard() {
+  console.log(localStorage._UFT_);
   try {
-    const response = yield api.get(`/get-dashboard/all`,
-      { headers: { Authorization: localStorage._UFT_ } });
+    const response = yield api.get(`/get-dashboard/all`, {
+      headers: { Authorization: localStorage._UFT_ },
+    });
 
     yield put(getDashboardSuccess(response.data.data));
   } catch (err) {

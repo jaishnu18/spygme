@@ -4,13 +4,22 @@
  *
  */
 import produce from 'immer';
-import { DEFAULT_ACTION, GET_RM_START, GET_RM_FAILURE, GET_RM_SUCCESS, MARK_READ_SUCCESS, MARK_READ_FAILURE, MARK_READ_START } from './constants';
+import {
+  DEFAULT_ACTION,
+  GET_RM_START,
+  GET_RM_FAILURE,
+  GET_RM_SUCCESS,
+  MARK_READ_SUCCESS,
+  MARK_READ_FAILURE,
+  MARK_READ_START,
+} from './constants';
 
 export const initialState = {
   isReadingMaterialLoading: false,
   error: undefined,
   readingMaterialContent: undefined,
   isResponseLoading: false,
+  responseRead: undefined,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -30,6 +39,7 @@ const readingMaterialPageReducer = (state = initialState, action) =>
         draft.isReadingMaterialLoading = false;
         draft.readingMaterialContent = action.payload;
         break;
+
       case MARK_READ_START:
         draft.isResponseLoading = true;
         break;

@@ -30,12 +30,12 @@ export function DashboardPage(props) {
   const AuthData = useAuth();
 
   useEffect(() => {
-    if (!AuthData.isLoggedIn) history.push('/auth/login');
+    if (!AuthData.isLoggedIn) history.push('/auth');
   }, [AuthData]);
 
   useEffect(() => {
-    props.getDashboard();
-  }, []);
+    if (AuthData.isLoggedIn) props.getDashboard();
+  }, [AuthData]);
 
   const { dashboard } = props.dashboardPage;
 

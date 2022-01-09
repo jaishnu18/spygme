@@ -14,12 +14,6 @@ const makeSelectLocation = () =>
     routerState => routerState.location,
   );
 
-const makeSelectAuthData = () =>
-  createSelector(
-    selectApp,
-    appState => appState.authData,
-  );
-
 const makeSelectVideoShown = () =>
   createSelector(
     selectApp,
@@ -50,6 +44,18 @@ const makeSelectResponsive = () =>
     responsive => responsive,
   );
 
+const makeSelectAuthData = () =>
+  createSelector(
+    selectApp,
+    authState => authState.authData,
+  );
+
+const makeSelectAuthState = () =>
+  createSelector(
+    selectApp,
+    authState => authState,
+  );
+
 export {
   makeSelectLocation,
   makeSelectAuthData,
@@ -58,4 +64,5 @@ export {
   makeSelectLogging,
   makeSelectLoggingError,
   makeSelectCreatePopupShown,
+  makeSelectAuthState,
 };

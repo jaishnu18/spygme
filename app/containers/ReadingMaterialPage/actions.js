@@ -11,7 +11,7 @@ import {
   GET_RM_START,
   MARK_READ_START,
   MARK_READ_FAILURE,
-  MARK_READ_SUCCESS
+  MARK_READ_SUCCESS,
 } from './constants';
 
 export function defaultAction() {

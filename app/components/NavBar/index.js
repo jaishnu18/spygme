@@ -82,7 +82,10 @@ function NavBar(props) {
                     Dashboard
                   </Menu.Item>
 
-                  <Menu.Item key="3" onClick={() => history.push('/my/profile')}>
+                  <Menu.Item
+                    key="3"
+                    onClick={() => history.push('/my/profile')}
+                  >
                     Profile
                   </Menu.Item>
                   <Menu.Item key="4">About</Menu.Item>
@@ -119,10 +122,7 @@ function NavBar(props) {
                     Home
                   </Menu.Item>
                   <Menu.Item key="2">About</Menu.Item>
-                  <Menu.Item
-                    key="3"
-                    onClick={() => history.push('/auth/login')}
-                  >
+                  <Menu.Item key="3" onClick={() => history.push('/auth')}>
                     Sign In
                   </Menu.Item>
                 </Menu>

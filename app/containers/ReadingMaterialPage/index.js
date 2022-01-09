@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /**
  *
  * ReadingMaterialPage
@@ -8,7 +9,6 @@ import React, { memo, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { Row, Col, Button, Image } from 'antd';
@@ -17,9 +17,7 @@ import { useInjectReducer } from 'utils/injectReducer';
 import makeSelectReadingMaterialPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import messages from './messages';
-import { getReadingMaterialStart, markAsReadStart } from './actions'
-
+import { getReadingMaterialStart, markAsReadStart } from './actions';
 
 export function ReadingMaterialPage(props) {
   useInjectReducer({ key: 'readingMaterialPage', reducer });
@@ -48,13 +46,11 @@ export function ReadingMaterialPage(props) {
     }
   };
   const { readingMaterialContent } = props.readingMaterialPage;
-  // console.log(readingMaterialContent.content);
 
   const markAsReadfunc = () => {
-    const response = {};
-    response.rmId = rmId;
-    props.markAsRead(response);
+    props.markAsRead__({ rmId });
   };
+
   return (
     <div>
       <Helmet>
@@ -67,8 +63,7 @@ export function ReadingMaterialPage(props) {
             <Row justify="space-around">
               <Col span={3}>
                 <div style={{ display: 'flex' }}>
-                  <div style={{ marginLeft: '10px', color: 'white' }}>
-                  </div>
+                  <div style={{ marginLeft: '10px', color: 'white' }} />
                 </div>
               </Col>
             </Row>
@@ -78,7 +73,9 @@ export function ReadingMaterialPage(props) {
               background: '#F8FAA7',
             }}
           />
-          <div style={{ display: 'flex', width: '100%', marginBottom: '0px' }} />
+          <div
+            style={{ display: 'flex', width: '100%', marginBottom: '0px' }}
+          />
           <div
             style={{
               padding: '20px',
@@ -90,13 +87,15 @@ export function ReadingMaterialPage(props) {
           </div>
         </div>
         <div style={{ padding: '20px', background: '#F8FAA7' }}>
-          <pre style={{ whiteSpace: 'pre-wrap' }}>{readingMaterialContent ? readingMaterialContent.content.replace(/<new_line>/g, '\n') : ""}</pre>
+          <pre style={{ whiteSpace: 'pre-wrap' }}>
+            {readingMaterialContent
+              ? readingMaterialContent.content.replace(/<new_line>/g, '\n')
+              : ''}
+          </pre>
           <Button onClick={markAsReadfunc}>Mark as read</Button>
           <Button onClick={backToConcepts}>Back to Materials</Button>
         </div>
-
       </div>
-
     </div>
   );
 }
@@ -104,7 +103,7 @@ export function ReadingMaterialPage(props) {
 ReadingMaterialPage.propTypes = {
   readingMaterialPage: PropTypes.object,
   getReadingMaterialContent: PropTypes.func,
-  markAsRead: PropTypes.func,
+  markAsRead__: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -113,8 +112,9 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    getReadingMaterialContent: payload => dispatch(getReadingMaterialStart(payload)),
-    markAsRead: response => dispatch(markAsReadStart(response)),
+    getReadingMaterialContent: payload =>
+      dispatch(getReadingMaterialStart(payload)),
+    markAsRead__: response => dispatch(markAsReadStart(response)),
   };
 }
 

@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import LoginPage from 'containers/LoginPage';
 import TreeGames from 'containers/TreeGamePage';
 import WriteExpressionGame from 'containers/WriteExpressionGame';
 import NotFoundPage from 'containers/NotFoundPage';
 import DashboardPage from 'containers/DashboardPage';
 // import OnBoardingPage from 'containers/OnBoardingPage';
-import RPG from 'containers/ReadPracticeGradeContainer';
 import ConceptDescriptionPage from 'containers/ConceptDescriptionPage';
 import MyProfilePage from 'containers/MyProfilePage';
 
@@ -23,25 +21,26 @@ import GradedMatchExpressionGame from 'containers/GradedMatchExpressionGame';
 import GradedWriteExpressionGame from 'containers/GradedWriteExpressionGame';
 import ReadingMaterialPage from 'containers/ReadingMaterialPage';
 import HomePage from 'containers/HomePage';
+import Auth from 'containers/Auth';
 //
 
 function Routes(props) {
-  if (!props.authData.isLoggedIn) {
+  if (!props.AuthData.isLoggedIn) {
     return (
       <Switch>
         <Route exact path="/" component={HomePage} />
 
         <Route
-          path="/auth/*"
+          path="/auth"
           render={() => (
-            <LoginPage
+            <Auth
               signin={props.signin}
               signup={props.signup}
               AuthState={props.AuthState}
             />
           )}
         />
-        <Route exact path="/*" render={() => <Redirect to="auth/login" />} />
+        <Route exact path="/*" render={() => <Redirect to="auth" />} />
       </Switch>
     );
   }
@@ -136,7 +135,7 @@ function Routes(props) {
 }
 
 Routes.propTypes = {
-  authData: PropTypes.object,
+  AuthData: PropTypes.object,
   signin: PropTypes.func,
   signup: PropTypes.func,
   AuthState: PropTypes.object,

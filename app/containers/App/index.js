@@ -26,6 +26,7 @@ import NavBar from 'components/NavBar';
 import AuthProvider from './AuthContext';
 import {
   makeSelectAuthData,
+  makeSelectAuthState,
   makeSelectLocation,
   makeSelectResponsive,
 } from './selectors';
@@ -43,7 +44,6 @@ import saga from './saga';
 const AppWrapper = styled.div`
   min-height: 100vh;
   padding-bottom: 40px;
-  background-color: #272c48;
 `;
 
 export function App(props) {
@@ -77,7 +77,8 @@ export function App(props) {
           signin={props.signin}
           signout={props.signout}
           signup={props.signup}
-          authData={props.AuthData}
+          AuthState={props.AuthState}
+          AuthData={props.AuthData}
         />
         <GlobalStyle />
       </AppWrapper>
@@ -95,6 +96,7 @@ App.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   AuthData: makeSelectAuthData(),
+  AuthState: makeSelectAuthState(),
   router: makeSelectLocation(),
   responsive: makeSelectResponsive(),
 });
