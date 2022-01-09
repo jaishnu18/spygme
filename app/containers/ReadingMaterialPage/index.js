@@ -48,7 +48,9 @@ export function ReadingMaterialPage(props) {
   const { readingMaterialContent } = props.readingMaterialPage;
 
   const markAsReadfunc = () => {
-    props.markAsRead__({ rmId });
+    const response = {};
+    response.rmId = rmId;
+    props.markAsRead(response);
   };
 
   return (
@@ -114,7 +116,7 @@ function mapDispatchToProps(dispatch) {
   return {
     getReadingMaterialContent: payload =>
       dispatch(getReadingMaterialStart(payload)),
-    markAsRead__: response => dispatch(markAsReadStart(response)),
+    markAsRead: response => dispatch(markAsReadStart(response)),
   };
 }
 

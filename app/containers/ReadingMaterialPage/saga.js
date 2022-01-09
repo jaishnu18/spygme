@@ -28,15 +28,18 @@ export function* getRMContent(action) {
 
 export function* markAsRead(action) {
   try {
-    const { rmId } = action.payload;
-    console.log(rmId);
-    const response = yield api.put(`/get-reading-materials/mark/${rmId}`, {
-      headers: {
-        Authorization: localStorage._UFT_,
-      },
-    });
-    yield put(markAsReadSuccess(response.data));
+    console.log(action.payload);
+    const studentResponse = action.payload;
+    const { rmId } = studentResponse;
+    const response = yield api.put(
+      `/get-reading-materials/mark/${rmId}`,
+      studentResponse,
+      { headers: { Authorization: localStorage._UFT_ } },
+    );
+    console.log(response);
+    yield put(markAsReadSuccess(response.data.data));
   } catch (err) {
+    console.log(err);
     yield put(markAsReadFailure(err.data.message));
   }
 }

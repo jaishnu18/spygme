@@ -38,7 +38,6 @@ const readingMaterialPageReducer = (state = initialState, action) =>
         draft.isReadingMaterialLoading = false;
         draft.readingMaterialContent = action.payload;
         break;
-
       case MARK_READ_START:
         draft.isResponseLoading = true;
         break;
