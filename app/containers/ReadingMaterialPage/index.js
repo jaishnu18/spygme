@@ -6,6 +6,7 @@
  */
 
 import React, { memo, useEffect, useState } from 'react';
+import { useHistory, ReactRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -17,7 +18,8 @@ import { useInjectReducer } from 'utils/injectReducer';
 import makeSelectReadingMaterialPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { getReadingMaterialStart, markAsReadStart } from './actions';
+import { getReadingMaterialStart, markAsReadStart, recordTimeStart } from './actions';
+import history from 'utils/history';
 
 export function ReadingMaterialPage(props) {
   useInjectReducer({ key: 'readingMaterialPage', reducer });
@@ -36,16 +38,28 @@ export function ReadingMaterialPage(props) {
     return seconds;
   }
   // console.log(rmId);
+  let timeRecorded;
   useEffect(() => {
     props.getReadingMaterialContent({ rmId });
+    timeRecorded = false;
     start();
   }, []);
-  const backToConcepts = () => {
-    if (readingMaterialContent) {
-      console.log(readingMaterialContent);
-    }
+  const backToMaterials = () => {
+    const secs = end();
+    const response = {};
+    response.rmId = rmId;
+    response.timeSpent = secs;
+    props.recordTime(response);
+    // history.goBack();
   };
   const { readingMaterialContent } = props.readingMaterialPage;
+  timeRecorded = props.readingMaterialPage.timeRecorded;
+  console.log(timeRecorded);
+  useEffect(() => {
+    if (timeRecorded) {
+      history.goBack();
+    }
+  }, [timeRecorded]);
 
   const markAsReadfunc = () => {
     const response = {};
@@ -87,6 +101,8 @@ export function ReadingMaterialPage(props) {
           >
             {props.divContent}
           </div>
+          <Button onClick={backToMaterials}>Back to Materials</Button>
+          <p>Do not use browser back button to go back</p>
         </div>
         <div style={{ padding: '20px', background: '#F8FAA7' }}>
           <pre style={{ whiteSpace: 'pre-wrap' }}>
@@ -95,7 +111,6 @@ export function ReadingMaterialPage(props) {
               : ''}
           </pre>
           <Button onClick={markAsReadfunc}>Mark as read</Button>
-          <Button onClick={backToConcepts}>Back to Materials</Button>
         </div>
       </div>
     </div>
@@ -105,7 +120,8 @@ export function ReadingMaterialPage(props) {
 ReadingMaterialPage.propTypes = {
   readingMaterialPage: PropTypes.object,
   getReadingMaterialContent: PropTypes.func,
-  markAsRead__: PropTypes.func,
+  markAsRead: PropTypes.func,
+  recordTime: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -117,6 +133,7 @@ function mapDispatchToProps(dispatch) {
     getReadingMaterialContent: payload =>
       dispatch(getReadingMaterialStart(payload)),
     markAsRead: response => dispatch(markAsReadStart(response)),
+    recordTime: response => dispatch(recordTimeStart(response)),
   };
 }
 

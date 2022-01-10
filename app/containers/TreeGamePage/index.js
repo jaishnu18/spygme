@@ -254,6 +254,9 @@ export function TreeGamePage(props) {
   let myCyRef;
   function getVisualization() {
     if (gameData) {
+      console.log(gameData.ptr);
+      console.log(gameData.ptr2);
+
       setvisualizeStarted(true);
       console.log(gameData.values);
       const node = gameData.orderOfEvaluation[gameData.ptr];
@@ -273,7 +276,8 @@ export function TreeGamePage(props) {
           div.style.borderRadius = '2px';
           div.style.width = '40px';
           div.innerHTML = gameData.values[node];
-          document.body.appendChild(div);
+          div.className = "Popper";
+          document.getElementById("GraphContainer").appendChild(div);
           return div;
         },
       });
@@ -290,6 +294,9 @@ export function TreeGamePage(props) {
 
   const animate = function () {
     if (gameData) {
+      coconsole.log(gameData.ptr);
+      console.log(gameData.ptr2);
+
       if (gameData.ptr2 < gameData.orderOfEvaluation.length) {
         const node = gameData.orderOfEvaluation[gameData.ptr2];
         myCyRef.getElementById(node).addClass('highlighted');
@@ -303,9 +310,8 @@ export function TreeGamePage(props) {
             div.style.borderRadius = '2px';
             div.style.width = '40px';
             div.className = `Popper`;
-
             div.innerHTML = gameData.values[node];
-            document.body.appendChild(div);
+            document.getElementById("GraphContainer").appendChild(div);
             return div;
           },
         });
@@ -328,7 +334,6 @@ export function TreeGamePage(props) {
       myCyRef.reset();
     }
   };
-
   const reset = function () {
     if (gameData) {
       for (let i = 0; i < gameData.orderOfEvaluation.length; i += 1) {
@@ -337,6 +342,10 @@ export function TreeGamePage(props) {
       }
       gameData.ptr = 0;
       gameData.ptr2 = 0;
+
+      const elements = document.getElementsByClassName("Popper");
+      while (elements.length > 0)
+        elements[0].parentNode.removeChild(elements[0]);
 
       setvisualizeStarted(false);
 
@@ -479,6 +488,7 @@ export function TreeGamePage(props) {
                 </Col>
                 <Col offset="3">
                   <div
+                    id="GraphContainer"
                     style={{
                       background: '#6EA5C3',
                       padding: '10px',
