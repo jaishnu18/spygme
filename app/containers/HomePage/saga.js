@@ -4,7 +4,7 @@
 
 import { put, takeLatest, all } from 'redux-saga/effects';
 
-import axios from 'axios';
+import api from 'global-settings';
 // import globalSettings from 'global-settings';
 // import querystring from 'querystring';
 
@@ -19,8 +19,8 @@ export function* sendMessage(action) {
   try {
     console.log(action.payload);
     const message = action.payload;
-    const response = yield axios.put(
-      `http://localhost:4000/v1/send-message/send`,
+    const response = yield api.put(
+      `/send-message/send`,
       message,
     );
     yield put(sendMessageSuccess(response.data.data));

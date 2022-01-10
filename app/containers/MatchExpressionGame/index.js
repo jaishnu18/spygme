@@ -190,7 +190,7 @@ export function MatchExpressionGame(props) {
           div.style.borderRadius = '2px';
           div.style.width = '40px';
           div.innerHTML = i;
-          document.body.appendChild(div);
+          document.getElementById("GraphContainer").appendChild(div);
           return div;
         },
       });
@@ -488,6 +488,7 @@ export function MatchExpressionGame(props) {
                   style={{ padding: '20px', paddingLeft: '80px' }}
                 >
                   <div
+                  id="GraphContainer"
                     style={{
                       background: '#6EA5C3',
                       padding: '10px',

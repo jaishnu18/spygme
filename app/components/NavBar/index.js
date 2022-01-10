@@ -81,15 +81,18 @@ function NavBar(props) {
                   <Menu.Item key="2" onClick={() => history.push('/dashboard')}>
                     Dashboard
                   </Menu.Item>
+                  <Menu.Item key="3" onClick={() => history.push('/topics')}>
+                    Learn
+                  </Menu.Item>
 
                   <Menu.Item
-                    key="3"
+                    key="4"
                     onClick={() => history.push('/my/profile')}
                   >
                     Profile
                   </Menu.Item>
-                  <Menu.Item key="4">About</Menu.Item>
-                  <Menu.Item key="5" onClick={showLogoutModal}>
+                  <Menu.Item key="5">About</Menu.Item>
+                  <Menu.Item key="6" onClick={showLogoutModal}>
                     Logout
                   </Menu.Item>
                   <Modal
