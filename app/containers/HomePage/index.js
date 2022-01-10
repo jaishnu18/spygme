@@ -31,12 +31,9 @@ export function HomePage(props) {
   useInjectReducer({ key: 'homePage', reducer });
   useInjectSaga({ key: 'homePage', saga });
 
-  const sendMessage = () => {
-    const message = {};
-    message.name = 'sfsf';
-    console.log(message);
-    props.sendMessage(message);
-  }
+  const querySubmit = values => {
+    props.sendMessage(values);
+  };
   return (
     <div>
       <Helmet>
@@ -86,10 +83,10 @@ export function HomePage(props) {
           </p>
         </Panel>
         <Panel
-          header="Is there any backward free nevigation so I can revisit my question that has been previously attempted ? "
+          header="Is there any backward free navigation so I can revisit my question that has been previously attempted ? "
           key="2"
         >
-          <p>Answer2</p>
+          <p>During practice sessions, you will enter into a level of the game where you wll get a new instance almost every time, complete it and go to next item. For graded sessions, you can navigate backward and forward as many times as you want.</p>
         </Panel>
         <Panel header="Does it help in my school exam as well ?" key="3">
           <p>It does not help you directly in your school curriculum. But learning on our platform can improve your logical thinking skills, make you smarter than others and this may indirectly influence your performance in school exams</p>
@@ -112,62 +109,65 @@ export function HomePage(props) {
           institute of technology kharagpur,721302
         </h3>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <div>
-            <Form.Item
-              name="name"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your Response!',
-                },
-              ]}
-              style={{ marginLeft: '20px', width: '400px' }}
-            >
-              <Input placeholder='your name' />
-            </Form.Item>
-            <Form.Item
-              name="email"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your Response!',
-                },
-              ]}
-              style={{ marginLeft: '20px', width: '400px' }}
-            >
-              <Input placeholder='your email' />
-            </Form.Item>
-            <Form.Item
-              name="phone"
-              rules={[
-                {
-                  required: false,
-                },
-              ]}
-              style={{ marginLeft: '20px', width: '400px' }}
-            >
-              <Input placeholder='your phone' />
-            </Form.Item>
-          </div>
-          <div>
-            <Form.Item
-              name="message"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your Response!',
-                },
-              ]}
-              style={{ marginLeft: '20px', width: '400px' }}
-            >
-              <Input.TextArea placeholder='your message' rows={6} />
-            </Form.Item>
-          </div>
+          <Form name="QueryForm" onFinish={querySubmit}>
+            <div>
+              <Form.Item
+                name="name"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your Response!',
+                  },
+                ]}
+                style={{ marginLeft: '20px', width: '400px' }}
+              >
+                <Input placeholder='your name' />
+              </Form.Item>
+              <Form.Item
+                name="email"
+                rules={[
+                  { type: 'email', message: 'Please enter valid email!' },
+                  {
+                    required: true,
+                    message: 'Please input your Response!',
+                  },
+                ]}
+                style={{ marginLeft: '20px', width: '400px' }}
+              >
+                <Input placeholder='your email' />
+              </Form.Item>
+              <Form.Item
+                name="phone"
+                rules={[
+                  {
+                    required: false,
+                  },
+                ]}
+                style={{ marginLeft: '20px', width: '400px' }}
+              >
+                <Input placeholder='your phone' />
+              </Form.Item>
+            </div>
+            <div>
+              <Form.Item
+                name="message"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your Response!',
+                  },
+                ]}
+                style={{ marginLeft: '20px', width: '400px' }}
+              >
+                <Input.TextArea placeholder='your message' rows={6} />
+              </Form.Item>
+            </div>
+            <Button type='primary' htmlType='submit'>Send Message</Button>
+          </Form>
         </div>
-        <Button type='primary' onClick={sendMessage}>Send Message</Button>
 
       </div>
-    </div>
+    </div >
   );
 }
 

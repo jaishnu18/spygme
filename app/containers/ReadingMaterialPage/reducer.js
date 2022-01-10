@@ -12,6 +12,9 @@ import {
   MARK_READ_SUCCESS,
   MARK_READ_FAILURE,
   MARK_READ_START,
+  RECORD_TIME_SUCCESS,
+  RECORD_TIME_START,
+  RECORD_TIME_FAILURE
 } from './constants';
 
 export const initialState = {
@@ -19,6 +22,8 @@ export const initialState = {
   error: undefined,
   readingMaterialContent: undefined,
   isResponseLoading: false,
+  isTimeRecording: false,
+  timeRecorded: undefined
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -46,6 +51,18 @@ const readingMaterialPageReducer = (state = initialState, action) =>
         break;
       case MARK_READ_FAILURE:
         draft.isResponseLoading = false;
+        break;
+
+      case RECORD_TIME_START:
+        draft.isTimeRecording = true;
+        break;
+      case RECORD_TIME_SUCCESS:
+        draft.isTimeRecording = false;
+        draft.timeRecorded = action.payload;
+        break;
+      case RECORD_TIME_FAILURE:
+        draft.isTimeRecording = false;
+        draft.timeRecorded = action.payload;
         break;
     }
   });

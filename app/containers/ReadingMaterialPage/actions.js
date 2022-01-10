@@ -12,6 +12,9 @@ import {
   MARK_READ_START,
   MARK_READ_FAILURE,
   MARK_READ_SUCCESS,
+  RECORD_TIME_FAILURE,
+  RECORD_TIME_START,
+  RECORD_TIME_SUCCESS
 } from './constants';
 
 export function defaultAction() {
@@ -53,6 +56,24 @@ export function markAsReadSuccess(payload) {
 export function markAsReadFailure(err) {
   return {
     type: MARK_READ_FAILURE,
+    payload: err,
+  };
+}
+export function recordTimeStart(payload) {
+  return {
+    type: RECORD_TIME_START,
+    payload,
+  };
+}
+export function recordTimeSuccess(payload) {
+  return {
+    type: RECORD_TIME_SUCCESS,
+    payload,
+  };
+}
+export function recordTimeFailure(err) {
+  return {
+    type: RECORD_TIME_FAILURE,
     payload: err,
   };
 }

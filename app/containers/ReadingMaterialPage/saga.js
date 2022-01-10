@@ -8,9 +8,11 @@ import {
   getReadingMaterialSuccess,
   markAsReadFailure,
   markAsReadSuccess,
+  recordTimeSuccess,
+  recordTimeFailure
 } from './actions';
 
-import { GET_RM_START, MARK_READ_START } from './constants';
+import { GET_RM_START, MARK_READ_START, RECORD_TIME_START} from './constants';
 
 export function* getRMContent(action) {
   try {
@@ -28,7 +30,6 @@ export function* getRMContent(action) {
 
 export function* markAsRead(action) {
   try {
-    console.log(action.payload);
     const studentResponse = action.payload;
     const { rmId } = studentResponse;
     const response = yield api.put(
@@ -43,12 +44,28 @@ export function* markAsRead(action) {
     yield put(markAsReadFailure(err.data.message));
   }
 }
-
+export function* recordTime(action) {
+  try {
+    const studentResponse = action.payload;
+    const { rmId } = studentResponse;
+    const response = yield api.post(
+      `/get-reading-materials/record/${rmId}`,
+      studentResponse,
+      { headers: { Authorization: localStorage._UFT_ } },
+    );
+    console.log(response);
+    yield put(recordTimeSuccess(response.data.data));
+  } catch (err) {
+    console.log(err);
+    yield put(recordTimeFailure(err.data.message));
+  }
+}
 // Individual exports for testing
 export default function* readingMaterialPageSaga() {
   // See example in containers/HomePage/saga.js
   yield all([
     takeLatest(GET_RM_START, getRMContent),
     takeLatest(MARK_READ_START, markAsRead),
+    takeLatest(RECORD_TIME_START, recordTime)
   ]);
 }
