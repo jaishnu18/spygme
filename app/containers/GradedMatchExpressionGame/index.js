@@ -78,33 +78,6 @@ const Navigator = props => (
   </div>
 );
 
-const Timer = props => {
-  // initialize timeLeft with the seconds prop
-  const [timeLeft, setTimeLeft] = useState(props.seconds);
-
-  useEffect(() => {
-    // exit early when we reach 0
-    if (!timeLeft) props.submitTest(props.responses);
-
-    // save intervalId to clear the interval when the
-    // component re-renders
-    const intervalId = setInterval(() => {
-      setTimeLeft(timeLeft - 1);
-    }, 1000);
-
-    // clear interval on re-render to avoid memory leaks
-    return () => clearInterval(intervalId);
-    // add timeLeft as a dependency to re-rerun the effect
-    // when we update it
-  }, [timeLeft]);
-
-  return (
-    <div>
-      <h1>{timeLeft}</h1>
-    </div>
-  );
-};
-
 export function GradedMatchExpressionGame(props) {
   useInjectReducer({ key: 'gradedMatchExpressionGame', reducer });
   useInjectSaga({ key: 'gradedMatchExpressionGame', saga });
@@ -198,15 +171,6 @@ export function GradedMatchExpressionGame(props) {
   }, [currLevel]);
 
   useEffect(() => {
-    console.log(timeStamps);
-  }, [timeStamps]);
-  console.log(timeStamps);
-
-  useEffect(() => {
-    props.getGameData();
-  }, []);
-
-  useEffect(() => {
     if (isExamOver) {
       const T = timeStamps;
       T[currLevel].push(new Date());
@@ -278,7 +242,7 @@ export function GradedMatchExpressionGame(props) {
                     }}
                   >
                     {evaluatedAnswer &&
-                      evaluatedAnswer[0].correctResponse.includes(index) ? (
+                    evaluatedAnswer[0].correctResponse.includes(index) ? (
                       <img
                         src={TickMark}
                         style={{ width: '40px', height: '40px' }}
@@ -332,7 +296,7 @@ export function GradedMatchExpressionGame(props) {
                     }}
                   >
                     {evaluatedAnswer &&
-                      evaluatedAnswer[1].correctResponse.includes(index) ? (
+                    evaluatedAnswer[1].correctResponse.includes(index) ? (
                       <img
                         src={TickMark}
                         style={{ width: '40px', height: '40px' }}
@@ -386,7 +350,7 @@ export function GradedMatchExpressionGame(props) {
                     }}
                   >
                     {evaluatedAnswer &&
-                      evaluatedAnswer[2].correctResponse.includes(index) ? (
+                    evaluatedAnswer[2].correctResponse.includes(index) ? (
                       <img
                         src={TickMark}
                         style={{ width: '40px', height: '40px' }}
@@ -440,7 +404,7 @@ export function GradedMatchExpressionGame(props) {
                     }}
                   >
                     {evaluatedAnswer &&
-                      evaluatedAnswer[3].correctResponse.includes(index) ? (
+                    evaluatedAnswer[3].correctResponse.includes(index) ? (
                       <img
                         src={TickMark}
                         style={{ width: '40px', height: '40px' }}
@@ -482,7 +446,9 @@ export function GradedMatchExpressionGame(props) {
               <h1 style={{ color: 'white' }}>Match Expression</h1>
             </Col>
             <Col span={4}>
-              <h1 style={{ color: 'white' }}>Level: {currLevel + 1 ? currLevel + 1 : 0} / 4</h1>
+              <h1 style={{ color: 'white' }}>
+                Level: {currLevel + 1 ? currLevel + 1 : 0} / 4
+              </h1>
             </Col>
 
             <Col span={4}>
@@ -528,8 +494,8 @@ export function GradedMatchExpressionGame(props) {
                 wrapperCol={{
                   span: 16,
                 }}
-              // onFinish={onFinish}
-              // onFinishFailed={onFinishFailed}
+                // onFinish={onFinish}
+                // onFinishFailed={onFinishFailed}
               >
                 {formFields}
               </Form>
@@ -561,10 +527,18 @@ export function GradedMatchExpressionGame(props) {
                       >
                         Graph
                       </h1>
-                      <Button onClick={function (event) { myCyRef.reset(); }}>Reset Graph Layout</Button>
+                      <Button
+                        onClick={function(event) {
+                          myCyRef.reset();
+                        }}
+                      >
+                        Reset Graph Layout
+                      </Button>
                       <div>
                         <CytoscapeComponent
-                          elements={CytoscapeComponent.normalizeElements(graphData)}
+                          elements={CytoscapeComponent.normalizeElements(
+                            graphData,
+                          )}
                           style={{
                             minWidth: '400px',
                             height: '500px',
@@ -698,7 +672,8 @@ export function GradedMatchExpressionGame(props) {
             }}
           >
             <h1>General Instructions</h1>
-            <pre style={{ whiteSpace: 'pre-line' }}>{`
+            <pre style={{ whiteSpace: 'pre-line' }}>
+              {`
               1. Total duration of the graded quiz is 1 hour.\n
               2. The clock will be set at the server. The countdown timer in the top right corner of the screen will display the remaining time available for you to complete the examination. When the timer reaches zero, the examination will end by itself. You will not be required to end or submit your examination.\n
               3. The Questions Palette displayed on the right side of screen will show the status of each question using one of the following symbols:\n

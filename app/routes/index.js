@@ -22,6 +22,7 @@ import GradedWriteExpressionGame from 'containers/GradedWriteExpressionGame';
 import ReadingMaterialPage from 'containers/ReadingMaterialPage';
 import HomePage from 'containers/HomePage';
 import Auth from 'containers/Auth';
+import GradedNodeConsistencyGame from '../containers/GradedNodeConsistencyGame';
 //
 
 function Routes(props) {
@@ -103,6 +104,11 @@ function Routes(props) {
         exact
         path="/graded-write-expression/:gameId/:level"
         component={GradedWriteExpressionGame}
+      />
+      <Route
+        exact
+        path="/graded-node-consistency/:gameId/:level"
+        component={GradedNodeConsistencyGame}
       />
 
       <Route

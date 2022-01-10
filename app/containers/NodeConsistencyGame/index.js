@@ -11,10 +11,7 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import {
-  Row, Col, Button, Image,
-  Checkbox, Rate
-} from 'antd';
+import { Row, Col, Button, Image, Checkbox, Rate } from 'antd';
 import moment from 'moment';
 import TimeClock from 'components/TimeClock';
 import { useInjectSaga } from 'utils/injectSaga';
@@ -27,18 +24,15 @@ import reducer from './reducer';
 import saga from './saga';
 import { Collapse } from 'antd';
 
-import { getGamesDataStart, evaluateResponseStart, putFeedbackStart } from './actions';
+import {
+  getGamesDataStart,
+  evaluateResponseStart,
+  putFeedbackStart,
+} from './actions';
+import Crossword from '../../components/Crossword';
 
 const { Panel } = Collapse;
-const MyGrid = styled.div`
-  width: ${props => props.size * 72}px;
-  height: ${props => props.size * 72}px;
-  .chessboard {
-    width: 70px;
-    height: 70px;
-    border: 2px solid #333;
-  }
-`;
+
 const errors = [
   'Silly mistake',
   'Did not know the concept',
@@ -99,7 +93,6 @@ export function NodeConsistencyGame(props) {
     setIsWWWModalVisible(true);
   };
 
-
   const handleFeedbackOk = () => {
     const response = {};
     const studentResponse = {};
@@ -115,12 +108,10 @@ export function NodeConsistencyGame(props) {
     props.saveFeedback(response);
   };
 
-
   useEffect(() => {
     if (evaluatedAnswer) {
       showFeedbackModal();
-      if (evaluatedAnswer.score !== 1)
-        showWWWModal();
+      if (evaluatedAnswer.score !== 1) showWWWModal();
     }
   }, [evaluatedAnswer]);
 
@@ -195,7 +186,7 @@ export function NodeConsistencyGame(props) {
   };
   const backToConcepts = () => {
     window.location.href = `/concept/7`;
-  }
+  };
 
   return (
     <div>
@@ -205,51 +196,84 @@ export function NodeConsistencyGame(props) {
       </Helmet>
       <AppStructure
         heading="Node Consistency"
-        level={"Level: " + level + "/2"}
-        attempt={gameData ? " " + (gameData.attempt) : " 1"}
+        level={'Level: ' + level + '/2'}
+        attempt={gameData ? ' ' + gameData.attempt : ' 1'}
         evaluatedAnswer={evaluatedAnswer}
         divContent={
           <div style={{ padding: '20px', background: '#F8FAA7' }}>
-            {isWWWModalVisible ?
-              (
-                <div style={{ color: 'white', paddingLeft: '50px', justifyContent: 'center', background: '#295474', }}>
-                  <h1 style={{ color: 'white' }}>Why you made mistake?</h1>
-                  <h3 style={{ color: 'white' }}>Please answer the following questions and then press OK. Your feedback will ultimately help you</h3>
-                  <div>
-                    {
-                      errors.map((ques, idx) => (
-                        <Checkbox style={{ color: 'white' }} onChange={function handleChange(event) {
-                          checkedState[idx] = event.target.checked;
-                        }}>{ques}</Checkbox>
-                      ))
-                    }
-                    <Button type='primary' onClick={function (event) {
+            {isWWWModalVisible ? (
+              <div
+                style={{
+                  color: 'white',
+                  paddingLeft: '50px',
+                  justifyContent: 'center',
+                  background: '#295474',
+                }}
+              >
+                <h1 style={{ color: 'white' }}>Why you made mistake?</h1>
+                <h3 style={{ color: 'white' }}>
+                  Please answer the following questions and then press OK. Your
+                  feedback will ultimately help you
+                </h3>
+                <div>
+                  {errors.map((ques, idx) => (
+                    <Checkbox
+                      style={{ color: 'white' }}
+                      onChange={function handleChange(event) {
+                        checkedState[idx] = event.target.checked;
+                      }}
+                    >
+                      {ques}
+                    </Checkbox>
+                  ))}
+                  <Button
+                    type="primary"
+                    onClick={function(event) {
                       setIsWWWModalVisible(false);
                       setIsFeedbackModalVisible(true);
-                    }}>DONE</Button>
-                  </div>
+                    }}
+                  >
+                    DONE
+                  </Button>
                 </div>
-              ) : (isFeedbackModalVisible ? (
-                <div style={{ color: 'white', paddingLeft: '50px', justifyContent: 'center', background: '#295474', }}>
-                  <h1 style={{ color: 'white' }}>Feedback</h1>
-                  <h3 style={{ color: 'white' }}>Please answer the following questions and then press OK. Your feedback will ultimately help you</h3>
-                  <div>
-                    {
-                      questions.map((ques, idx) => (
-                        <div>
-                          <p>{(idx + 1) + ". " + ques}</p>
-                          <Rate allowClear={false} onChange={function handleChange(value) { starValue[idx] = value; }} />
-                        </div>
-                      )
-
-                      )
-                    }
-                    <Button type='primary' onClick={function (event) {
+              </div>
+            ) : isFeedbackModalVisible ? (
+              <div
+                style={{
+                  color: 'white',
+                  paddingLeft: '50px',
+                  justifyContent: 'center',
+                  background: '#295474',
+                }}
+              >
+                <h1 style={{ color: 'white' }}>Feedback</h1>
+                <h3 style={{ color: 'white' }}>
+                  Please answer the following questions and then press OK. Your
+                  feedback will ultimately help you
+                </h3>
+                <div>
+                  {questions.map((ques, idx) => (
+                    <div>
+                      <p>{idx + 1 + '. ' + ques}</p>
+                      <Rate
+                        allowClear={false}
+                        onChange={function handleChange(value) {
+                          starValue[idx] = value;
+                        }}
+                      />
+                    </div>
+                  ))}
+                  <Button
+                    type="primary"
+                    onClick={function(event) {
                       handleFeedbackOk();
-                    }}>DONE</Button>
-                  </div>
+                    }}
+                  >
+                    DONE
+                  </Button>
                 </div>
-              ) : null)}
+              </div>
+            ) : null}
             <div
               style={{
                 display: 'flex',
@@ -257,14 +281,15 @@ export function NodeConsistencyGame(props) {
                 marginBottom: '20px',
               }}
             >
-              <Button
-                style={{ marginLeft: '10px' }}
-                onClick={backToConcepts}
-              >
+              <Button style={{ marginLeft: '10px' }} onClick={backToConcepts}>
                 Back to Materials
               </Button>
               <div style={{ display: 'flex', width: '100%' }}>
-                <Button style={{ marginLeft: 'auto', marginRight: '30px' }} onClick={prevLevel} disabled={level == 1}>
+                <Button
+                  style={{ marginLeft: 'auto', marginRight: '30px' }}
+                  onClick={prevLevel}
+                  disabled={level == 1}
+                >
                   Previous Level
                 </Button>
                 <Button
@@ -278,65 +303,21 @@ export function NodeConsistencyGame(props) {
             </div>
             {gameData && selectedArray ? (
               <Row>
-                <Collapse accordion style={{ width: '100%' }} defaultActiveKey={['1']}>
+                <Collapse
+                  accordion
+                  style={{ width: '100%' }}
+                  defaultActiveKey={['1']}
+                >
                   <Panel key="1" header="How to play?">
-                    <p>{gameData ? gameData.gameDescription : ""}</p>
+                    <p>{gameData ? gameData.gameDescription : ''}</p>
                   </Panel>
                 </Collapse>
                 <Col span="11">
                   <div>
-                    <MyGrid size={gameData.grid_size}>
-                      <div style={{ display: 'flex', marginBottom: '0px' }}>
-                        {[...Array(gameData.grid_size)].map((k, j) => (
-                          <h1
-                            style={{
-                              width: '100%',
-                              marginBottom: '0px',
-                              marginLeft: '42px',
-                              textAlign: 'right',
-                            }}
-                          >
-                            {j + 1}
-                          </h1>
-                        ))}
-                      </div>
-                      {[...Array(gameData.grid_size + 1)].map(
-                        (x, i) =>
-                          i > 0 && (
-                            <div style={{ display: 'flex' }}>
-                              {[...Array(gameData.grid_size + 1)].map(
-                                (y, j) => (
-                                  <div>
-                                    {gameData.grid ? (
-                                      j === 0 ? (
-                                        <h1
-                                          style={{
-                                            width: '25px',
-                                            height: '25px',
-                                            marginBottom: '0px',
-                                          }}
-                                        >
-                                          {i}
-                                        </h1>
-                                      ) : (
-                                        <div
-                                          style={{
-                                            backgroundColor:
-                                              gameData.grid[i][j] === 35
-                                                ? 'black'
-                                                : 'white',
-                                          }}
-                                          className="chessboard"
-                                        />
-                                      )
-                                    ) : null}
-                                  </div>
-                                ),
-                              )}
-                            </div>
-                          ),
-                      )}
-                    </MyGrid>
+                    <Crossword
+                      grid={gameData.grid}
+                      gridSize={gameData.grid_size}
+                    />
                   </div>
                   {/* <TimeClock active={!evaluatedAnswer} /> */}
                 </Col>
