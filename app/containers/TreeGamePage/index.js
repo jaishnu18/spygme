@@ -120,7 +120,7 @@ export function TreeGamePage(props) {
     const studentResponse = {};
     studentResponse.feedback = JSON.stringify(starValue);
 
-    if (evaluatedAnswer.score !== 1) {
+    if (!evaluatedAnswer.result) {
       studentResponse.whatwentwrong = JSON.stringify(checkedState);
     }
     response.studentResponse = studentResponse;
@@ -134,7 +134,7 @@ export function TreeGamePage(props) {
   useEffect(() => {
     if (evaluatedAnswer) {
       showFeedbackModal();
-      if (evaluatedAnswer.score !== 1)
+      if (!evaluatedAnswer.result)
         showWWWModal();
     }
   }, [evaluatedAnswer]);

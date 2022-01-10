@@ -60,8 +60,8 @@ export function* saveFeedback(action) {
   try {
     console.log(action.payload);
     const studentResponse = action.payload;
-    const response = yield axios.put(
-      `http://localhost:4000/game/treegame/feedback-save`,
+    const response = yield api.put(
+      `/game/treegame/feedback-save`,
       studentResponse,
       { headers: { Authorization: localStorage._UFT_ } },
     );
