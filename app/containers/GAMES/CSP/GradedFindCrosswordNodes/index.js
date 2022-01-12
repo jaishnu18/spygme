@@ -1,0 +1,59 @@
+/**
+ *
+ * GradedFindCrosswordNodes
+ *
+ */
+
+import React, { memo } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
+import { createStructuredSelector } from 'reselect';
+import { compose } from 'redux';
+
+import { useInjectSaga } from 'utils/injectSaga';
+import { useInjectReducer } from 'utils/injectReducer';
+import makeSelectGradedFindCrosswordNodes from './selectors';
+import reducer from './reducer';
+import saga from './saga';
+
+export function GradedFindCrosswordNodes() {
+  useInjectReducer({ key: 'gradedFindCrosswordNodes', reducer });
+  useInjectSaga({ key: 'gradedFindCrosswordNodes', saga });
+
+  return (
+    <div>
+      <Helmet>
+        <title>GradedFindCrosswordNodes</title>
+        <meta
+          name="description"
+          content="Description of GradedFindCrosswordNodes"
+        />
+      </Helmet>
+    </div>
+  );
+}
+
+GradedFindCrosswordNodes.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = createStructuredSelector({
+  gradedFindCrosswordNodes: makeSelectGradedFindCrosswordNodes(),
+});
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch,
+  };
+}
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+
+export default compose(
+  withConnect,
+  memo,
+)(GradedFindCrosswordNodes);
