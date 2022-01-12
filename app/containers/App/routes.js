@@ -23,6 +23,8 @@ import HomePage from 'containers/HomePage';
 import Auth from 'containers/Auth';
 import ExpressionEvaluationGame from 'containers/GAMES/PropositionalLogic/ExpressionEvaluationGame';
 import FindCrosswordNodes from '../GAMES/CSP/FindCrosswordNodes';
+import MatchExpressionGame from 'containers/GAMES/PropositionalLogic/MatchExpressionGame';
+import WriteExpressionGame from 'containers/GAMES/PropositionalLogic/WriteExpressionGame';
 // import GradedNodeConsistencyGame from '../containers/GradedNodeConsistencyGame';
 //
 
@@ -63,6 +65,26 @@ function Routes(props) {
         path="/evaluate-expression/:gameId/:level"
         render={({ match }) => (
           <ExpressionEvaluationGame
+            level={match.params.level}
+            gameId={match.params.gameId}
+          />
+        )}
+      />
+      <Route
+        exact
+        path="/match-expression/:gameId/:level"
+        render={({ match }) => (
+          <MatchExpressionGame
+            level={match.params.level}
+            gameId={match.params.gameId}
+          />
+        )}
+      />
+      <Route
+        exact
+        path="/write-expression/:gameId/:level"
+        render={({ match }) => (
+          <WriteExpressionGame
             level={match.params.level}
             gameId={match.params.gameId}
           />

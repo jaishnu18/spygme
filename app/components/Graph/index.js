@@ -20,6 +20,37 @@ import CytoscapeComponent from 'react-cytoscapejs';
 import CustomButton from '../atoms/CustomButton';
 import H1 from '../atoms/H1';
 cytoscape.use(popper);
+export const showNodeIDs = (props, myCyRef) => {
+  const { gameData } = props;
+
+  if (gameData && myCyRef) {
+    for (let i = 0; i < gameData.num_nodes; i += 1) {
+      const popper = myCyRef.getElementById(i).popper({
+        content: () => {
+          const div = document.createElement('h2');
+          div.style.textAlign = 'left';
+          div.style.paddingLeft = '1px';
+          div.style.color = 'purple';
+          div.style.border = '2px solid black';
+          div.style.borderRadius = '2px';
+          div.style.width = '40px';
+          div.innerHTML = i;
+          document.getElementById("GraphContainer").appendChild(div);
+          return div;
+        },
+      });
+
+      const update = () => {
+        popper.update();
+      };
+
+      myCyRef.getElementById(i).on('position', update);
+
+      myCyRef.on('pan zoom resize', update);
+    }
+  }
+}
+
 
 export const getVisualization = (props, myCyRef, setvisualizeStarted) => {
   const { gameData } = props;
@@ -188,7 +219,7 @@ function Graph(props) {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        width: window.screen.width < 1440 ? '100vw' : '40vw',
+        width: '100%',
         minHeight: '100%',
         // margin: '20px',
         boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
@@ -302,7 +333,8 @@ function Graph(props) {
             ]}
             cy={cy => {
               myCyRef = cy;
-              console.log(myCyRef);
+              if (props.nodeID)
+                showNodeIDs(props, myCyRef);
             }}
           />
         </Col>
@@ -317,6 +349,7 @@ Graph.propTypes = {
   level: PropTypes.string,
   animate: PropTypes.bool,
   visualize: PropTypes.bool,
+  nodeID: PropTypes.bool,
 };
 
 export default memo(Graph);

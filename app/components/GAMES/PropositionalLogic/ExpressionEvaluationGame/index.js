@@ -25,7 +25,7 @@ function ExpressionEvaluationGame(props) {
         <Col xs={{ span: 24 }} xl={{ span: 10, offset: 2 }}>
           <div>
             <Title level={3}>Evaluate the expression: </Title>
-            <Title level={1} style={{ fontWeight: 400 }}>
+            <Title level={4} style={{ fontWeight: 400 }} code>
               {gameData.expression}
             </Title>
             <InputNumber

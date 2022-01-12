@@ -1,70 +1,62 @@
 // import { take, call, put, select } from 'redux-saga/effects';
 
-// Individual exports for testing
-
 import { put, takeLatest, all } from 'redux-saga/effects';
 
 import api from 'api';
 // import globalSettings from 'global-settings';
 // import querystring from 'querystring';
 import {
-  getGraphSuccess,
-  getGraphFailure,
-  evaluateExpressionSuccess,
-  evaluateExpressionFailure,
+  getGamesDataSuccess,
+  getGamesDataFailure,
+  evaluateResponseSuccess,
+  evaluateResponseFailure,
   putFeedbackFailure,
   putFeedbackSuccess,
 } from './actions';
 import {
-  GET_GRAPH_START, VALIDATE_EXPRESSION_START
-  , PUT_FEEDBACK_START,
-} from './constants';
-
-// Individual exports for testing
+  GET_GAME_DATA_START,
+  EVALUATE_RESPONSE_START,
+  PUT_FEEDBACK_START,
+} from './constants'; // Individual exports for testing
 
 export function* getGraph(action) {
   try {
     const level = action.payload;
 
     const response = yield api.get(
-      `/game/write-expression/question/${level}`,
+      `/game/match-expression/question/${level}`,
       { headers: { Authorization: localStorage._UFT_ } },
     );
     console.log(response);
-    yield put(getGraphSuccess(response.data.data));
+    yield put(getGamesDataSuccess(response.data.data));
   } catch (err) {
     console.log(err);
-    yield put(getGraphFailure(err.data.message));
+    yield put(getGamesDataFailure(err.data.message));
   }
 }
 
 export function* evaluateAnswer(action) {
   try {
+    console.log(action.payload);
     const studentResponse = action.payload;
-    console.log(studentResponse);
     const response = yield api.post(
-      `/game/write-expression/question/validate`,
+      `/game/match-expression/question/validate`,
       studentResponse,
-      {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: localStorage.getItem('_UFT_'),
-        },
-        withCredentials: true,
-      },
+      { headers: { Authorization: localStorage._UFT_ } },
     );
-    yield put(evaluateExpressionSuccess(response.data.data));
+    yield put(evaluateResponseSuccess(response.data.data));
   } catch (err) {
-    yield put(evaluateExpressionFailure(err.data.message));
+    console.log(err);
+    yield put(evaluateResponseFailure(err.data.message));
   }
 }
+
 export function* saveFeedback(action) {
   try {
     console.log(action.payload);
     const studentResponse = action.payload;
     const response = yield api.put(
-      `/game/write-expression/feedback-save`,
+      `/game/match-expression/feedback-save`,
       studentResponse,
       { headers: { Authorization: localStorage._UFT_ } },
     );
@@ -74,10 +66,11 @@ export function* saveFeedback(action) {
     yield put(putFeedbackFailure(err.data.message));
   }
 }
-export default function* writeExpressionGameSaga() {
+
+export default function* matchExpressionGameSaga() {
   yield all([
-    takeLatest(GET_GRAPH_START, getGraph),
-    takeLatest(VALIDATE_EXPRESSION_START, evaluateAnswer),
+    takeLatest(GET_GAME_DATA_START, getGraph),
+    takeLatest(EVALUATE_RESPONSE_START, evaluateAnswer),
     takeLatest(PUT_FEEDBACK_START, saveFeedback),
   ]);
 }
