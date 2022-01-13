@@ -15,6 +15,7 @@ import {
   PUT_FEEDBACK_FAILURE,
   PUT_FEEDBACK_START,
   PUT_FEEDBACK_SUCCESS,
+  CHANGE_RESPONSE,
 } from './constants';
 
 export function defaultAction() {
@@ -71,9 +72,17 @@ export function putFeedbackSuccess(payload) {
     payload,
   };
 }
+
 export function putFeedbackFailure(err) {
   return {
     type: PUT_FEEDBACK_FAILURE,
     payload: err,
+  };
+}
+
+export function changeResponse(payload) {
+  return {
+    type: CHANGE_RESPONSE,
+    payload,
   };
 }

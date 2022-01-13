@@ -10,20 +10,26 @@ import React, { memo } from 'react';
 import DescriptionCard from 'components/DescriptionCard';
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
+import CustomButton from 'components/atoms/CustomButton'; 
 
 function ReadingMaterialComponent(props) {
   const contentArr = props.content.content.split("<new_line>");
   console.log(contentArr);
   return (
-    <Row style={{ padding: '10px' }}>
-      <Col span={24}>
-        {props.content &&
-          (
-            <DescriptionCard title={"Reading Material : " + props.content.id} description={contentArr} />
-          )
-        }
-      </Col>
-    </Row>
+    <div>
+      <Row style={{ padding: '10px' }}>
+        <Col span={24}>
+          {props.content &&
+            (
+              <DescriptionCard isReadingMaterial title={"Reading Material : " + props.content.id} description={contentArr} />
+            )
+          }
+        </Col>
+      </Row>
+      <Row style={{ padding: '10px' }}>
+        <CustomButton>Mark as Read</CustomButton>
+      </Row>
+    </div>
   );
 }
 

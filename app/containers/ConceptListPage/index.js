@@ -36,14 +36,19 @@ export function ConceptListPage(props) {
   const { topicData } = props.conceptListPage;
   console.log(props.conceptListPage);
 
-
   return (
     <div>
       <Helmet>
         <title>ConceptListPage</title>
         <meta name="description" content="Description of ConceptListPage" />
       </Helmet>
-      <ConceptListComponent concepts={concepts} topicName={topicData.name} />
+      {topicData && (
+        <ConceptListComponent
+          concepts={concepts}
+          topicName={topicData.name}
+          type="Concept"
+        />
+      )}
     </div>
   );
 }
@@ -52,7 +57,7 @@ ConceptListPage.propTypes = {
   conceptListPage: PropTypes.object,
   getTopicData: PropTypes.func,
   getConcepts: PropTypes.func,
-  topicNo: PropTypes.string
+  topicNo: PropTypes.string,
 };
 
 const mapStateToProps = createStructuredSelector({

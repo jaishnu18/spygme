@@ -14,7 +14,7 @@ import CustomButton from 'components/atoms/CustomButton';
 
 import Typography from 'antd/lib/typography';
 import InputNumber from 'antd/lib/input-number';
-import Result from 'antd/lib/result'
+import Result from 'antd/lib/result';
 
 const { Title } = Typography;
 
@@ -38,20 +38,19 @@ function ExpressionEvaluationGame(props) {
               }}
             />
             <CustomButton
-              onClick={(e) => {
+              onClick={e => {
                 props.submit();
-
               }}
             >
               Check Answer
             </CustomButton>
-            {
-              evaluatedAnswer ? (
-                <Col span={2}>
-                  <Result status={evaluatedAnswer.score === 1 ? "success" : "error"} />
-                </Col>
-              ) : null
-            }
+            {evaluatedAnswer ? (
+              <Col span={2}>
+                <Result
+                  status={evaluatedAnswer.score === 1 ? 'success' : 'error'}
+                />
+              </Col>
+            ) : null}
           </div>
         </Col>
         <Col xs={{ span: 24 }} xl={{ span: 12 }}>

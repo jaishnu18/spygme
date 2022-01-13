@@ -22,11 +22,9 @@ export function* getGraph(action) {
   try {
     const level = action.payload;
 
-    const response = yield api.get(
-      `/game/match-expression/question/${level}`,
-      { headers: { Authorization: localStorage._UFT_ } },
-    );
-    console.log(response);
+    const response = yield api.get(`/game/match-expression/question/${level}`, {
+      headers: { Authorization: localStorage._UFT_ },
+    });
     yield put(getGamesDataSuccess(response.data.data));
   } catch (err) {
     console.log(err);
@@ -36,7 +34,6 @@ export function* getGraph(action) {
 
 export function* evaluateAnswer(action) {
   try {
-    console.log(action.payload);
     const studentResponse = action.payload;
     const response = yield api.post(
       `/game/match-expression/question/validate`,
@@ -52,7 +49,6 @@ export function* evaluateAnswer(action) {
 
 export function* saveFeedback(action) {
   try {
-    console.log(action.payload);
     const studentResponse = action.payload;
     const response = yield api.put(
       `/game/match-expression/feedback-save`,

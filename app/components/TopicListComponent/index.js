@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /**
  *
  * TopicListComponent
@@ -5,48 +6,77 @@
  */
 
 import React, { memo } from 'react';
-import DescriptionCard from '../DescriptionCard';
+import DescriptionCard from 'components/DescriptionCard';
 // import PropTypes from 'prop-types';
-// import styled from 'styled-components';
+import styled from 'styled-components';
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
 import { Link } from 'react-router-dom';
 import Typewriter from 'typewriter-effect';
 import Typography from 'antd/lib/typography';
+import RobotReading from 'images/robot-reading-ai.jpg';
+import Image from 'antd/lib/image';
 
 const { Title } = Typography;
-import RobotReading from 'images/robot-reading-ai.jpg'
+
+const StyledRow = styled(Row)`
+  display: flex;
+  margin-top: 20px !important;
+  justify-content: left !important;
+
+  @media only screen and (max-width: 1440px) {
+    justify-content: center !important;
+  }
+`;
 function TopicListComponent(props) {
   const { topics } = props;
-  console.log(topics)
   return (
-    <Row>
-      <Col xs={{ span: 24 }} xl={{ span: 5, offset: 1}}>
-      <img src={RobotReading} height={200}/>
-      </Col>
-      <Col xs={{ span: 24 }} xl={{ span: 17, offset: 1}}>
-        <Title>
-          <Typewriter
-            onInit={typewriter => {
-              typewriter
-                .typeString('SELECT YOUR PREFERRED TOPIC!')
-                .start();
+    <div>
+      <StyledRow gutter={[32, 20]}>
+        <Col
+          style={{ display: 'flex', alignItems: 'center' }}
+          xs={{ span: 23, offset: 1 }}
+          xl={{ span: 14, offset: 1 }}
+        >
+          <Title>
+            <Typewriter
+              onInit={typewriter => {
+                typewriter.typeString('SELECT YOUR PREFERRED TOPIC!').start();
+              }}
+            />
+          </Title>
+        </Col>
+        <Col xs={{ span: 24 }} xl={{ span: 8, offset: 1 }}>
+          <Image
+            src={RobotReading}
+            style={{
+              height: '100%',
+              objectFit: 'cover',
+              border: '1px solid black',
             }}
+            preview={false}
           />
-        </Title>
-      </Col>
-      {
-        topics ? (
-          topics.map((key, idx) => (
-            <Col xs={{ span: 24 }} xl={{ span: 6, offset: 1 }}>
-              <Link to={`topics/${idx + 1}`}>
-                <DescriptionCard title={"Topic : " + (idx + 1)} description={key.name} />
-              </Link>
-            </Col>
-          ))
-        ) : null
-      }
-    </Row>
+        </Col>
+      </StyledRow>
+      <StyledRow
+        style={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}
+        guttter={[32, 20]}
+      >
+        {topics
+          ? topics.map((key, idx) => (
+              <Col xs={{ span: 23 }} xl={{ span: 6, offset: 1 }}>
+                <Link to={`topics/${idx + 1}`}>
+                  <DescriptionCard
+                    hoverable
+                    title={`Topic : ${idx + 1}`}
+                    description={key.name}
+                  />
+                </Link>
+              </Col>
+            ))
+          : null}
+      </StyledRow>
+    </div>
   );
 }
 

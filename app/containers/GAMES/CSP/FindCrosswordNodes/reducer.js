@@ -25,7 +25,7 @@ export const initialState = {
 };
 
 /* eslint-disable default-case, no-param-reassign */
-const findCrosswordNodesGameReducer = (state = initialState, action) =>
+const findCrosswordNodesReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
       case GET_GAME_DATA_START:
@@ -62,4 +62,4 @@ const findCrosswordNodesGameReducer = (state = initialState, action) =>
     }
   });
 
-export default findCrosswordNodesGameReducer;
+export default findCrosswordNodesReducer;

@@ -67,7 +67,7 @@ export function* saveFeedback(action) {
 }
 
 // Individual exports for testing
-export default function* findCrosswordNodesGameSaga() {
+export default function* findCrosswordNodesSaga() {
   // See example in containers/HomePage/saga.js
   yield all([
     takeLatest(GET_GAME_DATA_START, getCrossword),
