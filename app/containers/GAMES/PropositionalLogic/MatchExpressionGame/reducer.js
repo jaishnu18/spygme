@@ -15,6 +15,7 @@ import {
   PUT_FEEDBACK_FAILURE,
   PUT_FEEDBACK_START,
   PUT_FEEDBACK_SUCCESS,
+  CHANGE_RESPONSE,
 } from './constants';
 
 export const initialState = {
@@ -23,6 +24,7 @@ export const initialState = {
   isResponseLoading: false,
   evaluatedAnswer: undefined,
   isFeedbackSaving: false,
+  arr: undefined,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -35,6 +37,7 @@ const matchExpressionGameReducer = (state = initialState, action) =>
       case GET_GAME_DATA_SUCCESS:
         draft.isGameDataLoading = false;
         draft.gameData = action.payload;
+        draft.arr = new Array(action.payload.exp_to_display.length).fill(-1);
         break;
       case GET_GAME_DATA_FAILURE:
         draft.isGameDataLoading = false;
@@ -59,6 +62,9 @@ const matchExpressionGameReducer = (state = initialState, action) =>
         break;
       case PUT_FEEDBACK_FAILURE:
         draft.isFeedbackSaving = false;
+        break;
+      case CHANGE_RESPONSE:
+        draft.arr = action.payload;
         break;
     }
   });

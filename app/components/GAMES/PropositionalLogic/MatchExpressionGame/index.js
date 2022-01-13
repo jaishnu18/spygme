@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /**
  *
  * MatchExpressionGame
@@ -25,27 +26,26 @@ function MatchExpressionGame(props) {
         <Col xs={{ span: 24 }} xl={{ span: 10, offset: 2 }}>
           <div>
             <Title level={3}>Match each expression with their node ID: </Title>
-            {
-              exp_to_display ?
-                (
-                  exp_to_display.map((exp, idx) => (
-                    <Row style={{ display: 'flex' }}>
-                      <Col span={18}>
-                        <Title level={4} code>{exp}</Title>
-                      </Col>
-                      <Col span={4}>
-                        <InputNumber 
+            {exp_to_display
+              ? exp_to_display.map((exp, idx) => (
+                  <Row key={exp} style={{ display: 'flex' }}>
+                    <Col span={18}>
+                      <Title level={4} code>
+                        {exp}
+                      </Title>
+                    </Col>
+                    <Col span={4}>
+                      <InputNumber
                         onChange={e => {
-                          const arr=props.value;
-                          arr[idx]=e;
-                          props.setValue(arr);
-                        }} />
-                      </Col>
-                    </Row>
-                  )
-                  )
-                ) : null
-            }
+                          const resArray = props.value;
+                          resArray[idx] = e;
+                          props.changeResponse(resArray);
+                        }}
+                      />
+                    </Col>
+                  </Row>
+                ))
+              : null}
             <CustomButton
               onClick={() => {
                 props.submit();

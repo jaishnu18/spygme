@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect, useState, useSelector } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -16,18 +16,19 @@ import Row from 'antd/lib/row';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import makeSelectMatchExpressionGame from './selectors';
 import GameBar from 'components/GameBar';
 import GameDescription from 'components/GameDescription';
 import { start, end } from 'utils/timerFunctions';
 import moment from 'moment';
 import GameComponent from 'components/GAMES/PropositionalLogic/MatchExpressionGame';
+import makeSelectMatchExpressionGame from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import {
   getGamesDataStart,
   evaluateResponseStart,
   putFeedbackStart,
+  changeResponse,
 } from './actions';
 
 export function MatchExpressionGame(props) {
@@ -35,12 +36,11 @@ export function MatchExpressionGame(props) {
   useInjectSaga({ key: 'matchExpressionGame', saga });
 
   const [startTime, setStartTime] = useState(0);
-  const [value, setValue] = useState(undefined);
+  const [value, setValue] = useState(arr);
 
   useEffect(() => {
     props.getGameData(props.level);
     start(setStartTime);
-
   }, [props.level]);
 
   const { gameData } = props.matchExpressionGame;
@@ -50,7 +50,7 @@ export function MatchExpressionGame(props) {
   const submit = () => {
     const secs = end(startTime);
     const response = {};
-    gameData.response = value;
+    gameData.response = arr;
     const formatted = moment.utc(secs * 1000).format('mm:ss');
     gameData.timeTaken = formatted;
     gameData.level = parseInt(props.level);
@@ -59,13 +59,17 @@ export function MatchExpressionGame(props) {
     props.checkStudentResponse(response);
   };
 
+  const changeResponseFunction = array => {
+    props.changeResponseArray(array);
+  };
+
   return (
     <div>
       <Helmet>
         <title>Match Expression Game</title>
         <meta name="description" content="Description of MatchExpressionGame" />
       </Helmet>
-      {gameData && value && (
+      {gameData && arr && (
         <>
           <GameBar
             name="Match Expression"
@@ -85,8 +89,8 @@ export function MatchExpressionGame(props) {
             evaluatedAnswer={evaluatedAnswer}
             level={props.level}
             submit={submit}
-            setValue={setValue}
             value={arr}
+            changeResponse={changeResponseFunction}
           />
         </>
       )}
@@ -99,6 +103,7 @@ MatchExpressionGame.propTypes = {
   getGameData: PropTypes.func.isRequired,
   level: PropTypes.string.isRequired,
   checkStudentResponse: PropTypes.func.isRequired,
+  changeResponseArray: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -110,6 +115,7 @@ function mapDispatchToProps(dispatch) {
     getGameData: level => dispatch(getGamesDataStart(level)),
     checkStudentResponse: level => dispatch(evaluateResponseStart(level)),
     saveFeedback: feedback => dispatch(putFeedbackStart(feedback)),
+    changeResponseArray: response => dispatch(changeResponse(response)),
   };
 }
 

@@ -35,7 +35,7 @@ export const showNodeIDs = (props, myCyRef) => {
           div.style.borderRadius = '2px';
           div.style.width = '40px';
           div.innerHTML = i;
-          document.getElementById("GraphContainer").appendChild(div);
+          document.getElementById('GraphContainer').appendChild(div);
           return div;
         },
       });
@@ -49,15 +49,18 @@ export const showNodeIDs = (props, myCyRef) => {
       myCyRef.on('pan zoom resize', update);
     }
   }
-}
+};
 
-
-export const getVisualization = (props, myCyRef, setvisualizeStarted, setVisualizeDisable) => {
+export const getVisualization = (
+  props,
+  myCyRef,
+  setvisualizeStarted,
+  setVisualizeDisable,
+) => {
   const { gameData } = props;
 
   if (gameData && myCyRef) {
-    if (gameData.ptr === 0)
-      setvisualizeStarted(true);
+    if (gameData.ptr === 0) setvisualizeStarted(true);
     const node = gameData.orderOfEvaluation[gameData.ptr];
 
     myCyRef.getElementById(node).addClass('highlighted');
@@ -79,8 +82,7 @@ export const getVisualization = (props, myCyRef, setvisualizeStarted, setVisuali
         return div;
       },
     });
-    if (gameData.ptr === gameData.num_nodes)
-      setVisualizeDisable(true);
+    if (gameData.ptr === gameData.num_nodes) setVisualizeDisable(true);
 
     const update = () => {
       popper.update();
@@ -123,12 +125,19 @@ export const animate = (props, myCyRef, setVisualizeDisable) => {
 
       myCyRef.on('pan zoom resize', update);
       gameData.ptr2 += 1;
-      setTimeout(animate(props, myCyRef, setVisualizeDisable), 2000);
+      setTimeout(() => {
+        animate(props, myCyRef, setVisualizeDisable);
+      }, 2000);
     }
   }
 };
 
-export const resetGraph = (props, myCyRef, setvisualizeStarted, setVisualizeDisable) => {
+export const resetGraph = (
+  props,
+  myCyRef,
+  setvisualizeStarted,
+  setVisualizeDisable,
+) => {
   const { gameData } = props;
   if (gameData && myCyRef) {
     if (gameData.orderOfEvaluation)
@@ -137,7 +146,12 @@ export const resetGraph = (props, myCyRef, setvisualizeStarted, setVisualizeDisa
   }
 };
 
-export const reset = (props, myCyRef, setvisualizeStarted, setVisualizeDisable) => {
+export const reset = (
+  props,
+  myCyRef,
+  setvisualizeStarted,
+  setVisualizeDisable,
+) => {
   const { gameData } = props;
 
   if (gameData && myCyRef) {
@@ -165,8 +179,7 @@ function Graph(props) {
   const { evaluatedAnswer } = props;
 
   useEffect(() => {
-    if (evaluatedAnswer)
-      setVisualizeDisable(false);
+    if (evaluatedAnswer) setVisualizeDisable(false);
   }, [evaluatedAnswer]);
 
   useEffect(() => {
@@ -249,15 +262,25 @@ function Graph(props) {
       >
         <CustomButton
           onClick={() => {
-            resetGraph(props, myCyRef, setvisualizeStarted, setVisualizeDisable);
+            resetGraph(
+              props,
+              myCyRef,
+              setvisualizeStarted,
+              setVisualizeDisable,
+            );
           }}
         >
           Reset Layout
         </CustomButton>
         {props.visualize && (
           <CustomButton
-            onClick={(e) => {
-              getVisualization(props, myCyRef, setvisualizeStarted, setVisualizeDisable);
+            onClick={e => {
+              getVisualization(
+                props,
+                myCyRef,
+                setvisualizeStarted,
+                setVisualizeDisable,
+              );
             }}
             disabled={visualizeDisable}
           >
@@ -267,7 +290,12 @@ function Graph(props) {
         {props.animate && (
           <CustomButton
             onClick={() => {
-              resetGraph(props, myCyRef, setvisualizeStarted, setVisualizeDisable);
+              resetGraph(
+                props,
+                myCyRef,
+                setvisualizeStarted,
+                setVisualizeDisable,
+              );
               animate(props, myCyRef, setVisualizeDisable);
             }}
             disabled={evaluatedAnswer === undefined}
@@ -337,8 +365,7 @@ function Graph(props) {
             ]}
             cy={cy => {
               myCyRef = cy;
-              if (props.nodeID)
-                showNodeIDs(props, myCyRef);
+              if (props.nodeID) showNodeIDs(props, myCyRef);
             }}
           />
         </Col>

@@ -24,3 +24,4 @@ export const PUT_FEEDBACK_SUCCESS =
   'app/MatchExpressionGame/PUT_FEEDBACK_SUCCESS';
 export const PUT_FEEDBACK_FAILURE =
   'app/MatchExpressionGame/PUT_FEEDBACK_FAILURE';
+export const CHANGE_RESPONSE = 'app/MatchExpressionGame/CHANGE_RESPONSE';
