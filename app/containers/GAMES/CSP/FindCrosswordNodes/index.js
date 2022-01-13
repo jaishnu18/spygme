@@ -17,10 +17,17 @@ import makeSelectFindCrosswordNodes from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import Crossword from 'components/Crossword';
-
+import {
+  getGamesDataStart,
+  evaluateResponseStart,
+  putFeedbackStart,
+} from './actions';
 export function FindCrosswordNodes() {
   useInjectReducer({ key: 'findCrosswordNodes', reducer });
   useInjectSaga({ key: 'findCrosswordNodes', saga });
+
+  const { level } = props;
+  const { gameId } = props;
 
   return (
     <div>

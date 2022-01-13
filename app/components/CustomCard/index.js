@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 function CustomCard(props) {
   return (
     <Card
+      hoverable={props.hoverable}
       title={props.title}
       extra={props.extra}
       style={{

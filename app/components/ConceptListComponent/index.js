@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /**
  *
  * ConceptListComponent
@@ -18,21 +19,33 @@ const { Title } = Typography;
 function ConceptListComponent(props) {
   const { concepts } = props;
   return (
-    <Row style={{padding:'10px'}}>
-      <Col xs={{ span: 24 }} xl={{ span:14 , offset: 6 }}>
-        <Title>{props.topicName}</Title>
+    <Row
+      style={{ padding: '40px 40px 20px 40px', margin: 0 }}
+      gutter={[16, 16]}
+    >
+      <Col
+        span={24}
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Title style={{ textAlign: 'center' }}>{props.topicName}</Title>
       </Col>
-      {
-        concepts ? (
-          concepts.map((key, idx) => (
-            <Col xs={{ span: 24 }} xl={{ span: 5, offset: 1 }}>
+      {concepts
+        ? concepts.map((key, idx) => (
+            <Col xs={{ span: 24 }} xl={{ span: 8 }}>
               <Link to={`concept/${idx + 1}`}>
-                <DescriptionCard title={"Topic : " + (idx + 1)} description={key.name} progress={Math.round(key.progress*100)}/>
+                <DescriptionCard
+                  title={`Concept : ${idx + 1}`}
+                  description={key.name}
+                  progress={Math.round(key.progress * 100)}
+                />
               </Link>
             </Col>
           ))
-        ) : null
-      }
+        : null}
     </Row>
   );
 }
