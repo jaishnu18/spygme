@@ -3,7 +3,6 @@
 /* eslint-disable no-console */
 import { put, takeLatest, all } from 'redux-saga/effects';
 import api from 'api';
-// import globalSettings from 'global-settings';
 import jwtDecode from 'jwt-decode';
 import history from 'utils/history';
 import { SIGNIN_START, SIGNOUT_START, SIGNUP_START } from './constants';

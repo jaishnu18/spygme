@@ -5,7 +5,6 @@
 import { put, takeLatest, all } from 'redux-saga/effects';
 
 import api from 'api';
-// import globalSettings from 'global-settings';
 // import querystring from 'querystring';
 import {
   getGraphSuccess,
