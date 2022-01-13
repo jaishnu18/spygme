@@ -52,11 +52,12 @@ export const showNodeIDs = (props, myCyRef) => {
 }
 
 
-export const getVisualization = (props, myCyRef, setvisualizeStarted) => {
+export const getVisualization = (props, myCyRef, setvisualizeStarted, setVisualizeDisable) => {
   const { gameData } = props;
 
   if (gameData && myCyRef) {
-    setvisualizeStarted(true);
+    if (gameData.ptr === 0)
+      setvisualizeStarted(true);
     const node = gameData.orderOfEvaluation[gameData.ptr];
 
     myCyRef.getElementById(node).addClass('highlighted');
@@ -78,6 +79,8 @@ export const getVisualization = (props, myCyRef, setvisualizeStarted) => {
         return div;
       },
     });
+    if (gameData.ptr === gameData.num_nodes)
+      setVisualizeDisable(true);
 
     const update = () => {
       popper.update();
@@ -89,10 +92,11 @@ export const getVisualization = (props, myCyRef, setvisualizeStarted) => {
   }
 };
 
-export const animate = (props, myCyRef) => {
+export const animate = (props, myCyRef, setVisualizeDisable) => {
   const { gameData } = props;
 
   if (gameData) {
+    setVisualizeDisable(true);
     if (gameData.ptr2 < gameData.orderOfEvaluation.length) {
       const node = gameData.orderOfEvaluation[gameData.ptr2];
       myCyRef.getElementById(node).addClass('highlighted');
@@ -119,20 +123,21 @@ export const animate = (props, myCyRef) => {
 
       myCyRef.on('pan zoom resize', update);
       gameData.ptr2 += 1;
-      setTimeout(animate, 2000);
+      setTimeout(animate(props, myCyRef, setVisualizeDisable), 2000);
     }
   }
 };
 
-export const resetGraph = (props, myCyRef) => {
+export const resetGraph = (props, myCyRef, setvisualizeStarted, setVisualizeDisable) => {
   const { gameData } = props;
   if (gameData && myCyRef) {
-    reset(props, myCyRef);
+    if (gameData.orderOfEvaluation)
+      reset(props, myCyRef, setvisualizeStarted, setVisualizeDisable);
     myCyRef.reset();
   }
 };
 
-export const reset = (props, myCyRef, setvisualizeStarted) => {
+export const reset = (props, myCyRef, setvisualizeStarted, setVisualizeDisable) => {
   const { gameData } = props;
 
   if (gameData && myCyRef) {
@@ -146,16 +151,23 @@ export const reset = (props, myCyRef, setvisualizeStarted) => {
     const elements = document.getElementsByClassName('Popper');
     while (elements.length > 0) elements[0].parentNode.removeChild(elements[0]);
 
-    // setvisualizeStarted(false);
+    setvisualizeStarted(false);
+    setVisualizeDisable(false);
   }
 };
 
 function Graph(props) {
   const [graphData, setGraphData] = useState(undefined);
   const [visualizeStarted, setvisualizeStarted] = useState(false);
+  const [visualizeDisable, setVisualizeDisable] = useState(true);
 
   const { gameData } = props;
   const { evaluatedAnswer } = props;
+
+  useEffect(() => {
+    if (evaluatedAnswer)
+      setVisualizeDisable(false);
+  }, [evaluatedAnswer]);
 
   useEffect(() => {
     const elements = [];
@@ -205,10 +217,6 @@ function Graph(props) {
     setGraphData(elements);
   }, [gameData]);
 
-  gameData.ptr = 0;
-  gameData.ptr3 = 0;
-  gameData.ptr2 = 0;
-
   let myCyRef;
 
   return (
@@ -241,21 +249,17 @@ function Graph(props) {
       >
         <CustomButton
           onClick={() => {
-            resetGraph(props, myCyRef, setvisualizeStarted);
+            resetGraph(props, myCyRef, setvisualizeStarted, setVisualizeDisable);
           }}
         >
           Reset Layout
         </CustomButton>
         {props.visualize && (
           <CustomButton
-            onClick={() => {
-              getVisualization(props, myCyRef, setvisualizeStarted);
+            onClick={(e) => {
+              getVisualization(props, myCyRef, setvisualizeStarted, setVisualizeDisable);
             }}
-            disabled={
-              evaluatedAnswer === undefined ||
-              gameData.ptr === gameData.num_nodes ||
-              gameData.ptr2 !== 0
-            }
+            disabled={visualizeDisable}
           >
             {visualizeStarted ? 'Next' : 'Visualize in steps'}
           </CustomButton>
@@ -263,8 +267,8 @@ function Graph(props) {
         {props.animate && (
           <CustomButton
             onClick={() => {
-              resetGraph(props, myCyRef);
-              animate(props, myCyRef);
+              resetGraph(props, myCyRef, setvisualizeStarted, setVisualizeDisable);
+              animate(props, myCyRef, setVisualizeDisable);
             }}
             disabled={evaluatedAnswer === undefined}
           >
