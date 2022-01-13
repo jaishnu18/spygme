@@ -11,15 +11,20 @@ import CustomCard from '../CustomCard';
 import Row from 'antd/lib/row'
 import Typography from 'antd/lib/typography';
 import Progress from 'antd/lib/progress'
+import Paragraph from 'antd/lib/typography/Paragraph';
 
 const { Title } = Typography;
 
 function DescriptionCard(props) {
   return (
     <CustomCard title={props.title}>
-      <Row>
-        <Title level={3} style={{ fontWeight: 400 }}>{props.description}</Title>
-        {props.progress!==undefined &&
+      <Row style={{display:'flex', flexDirection:'column'}}>
+        {
+          props.description.map((key,idx)=>(
+            <Paragraph>{key}</Paragraph>
+          ))
+        }
+        {props.progress !== undefined &&
           (
             <Progress type='circle' percent={props.progress} />
           )
