@@ -20,12 +20,44 @@ import CytoscapeComponent from 'react-cytoscapejs';
 import CustomButton from '../atoms/CustomButton';
 import H1 from '../atoms/H1';
 cytoscape.use(popper);
-
-export const getVisualization = (props, myCyRef, setvisualizeStarted) => {
+export const showNodeIDs = (props, myCyRef) => {
   const { gameData } = props;
 
   if (gameData && myCyRef) {
-    setvisualizeStarted(true);
+    for (let i = 0; i < gameData.num_nodes; i += 1) {
+      const popper = myCyRef.getElementById(i).popper({
+        content: () => {
+          const div = document.createElement('h2');
+          div.style.textAlign = 'left';
+          div.style.paddingLeft = '1px';
+          div.style.color = 'purple';
+          div.style.border = '2px solid black';
+          div.style.borderRadius = '2px';
+          div.style.width = '40px';
+          div.innerHTML = i;
+          document.getElementById("GraphContainer").appendChild(div);
+          return div;
+        },
+      });
+
+      const update = () => {
+        popper.update();
+      };
+
+      myCyRef.getElementById(i).on('position', update);
+
+      myCyRef.on('pan zoom resize', update);
+    }
+  }
+}
+
+
+export const getVisualization = (props, myCyRef, setvisualizeStarted, setVisualizeDisable) => {
+  const { gameData } = props;
+
+  if (gameData && myCyRef) {
+    if (gameData.ptr === 0)
+      setvisualizeStarted(true);
     const node = gameData.orderOfEvaluation[gameData.ptr];
 
     myCyRef.getElementById(node).addClass('highlighted');
@@ -47,6 +79,8 @@ export const getVisualization = (props, myCyRef, setvisualizeStarted) => {
         return div;
       },
     });
+    if (gameData.ptr === gameData.num_nodes)
+      setVisualizeDisable(true);
 
     const update = () => {
       popper.update();
@@ -58,10 +92,11 @@ export const getVisualization = (props, myCyRef, setvisualizeStarted) => {
   }
 };
 
-export const animate = (props, myCyRef) => {
+export const animate = (props, myCyRef, setVisualizeDisable) => {
   const { gameData } = props;
 
   if (gameData) {
+    setVisualizeDisable(true);
     if (gameData.ptr2 < gameData.orderOfEvaluation.length) {
       const node = gameData.orderOfEvaluation[gameData.ptr2];
       myCyRef.getElementById(node).addClass('highlighted');
@@ -88,20 +123,21 @@ export const animate = (props, myCyRef) => {
 
       myCyRef.on('pan zoom resize', update);
       gameData.ptr2 += 1;
-      setTimeout(animate, 2000);
+      setTimeout(animate(props, myCyRef, setVisualizeDisable), 2000);
     }
   }
 };
 
-export const resetGraph = (props, myCyRef) => {
+export const resetGraph = (props, myCyRef, setvisualizeStarted, setVisualizeDisable) => {
   const { gameData } = props;
   if (gameData && myCyRef) {
-    reset(props, myCyRef);
+    if (gameData.orderOfEvaluation)
+      reset(props, myCyRef, setvisualizeStarted, setVisualizeDisable);
     myCyRef.reset();
   }
 };
 
-export const reset = (props, myCyRef, setvisualizeStarted) => {
+export const reset = (props, myCyRef, setvisualizeStarted, setVisualizeDisable) => {
   const { gameData } = props;
 
   if (gameData && myCyRef) {
@@ -115,16 +151,23 @@ export const reset = (props, myCyRef, setvisualizeStarted) => {
     const elements = document.getElementsByClassName('Popper');
     while (elements.length > 0) elements[0].parentNode.removeChild(elements[0]);
 
-    // setvisualizeStarted(false);
+    setvisualizeStarted(false);
+    setVisualizeDisable(false);
   }
 };
 
 function Graph(props) {
   const [graphData, setGraphData] = useState(undefined);
   const [visualizeStarted, setvisualizeStarted] = useState(false);
+  const [visualizeDisable, setVisualizeDisable] = useState(true);
 
   const { gameData } = props;
   const { evaluatedAnswer } = props;
+
+  useEffect(() => {
+    if (evaluatedAnswer)
+      setVisualizeDisable(false);
+  }, [evaluatedAnswer]);
 
   useEffect(() => {
     const elements = [];
@@ -174,10 +217,6 @@ function Graph(props) {
     setGraphData(elements);
   }, [gameData]);
 
-  gameData.ptr = 0;
-  gameData.ptr3 = 0;
-  gameData.ptr2 = 0;
-
   let myCyRef;
 
   return (
@@ -188,7 +227,7 @@ function Graph(props) {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        width: window.screen.width < 1440 ? '100vw' : '40vw',
+        width: '100%',
         minHeight: '100%',
         // margin: '20px',
         boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
@@ -210,21 +249,17 @@ function Graph(props) {
       >
         <CustomButton
           onClick={() => {
-            resetGraph(props, myCyRef, setvisualizeStarted);
+            resetGraph(props, myCyRef, setvisualizeStarted, setVisualizeDisable);
           }}
         >
           Reset Layout
         </CustomButton>
         {props.visualize && (
           <CustomButton
-            onClick={() => {
-              getVisualization(props, myCyRef, setvisualizeStarted);
+            onClick={(e) => {
+              getVisualization(props, myCyRef, setvisualizeStarted, setVisualizeDisable);
             }}
-            disabled={
-              evaluatedAnswer === undefined ||
-              gameData.ptr === gameData.num_nodes ||
-              gameData.ptr2 !== 0
-            }
+            disabled={visualizeDisable}
           >
             {visualizeStarted ? 'Next' : 'Visualize in steps'}
           </CustomButton>
@@ -232,8 +267,8 @@ function Graph(props) {
         {props.animate && (
           <CustomButton
             onClick={() => {
-              resetGraph(props, myCyRef);
-              animate(props, myCyRef);
+              resetGraph(props, myCyRef, setvisualizeStarted, setVisualizeDisable);
+              animate(props, myCyRef, setVisualizeDisable);
             }}
             disabled={evaluatedAnswer === undefined}
           >
@@ -302,7 +337,8 @@ function Graph(props) {
             ]}
             cy={cy => {
               myCyRef = cy;
-              console.log(myCyRef);
+              if (props.nodeID)
+                showNodeIDs(props, myCyRef);
             }}
           />
         </Col>
@@ -317,6 +353,7 @@ Graph.propTypes = {
   level: PropTypes.string,
   animate: PropTypes.bool,
   visualize: PropTypes.bool,
+  nodeID: PropTypes.bool,
 };
 
 export default memo(Graph);
