@@ -25,6 +25,8 @@ import ExpressionEvaluationGame from 'containers/GAMES/PropositionalLogic/Expres
 import FindCrosswordNodes from '../GAMES/CSP/FindCrosswordNodes';
 import MatchExpressionGame from 'containers/GAMES/PropositionalLogic/MatchExpressionGame';
 import WriteExpressionGame from 'containers/GAMES/PropositionalLogic/WriteExpressionGame';
+import TopicListPage from 'containers/TopicListPage';
+import ConceptListPage from 'containers/ConceptListPage';
 // import GradedNodeConsistencyGame from '../containers/GradedNodeConsistencyGame';
 //
 
@@ -56,10 +58,10 @@ function Routes(props) {
       {/*
 
       
-      <Route exact path="/topics" component={TopicsPage} /> */}
+       */}
 
       <Route exact path="/home" component={prop => <HomePage {...prop} />} />
-
+      <Route exact path="/topics" component={TopicListPage} />
       <Route
         exact
         path="/evaluate-expression/:gameId/:level"
@@ -101,6 +103,13 @@ function Routes(props) {
           />
         )}
       />
+      <Route
+        exact
+        path="/topics/:topicId"
+        render={({ match }) => (
+          <ConceptListPage topicId={match.params.topicId} />
+        )}
+      />
 
       {/* <Route
         exact
@@ -110,13 +119,7 @@ function Routes(props) {
         )}
       />
 
-      <Route
-        exact
-        path="/concept/:conceptId"
-        render={({ match }) => (
-          <ConceptDescriptionPage conceptId={match.params.conceptId} />
-        )}
-      />
+      
 
       <Route
         exact

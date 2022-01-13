@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 function CustomCard(props) {
   return (
     <Card
+      title={props.title}
       extra={props.extra}
       style={{
         backgroundColor: props.color ? props.color : 'white',
