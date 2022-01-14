@@ -38,14 +38,22 @@ export function ExpressionEvaluationGame(props) {
 
   const [startTime, setStartTime] = useState(0);
   const [value, setValue] = useState(0);
+  const [evaluatedAnswer, setEvaluatedAnswer] = useState(undefined);
 
   useEffect(() => {
     props.getGameData(props.level);
     start(setStartTime);
   }, [props.level]);
 
+  useEffect(() => {
+    setEvaluatedAnswer(undefined);
+  }, [props.expressionEvaluationGame.gameData]);
+
+  useEffect(() => {
+    setEvaluatedAnswer(props.expressionEvaluationGame.evaluatedAnswer);
+  }, [props.expressionEvaluationGame.evaluatedAnswer]);
+
   const { gameData } = props.expressionEvaluationGame;
-  const { evaluatedAnswer } = props.expressionEvaluationGame;
 
   const submit = () => {
     const secs = end(startTime);

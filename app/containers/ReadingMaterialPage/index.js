@@ -32,6 +32,12 @@ export function ReadingMaterialPage(props) {
     props.getReadingMaterialContent({ rmId });
   }, []);
 
+  const markAsRead = () => {
+    const response = {};
+    response.rmId = rmId;
+    props.markAsRead(response);
+  };
+
   return (
     <div>
       <Helmet>
@@ -40,7 +46,7 @@ export function ReadingMaterialPage(props) {
       </Helmet>
       {readingMaterialContent &&
         (
-          <ReadingMaterialComponent content={readingMaterialContent} />
+          <ReadingMaterialComponent content={readingMaterialContent} markAsRead={markAsRead} />
         )
       }
     </div>

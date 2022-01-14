@@ -18,6 +18,7 @@ const { Title } = Typography;
 
 function ConceptListComponent(props) {
   const { concepts } = props;
+  const { parentTopic } = props;
   return (
     <Row
       style={{ padding: '40px 40px 20px 40px', margin: 0 }}
@@ -35,16 +36,16 @@ function ConceptListComponent(props) {
       </Col>
       {concepts
         ? concepts.map((key, idx) => (
-            <Col xs={{ span: 24 }} xl={{ span: 8 }}>
-              <Link to={`concept/${idx + 1}`}>
-                <DescriptionCard
-                  title={`Concept : ${idx + 1}`}
-                  description={key.name}
-                  progress={Math.round(key.progress * 100)}
-                />
-              </Link>
-            </Col>
-          ))
+          <Col xs={{ span: 24 }} xl={{ span: 8 }}>
+            <Link to={`/concept/${parentTopic}/${key.id}`}>
+              <DescriptionCard
+                title={`Concept : ${idx + 1}`}
+                description={key.name}
+                progress={Math.round(key.progress * 100)}
+              />
+            </Link>
+          </Col>
+        ))
         : null}
     </Row>
   );

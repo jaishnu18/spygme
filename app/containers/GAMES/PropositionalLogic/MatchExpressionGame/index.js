@@ -37,14 +37,22 @@ export function MatchExpressionGame(props) {
 
   const [startTime, setStartTime] = useState(0);
   const [value, setValue] = useState(arr);
+  const [evaluatedAnswer, setEvaluatedAnswer] = useState(undefined);
 
   useEffect(() => {
     props.getGameData(props.level);
     start(setStartTime);
   }, [props.level]);
 
+  useEffect(() => {
+    setEvaluatedAnswer(undefined);
+  }, [props.matchExpressionGame.gameData]);
+
+  useEffect(() => {
+    setEvaluatedAnswer(props.matchExpressionGame.evaluatedAnswer);
+  }, [props.matchExpressionGame.evaluatedAnswer]);
+
   const { gameData } = props.matchExpressionGame;
-  const { evaluatedAnswer } = props.matchExpressionGame;
   const { arr } = props.matchExpressionGame;
 
   const submit = () => {

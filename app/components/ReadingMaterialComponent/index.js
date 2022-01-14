@@ -14,7 +14,7 @@ import CustomButton from 'components/atoms/CustomButton';
 
 function ReadingMaterialComponent(props) {
   const contentArr = props.content.content.split("<new_line>");
-  console.log(contentArr);
+
   return (
     <div>
       <Row style={{ padding: '10px' }}>
@@ -27,7 +27,7 @@ function ReadingMaterialComponent(props) {
         </Col>
       </Row>
       <Row style={{ padding: '10px' }}>
-        <CustomButton>Mark as Read</CustomButton>
+        <CustomButton onClick={props.markAsRead}>Mark as Read</CustomButton>
       </Row>
     </div>
   );

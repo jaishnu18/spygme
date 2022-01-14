@@ -28,6 +28,7 @@ import WriteExpressionGame from 'containers/GAMES/PropositionalLogic/WriteExpres
 import TopicListPage from 'containers/TopicListPage';
 import ConceptListPage from 'containers/ConceptListPage';
 import ReadingMaterialPage from 'containers/ReadingMaterialPage';
+import ConceptMaterialPage from 'containers/ConceptMaterialPage';
 // import GradedNodeConsistencyGame from '../containers/GradedNodeConsistencyGame';
 //
 
@@ -118,6 +119,15 @@ function Routes(props) {
           <ReadingMaterialPage
             conceptId={match.params.conceptId}
             rmId={match.params.rmId} />
+        )}
+      />
+      <Route
+        exact
+        path="/concept/:topicID/:conceptId"
+        render={({ match }) => (
+          <ConceptMaterialPage
+            conceptId={match.params.conceptId}
+            topicID={match.params.topicID} />
         )}
       />
 
