@@ -22,15 +22,20 @@ import { compose } from 'redux';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import CoverPage1 from 'images/coverPage1.png';
-import Email from 'images/email.png';
-import Phone from 'images/phone.png';
-import Location from 'images/location.png';
+
 import Welcome from 'components/HomePage/Welcome';
 import makeSelectHomePage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+import QuerySection from '../../components/HomePage/QuerySection';
+import Typography from 'antd/lib/typography';
+import Divider from 'antd/lib/divider';
+import { sendMessageStart } from './actions';
+import FaqSection from '../../components/HomePage/FaqSection';
 
 const { Panel } = Collapse;
+const { Title } = Typography;
+const { Paragraph } = Typography;
 
 export function HomePage(props) {
   useInjectReducer({ key: 'homePage', reducer });
@@ -47,17 +52,15 @@ export function HomePage(props) {
       </Helmet>
 
       <Welcome />
-      <div
-        style={{
-          backgroundColor: '#6EA5C3',
-          height: '240px',
-          textAlign: 'center',
-        }}
+      <Row
+        style={{ padding: '10px', }}
       >
-        <h1 style={{ fontSize: 50 }}>
-          <b>What is it all about ?</b>
-        </h1>
-        <h2 style={{ color: 'white' }}>
+        <Col span={8} offset={8}>
+          <Title>
+            What is it all about ?
+          </Title>
+        </Col>
+        <Paragraph>
           In today's world, AI has got diverse applications and is used in
           fields like Healthcare, Self-driving Cars, Agriculture and so on. We
           want you to start learning AI from the very basic concepts so that you
@@ -66,126 +69,14 @@ export function HomePage(props) {
           take exams. We use AI to teach you AI. You will learn each and every
           concept while playing interesting games and reading short reading
           materials.
-        </h2>
-      </div>
-
-      <div
-        style={{
-          backgroundColor: '#414A50',
-          height: '120px',
-          textAlign: 'center',
-        }}
-      >
-        <h1 style={{ fontSize: 50, color: 'white' }}>
-          <b>Frequenty Asked questions (FAQs)</b>
-        </h1>
-      </div>
-      <Collapse accordion style={{ backgroundColor: '#C4C4C4' }}>
-        <Panel
-          header="I have no prior knowledge of Artificial Intelligence. Can I solve the problems ?"
-          key="1"
-        >
-          <p>
-            No prior knowledge of AI is required. You will get to learn each
-            concept by playing games accompanied by short reading materials
-          </p>
-        </Panel>
-        <Panel
-          header="Is there any backward free navigation so I can revisit my question that has been previously attempted ? "
-          key="2"
-        >
-          <p>
-            During practice sessions, you will enter into a level of the game
-            where you wll get a new instance almost every time, complete it and
-            go to next item. For graded sessions, you can navigate backward and
-            forward as many times as you want.
-          </p>
-        </Panel>
-        <Panel header="Does it help in my school exam as well ?" key="3">
-          <p>
-            It does not help you directly in your school curriculum. But
-            learning on our platform can improve your logical thinking skills,
-            make you smarter than others and this may indirectly influence your
-            performance in school exams
-          </p>
-        </Panel>
-      </Collapse>
-
-      <div style={{ backgroundColor: '#F8FAA7', textAlign: 'center' }}>
-        <h1 style={{ fontSize: 50 }}>
-          <b>Have some questions?</b>
-        </h1>
-        <h3>
-          <img src={Phone} style={{ height: '15px' }} /> Phone :1203222090
-        </h3>
-        <h3>
-          <img src={Email} style={{ height: '15px' }} /> Email :
-          aiforschool@gmail.com
-        </h3>
-        <h3>
-          <img src={Location} style={{ height: '15px' }} /> Address : Indian
-          institute of technology kharagpur,721302
-        </h3>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Form name="QueryForm" onFinish={querySubmit}>
-            <div>
-              <Form.Item
-                name="name"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your Response!',
-                  },
-                ]}
-                style={{ marginLeft: '20px', width: '400px' }}
-              >
-                <Input placeholder="your name" />
-              </Form.Item>
-              <Form.Item
-                name="email"
-                rules={[
-                  { type: 'email', message: 'Please enter valid email!' },
-                  {
-                    required: true,
-                    message: 'Please input your Response!',
-                  },
-                ]}
-                style={{ marginLeft: '20px', width: '400px' }}
-              >
-                <Input placeholder="your email" />
-              </Form.Item>
-              <Form.Item
-                name="phone"
-                rules={[
-                  {
-                    required: false,
-                  },
-                ]}
-                style={{ marginLeft: '20px', width: '400px' }}
-              >
-                <Input placeholder="your phone" />
-              </Form.Item>
-            </div>
-            <div>
-              <Form.Item
-                name="message"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your Response!',
-                  },
-                ]}
-                style={{ marginLeft: '20px', width: '400px' }}
-              >
-                <Input.TextArea placeholder="your message" rows={6} />
-              </Form.Item>
-            </div>
-            <Button type="primary" htmlType="submit">
-              Send Message
-            </Button>
-          </Form>
-        </div>
-      </div>
+        </Paragraph>
+      </Row>
+      <Divider />
+      <Row>
+        <FaqSection />
+        <Divider />
+        <QuerySection querySubmit={querySubmit} />
+      </Row>
     </div>
   );
 }
