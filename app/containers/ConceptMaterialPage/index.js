@@ -25,6 +25,8 @@ export function ConceptMaterialPage(props) {
   useInjectSaga({ key: 'conceptMaterialPage', saga });
 
   const { conceptId } = props;
+  const { topicId } = props;
+  console.log(topicId);
 
   useEffect(() => {
     props.getGames({ conceptId });
@@ -40,7 +42,7 @@ export function ConceptMaterialPage(props) {
         <title>ConceptMaterialPage</title>
         <meta name="description" content="Description of ConceptMaterialPage" />
       </Helmet>
-      <ConceptMaterialComponent readingMaterials={readingMaterials} games={games} parentConcept={conceptId} />
+      <ConceptMaterialComponent readingMaterials={readingMaterials} games={games} parentConcept={conceptId} parentTopic={topicId} />
     </div>
   );
 }

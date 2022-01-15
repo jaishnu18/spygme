@@ -23,10 +23,10 @@ const { Paragraph } = Typography;
 function ExpressionEvaluationGame(props) {
   const { gameData } = props;
   const { evaluatedAnswer } = props;
-  console.log(evaluatedAnswer);
+
   gameData.ptr = 0;
   gameData.ptr2 = 0;
-  console.log(evaluatedAnswer);
+
   return (
     <>
       <Row>

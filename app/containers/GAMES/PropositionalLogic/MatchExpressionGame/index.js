@@ -21,9 +21,12 @@ import GameDescription from 'components/GameDescription';
 import { start, end } from 'utils/timerFunctions';
 import moment from 'moment';
 import GameComponent from 'components/GAMES/PropositionalLogic/MatchExpressionGame';
+import PracticeGamesFeedback from '../../../../components/FEEDBACK/PracticeGamesFeedback';
 import makeSelectMatchExpressionGame from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+import notification from 'antd/lib/notification';
+
 import {
   getGamesDataStart,
   evaluateResponseStart,
@@ -37,7 +40,7 @@ export function MatchExpressionGame(props) {
 
   const [startTime, setStartTime] = useState(0);
   const [value, setValue] = useState(arr);
-  const [evaluatedAnswer, setEvaluatedAnswer] = useState(undefined);
+  const [alreadyFeedback, setAlreadyFeedback] = useState(false);
 
   useEffect(() => {
     props.getGameData(props.level);
@@ -45,15 +48,48 @@ export function MatchExpressionGame(props) {
   }, [props.level]);
 
   useEffect(() => {
-    setEvaluatedAnswer(undefined);
-  }, [props.matchExpressionGame.gameData]);
-
-  useEffect(() => {
-    setEvaluatedAnswer(props.matchExpressionGame.evaluatedAnswer);
-  }, [props.matchExpressionGame.evaluatedAnswer]);
+    if (evaluatedAnswer && !alreadyFeedback) {
+      setAlreadyFeedback(true);
+      const practiceGamesFeedback = <PracticeGamesFeedback submitFeedback={submitFeedback} />
+      const args = {
+        message: 'Feedback',
+        description:
+          practiceGamesFeedback,
+        duration: 0,
+      };
+      notification.open(args);
+      if (evaluatedAnswer.score !== 1) {
+        const practiceGamesFeedback = <PracticeGamesFeedback whatWentWrong submitWWW={submitWWW} />
+        const args = {
+          message: 'Why you made mistake?',
+          description:
+            practiceGamesFeedback,
+          duration: 0,
+          placement: 'topLeft',
+        };
+        notification.open(args);
+      }
+    }
+  }, [props.matchExpressionGame]);
 
   const { gameData } = props.matchExpressionGame;
   const { arr } = props.matchExpressionGame;
+  const { evaluatedAnswer } = props.matchExpressionGame;
+  const { conceptId } = props;
+  const { topicId } = props;
+
+  const submitWWW = values => {
+    console.log("DSF");
+    const response = {};
+    response.whatwentwrong = JSON.stringify(values);
+    props.saveFeedback(response);
+  };
+
+  const submitFeedback = values => {
+    const response = {};
+    response.feedback = JSON.stringify(values);
+    props.saveFeedback(response);
+  }
 
   const submit = () => {
     const secs = end(startTime);
@@ -85,6 +121,9 @@ export function MatchExpressionGame(props) {
             attempts={gameData.attempt}
             totalLevels={gameData.maxLevels}
             evaluatedAnswer={evaluatedAnswer}
+            maxLevel="4"
+            conceptId={conceptId}
+            topicId={topicId}
           />
 
           <Row style={{ width: '100%' }}>

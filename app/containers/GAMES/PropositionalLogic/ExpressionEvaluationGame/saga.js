@@ -65,7 +65,6 @@ export function* evaluateAnswer(action) {
 export function* saveFeedback(action) {
   try {
     const studentResponse = action.payload;
-
     const response = yield api.put(
       `/game/treegame/feedback-save`,
       studentResponse,
