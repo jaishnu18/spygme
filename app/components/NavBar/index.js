@@ -21,6 +21,7 @@ import {
   getHighlightedIndexLoggedIn,
   getHighlightedIndexLoggedOut,
 } from 'utils/navbarHighlighter';
+import { Link } from 'react-router-dom';
 
 const { Header } = Layout;
 
@@ -80,7 +81,9 @@ function NavBar(props) {
                 lg={{ span: 6 }}
                 xl={{ span: 7 }}
               >
-                <H4>AI For School</H4>
+                <Link to=''>
+                  <H4>AI For School</H4>
+                </Link>
               </Col>
 
               {AuthData.isLoggedIn ? (
@@ -102,9 +105,9 @@ function NavBar(props) {
                         fontSize: '15px',
                       }}
                     >
-                      <Menu.Item key="1" onClick={() => history.push('/')}>
+                      {/* <Menu.Item key="1" onClick={() => history.push('/')}>
                         Home
-                      </Menu.Item>
+                      </Menu.Item> */}
 
                       <Menu.Item
                         key="2"
@@ -125,7 +128,7 @@ function NavBar(props) {
                       >
                         Profile
                       </Menu.Item>
-                      <Menu.Item key="5">About</Menu.Item>
+                      <Menu.Item key="5">About Us</Menu.Item>
                       <Menu.Item key="6" onClick={showLogoutModal}>
                         Logout
                       </Menu.Item>
@@ -159,10 +162,10 @@ function NavBar(props) {
                         fontSize: '15px',
                       }}
                     >
-                      <Menu.Item key="1" onClick={() => history.push('/')}>
+                      {/* <Menu.Item key="1" onClick={() => history.push('/')}>
                         Home
-                      </Menu.Item>
-                      <Menu.Item key="2">About</Menu.Item>
+                      </Menu.Item> */}
+                      <Menu.Item key="2">About Us</Menu.Item>
                       <Menu.Item key="3" onClick={() => history.push('/auth')}>
                         Sign In
                       </Menu.Item>

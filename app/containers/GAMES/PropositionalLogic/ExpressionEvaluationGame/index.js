@@ -23,7 +23,10 @@ import GameDescription from 'components/GameDescription';
 import { start, end } from 'utils/timerFunctions';
 import moment from 'moment';
 import GameComponent from 'components/GAMES/PropositionalLogic/ExpressionEvaluationGame';
+import PracticeGamesFeedback from '../../../../components/FEEDBACK/PracticeGamesFeedback';
 import makeSelectExpressionEvaluationGame from './selectors';
+import notification from 'antd/lib/notification';
+
 import reducer from './reducer';
 import saga from './saga';
 import {
@@ -37,15 +40,57 @@ export function ExpressionEvaluationGame(props) {
   useInjectSaga({ key: 'expressionEvaluationGame', saga });
 
   const [startTime, setStartTime] = useState(0);
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(-1);
+  const [alreadyFeedback, setAlreadyFeedback] = useState(false);
 
   useEffect(() => {
     props.getGameData(props.level);
     start(setStartTime);
   }, [props.level]);
 
+  useEffect(() => {
+    if (evaluatedAnswer && !alreadyFeedback) {
+      setAlreadyFeedback(true);
+      const practiceGamesFeedback = <PracticeGamesFeedback submitFeedback={submitFeedback} />
+      const args = {
+        message: 'Feedback',
+        description:
+          practiceGamesFeedback,
+        duration: 0,
+      };
+      notification.open(args);
+      if (evaluatedAnswer.score !== 1) {
+        const practiceGamesFeedback = <PracticeGamesFeedback whatWentWrong submitWWW={submitWWW} />
+        const args = {
+          message: 'Why you made mistake?',
+          description:
+            practiceGamesFeedback,
+          duration: 0,
+          placement: 'topLeft',
+        };
+        notification.open(args);
+      }
+    }
+  }, [props.expressionEvaluationGame]);
+
   const { gameData } = props.expressionEvaluationGame;
   const { evaluatedAnswer } = props.expressionEvaluationGame;
+  const { conceptId } = props;
+  const { topicId } = props;
+
+  console.log(props);
+
+  const submitWWW = values => {
+    const response = {};
+    response.whatwentwrong = JSON.stringify(values);
+    props.saveFeedback(response);
+  };
+
+  const submitFeedback = values => {
+    const response = {};
+    response.feedback = JSON.stringify(values);
+    props.saveFeedback(response);
+  }
 
   const submit = () => {
     const secs = end(startTime);
@@ -75,8 +120,10 @@ export function ExpressionEvaluationGame(props) {
             name="Expression Evaluation"
             level={props.level}
             attempts={gameData.attempt}
-            totalLevels={gameData.maxLevels}
+            maxLevel="4"
             evaluatedAnswer={evaluatedAnswer}
+            conceptId={conceptId}
+            topicId={topicId}
           />
 
           <Row style={{ width: '100%' }}>

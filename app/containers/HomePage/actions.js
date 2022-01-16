@@ -3,7 +3,7 @@
  * HomePage actions
  *
  */
-
+import message from 'antd/lib/message';
 import {
   DEFAULT_ACTION,
   SEND_MSG_START,
@@ -24,6 +24,7 @@ export function sendMessageStart(payload) {
   };
 }
 export function sendMessageSuccess(payload) {
+  message.success("Query Submitted");
   return {
     type: SEND_MSG_SUCCESS,
     payload,

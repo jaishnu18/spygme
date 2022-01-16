@@ -46,6 +46,7 @@ export function ConceptListPage(props) {
         <ConceptListComponent
           concepts={concepts}
           topicName={topicData.name}
+          parentTopic={topicId}
           type="Concept"
         />
       )}

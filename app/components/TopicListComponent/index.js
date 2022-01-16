@@ -15,6 +15,8 @@ import { Link } from 'react-router-dom';
 import Typewriter from 'typewriter-effect';
 import Typography from 'antd/lib/typography';
 import RobotReading from 'images/robot-reading-ai.jpg';
+import Topic1Icon from 'images/topic_1_icon.png';
+import Topic2Icon from 'images/topic_2_icon.png';
 import Image from 'antd/lib/image';
 
 const { Title } = Typography;
@@ -64,16 +66,17 @@ function TopicListComponent(props) {
       >
         {topics
           ? topics.map((key, idx) => (
-              <Col xs={{ span: 23 }} xl={{ span: 6, offset: 1 }}>
-                <Link to={`topics/${idx + 1}`}>
-                  <DescriptionCard
-                    hoverable
-                    title={`Topic : ${idx + 1}`}
-                    description={key.name}
-                  />
-                </Link>
-              </Col>
-            ))
+            <Col xs={{ span: 23 }} xl={{ span: 6, offset: 1 }}>
+              <Link to={`topics/${idx + 1}`}>
+                <DescriptionCard
+                  hoverable
+                  title={`Topic : ${idx + 1}`}
+                  description={key.name}
+                  imageLocation={idx == 0 ? Topic1Icon : Topic2Icon}
+                />
+              </Link>
+            </Col>
+          ))
           : null}
       </StyledRow>
     </div>
