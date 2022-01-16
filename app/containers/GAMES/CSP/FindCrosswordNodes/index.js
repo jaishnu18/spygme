@@ -35,10 +35,11 @@ export function FindCrosswordNodes(props) {
 
   const [startTime, setStartTime] = useState(0);
   const [value, setValue] = useState(undefined);
-  const [evaluatedAnswer, setEvaluatedAnswer] = useState(0);
 
   const { level } = props;
   const { gameId } = props;
+  const { conceptId } = props;
+  const { topicId } = props;
 
   useEffect(() => {
     props.getGameData(level);
@@ -46,15 +47,16 @@ export function FindCrosswordNodes(props) {
   }, [level]);
 
   useEffect(() => {
-    setEvaluatedAnswer(undefined);
     setValue({
       nodes: [{ node: null, row: null, col: null }],
     });
   }, [props.state.gameData]);
 
+  const { gameData } = props.state;
+  const { evaluatedAnswer } = props.state;
+
   const submit = values => {
     const secs = end(startTime);
-    const { gameData } = props.state;
     const response = {};
 
     gameData.response = values.nodes;
@@ -79,19 +81,21 @@ export function FindCrosswordNodes(props) {
             name="Find Crossword Nodes"
             level={level}
             attempts={props.state.gameData.attempt}
-            totalLevels={props.state.gameData.maxLevels}
+            maxLevel="3"
             evaluatedAnswer={evaluatedAnswer}
+            conceptId={conceptId}
+            topicId={topicId}
           />
 
           <Row style={{ width: '100%' }}>
             <Col>
               <GameDescription
-                description={props.state.gameData.gameDescription}
+                description={gameData.gameDescription}
               />
             </Col>
           </Row>
           <GameComponent
-            gameData={props.state.gameData}
+            gameData={gameData}
             evaluatedAnswer={evaluatedAnswer}
             animate
             visualize

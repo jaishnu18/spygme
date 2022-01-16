@@ -11,9 +11,15 @@ import Form from 'antd/lib/form';
 import Button from 'antd/lib/button';
 import Space from 'antd/lib/space';
 import Row from 'antd/lib/row';
+import Col from 'antd/lib/col';
 import Select from 'antd/lib/select';
 import InputNumber from 'antd/lib/input-number';
 import MinusCircleOutlined from '@ant-design/icons/MinusCircleOutlined';
+import Title from 'antd/lib/typography/Title';
+import Descriptions from 'antd/lib/descriptions';
+import CloseCircleFilled from '@ant-design/icons/CloseCircleFilled';
+import CheckCircleFilled from '@ant-design/icons/CheckCircleFilled';
+import Paragraph from 'antd/lib/typography/Paragraph';
 
 const { Option } = Select;
 
@@ -23,7 +29,7 @@ function FormFindCrosswordNodes(props) {
     { label: 'Across Node', val: 65 },
     { label: 'Down Node', val: 68 },
   ];
-
+  const { evaluatedAnswer } = props;
   return (
     <div>
       <Form
@@ -45,7 +51,7 @@ function FormFindCrosswordNodes(props) {
         }}
         initialValues={props.value}
         autoComplete="off"
-        // onChange={value => console.log(value)}
+      // onChange={value => console.log(value)}
       >
         <Form.List shouldUpdate name="nodes">
           {(fields, { add, remove }) => (
@@ -118,20 +124,11 @@ function FormFindCrosswordNodes(props) {
               ))}
               <Row style={{ display: 'flex', justifyContent: 'flex-start' }}>
                 <Button
-                  style={{
-                    width: '20%',
-                    margin: '10px',
-                  }}
                   onClick={() => add()}
-                  block
                 >
                   Add Nodes
                 </Button>
                 <Button
-                  style={{
-                    width: '20%',
-                    margin: '10px',
-                  }}
                   type="primary"
                   htmlType="submit"
                 >
@@ -142,6 +139,52 @@ function FormFindCrosswordNodes(props) {
           )}
         </Form.List>
       </Form>
+      {evaluatedAnswer &&
+        <Row style={{ paddingTop: '10px' }}>
+          <Col span={24} style={{ display: 'flex' }}>
+            {
+              evaluatedAnswer.score === 1 ?
+                <CheckCircleFilled style={{ fontSize: '20px', color: 'green' }} />
+                :
+                <CloseCircleFilled style={{ fontSize: '20px', color: 'red' }} />
+
+            }
+            <Paragraph style={{ paddingLeft: '10px' }}>{evaluatedAnswer.score === 1 ? "All are correct" : "All are not correct"}</Paragraph>
+          </Col>
+          <Col span={24}>
+            <Title level={3}>{"Score : " + Math.round(evaluatedAnswer.score * 100) + "%"}</Title>
+            <Col xl={{ span: 23 }} xs={{ span: 24 }}>
+              <Descriptions layout="vertical" bordered>
+                <Descriptions.Item label="Correct Nodes">
+                  {
+                    evaluatedAnswer.correct_nodes_list.map((key, idx) => (
+                      <Col span={24}>
+                        {key[0] + "-" + key[1] + "-" + (key[1] === 65 ? 'A' : 'D')}
+                      </Col>
+                    ))
+                  }
+                </Descriptions.Item>
+                <Descriptions.Item label="Wrong Nodes">
+                  {
+                    evaluatedAnswer.wrong_nodes_list.map((key, idx) => (
+                      <Col span={24}>
+                        {key[0] + "-" + key[1] + "-" + (key[1] === 65 ? 'A' : 'D')}
+                      </Col>))
+                  }
+                </Descriptions.Item>
+                <Descriptions.Item label="Mised Nodes">
+                  {
+                    evaluatedAnswer.missed_nodes_list.map((key, idx) => (
+                      <Col span={24}>
+                        {key[0] + "-" + key[1] + "-" + (key[1] === 65 ? 'A' : 'D')}
+                      </Col>))
+                  }
+                </Descriptions.Item>
+              </Descriptions>
+            </Col>
+          </Col>
+        </Row>
+      }
     </div>
   );
 }
