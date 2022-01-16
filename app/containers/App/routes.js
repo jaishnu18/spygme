@@ -104,7 +104,7 @@ function Routes(props) {
 
       <Route
         exact
-        path="/find-crossword-nodes/:topicId/:conceptId/:gameId/:level"
+        path="/find-nodes/:topicId/:conceptId/:gameId/:level"
         render={({ match }) => (
           <FindCrosswordNodes
             level={match.params.level}
@@ -117,7 +117,7 @@ function Routes(props) {
 
       <Route
         exact
-        path="/graded-quiz/find-crossword-nodes/:gameId"
+        path="/graded-quiz/find-nodes/:topicId/:conceptId/:gameId"
         render={({ match }) => (
           <GradedFindCrosswordNodes gameId={match.params.gameId} />
         )}

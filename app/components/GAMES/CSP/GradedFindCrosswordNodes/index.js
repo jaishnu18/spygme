@@ -23,6 +23,8 @@ function GradedFindCrosswordNodes(props) {
         <ExamNavigator
           levels={props.maxLevel}
           setCurrentLevel={props.setCurrentLevel}
+          submit={props.submit}
+          value={props.value}
         />
       </Col>
 

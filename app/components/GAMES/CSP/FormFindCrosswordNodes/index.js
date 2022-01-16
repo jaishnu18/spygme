@@ -11,7 +11,7 @@ import Form from 'antd/lib/form';
 import Button from 'antd/lib/button';
 import Space from 'antd/lib/space';
 import Row from 'antd/lib/row';
-import Col from 'antd/lib/col';
+// import Col from 'antd/lib/col';
 import Select from 'antd/lib/select';
 import InputNumber from 'antd/lib/input-number';
 import MinusCircleOutlined from '@ant-design/icons/MinusCircleOutlined';
@@ -116,30 +116,11 @@ function FormFindCrosswordNodes(props) {
                   )}
                 </Space>
               ))}
-              <Row>
-                <Col span={16}>
-                  <Button
-                    style={{
-                      width: '50%',
-                      margin: '10px',
-                    }}
-                    onClick={() => add()}
-                    block
-                  >
-                    Add Nodes
-                  </Button>
-                </Col>
-                <Col span={8}>
-                  <Button
-                    style={{
-                      margin: '10px',
-                    }}
-                    type="primary"
-                    htmlType="submit"
-                  >
-                    Save
-                  </Button>
-                </Col>
+              <Row style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                <Button onClick={() => add()}>Add Nodes</Button>
+                <Button type="primary" htmlType="submit">
+                  Check Answer
+                </Button>
               </Row>
             </>
           )}

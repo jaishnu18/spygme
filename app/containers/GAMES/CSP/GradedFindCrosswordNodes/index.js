@@ -24,7 +24,6 @@ import {
 } from './actions';
 import NavigationBar from 'components/NavigationBar';
 
-
 export function GradedFindCrosswordNodes(props) {
   useInjectReducer({ key: 'gradedFindCrosswordNodes', reducer });
   useInjectSaga({ key: 'gradedFindCrosswordNodes', saga });
@@ -46,7 +45,19 @@ export function GradedFindCrosswordNodes(props) {
     }
   }, [props.state.gameData]);
 
-  const submit = values => {};
+  const submit = () => {
+    const { gameData } = props.state;
+    const response = {};
+
+    for (let i = 0; i < gameData.length; i += 1) {
+      gameData[i].response = value[i];
+    }
+
+    response.studentResponse = gameData;
+    props.checkStudentResponse(response);
+  };
+
+  console.log(props.state.evaluatedAnswer);
 
   return (
     <div>
@@ -64,6 +75,7 @@ export function GradedFindCrosswordNodes(props) {
             currentLevel={currentLevel}
             setCurrentLevel={setCurrentLevel}
             maxLevel="3"
+            submit={submit}
           />
           <GameComponent
             gameData={props.state.gameData}

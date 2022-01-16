@@ -68,27 +68,49 @@ function NavigationBar(props) {
       ) : null}
 
       {props.gradedGame && (
-        <Col span={24} style={{ display: 'flex', width: '100%' }}>
-          <CustomButton
-            onClick={() =>
-              props.setCurrentLevel(
-                Math.max(0, parseInt(props.currentLevel) - 1),
-              )
-            }
+        <Row style={{ width: '100%' }}>
+          <Col xl={{ span: 12 }}>
+            <CustomButton
+              onClick={() =>
+                props.setCurrentLevel(
+                  Math.max(0, parseInt(props.currentLevel) - 1),
+                )
+              }
+            >
+              Previous
+            </CustomButton>
+            <CustomButton
+              marginLeft="20px"
+              onClick={() =>
+                props.setCurrentLevel(
+                  Math.min(
+                    props.maxLevel - 1,
+                    parseInt(props.currentLevel) + 1,
+                  ),
+                )
+              }
+            >
+              Next
+            </CustomButton>
+          </Col>
+          <Col
+            xs={{ span: 24 }}
+            xl={{ span: 12 }}
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              width: '100%',
+            }}
           >
-            Previous
-          </CustomButton>
-          <CustomButton
-            marginLeft="auto"
-            onClick={() =>
-              props.setCurrentLevel(
-                Math.min(props.maxLevel - 1, parseInt(props.currentLevel) + 1),
-              )
-            }
-          >
-            Next
-          </CustomButton>
-        </Col>
+            <CustomButton
+              onClick={() => {
+                props.submit();
+              }}
+            >
+              Submit
+            </CustomButton>
+          </Col>
+        </Row>
       )}
     </Row>
   );
