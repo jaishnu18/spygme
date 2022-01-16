@@ -105,7 +105,7 @@ function ConceptMaterialComponent(props) {
         {games
           ? (games.length > 0 ? games.map((key, idx) => (
             <Col xs={{ span: 24 }} xl={{ span: 8 }}>
-              <Link to={`/graded/${key.link}${key.id}/1`}>
+              <Link to={`/graded-quiz${key.link}${parentTopic}/${parentConcept}/${key.id}`}>
                 <DescriptionCard
                   title={`Graded Game : ${idx + 1}`}
                   description={key.name}
