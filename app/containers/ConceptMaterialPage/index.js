@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -16,10 +16,25 @@ import { useInjectReducer } from 'utils/injectReducer';
 import makeSelectConceptMaterialPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+import ConceptMaterialComponent from 'components/ConceptMaterialComponent';
 
-export function ConceptMaterialPage() {
+import { getGamesStart, getReadingMaterialStart } from './actions';
+
+export function ConceptMaterialPage(props) {
   useInjectReducer({ key: 'conceptMaterialPage', reducer });
   useInjectSaga({ key: 'conceptMaterialPage', saga });
+
+  const { conceptId } = props;
+  const { topicId } = props;
+  console.log(topicId);
+
+  useEffect(() => {
+    props.getGames({ conceptId });
+    props.getReadingMaterials({ conceptId });
+  }, []);
+
+  const { games } = props.conceptMaterialPage;
+  const { readingMaterials } = props.conceptMaterialPage;
 
   return (
     <div>
@@ -27,12 +42,15 @@ export function ConceptMaterialPage() {
         <title>ConceptMaterialPage</title>
         <meta name="description" content="Description of ConceptMaterialPage" />
       </Helmet>
+      <ConceptMaterialComponent readingMaterials={readingMaterials} games={games} parentConcept={conceptId} parentTopic={topicId} />
     </div>
   );
 }
 
 ConceptMaterialPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  conceptDescriptionPage: PropTypes.object,
+  getGames: PropTypes.func,
+  getReadingMaterials: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -41,7 +59,8 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    getGames: payload => dispatch(getGamesStart(payload)),
+    getReadingMaterials: payload => dispatch(getReadingMaterialStart(payload)),
   };
 }
 

@@ -3,7 +3,7 @@
  * ExpressionEvaluationGame actions
  *
  */
-
+import message from 'antd/lib/message';
 import {
   DEFAULT_ACTION,
   GET_EXPRESSION_FAILURE,
@@ -71,6 +71,7 @@ export function putFeedbackStart(payload) {
   };
 }
 export function putFeedbackSuccess(payload) {
+  message.success("Feedback Recorded");
   return {
     type: PUT_FEEDBACK_SUCCESS,
     payload,

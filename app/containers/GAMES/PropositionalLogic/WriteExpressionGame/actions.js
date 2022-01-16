@@ -3,7 +3,7 @@
  * WriteExpressionGame actions
  *
  */
-
+import message from 'antd/lib/message';
 import {
   GET_GRAPH_FAILURE,
   GET_GRAPH_START,
@@ -65,6 +65,7 @@ export function putFeedbackStart(payload) {
   };
 }
 export function putFeedbackSuccess(payload) {
+  message.success("Feedback Recorded");
   return {
     type: PUT_FEEDBACK_SUCCESS,
     payload,

@@ -6,7 +6,7 @@ import NotFoundPage from 'containers/NotFoundPage';
 import DashboardPage from 'containers/DashboardPage';
 // // import OnBoardingPage from 'containers/OnBoardingPage';
 // import ConceptDescriptionPage from 'containers/ConceptDescriptionPage';
-// import MyProfilePage from 'containers/MyProfilePage';
+import MyProfilePage from 'containers/MyProfilePage';
 
 // import TopicsPage from 'containers/TopicsPage';
 // import ConceptsContainer from 'containers/ConceptsContainer';
@@ -28,6 +28,8 @@ import MatchExpressionGame from 'containers/GAMES/PropositionalLogic/MatchExpres
 import WriteExpressionGame from 'containers/GAMES/PropositionalLogic/WriteExpressionGame';
 import TopicListPage from 'containers/TopicListPage';
 import ConceptListPage from 'containers/ConceptListPage';
+import ReadingMaterialPage from 'containers/ReadingMaterialPage';
+import ConceptMaterialPage from 'containers/ConceptMaterialPage';
 // import GradedNodeConsistencyGame from '../containers/GradedNodeConsistencyGame';
 //
 
@@ -65,42 +67,50 @@ function Routes(props) {
       <Route exact path="/topics" component={TopicListPage} />
       <Route
         exact
-        path="/evaluate-expression/:gameId/:level"
+        path="/evaluate-expression/:topicId/:conceptId/:gameId/:level"
         render={({ match }) => (
           <ExpressionEvaluationGame
             level={match.params.level}
             gameId={match.params.gameId}
+            topicId={match.params.topicId}
+            conceptId={match.params.conceptId}
           />
         )}
       />
       <Route
         exact
-        path="/match-expression/:gameId/:level"
+        path="/match-expression/:topicId/:conceptId/:gameId/:level"
         render={({ match }) => (
           <MatchExpressionGame
             level={match.params.level}
             gameId={match.params.gameId}
+            topicId={match.params.topicId}
+            conceptId={match.params.conceptId}
           />
         )}
       />
       <Route
         exact
-        path="/write-expression/:gameId/:level"
+        path="/write-expression/:topicId/:conceptId/:gameId/:level"
         render={({ match }) => (
           <WriteExpressionGame
             level={match.params.level}
             gameId={match.params.gameId}
+            topicId={match.params.topicId}
+            conceptId={match.params.conceptId}
           />
         )}
       />
 
       <Route
         exact
-        path="/find-crossword-nodes/:gameId/:level"
+        path="/find-crossword-nodes/:topicId/:conceptId/:gameId/:level"
         render={({ match }) => (
           <FindCrosswordNodes
             level={match.params.level}
             gameId={match.params.gameId}
+            topicId={match.params.topicId}
+            conceptId={match.params.conceptId}
           />
         )}
       />
@@ -118,6 +128,25 @@ function Routes(props) {
         path="/topics/:topicId"
         render={({ match }) => (
           <ConceptListPage topicId={match.params.topicId} />
+        )}
+      />
+      <Route
+        exact
+        path="/reading-material/:topicId/:conceptId/:rmId"
+        render={({ match }) => (
+          <ReadingMaterialPage
+            topicId={match.params.topicId}
+            conceptId={match.params.conceptId}
+            rmId={match.params.rmId} />
+        )}
+      />
+      <Route
+        exact
+        path="/concept/:topicId/:conceptId"
+        render={({ match }) => (
+          <ConceptMaterialPage
+            conceptId={match.params.conceptId}
+            topicId={match.params.topicId} />
         )}
       />
 
@@ -186,8 +215,8 @@ function Routes(props) {
       />
       <Route exact path="/reading/:rmId" component={ReadingMaterialPage} />
 
-      <Route exact path="/my/profile" component={MyProfilePage} /> */}
-
+      */}
+      <Route exact path="/my/profile" component={MyProfilePage} />
       <Route exact path="/*" render={() => <NotFoundPage />} />
     </Switch>
   );

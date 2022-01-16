@@ -4,7 +4,6 @@
  *
  */
 import produce from 'immer';
-
 import {
   GET_EXPRESSION_FAILURE,
   GET_EXPRESSION_SUCCESS,

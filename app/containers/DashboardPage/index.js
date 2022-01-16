@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -21,10 +21,19 @@ import saga from './saga';
 
 // antd imports
 import Section from '../../components/Section';
+import DashboardComponent from '../../components/DashboardComponent';
+import { getDashboardStart } from './actions';
 
-export function DashboardPage() {
+export function DashboardPage(props) {
   useInjectReducer({ key: 'dashboardPage', reducer });
   useInjectSaga({ key: 'dashboardPage', saga });
+
+  useEffect(() => {
+    props.getDashboard();
+  }, []);
+
+  const { dashboard } = props.dashboardPage;
+  console.log(dashboard);
 
   return (
     <div>
@@ -32,18 +41,17 @@ export function DashboardPage() {
         <title>DashboardPage</title>
         <meta name="description" content="Description of DashboardPage" />
       </Helmet>
-      <Section width="100vh" height="100vh">
-        <Row style={{ display: 'flex' }}>
-          <Col span={18}>hII</Col>
-          <Col span={6}>HHI</Col>
-        </Row>
-      </Section>
+      {dashboard && (
+        <DashboardComponent dashboard={dashboard} />
+      )
+      }
     </div>
   );
 }
 
 DashboardPage.propTypes = {
-  // dispatch: PropTypes.func.isRequired,
+  dashboardPage: PropTypes.object.isRequired,
+  getDashboard: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -52,7 +60,7 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    getDashboard: () => dispatch(getDashboardStart()),
   };
 }
 
