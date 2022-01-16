@@ -22,13 +22,15 @@ import {
   evaluateResponseStart,
   putFeedbackStart,
 } from './actions';
+import NavigationBar from 'components/NavigationBar';
+
 
 export function GradedFindCrosswordNodes(props) {
   useInjectReducer({ key: 'gradedFindCrosswordNodes', reducer });
   useInjectSaga({ key: 'gradedFindCrosswordNodes', saga });
 
   const [currentLevel, setCurrentLevel] = useState(0);
-  const [value, setValue] = useState();
+  const [value, setValue] = useState(undefined);
 
   useEffect(() => {
     props.getGameData();
@@ -36,7 +38,11 @@ export function GradedFindCrosswordNodes(props) {
 
   useEffect(() => {
     if (props.state.gameData) {
-      setValue(new Array(props.state.gameData.length));
+      setValue(
+        new Array(props.state.gameData.length).fill({
+          nodes: [{ node: null, row: null, col: null }],
+        }),
+      );
     }
   }, [props.state.gameData]);
 
@@ -51,17 +57,27 @@ export function GradedFindCrosswordNodes(props) {
           content="Description of GradedFindCrosswordNodes"
         />
       </Helmet>
-      {props.state.gameData && (
-        <GameComponent
-          gameData={props.state.gameData}
-          evaluatedAnswer={props.state.evaluatedAnswer}
-          animate
-          visualize
-          currentLevel={currentLevel}
-          submit={submit}
-          setValue={setValue}
-          value={value}
-        />
+      {props.state.gameData && value && (
+        <>
+          <NavigationBar
+            gradedGame
+            currentLevel={currentLevel}
+            setCurrentLevel={setCurrentLevel}
+            maxLevel="3"
+          />
+          <GameComponent
+            gameData={props.state.gameData}
+            evaluatedAnswer={props.state.evaluatedAnswer}
+            animate
+            visualize
+            currentLevel={currentLevel}
+            setCurrentLevel={setCurrentLevel}
+            submit={submit}
+            setValue={setValue}
+            value={value}
+            maxLevel="3"
+          />
+        </>
       )}
     </div>
   );

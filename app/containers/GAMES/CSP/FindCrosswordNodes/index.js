@@ -46,7 +46,6 @@ export function FindCrosswordNodes(props) {
   }, [level]);
 
   useEffect(() => {
-    setEvaluatedAnswer(undefined);
     setValue({
       nodes: [{ node: null, row: null, col: null }],
     });

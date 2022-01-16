@@ -11,7 +11,7 @@ import Button from 'antd/lib/button';
 
 const StyledButton = styled(Button)`
   margin: ${props => props.margin || '0px'};
-  margin-left: ${props => props.marginLeft || '5px'};
+  margin-left: ${props => props.marginLeft || '5px'} !important;
   margin-right: ${props => props.marginRight || '5px'};
 `;
 
@@ -27,6 +27,8 @@ function CustomButton(props) {
       icon={props.icon}
       danger={props.danger}
       disabled={props.disabled}
+      marginLeft={props.marginLeft}
+      marginRight={props.marginRight}
     >
       {props.children}
     </StyledButton>

@@ -11,6 +11,7 @@ import Form from 'antd/lib/form';
 import Button from 'antd/lib/button';
 import Space from 'antd/lib/space';
 import Row from 'antd/lib/row';
+import Col from 'antd/lib/col';
 import Select from 'antd/lib/select';
 import InputNumber from 'antd/lib/input-number';
 import MinusCircleOutlined from '@ant-design/icons/MinusCircleOutlined';
@@ -30,24 +31,23 @@ function FormFindCrosswordNodes(props) {
         form={form}
         name={`Form-${props.ID || ''}`}
         onFinish={value => {
-          console.log(props.value);
           if (Array.isArray(props.value)) {
-            console.log('here');
             const org = props.value;
             org[props.currentLevel] = value;
             props.setValue(org);
-
-            console.log(props.value);
           } else {
             props.setValue(value);
             props.submit(value);
           }
         }}
-        initialValues={props.value}
+        initialValues={props.value[props.currentLevel]}
         autoComplete="off"
-        // onChange={value => console.log(value)}
       >
-        <Form.List shouldUpdate name="nodes">
+        <Form.List
+          shouldUpdate
+          name="nodes"
+          style={{ display: 'flex', flexDirection: 'column' }}
+        >
           {(fields, { add, remove }) => (
             <>
               {fields.map((field, index) => (
@@ -116,27 +116,30 @@ function FormFindCrosswordNodes(props) {
                   )}
                 </Space>
               ))}
-              <Row style={{ display: 'flex', justifyContent: 'flex-start' }}>
-                <Button
-                  style={{
-                    width: '20%',
-                    margin: '10px',
-                  }}
-                  onClick={() => add()}
-                  block
-                >
-                  Add Nodes
-                </Button>
-                <Button
-                  style={{
-                    width: '20%',
-                    margin: '10px',
-                  }}
-                  type="primary"
-                  htmlType="submit"
-                >
-                  Check Answer
-                </Button>
+              <Row>
+                <Col span={16}>
+                  <Button
+                    style={{
+                      width: '50%',
+                      margin: '10px',
+                    }}
+                    onClick={() => add()}
+                    block
+                  >
+                    Add Nodes
+                  </Button>
+                </Col>
+                <Col span={8}>
+                  <Button
+                    style={{
+                      margin: '10px',
+                    }}
+                    type="primary"
+                    htmlType="submit"
+                  >
+                    Save
+                  </Button>
+                </Col>
               </Row>
             </>
           )}

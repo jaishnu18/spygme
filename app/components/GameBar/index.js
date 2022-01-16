@@ -22,6 +22,7 @@ function getNextLevelLink(level) {
   nxt = `${nxt}/${level + 1}`;
   return nxt;
 }
+
 function getPrevLevelLink(level) {
   const cur = window.location.href;
   const lastInd = cur.lastIndexOf('/');
@@ -34,6 +35,7 @@ function GameBar(props) {
   const { topicId } = props;
   const nextLevelLink = getNextLevelLink(parseInt(props.level));
   const prevLevelLink = getPrevLevelLink(parseInt(props.level));
+
   return (
     <div>
       <NavigationBar

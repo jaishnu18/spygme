@@ -18,18 +18,16 @@ import Image from 'antd/lib/image';
 const { Title } = Typography;
 
 function DescriptionCard(props) {
-  console.log(props.imageLocation);
   return (
     <CustomCard title={props.title} hoverable={props.hoverable}>
       <Row style={{ display: 'flex', flexDirection: 'column' }}>
-        {
-          props.isReadingMaterial ? (
-            props.description.map((key, idx) => (
-              <Paragraph>{key}</Paragraph>
-            ))) : (
-            <Title level={3} ellipsis>{props.description}</Title>
-          )
-        }
+        {props.isReadingMaterial ? (
+          props.description.map((key, idx) => <Paragraph>{key}</Paragraph>)
+        ) : (
+          <Title level={3} ellipsis>
+            {props.description}
+          </Title>
+        )}
       </Row>
       {props.imageLocation && (
         <Row style={{ justifyContent: 'center' }}>
@@ -41,7 +39,11 @@ function DescriptionCard(props) {
       {props.progress !== undefined && (
         <div>
           <Row>
-            <Paragraph>{props.customProgressText ? props.customProgressText : "Your progress"}</Paragraph>
+            <Paragraph>
+              {props.customProgressText
+                ? props.customProgressText
+                : 'Your progress'}
+            </Paragraph>
           </Row>
           <Row>
             <Progress type="circle" percent={props.progress} />
