@@ -22,7 +22,8 @@ import DashboardPage from 'containers/DashboardPage';
 import HomePage from 'containers/HomePage';
 import Auth from 'containers/Auth';
 import ExpressionEvaluationGame from 'containers/GAMES/PropositionalLogic/ExpressionEvaluationGame';
-import FindCrosswordNodes from '../GAMES/CSP/FindCrosswordNodes';
+import FindCrosswordNodes from 'containers/GAMES/CSP/FindCrosswordNodes';
+import GradedFindCrosswordNodes from 'containers/GAMES/CSP/GradedFindCrosswordNodes';
 import MatchExpressionGame from 'containers/GAMES/PropositionalLogic/MatchExpressionGame';
 import WriteExpressionGame from 'containers/GAMES/PropositionalLogic/WriteExpressionGame';
 import TopicListPage from 'containers/TopicListPage';
@@ -103,6 +104,15 @@ function Routes(props) {
           />
         )}
       />
+
+      <Route
+        exact
+        path="/graded-quiz/find-crossword-nodes/:gameId"
+        render={({ match }) => (
+          <GradedFindCrosswordNodes gameId={match.params.gameId} />
+        )}
+      />
+
       <Route
         exact
         path="/topics/:topicId"

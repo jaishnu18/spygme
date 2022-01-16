@@ -15,9 +15,8 @@ export const VALIDATE_EXPRESSION_SUCCESS =
 export const VALIDATE_EXPRESSION_FAILURE =
   'app/WriteExpressionGame/VALIDATE_EXPRESSIOn_FAILURE';
 
-
-  export const PUT_FEEDBACK_START = 'app/TreeGamePage/PUT_FEEDBACK_START';
+export const PUT_FEEDBACK_START = 'app/WriteExpressionGame/PUT_FEEDBACK_START';
 export const PUT_FEEDBACK_SUCCESS =
-  'app/TreeGamePage/PUT_FEEDBACK_SUCCESS';
+  'app/WriteExpressionGame/PUT_FEEDBACK_SUCCESS';
 export const PUT_FEEDBACK_FAILURE =
-  'app/TreeGamePage/PUT_FEEDBACK_FAILURE';
+  'app/WriteExpressionGame/PUT_FEEDBACK_FAILURE';

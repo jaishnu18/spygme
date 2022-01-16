@@ -12,7 +12,11 @@ import {
   putFeedbackFailure,
   putFeedbackSuccess,
 } from './actions';
-import { GET_GAME_DATA_START, EVALUATE_RESPONSE_START, PUT_FEEDBACK_START, } from './constants'; // Individual exports for testing
+import {
+  GET_GAME_DATA_START,
+  EVALUATE_RESPONSE_START,
+  PUT_FEEDBACK_START,
+} from './constants'; // Individual exports for testing
 
 export function* getCrossword(action) {
   try {

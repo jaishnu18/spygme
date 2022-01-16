@@ -3,9 +3,10 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const OfflinePlugin = require('offline-plugin');
-const { HashedModuleIdsPlugin } = require('webpack');
+const { HashedModuleIdsPlugin, IgnorePlugin } = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = require('./webpack.base.babel')({
   mode: 'production',
@@ -116,9 +117,9 @@ module.exports = require('./webpack.base.babel')({
     }),
 
     new WebpackPwaManifest({
-      name: 'React Boilerplate',
-      short_name: 'React BP',
-      description: 'My React Boilerplate-based project!',
+      name: 'Wriper Assignment Help',
+      short_name: 'Wriper',
+      description: 'Wriper',
       background_color: '#fafafa',
       theme_color: '#b1624d',
       inject: true,
@@ -141,6 +142,10 @@ module.exports = require('./webpack.base.babel')({
       hashDigest: 'hex',
       hashDigestLength: 20,
     }),
+
+    new IgnorePlugin(/^\.\/locale$/, /moment$/),
+
+    new BundleAnalyzerPlugin(),
   ],
 
   performance: {

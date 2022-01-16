@@ -24,7 +24,7 @@ function GameBar(props) {
         padding: '20px',
       }}
     >
-      <Col xl={{ span: 8, offset: 2 }} xs={{ span: 24 }}>
+      <Col xl={{ span: 9, offset: 1 }} xs={{ span: 24 }}>
         <H1 fontSize={40}>{props.name}</H1>
       </Col>
 

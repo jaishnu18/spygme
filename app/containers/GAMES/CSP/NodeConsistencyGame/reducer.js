@@ -22,7 +22,6 @@ export const initialState = {
   isResponseLoading: false,
   evaluatedAnswer: undefined,
   isFeedbackSaving: false,
-
 };
 
 /* eslint-disable default-case, no-param-reassign */

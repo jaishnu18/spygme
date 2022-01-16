@@ -10,12 +10,20 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+import GameBar from 'components/GameBar';
+import GameDescription from 'components/GameDescription';
+import GameComponent from 'components/GAMES/CSP/NodeConsistency';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import makeSelectNodeConsistencyGame from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+import {
+  getGamesDataStart,
+  evaluateResponseStart,
+  putFeedbackStart,
+} from './actions';
 
 export function NodeConsistencyGame() {
   useInjectReducer({ key: 'nodeConsistencyGame', reducer });

@@ -109,7 +109,8 @@
     "sanitize.css": "8.0.0",
     "styled-components": "4.2.0",
     "tippy.js": "^6.3.2",
-    "typewriter-effect": "^2.18.0"
+    "typewriter-effect": "^2.18.0",
+    "webpack-bundle-analyzer": "^4.5.0"
   },
   "devDependencies": {
     "@babel/cli": "7.4.3",
