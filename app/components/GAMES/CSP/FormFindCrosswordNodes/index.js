@@ -20,7 +20,6 @@ import Crossword from 'components/Crossword';
 const { Option } = Select;
 
 function FormFindCrosswordNodes(props) {
-  console.log(props);
   const [form] = Form.useForm();
   const Nodes = [
     { label: 'Across Node', val: 65 },

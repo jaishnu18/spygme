@@ -22,11 +22,13 @@ import makeSelectNodeConsistencyGame from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import { start, end } from 'utils/timerFunctions';
+import notification from 'antd/lib/notification';
 import {
   getGamesDataStart,
   evaluateResponseStart,
   putFeedbackStart,
 } from './actions';
+import PracticeGamesFeedback from '../../../../components/FEEDBACK/PracticeGamesFeedback';
 
 export function NodeConsistencyGame(props) {
   useInjectReducer({ key: 'nodeConsistencyGame', reducer });
@@ -34,11 +36,37 @@ export function NodeConsistencyGame(props) {
 
   const [startTime, setStartTime] = useState(0);
   const [value, setValue] = useState(undefined);
+  const [alreadyFeedback, setAlreadyFeedback] = useState(false);
 
   const { level } = props;
   const { gameId } = props;
   const { conceptId } = props;
   const { topicId } = props;
+
+  useEffect(() => {
+    if (evaluatedAnswer && !alreadyFeedback) {
+      setAlreadyFeedback(true);
+      const practiceGamesFeedback = <PracticeGamesFeedback submitFeedback={submitFeedback} />
+      const args = {
+        message: 'Feedback',
+        description:
+          practiceGamesFeedback,
+        duration: 0,
+      };
+      notification.open(args);
+      if (evaluatedAnswer.score !== 1) {
+        const practiceGamesFeedback = <PracticeGamesFeedback whatWentWrong submitWWW={submitWWW} />
+        const args = {
+          message: 'Why you made mistake?',
+          description:
+            practiceGamesFeedback,
+          duration: 0,
+          placement: 'topLeft',
+        };
+        notification.open(args);
+      }
+    }
+  }, [props.state]);
 
   useEffect(() => {
     props.getGameData(level);
@@ -57,7 +85,18 @@ export function NodeConsistencyGame(props) {
 
   const { gameData } = props.state;
   const { evaluatedAnswer } = props.state;
-  console.log(evaluatedAnswer);
+
+  const submitWWW = values => {
+    const response = {};
+    response.whatwentwrong = JSON.stringify(values);
+    props.saveFeedback(response);
+  };
+
+  const submitFeedback = values => {
+    const response = {};
+    response.feedback = JSON.stringify(values);
+    props.saveFeedback(response);
+  }
 
   const submit = values => {
     const secs = end(startTime);

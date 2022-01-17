@@ -21,7 +21,6 @@ function ConceptMaterialComponent(props) {
   const { readingMaterials } = props;
   const { parentConcept } = props;
   const { parentTopic } = props;
-  console.log(props);
   return (
     <div>
       {parentTopic && (

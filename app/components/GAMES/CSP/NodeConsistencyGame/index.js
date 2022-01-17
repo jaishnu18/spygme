@@ -22,7 +22,6 @@ import Form from 'antd/lib/form/Form';
 function NodeConsistencyGame(props) {
   const { gameData } = props;
   const { evaluatedAnswer } = props;
-  console.log(props);
 
   return (
     <Row>

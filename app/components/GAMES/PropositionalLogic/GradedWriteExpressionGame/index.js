@@ -26,7 +26,6 @@ function GradedWriteExpressionGame(props) {
   const { gameData } = props;
   const { evaluatedAnswer } = props;
   const { currentLevel } = props;
-  console.log(evaluatedAnswer);
 
   return (
     <Row style={{ padding: '40px' }}>
@@ -51,7 +50,6 @@ function GradedWriteExpressionGame(props) {
               else
                 newArr[currentLevel] = e.target.value;
               props.setValue(newArr);
-              console.log(props.value);
             }} />
           </Form.Item>
           {

@@ -35,7 +35,6 @@ export function ConceptListPage(props) {
 
   const { concepts } = props.conceptListPage;
   const { topicData } = props.conceptListPage;
-  console.log(props.conceptListPage);
 
   return (
     <div>

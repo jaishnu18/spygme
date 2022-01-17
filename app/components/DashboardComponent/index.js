@@ -23,7 +23,6 @@ const { Title } = Typography;
 
 function DashboardComponent(props) {
   const { dashboard } = props;
-  console.log(dashboard);
   const columns = [
     {
       title: 'Name',

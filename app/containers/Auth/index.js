@@ -32,16 +32,12 @@ export function Auth(props) {
   };
 
   const handleSignUp = values => {
-    console.log(values);
     props.signup(values);
   };
 
   const handleError = errorInfo => {
-    console.log('Failed: ', errorInfo);
   };
 
-  console.log(props.AuthState.logging);
-  console.log(props.AuthState);
   return (
     <div>
       <Helmet>

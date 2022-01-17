@@ -57,8 +57,6 @@ export function GradedFindCrosswordNodes(props) {
     props.checkStudentResponse(response);
   };
 
-  console.log(props.state.evaluatedAnswer);
-
   return (
     <div>
       <Helmet>

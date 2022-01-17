@@ -32,7 +32,6 @@ export function* signinUser(action) {
       },
     );
 
-    console.log(response);
 
     const userData = response.data;
     const userToken = userData.data;
@@ -49,15 +48,12 @@ export function* signinUser(action) {
     if (errorsValidation) yield put(signinUserFailure(errorsValidation));
     else yield put(signupUserFailure(errors));
 
-    console.log(errorsValidation);
-    console.log(errors);
   }
 }
 
 export function* signupUser(action) {
   try {
     const { name, email, password, confirm_password, _class } = action.payload;
-    console.log(email, password, _class, confirm_password);
 
     const response = yield api.post(
       `/auth/register`,
@@ -77,7 +73,6 @@ export function* signupUser(action) {
     info.token = userToken;
     info.isLoggedIn = true;
 
-    console.log(userToken, info);
 
     yield* setTokenToLocalStorage(userToken);
     yield put(signupUserSuccess(info));
@@ -88,8 +83,6 @@ export function* signupUser(action) {
     if (errorsValidation) yield put(signupUserFailure(errorsValidation));
     else yield put(signupUserFailure(errors));
 
-    console.log(errorsValidation);
-    console.log(errors);
   }
 }
 
@@ -99,7 +92,6 @@ export function* signoutUser() {
     yield put(signoutUserSuccess());
     history.push('/');
   } catch (err) {
-    console.log(err);
     yield put(signoutUserFailure(err.response.data.message));
   }
 }

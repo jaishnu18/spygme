@@ -23,7 +23,6 @@ import Form from 'antd/lib/form/Form';
 function ArcConsistencyGame(props) {
   const { gameData } = props;
   const { evaluatedAnswer } = props;
-  console.log(evaluatedAnswer);
   return (
     <Row>
       <Col xs={{ span: 24 }} xl={{ span: 10, offset: 1 }}>
