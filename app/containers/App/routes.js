@@ -30,7 +30,13 @@ import TopicListPage from 'containers/TopicListPage';
 import ConceptListPage from 'containers/ConceptListPage';
 import ReadingMaterialPage from 'containers/ReadingMaterialPage';
 import ConceptMaterialPage from 'containers/ConceptMaterialPage';
+import GradedExpressionEvaluationGame from 'containers/GAMES/PropositionalLogic/GradedExpressionEvaluationGame';
+import GradedWriteExpressionGame from '../GAMES/PropositionalLogic/GradedWriteExpressionGame';
+import GradedMatchExpressionGame from 'containers/GAMES/PropositionalLogic/GradedMatchExpressionGame';
+import NodeConsistencyGame from '../GAMES/CSP/NodeConsistencyGame';
 // import GradedNodeConsistencyGame from '../containers/GradedNodeConsistencyGame';
+import ArcConsistencyGame from '../GAMES/CSP/ArcConsistencyGame';
+
 //
 
 function Routes(props) {
@@ -112,6 +118,52 @@ function Routes(props) {
             topicId={match.params.topicId}
             conceptId={match.params.conceptId}
           />
+        )}
+      />
+      <Route
+        exact
+        path="/node-consistency/:topicId/:conceptId/:gameId/:level"
+        render={({ match }) => (
+          <NodeConsistencyGame
+            level={match.params.level}
+            gameId={match.params.gameId}
+            topicId={match.params.topicId}
+            conceptId={match.params.conceptId}
+          />
+        )}
+      />
+      <Route
+        exact
+        path="/arc-consistency/:topicId/:conceptId/:gameId/:level"
+        render={({ match }) => (
+          <ArcConsistencyGame
+            level={match.params.level}
+            gameId={match.params.gameId}
+            topicId={match.params.topicId}
+            conceptId={match.params.conceptId}
+          />
+        )}
+      />
+
+      <Route
+        exact
+        path="/graded-quiz/evaluate-expression/:topicId/:conceptId/:gameId"
+        render={({ match }) => (
+          <GradedExpressionEvaluationGame gameId={match.params.gameId} />
+        )}
+      />
+      <Route
+        exact
+        path="/graded-quiz/match-expression/:topicId/:conceptId/:gameId"
+        render={({ match }) => (
+          <GradedMatchExpressionGame gameId={match.params.gameId} />
+        )}
+      />
+      <Route
+        exact
+        path="/graded-quiz/write-expression/:topicId/:conceptId/:gameId"
+        render={({ match }) => (
+          <GradedWriteExpressionGame gameId={match.params.gameId} />
         )}
       />
 

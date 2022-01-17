@@ -17,7 +17,7 @@ function ReadingMaterialComponent(props) {
 
   return (
     <div>
-      <Row style={{ padding: '40px' }}>
+      <Row style={{ paddingLeft: '40px', paddingBottom: '10px', paddingRight: '40px' }}>
         <Col span={24}>
           {props.content && (
             <DescriptionCard
@@ -28,7 +28,7 @@ function ReadingMaterialComponent(props) {
           )}
         </Col>
       </Row>
-      <Row style={{ padding: '40px' }}>
+      <Row style={{ paddingLeft: '40px' }}>
         <CustomButton onClick={props.markAsRead}>Mark as Read</CustomButton>
       </Row>
     </div>

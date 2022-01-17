@@ -80,8 +80,6 @@ export function GradedFindCrosswordNodes(props) {
           <GameComponent
             gameData={props.state.gameData}
             evaluatedAnswer={props.state.evaluatedAnswer}
-            animate
-            visualize
             currentLevel={currentLevel}
             setCurrentLevel={setCurrentLevel}
             submit={submit}

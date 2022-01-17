@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -40,6 +40,10 @@ const { Paragraph } = Typography;
 export function HomePage(props) {
   useInjectReducer({ key: 'homePage', reducer });
   useInjectSaga({ key: 'homePage', saga });
+
+  useEffect(()=>{
+    window.scrollTo(0, 0);
+  });
 
   const querySubmit = values => {
     props.sendMessage(values);

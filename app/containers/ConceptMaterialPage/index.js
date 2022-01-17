@@ -29,6 +29,7 @@ export function ConceptMaterialPage(props) {
   console.log(topicId);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     props.getGames({ conceptId });
     props.getReadingMaterials({ conceptId });
   }, []);

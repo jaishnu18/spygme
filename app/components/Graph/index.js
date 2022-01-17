@@ -364,6 +364,7 @@ function Graph(props) {
               },
             ]}
             cy={cy => {
+              console.log("HERE");
               myCyRef = cy;
               if (props.nodeID) showNodeIDs(props, myCyRef);
             }}

@@ -55,30 +55,32 @@ function Crossword(props) {
           <Title style={{ fontWeight: 700 }}>CROSSWORD</Title>
         </Col>
       </Row>
-      <Row style={{}}>
-        {grid.map(
-          (row, idx) =>
-            idx !== 0 && (
-              <Row style={{ display: 'flex', width: '100%' }}>
-                {row.map(
-                  (col, jdx) =>
-                    jdx !== 0 && (
-                      <Col>
-                        <div
-                          style={{
-                            height: '38px',
-                            width: '38px',
-                            border: '1px solid grey',
-                            backgroundColor: col === 35 ? 'black' : 'white',
-                          }}
-                        />
-                      </Col>
-                    ),
-                )}
-              </Row>
-            ),
-        )}
-      </Row>
+      {grid &&
+        <Row style={{}}>
+          {grid.map(
+            (row, idx) =>
+              idx !== 0 && (
+                <Row style={{ display: 'flex', width: '100%' }}>
+                  {row.map(
+                    (col, jdx) =>
+                      jdx !== 0 && (
+                        <Col>
+                          <div
+                            style={{
+                              height: '38px',
+                              width: '38px',
+                              border: '1px solid grey',
+                              backgroundColor: col === 35 ? 'black' : 'white',
+                            }}
+                          />
+                        </Col>
+                      ),
+                  )}
+                </Row>
+              ),
+          )}
+        </Row>
+      }
     </Row>
   );
 }

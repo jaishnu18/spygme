@@ -28,17 +28,14 @@ function GradedFindCrosswordNodes(props) {
         />
       </Col>
 
-      <Col xs={{ span: 24 }} xl={{ span: 8 }}>
-        Crossword
-      </Col>
-
-      <Col xs={{ span: 24 }} xl={{ span: 12 }}>
+      <Col xs={{ span: 24 }} xl={{ span: 20 }}>
         <FormFindCrosswordNodes
           key={`Number-${currentLevel + 1}`}
           ID={`Number-${currentLevel + 1}`}
           value={props.value}
           setValue={props.setValue}
           currentLevel={currentLevel}
+          grid={gameData[currentLevel].grid}
         />
       </Col>
     </Row>

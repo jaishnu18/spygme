@@ -31,7 +31,7 @@ function DashboardComponent(props) {
       key: 'name',
     },
     {
-      title: 'Proficiency',
+      title: 'Proficiency (%)',
       dataIndex: 'overall_proficiency',
       key: 'overall_proficiency',
     },
