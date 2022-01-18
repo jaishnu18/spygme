@@ -31,8 +31,7 @@ function Crossword(props) {
     <Row
       style={{
         width: '100%',
-        minHeight: '100%',
-        // margin: '20px',
+        margin: '20px',
         boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
         padding: '40px 20px',
       }}
@@ -59,25 +58,29 @@ function Crossword(props) {
         <Row style={{}}>
           {grid.map(
             (row, idx) =>
-              idx !== 0 && (
-                <Row style={{ display: 'flex', width: '100%' }}>
-                  {row.map(
-                    (col, jdx) =>
-                      jdx !== 0 && (
-                        <Col>
-                          <div
-                            style={{
-                              height: '38px',
-                              width: '38px',
-                              border: '1px solid grey',
-                              backgroundColor: col === 35 ? 'black' : 'white',
-                            }}
-                          />
-                        </Col>
-                      ),
-                  )}
-                </Row>
-              ),
+            (
+              <Row style={{ display: 'flex', width: '100%' }}>
+                {row.map(
+                  (col, jdx) =>
+                  (
+                    <Col>
+                      <div
+                        style={{
+                          height: '38px',
+                          width: '38px',
+                          border: idx !== 0 && jdx !== 0 && '1px solid grey',
+                          display: 'flex',
+                          justifyContent: 'center',
+                          backgroundColor: idx === 0 || jdx === 0 ? 'transparent' : (col === 46 ? 'white' : 'black'),
+                        }}
+                      >
+                        {idx === 0 && jdx !== 0 ? jdx : (idx !== 0 && jdx === 0 ? idx : '')}
+                      </div>
+                    </Col>
+                  ),
+                )}
+              </Row>
+            ),
           )}
         </Row>
       }

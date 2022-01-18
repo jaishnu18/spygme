@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo,useState,useEffect } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -75,7 +75,7 @@ export function ArcConsistencyGame(props) {
 
   useEffect(() => {
     if (props.state.gameData) {
-      const nodesLen = props.state.gameData.nodes.length, bagSize = props.state.gameData.word_bag.length;
+      const nodesLen = props.state.gameData.nodes.length, bagSize = props.state.gameData.bag_size;
       const newArr = new Array(nodesLen);
       for (let i = 0; i < nodesLen; i += 1)
         newArr[i] = (new Array(bagSize).fill(true));

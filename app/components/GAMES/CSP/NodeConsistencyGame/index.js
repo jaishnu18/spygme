@@ -29,41 +29,46 @@ function NodeConsistencyGame(props) {
         {
           gameData.nodes.map((key, idx) => (
             <CustomCard title={key[0] + " - " + key[1] + " - " + (key[2] === 65 ? "A" : "D")}>
-              {
-                gameData.shuffled_bag.map((nkey, jdx) => (
-                  <div>
-                    <button style={{ backgroundColor: 'blue' }} id={`${idx}-${jdx}`} onClick={(e) => {
-                      const newArr = props.value;
-                      newArr[idx][jdx] = !newArr[idx][jdx];
-                      props.setValue(newArr);
-                      if (e.target.style.backgroundColor === 'red')
-                        e.target.style.backgroundColor = 'blue';
-                      else
-                        e.target.style.backgroundColor = 'red';
-                    }}>
-                      {nkey}
-                    </button>
-                    {
-                      evaluatedAnswer && (
-                        evaluatedAnswer.tick_cross[idx][jdx] ?
-                          <CheckCircleFilled style={{ fontSize: '20px', color: 'green' }} />
-                          :
-                          <CloseCircleFilled style={{ fontSize: '20px', color: 'red' }} />
-                      )
-                    }
+              <Row>
+                {
+                  gameData.shuffled_bag.map((nkey, jdx) => (
+                    <Col span={6}>
+                      <CustomButton style={{ backgroundColor: 'blue' }} id={`${idx}-${jdx}`} onClick={(e) => {
+                        const newArr = props.value;
+                        newArr[idx][jdx] = newArr[idx][jdx] ? false : true;
+                        props.setValue(newArr);
+                        let target = e.target;
+                        if (target.tagName === 'SPAN')
+                          target = target.parentElement;
+                        if (target.style.backgroundColor === 'red')
+                          target.style.backgroundColor = 'blue';
+                        else
+                          target.style.backgroundColor = 'red';
+                      }}>
+                        {nkey}
+                      </CustomButton>
+                      {
+                        evaluatedAnswer && (
+                          evaluatedAnswer.tick_cross[idx][jdx] ?
+                            <CheckCircleFilled style={{ fontSize: '20px', color: 'green' }} />
+                            :
+                            <CloseCircleFilled style={{ fontSize: '20px', color: 'red' }} />
+                        )
+                      }
+                    </Col>
+                  ))
+                }
+                {
+                  evaluatedAnswer && (
+                    evaluatedAnswer.result[idx] ?
+                      <CheckCircleFilled style={{ fontSize: '20px', color: 'green' }} />
+                      :
+                      <CloseCircleFilled style={{ fontSize: '20px', color: 'red' }} />
 
-                  </div>
-                ))
-              }
-              {
-                evaluatedAnswer && (
-                  evaluatedAnswer.result[idx] ?
-                    <CheckCircleFilled style={{ fontSize: '20px', color: 'green' }} />
-                    :
-                    <CloseCircleFilled style={{ fontSize: '20px', color: 'red' }} />
+                  )
+                }
+              </Row>
 
-                )
-              }
             </CustomCard>
           ))
         }
