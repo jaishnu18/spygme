@@ -15,20 +15,22 @@ import Row from 'antd/lib/row';
 import Select from 'antd/lib/select';
 import InputNumber from 'antd/lib/input-number';
 import MinusCircleOutlined from '@ant-design/icons/MinusCircleOutlined';
+import notification from 'antd/lib/notification';
 
 const { Option } = Select;
 
 function FormFindCrosswordNodes(props) {
-  const [form] = Form.useForm();
   const Nodes = [
     { label: 'Across Node', val: 65 },
     { label: 'Down Node', val: 68 },
   ];
 
+  console.log(props.form);
+
   return (
     <div>
       <Form
-        form={form}
+        form={props.form}
         name={`Form-${props.ID || ''}`}
         onFinish={value => {
           if (Array.isArray(props.value)) {
@@ -67,8 +69,17 @@ function FormFindCrosswordNodes(props) {
                         fieldKey={[field.fieldKey, 'node']}
                         rules={[
                           {
-                            required: true,
-                            message: 'Missing Row',
+                            // required: true,
+                            // message: 'Missing Row',
+
+                            validator(rule, value) {
+                              if (!value) {
+                                notification.open({
+                                  message: `Oops! Missing Some Rows at Level ${props.currentLevel +
+                                    1}`,
+                                });
+                              }
+                            },
                           },
                         ]}
                       >
@@ -89,8 +100,17 @@ function FormFindCrosswordNodes(props) {
                     fieldKey={[field.fieldKey, 'row']}
                     rules={[
                       {
-                        required: true,
-                        message: 'Missing Row',
+                        validator(rule, value, callback) {
+                          if (!value) {
+                            // I'd like to use this instead:
+                            notification.open({
+                              message: `Oops! Missing Some Columns at Level ${props.currentLevel +
+                                1}`,
+                              // description:
+                              //   'This is the content of the notification.',
+                            });
+                          }
+                        },
                       },
                     ]}
                   >
