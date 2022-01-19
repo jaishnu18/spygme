@@ -28,6 +28,8 @@ import {
   evaluateResponseStart,
   putFeedbackStart,
 } from './actions';
+import notification from 'antd/lib/notification';
+import PracticeGamesFeedback from '../../../../components/FEEDBACK/PracticeGamesFeedback';
 
 export function FindCrosswordNodes(props) {
   useInjectReducer({ key: 'findCrosswordNodes', reducer });
@@ -35,11 +37,37 @@ export function FindCrosswordNodes(props) {
 
   const [startTime, setStartTime] = useState(0);
   const [value, setValue] = useState(undefined);
+  const [alreadyFeedback, setAlreadyFeedback] = useState(false);
 
   const { level } = props;
   const { gameId } = props;
   const { conceptId } = props;
   const { topicId } = props;
+
+  useEffect(() => {
+    if (evaluatedAnswer && !alreadyFeedback) {
+      setAlreadyFeedback(true);
+      const practiceGamesFeedback = <PracticeGamesFeedback submitFeedback={submitFeedback} />
+      const args = {
+        message: 'Feedback',
+        description:
+          practiceGamesFeedback,
+        duration: 0,
+      };
+      notification.open(args);
+      if (evaluatedAnswer.score !== 1) {
+        const practiceGamesFeedback = <PracticeGamesFeedback whatWentWrong submitWWW={submitWWW} />
+        const args = {
+          message: 'Why you made mistake?',
+          description:
+            practiceGamesFeedback,
+          duration: 0,
+          placement: 'topLeft',
+        };
+        notification.open(args);
+      }
+    }
+  }, [props.state]);
 
   useEffect(() => {
     props.getGameData(level);
@@ -51,6 +79,18 @@ export function FindCrosswordNodes(props) {
       nodes: [{ node: null, row: null, col: null }],
     });
   }, [props.state.gameData]);
+
+  const submitWWW = values => {
+    const response = {};
+    response.whatwentwrong = JSON.stringify(values);
+    props.saveFeedback(response);
+  };
+
+  const submitFeedback = values => {
+    const response = {};
+    response.feedback = JSON.stringify(values);
+    props.saveFeedback(response);
+  }
 
   const { gameData } = props.state;
   const { evaluatedAnswer } = props.state;

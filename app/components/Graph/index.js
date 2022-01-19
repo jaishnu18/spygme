@@ -216,11 +216,11 @@ function Graph(props) {
           },
           style: {
             'control-point-weight': 0.5,
-            'control-point-distance': -20 * edgeCurvature[i][j],
+            'control-point-distance': -20 * (edgeCurvature ? edgeCurvature[i][j] : 0),
             'line-color':
-              content[i] === '~' ? '#000' : j === 0 ? 'red' : 'blue',
+              content[i] === '~' ? '#000' : j === 0 && edgeCurvature ? 'red' : 'blue',
             'target-arrow-color':
-              content[i] === '~' ? '#000' : j === 0 ? 'red' : 'blue',
+              content[i] === '~' ? '#000' : j === 0 && edgeCurvature ? 'red' : 'blue',
           },
         };
         elements.push(obj);
@@ -231,6 +231,7 @@ function Graph(props) {
   }, [gameData]);
 
   let myCyRef;
+  console.log(gameData);
 
   return (
     <Row
@@ -241,7 +242,6 @@ function Graph(props) {
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
-        minHeight: '100%',
         // margin: '20px',
         boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
         padding: '40px 20px',
@@ -332,7 +332,7 @@ function Graph(props) {
                   'background-color': '#666',
                   color: 'white',
                   label: 'data(label)',
-                  width: '42px',
+                  width: props.width ? props.width : '42px',
                   height: '42px',
                   'text-valign': 'center',
                   'text-halign': 'center',

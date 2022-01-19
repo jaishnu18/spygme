@@ -23,7 +23,15 @@ function CustomButton(props) {
       width={props.width}
       height={props.height}
       style={props.style}
-      onClick={props.onClick}
+      onClick={(e) => {
+        props.onClick();
+        if (props.disableOnClick) {
+          let target = e.target;
+          if (target.tagName === 'SPAN')
+            target = target.parentElement;
+          target.disabled = true;
+        }
+      }}
       icon={props.icon}
       danger={props.danger}
       disabled={props.disabled}
@@ -42,6 +50,7 @@ CustomButton.propTypes = {
   width: PropTypes.string,
   height: PropTypes.string,
   onClick: PropTypes.func,
+  disableOnClick: PropTypes.bool,
   icon: PropTypes.node,
   danger: PropTypes.bool,
   disabled: PropTypes.bool,

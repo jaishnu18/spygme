@@ -31,10 +31,13 @@ function WriteExpressionGame(props) {
             <Title level={3}>Write the expression depicted by the given graph: </Title>
             <Input
               onChange={e => {
-                props.setValue(e.target.value);
+                if (e.target.value === '')
+                  props.setValue('$');
+                else
+                  props.setValue(e.target.value);
               }}
             />
-            <CustomButton
+            <CustomButton disableOnClick disabled={evaluatedAnswer && evaluatedAnswer.syntax_error === 'No syntax error'}
               onClick={() => {
                 props.submit();
               }}

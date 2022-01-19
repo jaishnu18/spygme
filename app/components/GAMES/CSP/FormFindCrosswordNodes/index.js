@@ -69,13 +69,10 @@ function FormFindCrosswordNodes(props) {
                         fieldKey={[field.fieldKey, 'node']}
                         rules={[
                           {
-                            // required: true,
-                            // message: 'Missing Row',
-
                             validator(rule, value) {
                               if (!value) {
                                 notification.open({
-                                  message: `Oops! Missing Some Rows at Level ${props.currentLevel +
+                                  message: `Oops! Missing Some Type ${props.currentLevel +
                                     1}`,
                                 });
                               }
@@ -104,7 +101,7 @@ function FormFindCrosswordNodes(props) {
                           if (!value) {
                             // I'd like to use this instead:
                             notification.open({
-                              message: `Oops! Missing Some Columns at Level ${props.currentLevel +
+                              message: `Oops! Missing Some Rows at Level ${props.currentLevel +
                                 1}`,
                               // description:
                               //   'This is the content of the notification.',
@@ -123,8 +120,17 @@ function FormFindCrosswordNodes(props) {
                     fieldKey={[field.fieldKey, 'col']}
                     rules={[
                       {
-                        required: true,
-                        message: 'Missing Column',
+                        validator(rule, value, callback) {
+                          if (!value) {
+                            // I'd like to use this instead:
+                            notification.open({
+                              message: `Oops! Missing Some Columns at Level ${props.currentLevel +
+                                1}`,
+                              // description:
+                              //   'This is the content of the notification.',
+                            });
+                          }
+                        },
                       },
                     ]}
                   >

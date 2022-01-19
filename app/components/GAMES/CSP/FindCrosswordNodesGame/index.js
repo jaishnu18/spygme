@@ -23,12 +23,12 @@ function FindCrosswordNodesGame(props) {
 
   return (
     <Row>
-      <Col xl={{ span: 12 }}>
+      {/* <Col xl={{ span: 12 }}>
         <Crossword gridSize={gameData.grid_size} grid={gameData.grid} />
-      </Col>
+      </Col> */}
       <Col
-        xl={{ span: 12 }}
-        style={{ display: 'flex', flexDirection: 'column', padding: '40px' }}
+        xl={{ span: 24 }}
+        style={{ display: 'flex', flexDirection: 'column', }}
       >
         <FormFindCrosswordNodes {...props} />
 

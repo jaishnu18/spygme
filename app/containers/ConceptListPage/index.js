@@ -28,13 +28,13 @@ export function ConceptListPage(props) {
   console.log(topicId);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     props.getTopicData({ topicId: parseInt(topicId) });
     props.getConcepts({ topicId: parseInt(topicId) });
   }, []);
 
   const { concepts } = props.conceptListPage;
   const { topicData } = props.conceptListPage;
-  console.log(props.conceptListPage);
 
   return (
     <div>

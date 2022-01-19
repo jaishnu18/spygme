@@ -77,7 +77,7 @@ function MatchExpressionGame(props) {
 
               ))
               : null}
-            <CustomButton
+            <CustomButton disableOnClick
               onClick={() => {
                 props.submit();
               }}
