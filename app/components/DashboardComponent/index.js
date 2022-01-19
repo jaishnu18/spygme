@@ -23,7 +23,6 @@ const { Title } = Typography;
 
 function DashboardComponent(props) {
   const { dashboard } = props;
-  console.log(dashboard);
   const columns = [
     {
       title: 'Name',
@@ -31,7 +30,7 @@ function DashboardComponent(props) {
       key: 'name',
     },
     {
-      title: 'Proficiency',
+      title: 'Proficiency (%)',
       dataIndex: 'overall_proficiency',
       key: 'overall_proficiency',
     },

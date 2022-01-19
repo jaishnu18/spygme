@@ -33,7 +33,6 @@ export function DashboardPage(props) {
   }, []);
 
   const { dashboard } = props.dashboardPage;
-  console.log(dashboard);
 
   return (
     <div>

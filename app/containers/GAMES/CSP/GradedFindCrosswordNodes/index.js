@@ -57,8 +57,6 @@ export function GradedFindCrosswordNodes(props) {
     props.checkStudentResponse(response);
   };
 
-  console.log(props.state.evaluatedAnswer);
-
   return (
     <div>
       <Helmet>
@@ -80,8 +78,6 @@ export function GradedFindCrosswordNodes(props) {
           <GameComponent
             gameData={props.state.gameData}
             evaluatedAnswer={props.state.evaluatedAnswer}
-            animate
-            visualize
             currentLevel={currentLevel}
             setCurrentLevel={setCurrentLevel}
             submit={submit}

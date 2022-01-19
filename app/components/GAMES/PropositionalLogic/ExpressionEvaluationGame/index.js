@@ -50,6 +50,7 @@ function ExpressionEvaluationGame(props) {
               }}
             />
             <CustomButton
+            disableOnClick
               onClick={e => {
                 props.submit();
               }}

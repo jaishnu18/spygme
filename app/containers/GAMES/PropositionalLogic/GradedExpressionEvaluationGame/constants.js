@@ -4,5 +4,22 @@
  *
  */
 
-export const DEFAULT_ACTION =
-  'app/GradedExpressionEvaluationGame/DEFAULT_ACTION';
+export const DEFAULT_ACTION = 'app/GradedExpressionEvaluation/DEFAULT_ACTION';
+export const GET_GAME_DATA_START =
+  'app/GradedExpressionEvaluation/GET_GAME_DATA_START';
+export const GET_GAME_DATA_SUCCESS =
+  'app/GradedExpressionEvaluation/GET_GAME_DATA_SUCCESS';
+export const GET_GAME_DATA_FAILURE =
+  'app/GradedExpressionEvaluation/GET_GAME_DATA_FAILURE';
+export const EVALUATE_RESPONSE_START =
+  'app/GradedExpressionEvaluation/DEFAULT_ACTION';
+export const EVALUATE_RESPONSE_SUCCESS =
+  'app/GradedExpressionEvaluation/EVALUATE_RESPONSE_SUCCESS';
+export const EVALUATE_RESPONSE_FAILURE =
+  'app/GradedExpressionEvaluation/EVALUATE_RESPONSE_FAILURE';
+export const PUT_FEEDBACK_START =
+  'app/GradedExpressionEvaluation/PUT_FEEDBACK_START';
+export const PUT_FEEDBACK_SUCCESS =
+  'app/GradedExpressionEvaluation/PUT_FEEDBACK_SUCCESS';
+export const PUT_FEEDBACK_FAILURE =
+  'app/GradedExpressionEvaluation/PUT_FEEDBACK_FAILURE';

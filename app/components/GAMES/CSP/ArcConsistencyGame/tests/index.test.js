@@ -1,6 +1,6 @@
 /**
  *
- * Tests for NodeConsistency
+ * Tests for ArcConsistencyGame
  *
  * @see https://github.com/react-boilerplate/react-boilerplate/tree/master/docs/testing
  *
@@ -10,12 +10,12 @@ import React from 'react';
 import { render } from 'react-testing-library';
 // import 'jest-dom/extend-expect'; // add some helpful assertions
 
-import NodeConsistency from '../index';
+import ArcConsistencyGame from '../index';
 
-describe('<NodeConsistency />', () => {
+describe('<ArcConsistencyGame />', () => {
   it('Expect to not log errors in console', () => {
     const spy = jest.spyOn(global.console, 'error');
-    render(<NodeConsistency />);
+    render(<ArcConsistencyGame />);
     expect(spy).not.toHaveBeenCalled();
   });
 
@@ -31,7 +31,7 @@ describe('<NodeConsistency />', () => {
   it.skip('Should render and match the snapshot', () => {
     const {
       container: { firstChild },
-    } = render(<NodeConsistency />);
+    } = render(<ArcConsistencyGame />);
     expect(firstChild).toMatchSnapshot();
   });
 });

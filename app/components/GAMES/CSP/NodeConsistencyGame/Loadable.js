@@ -1,6 +1,6 @@
 /**
  *
- * Asynchronously loads the component for NodeConsistency
+ * Asynchronously loads the component for NodeConsistencyGame
  *
  */
 

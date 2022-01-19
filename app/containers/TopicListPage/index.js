@@ -24,6 +24,7 @@ export function TopicListPage(props) {
   useInjectSaga({ key: 'topicListPage', saga });
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     props.getAllTopics();
   }, []);
 

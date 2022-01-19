@@ -13,7 +13,6 @@ import { Link, useHistory } from 'react-router-dom';
 import CustomButton from 'components/atoms/CustomButton';
 
 function NavigationBar(props) {
-  console.log(props.currentLevel);
 
   return (
     <Row style={{ padding: '40px' }}>
@@ -102,7 +101,7 @@ function NavigationBar(props) {
               width: '100%',
             }}
           >
-            <CustomButton
+            <CustomButton disableOnClick
               onClick={() => {
                 props.submit();
               }}
