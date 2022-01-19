@@ -101,7 +101,7 @@ function NavigationBar(props) {
               width: '100%',
             }}
           >
-            <CustomButton
+            <CustomButton disableOnClick
               onClick={() => {
                 props.submit();
               }}

@@ -40,7 +40,7 @@ export function WriteExpressionGame(props) {
   useInjectSaga({ key: 'writeExpressionGame', saga });
 
   const [startTime, setStartTime] = useState(0);
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState('$');
   const [alreadyFeedback, setAlreadyFeedback] = useState(false);
 
   useEffect(() => {

@@ -34,8 +34,9 @@ import GradedExpressionEvaluationGame from 'containers/GAMES/PropositionalLogic/
 import GradedWriteExpressionGame from '../GAMES/PropositionalLogic/GradedWriteExpressionGame';
 import GradedMatchExpressionGame from 'containers/GAMES/PropositionalLogic/GradedMatchExpressionGame';
 import NodeConsistencyGame from '../GAMES/CSP/NodeConsistencyGame';
-// import GradedNodeConsistencyGame from '../containers/GradedNodeConsistencyGame';
 import ArcConsistencyGame from '../GAMES/CSP/ArcConsistencyGame';
+import GradedNodeConsistency from 'containers/GAMES/CSP/GradedNodeConsistency';
+import GradedArcConsistency from 'containers/GAMES/CSP/GradedArcConsistency';
 
 //
 
@@ -172,6 +173,20 @@ function Routes(props) {
         path="/graded-quiz/find-nodes/:topicId/:conceptId/:gameId"
         render={({ match }) => (
           <GradedFindCrosswordNodes gameId={match.params.gameId} />
+        )}
+      />
+      <Route
+        exact
+        path="/graded-quiz/node-consistency/:topicId/:conceptId/:gameId"
+        render={({ match }) => (
+          <GradedNodeConsistency gameId={match.params.gameId} />
+        )}
+      />
+      <Route
+        exact
+        path="/graded-quiz/arc-consistency/:topicId/:conceptId/:gameId"
+        render={({ match }) => (
+          <GradedArcConsistency gameId={match.params.gameId} />
         )}
       />
 

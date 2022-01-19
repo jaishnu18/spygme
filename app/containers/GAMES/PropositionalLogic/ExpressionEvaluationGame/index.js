@@ -78,7 +78,6 @@ export function ExpressionEvaluationGame(props) {
   const { conceptId } = props;
   const { topicId } = props;
 
-  console.log(props);
 
   const submitWWW = values => {
     const response = {};

@@ -119,7 +119,7 @@ export function ArcConsistencyGame(props) {
       {props.state.gameData && value && (
         <>
           <GameBar
-            name="Find Crossword Nodes"
+            name="Arc Consistency"
             level={level}
             attempts={props.state.gameData.attempt}
             maxLevel="2"

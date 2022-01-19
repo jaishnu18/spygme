@@ -120,7 +120,7 @@ export function NodeConsistencyGame(props) {
       {props.state.gameData && value && (
         <>
           <GameBar
-            name="Find Crossword Nodes"
+            name="Node Consistency"
             level={level}
             attempts={props.state.gameData.attempt}
             maxLevel="2"

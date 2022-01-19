@@ -10,10 +10,10 @@ import React, { memo } from 'react';
 import Col from 'antd/lib/col';
 import Row from 'antd/lib/row';
 import Title from 'antd/lib/typography/Title';
+import Paragraph from 'antd/lib/typography/Paragraph';
 import Descriptions from 'antd/lib/descriptions';
 import CloseCircleFilled from '@ant-design/icons/CloseCircleFilled';
 import CheckCircleFilled from '@ant-design/icons/CheckCircleFilled';
-import Paragraph from 'antd/lib/typography/Paragraph';
 import Crossword from 'components/Crossword';
 import CustomCard from 'components/CustomCard';
 import CustomButton from 'components/atoms/CustomButton';
@@ -32,8 +32,8 @@ function NodeConsistencyGame(props) {
               <Row>
                 {
                   gameData.shuffled_bag.map((nkey, jdx) => (
-                    <Col span={6}>
-                      <CustomButton style={{ backgroundColor: 'blue' }} id={`${idx}-${jdx}`} onClick={(e) => {
+                    <Col span={7}>
+                      <Button style={{ backgroundColor: 'blue', color: 'white' }} id={`${idx}-${jdx}`} onClick={(e) => {
                         const newArr = props.value;
                         newArr[idx][jdx] = newArr[idx][jdx] ? false : true;
                         props.setValue(newArr);
@@ -46,7 +46,7 @@ function NodeConsistencyGame(props) {
                           target.style.backgroundColor = 'red';
                       }}>
                         {nkey}
-                      </CustomButton>
+                      </Button>
                       {
                         evaluatedAnswer && (
                           evaluatedAnswer.tick_cross[idx][jdx] ?
@@ -58,13 +58,20 @@ function NodeConsistencyGame(props) {
                     </Col>
                   ))
                 }
+              </Row>
+              <Row>
                 {
                   evaluatedAnswer && (
                     evaluatedAnswer.result[idx] ?
-                      <CheckCircleFilled style={{ fontSize: '20px', color: 'green' }} />
+                      <div>
+                        <CheckCircleFilled style={{ fontSize: '20px', color: 'green' }} />
+                        <Paragraph>All choices are correct</Paragraph>
+                      </div>
                       :
-                      <CloseCircleFilled style={{ fontSize: '20px', color: 'red' }} />
-
+                      <div>
+                        <CloseCircleFilled style={{ fontSize: '20px', color: 'red' }} />
+                        <Paragraph>All choices are not correct</Paragraph>
+                      </div>
                   )
                 }
               </Row>
@@ -77,8 +84,13 @@ function NodeConsistencyGame(props) {
         <Crossword grid={gameData.grid} />
         <Row>
           <Col>
-            <CustomButton onClick={props.submit}>Check Answer</CustomButton>
+            <CustomButton disableOnClick onClick={props.submit}>Check Answer</CustomButton>
           </Col>
+          {evaluatedAnswer &&
+            <Col span={24}>
+              <Title level={3}>{"Score : " + Math.round(evaluatedAnswer.score * 100) + "%"}</Title>
+            </Col>
+          }
         </Row>
       </Col>
     </Row>
