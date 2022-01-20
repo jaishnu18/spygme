@@ -14,6 +14,7 @@ import GameComponent from 'components/GAMES/CSP/GradedFindCrosswordNodes';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
+import NavigationBar from 'components/NavigationBar';
 import makeSelectGradedFindCrosswordNodes from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -22,7 +23,6 @@ import {
   evaluateResponseStart,
   putFeedbackStart,
 } from './actions';
-import NavigationBar from 'components/NavigationBar';
 
 export function GradedFindCrosswordNodes(props) {
   useInjectReducer({ key: 'gradedFindCrosswordNodes', reducer });
@@ -45,7 +45,13 @@ export function GradedFindCrosswordNodes(props) {
     }
   }, [props.state.gameData]);
 
-  const submit = () => {
+  const submit = values => {
+    console.log(values);
+    for (let i = 0; i < values.length; i += 1) {
+      values[i].submit();
+    }
+
+    console.log(value);
     const { gameData } = props.state;
     const response = {};
 
@@ -54,6 +60,8 @@ export function GradedFindCrosswordNodes(props) {
     }
 
     response.studentResponse = gameData;
+    response.gameId = props.gameId;
+
     props.checkStudentResponse(response);
   };
 
@@ -68,13 +76,6 @@ export function GradedFindCrosswordNodes(props) {
       </Helmet>
       {props.state.gameData && value && (
         <>
-          <NavigationBar
-            gradedGame
-            currentLevel={currentLevel}
-            setCurrentLevel={setCurrentLevel}
-            maxLevel="3"
-            submit={submit}
-          />
           <GameComponent
             gameData={props.state.gameData}
             evaluatedAnswer={props.state.evaluatedAnswer}
