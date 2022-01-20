@@ -37,6 +37,7 @@ import NodeConsistencyGame from '../GAMES/CSP/NodeConsistencyGame';
 import ArcConsistencyGame from '../GAMES/CSP/ArcConsistencyGame';
 import GradedNodeConsistency from 'containers/GAMES/CSP/GradedNodeConsistency';
 import GradedArcConsistency from 'containers/GAMES/CSP/GradedArcConsistency';
+import AboutPage from 'containers/AboutPage';
 
 //
 
@@ -45,6 +46,7 @@ function Routes(props) {
     return (
       <Switch>
         <Route exact path="/" component={HomePage} />
+        <Route exact path="/about" component={AboutPage} />
 
         <Route
           path="/auth"
@@ -63,6 +65,7 @@ function Routes(props) {
   return (
     <Switch>
       <Route exact path="/" component={HomePage} />
+      <Route exact path="/about" component={AboutPage} />
 
       <Route path="/dashboard" component={DashboardPage} />
       {/*
