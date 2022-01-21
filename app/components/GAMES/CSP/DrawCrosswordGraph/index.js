@@ -1,12 +1,12 @@
 /**
  *
- * FindCrosswordNodesGame
+ * DrawCrosswordGraph
  *
  */
 
 import React, { memo } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
+// import PropTypes from 'prop-types';
+// import styled from 'styled-components';
 import Col from 'antd/lib/col';
 import Row from 'antd/lib/row';
 import Title from 'antd/lib/typography/Title';
@@ -17,7 +17,7 @@ import Paragraph from 'antd/lib/typography/Paragraph';
 import Crossword from 'components/Crossword';
 import FormFindCrosswordNodes from '../FormFindCrosswordNodes';
 
-function FindCrosswordNodesGame(props) {
+function DrawCrosswordGraph(props) {
   const { gameData } = props;
   const { evaluatedAnswer } = props;
 
@@ -92,6 +92,6 @@ function FindCrosswordNodesGame(props) {
   );
 }
 
-FindCrosswordNodesGame.propTypes = {};
+DrawCrosswordGraph.propTypes = {};
 
-export default memo(FindCrosswordNodesGame);
+export default memo(DrawCrosswordGraph);

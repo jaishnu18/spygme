@@ -31,13 +31,13 @@ import ConceptListPage from 'containers/ConceptListPage';
 import ReadingMaterialPage from 'containers/ReadingMaterialPage';
 import ConceptMaterialPage from 'containers/ConceptMaterialPage';
 import GradedExpressionEvaluationGame from 'containers/GAMES/PropositionalLogic/GradedExpressionEvaluationGame';
-import GradedWriteExpressionGame from '../GAMES/PropositionalLogic/GradedWriteExpressionGame';
 import GradedMatchExpressionGame from 'containers/GAMES/PropositionalLogic/GradedMatchExpressionGame';
-import NodeConsistencyGame from '../GAMES/CSP/NodeConsistencyGame';
-import ArcConsistencyGame from '../GAMES/CSP/ArcConsistencyGame';
 import GradedNodeConsistency from 'containers/GAMES/CSP/GradedNodeConsistency';
 import GradedArcConsistency from 'containers/GAMES/CSP/GradedArcConsistency';
-
+import GradedWriteExpressionGame from '../GAMES/PropositionalLogic/GradedWriteExpressionGame';
+import NodeConsistencyGame from '../GAMES/CSP/NodeConsistencyGame';
+import DrawCrosswordGraphGame from '../GAMES/CSP/DrawCrosswordGraphGame';
+import ArcConsistencyGame from '../GAMES/CSP/ArcConsistencyGame';
 //
 
 function Routes(props) {
@@ -145,6 +145,18 @@ function Routes(props) {
           />
         )}
       />
+      <Route
+        exact
+        path="/draw-crossword-graph/:topicId/:conceptId/:gameId/:level"
+        render={({ match }) => (
+          <DrawCrosswordGraphGame
+            level={match.params.level}
+            gameId={match.params.gameId}
+            topicId={match.params.topicId}
+            conceptId={match.params.conceptId}
+          />
+        )}
+      />
 
       <Route
         exact
@@ -204,7 +216,8 @@ function Routes(props) {
           <ReadingMaterialPage
             topicId={match.params.topicId}
             conceptId={match.params.conceptId}
-            rmId={match.params.rmId} />
+            rmId={match.params.rmId}
+          />
         )}
       />
       <Route
@@ -213,7 +226,8 @@ function Routes(props) {
         render={({ match }) => (
           <ConceptMaterialPage
             conceptId={match.params.conceptId}
-            topicId={match.params.topicId} />
+            topicId={match.params.topicId}
+          />
         )}
       />
 

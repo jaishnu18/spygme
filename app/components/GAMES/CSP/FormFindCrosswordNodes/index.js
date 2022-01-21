@@ -97,7 +97,7 @@ function FormFindCrosswordNodes(props) {
                     fieldKey={[field.fieldKey, 'row']}
                     rules={[
                       {
-                        validator(rule, value, callback) {
+                        validator(rule, value) {
                           if (!value) {
                             // I'd like to use this instead:
                             notification.open({
