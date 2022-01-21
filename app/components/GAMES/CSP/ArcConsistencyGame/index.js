@@ -90,12 +90,17 @@ function ArcConsistencyGame(props) {
             <Col>
               <CustomButton disableOnClick onClick={props.submit}>Check Answer</CustomButton>
             </Col>
+            {evaluatedAnswer &&
+              <Col span={24}>
+                <Title level={3}>{"Score : " + Math.round(evaluatedAnswer.score * 100) + "%"}</Title>
+              </Col>
+            }
           </Row>
         </Col>
       </Row>
       {evaluatedAnswer &&
         <Row>
-          <Graph gameData={evaluatedAnswer} width={'60'}/>
+          <Graph gameData={evaluatedAnswer} width={'60'} />
         </Row>
         //sdf
       }

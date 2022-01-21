@@ -165,7 +165,7 @@ function NavBar(props) {
                       {/* <Menu.Item key="1" onClick={() => history.push('/')}>
                         Home
                       </Menu.Item> */}
-                      <Menu.Item key="2">About Us</Menu.Item>
+                      <Menu.Item key="2" onClick={() => history.push('/about')}>About Us</Menu.Item>
                       <Menu.Item key="3" onClick={() => history.push('/auth')}>
                         Sign In
                       </Menu.Item>

@@ -34,6 +34,9 @@ function GradedMatchExpressionGame(props) {
           setCurrentLevel={props.setCurrentLevel}
           submit={props.submit}
           value={props.value}
+          examDuration={600}
+          evaluatedAnswer={evaluatedAnswer}
+          submit={props.submit}
         />
       </Col>
 
