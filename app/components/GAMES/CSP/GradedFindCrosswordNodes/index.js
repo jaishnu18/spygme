@@ -14,10 +14,17 @@ import FormFindCrosswordNodes from '../FormFindCrosswordNodes';
 // import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 import NavigationBar from 'components/NavigationBar';
+import Title from 'antd/lib/typography/Title';
+import Descriptions from 'antd/lib/descriptions';
+import CloseCircleFilled from '@ant-design/icons/CloseCircleFilled';
+import CheckCircleFilled from '@ant-design/icons/CheckCircleFilled';
+import Paragraph from 'antd/lib/typography/Paragraph';
+import Crossword from 'components/Crossword';
 
 function GradedFindCrosswordNodes(props) {
   const { gameData } = props;
   const { currentLevel } = props;
+  const { evaluatedAnswer } = props;
 
   const formInstanceArray = [];
 
@@ -45,6 +52,7 @@ function GradedFindCrosswordNodes(props) {
           setCurrentLevel={props.setCurrentLevel}
           value={props.value}
         />
+        <Crossword grid={gameData.grid} />
       </Col>
 
       <Col xs={{ span: 24 }} xl={{ span: 20 }}>
@@ -58,6 +66,61 @@ function GradedFindCrosswordNodes(props) {
           grid={gameData[currentLevel].grid}
         />
       </Col>
+
+      {evaluatedAnswer && (
+        <Row style={{ paddingTop: '10px' }}>
+          <Col span={24} style={{ display: 'flex' }}>
+            {evaluatedAnswer[currentLevel].score === 1 ? (
+              <CheckCircleFilled style={{ fontSize: '20px', color: 'green' }} />
+            ) : (
+              <CloseCircleFilled style={{ fontSize: '20px', color: 'red' }} />
+            )}
+            <Paragraph style={{ paddingLeft: '10px' }}>
+              {evaluatedAnswer[currentLevel].score === 1
+                ? 'All are correct'
+                : 'All are not correct'}
+            </Paragraph>
+          </Col>
+          <Col span={24}>
+            <Title level={3}>
+              {`Score : ${Math.round(
+                evaluatedAnswer[currentLevel].score * 100,
+              )}%`}
+            </Title>
+            <Col xl={{ span: 23 }} xs={{ span: 24 }}>
+              <Descriptions layout="vertical" bordered>
+                <Descriptions.Item label="Correct Nodes">
+                  {evaluatedAnswer[currentLevel].correct_nodes_list.map(
+                    (key, idx) => (
+                      <Col span={24}>
+                        {`${key[0]}-${key[1]}-${key[1] === 65 ? 'A' : 'D'}`}
+                      </Col>
+                    ),
+                  )}
+                </Descriptions.Item>
+                <Descriptions.Item label="Wrong Nodes">
+                  {evaluatedAnswer[currentLevel].wrong_nodes_list.map(
+                    (key, idx) => (
+                      <Col span={24}>
+                        {`${key[0]}-${key[1]}-${key[1] === 65 ? 'A' : 'D'}`}
+                      </Col>
+                    ),
+                  )}
+                </Descriptions.Item>
+                <Descriptions.Item label="Mised Nodes">
+                  {evaluatedAnswer[currentLevel].missed_nodes_list.map(
+                    (key, idx) => (
+                      <Col span={24}>
+                        {`${key[0]}-${key[1]}-${key[1] === 65 ? 'A' : 'D'}`}
+                      </Col>
+                    ),
+                  )}
+                </Descriptions.Item>
+              </Descriptions>
+            </Col>
+          </Col>
+        </Row>
+      )}
     </Row>
   );
 }

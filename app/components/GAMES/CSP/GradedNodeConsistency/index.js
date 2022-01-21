@@ -39,68 +39,84 @@ function GradedNodeConsistency(props) {
         <Form name={`Form-${currentLevel}`}>
           <Row>
             <Col xs={{ span: 24 }} xl={{ span: 10, offset: 1 }}>
-              {
-                gameData[currentLevel].nodes.map((key, idx) => (
-                  <CustomCard title={key[0] + " - " + key[1] + " - " + (key[2] === 65 ? "A" : "D")}>
-                    <Row>
-                      {
-                        gameData[currentLevel].shuffled_bag.map((nkey, jdx) => (
-                          <Col span={6}>
-                            <Form.Item name={`Input-${currentLevel}-${idx}-${jdx}`}>
-                              <Button style={{ color: 'white', backgroundColor: currentLevel === 0 ? (props.value1[idx][jdx] ? 'blue' : 'red') : (props.value2[idx][jdx] ? 'blue' : 'red') }} onClick={(e) => {
-                                if (currentLevel === 0) {
-                                  const newArr = props.value1;
-                                  newArr[idx][jdx] = newArr[idx][jdx] ? false : true;
-                                  props.setValue1(newArr);
-                                }
-                                else {
-                                  const newArr = props.value2;
-                                  newArr[idx][jdx] = newArr[idx][jdx] ? false : true;
-                                  props.setValue2(newArr);
-                                }
+              {gameData[currentLevel].nodes.map((key, idx) => (
+                <CustomCard
+                  title={`${key[0]} - ${key[1]} - ${key[2] === 65 ? 'A' : 'D'}`}
+                >
+                  <Row>
+                    {gameData[currentLevel].shuffled_bag.map((nkey, jdx) => (
+                      <Col span={6}>
+                        <Form.Item name={`Input-${currentLevel}-${idx}-${jdx}`}>
+                          <Button
+                            style={{
+                              color: 'white',
+                              backgroundColor:
+                                currentLevel === 0
+                                  ? props.value1[idx][jdx]
+                                    ? 'blue'
+                                    : 'red'
+                                  : props.value2[idx][jdx]
+                                  ? 'blue'
+                                  : 'red',
+                                fontWeight:700,
+                            }}
+                            onClick={e => {
+                              if (currentLevel === 0) {
+                                const newArr = props.value1;
+                                newArr[idx][jdx] = !newArr[idx][jdx];
+                                props.setValue1(newArr);
+                              } else {
+                                const newArr = props.value2;
+                                newArr[idx][jdx] = !newArr[idx][jdx];
+                                props.setValue2(newArr);
+                              }
 
-                                let target = e.target;
-                                if (target.tagName === 'SPAN')
-                                  target = target.parentElement;
-                                if (target.style.backgroundColor === 'red')
-                                  target.style.backgroundColor = 'blue';
-                                else
-                                  target.style.backgroundColor = 'red';
-                              }}>
-                                {nkey}
-                              </Button>
-                            </Form.Item>
-                            {
-                              evaluatedAnswer && (
-                                evaluatedAnswer[currentLevel].tick_cross[idx][jdx] ?
-                                  <CheckCircleFilled style={{ fontSize: '20px', color: 'green' }} />
-                                  :
-                                  <CloseCircleFilled style={{ fontSize: '20px', color: 'red' }} />
-                              )
-                            }
-                          </Col>
-                        ))
-                      }
-                    </Row>
-                    <Row>
-                      {
-                        evaluatedAnswer && (
-                          evaluatedAnswer[currentLevel].result[idx] ?
-                            <div>
-                              <CheckCircleFilled style={{ fontSize: '20px', color: 'green' }} />
-                              <Paragraph>All choices are correct</Paragraph>
-                            </div>
-                            :
-                            <div>
-                              <CloseCircleFilled style={{ fontSize: '20px', color: 'red' }} />
-                              <Paragraph>All choices are not correct</Paragraph>
-                            </div>
-                        )
-                      }
-                    </Row>
-                  </CustomCard>
-                ))
-              }
+                              let { target } = e;
+                              if (target.tagName === 'SPAN')
+                                target = target.parentElement;
+                              if (target.style.backgroundColor === 'red')
+                                target.style.backgroundColor = 'blue';
+                              else target.style.backgroundColor = 'red';
+                            }}
+                          >
+                            {nkey}
+                          </Button>
+                        </Form.Item>
+                        {evaluatedAnswer &&
+                          (evaluatedAnswer[currentLevel].tick_cross[idx][
+                            jdx
+                          ] ? (
+                            <CheckCircleFilled
+                              style={{ fontSize: '20px', color: 'green' }}
+                            />
+                          ) : (
+                            <CloseCircleFilled
+                              style={{ fontSize: '20px', color: 'red' }}
+                            />
+                          ))}
+                      </Col>
+                    ))}
+                  </Row>
+                  <Row>
+                    {evaluatedAnswer &&
+                      (evaluatedAnswer[currentLevel].result[idx] ? (
+                        <div>
+                          <CheckCircleFilled
+                            style={{ fontSize: '20px', color: 'green' }}
+                          />
+                          <Paragraph>All choices are correct</Paragraph>
+                        </div>
+                      ) : (
+                        <div>
+                          <CloseCircleFilled
+                            style={{ fontSize: '20px', color: 'red' }}
+                          />
+                          <Paragraph>All choices are not correct</Paragraph>
+                        </div>
+                      ))}
+                  </Row>
+                </CustomCard>
+              ))}
             </Col>
             <Col xs={{ span: 24 }} xl={{ span: 11, offset: 1 }}>
               <Crossword grid={gameData[currentLevel].grid} />
