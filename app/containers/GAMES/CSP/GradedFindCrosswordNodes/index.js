@@ -18,6 +18,8 @@ import NavigationBar from 'components/NavigationBar';
 import makeSelectGradedFindCrosswordNodes from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+import GradedGamesFeedback from 'components/FEEDBACK/GradedGamesFeedback';
+import notification from 'antd/lib/notification';
 import {
   getGamesDataStart,
   evaluateResponseStart,
@@ -30,6 +32,7 @@ export function GradedFindCrosswordNodes(props) {
 
   const [currentLevel, setCurrentLevel] = useState(0);
   const [value, setValue] = useState(undefined);
+  const [alreadyFeedback, setAlreadyFeedback] = useState(false);
 
   useEffect(() => {
     props.getGameData();
@@ -44,6 +47,47 @@ export function GradedFindCrosswordNodes(props) {
       );
     }
   }, [props.state.gameData]);
+
+  useEffect(() => {
+    if (evaluatedAnswer && !alreadyFeedback) {
+      setAlreadyFeedback(true);
+      const practiceGamesFeedback = <GradedGamesFeedback submitFeedback={submitFeedback} />
+      const args = {
+        message: 'Feedback',
+        description:
+          practiceGamesFeedback,
+        duration: 0,
+      };
+      notification.open(args);
+      if (evaluatedAnswer.score !== 1) {
+        const practiceGamesFeedback = <GradedGamesFeedback whatWentWrong submitWWW={submitWWW} />
+        const args = {
+          message: 'Why you made mistake?',
+          description:
+            practiceGamesFeedback,
+          duration: 0,
+          placement: 'topLeft',
+        };
+        notification.open(args);
+      }
+    }
+  }, [props.state]);
+
+  const submitWWW = values => {
+    const response = {};
+    response.isGraded = true;
+    response.whatwentwrong = JSON.stringify(values);
+    props.saveFeedback(response);
+  };
+
+  const submitFeedback = values => {
+    const response = {};
+    response.isGraded = true;
+    response.feedback = JSON.stringify(values);
+    props.saveFeedback(response);
+  }
+
+  const { evaluatedAnswer } = props.state;
 
   const submit = values => {
     console.log(values);

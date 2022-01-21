@@ -18,7 +18,9 @@ import reducer from './reducer';
 import saga from './saga';
 import NavigationBar from 'components/NavigationBar';
 import GameComponent from 'components/GAMES/PropositionalLogic/GradedMatchExpressionGame';
-import { getGamesDataStart, evaluateResponseStart } from './actions';
+import GradedGamesFeedback from 'components/FEEDBACK/GradedGamesFeedback';
+import notification from 'antd/lib/notification';
+import { getGamesDataStart, evaluateResponseStart, putFeedbackStart } from './actions';
 
 export function GradedMatchExpressionGame(props) {
   useInjectReducer({ key: 'gradedMatchExpressionGame', reducer });
@@ -26,6 +28,7 @@ export function GradedMatchExpressionGame(props) {
 
   const [currentLevel, setCurrentLevel] = useState(0);
   const [value, setValue] = useState(undefined);
+  const [alreadyFeedback, setAlreadyFeedback] = useState(false);
 
   useEffect(() => {
     props.getGameData();
@@ -35,15 +38,56 @@ export function GradedMatchExpressionGame(props) {
     if (props.state.gameData) {
       const initArray = new Array(props.state.gameData.length);
       for (let i = 0; i < props.state.gameData.length; i += 1) {
-        props.state.gameData[i].ptr = 0;
-        initArray[i] = new Array(props.state.gameData[i].exp_to_display.length).fill(-1);
+        if (props.state.gameData[i].exp_to_display) {
+          props.state.gameData[i].ptr = 0;
+          initArray[i] = new Array(props.state.gameData[i].exp_to_display.length).fill(-1);
+        }
       }
       setValue(initArray);
     }
   }, [props.state.gameData]);
 
-  console.log(value);
+  useEffect(() => {
+    if (evaluatedAnswer && !alreadyFeedback) {
+      setAlreadyFeedback(true);
+      const practiceGamesFeedback = <GradedGamesFeedback submitFeedback={submitFeedback} />
+      const args = {
+        message: 'Feedback',
+        description:
+          practiceGamesFeedback,
+        duration: 0,
+      };
+      notification.open(args);
+      if (evaluatedAnswer.score !== 1) {
+        const practiceGamesFeedback = <GradedGamesFeedback whatWentWrong submitWWW={submitWWW} />
+        const args = {
+          message: 'Why you made mistake?',
+          description:
+            practiceGamesFeedback,
+          duration: 0,
+          placement: 'topLeft',
+        };
+        notification.open(args);
+      }
+    }
+  }, [props.state]);
 
+  const submitWWW = values => {
+    const response = {};
+    response.isGraded = true;
+    response.whatwentwrong = JSON.stringify(values);
+    props.saveFeedback(response);
+  };
+
+  const submitFeedback = values => {
+    const response = {};
+    response.isGraded = true;
+    response.feedback = JSON.stringify(values);
+    props.saveFeedback(response);
+  }
+
+  const { evaluatedAnswer } = props.state;
+  console.log(value);
   const submit = () => {
     const { gameData } = props.state;
     const response = {};

@@ -18,7 +18,6 @@ function ExamNavigator(props) {
   for (let i = 0; i < props.levels; i++) {
     arr[i] = i + 1;
   }
-  console.log(props);
   return (
     <div>
       <Row>

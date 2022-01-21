@@ -47,7 +47,10 @@ function MatchExpressionGame(props) {
                       <InputNumber
                         onChange={e => {
                           const resArray = props.value;
-                          resArray[idx] = e;
+                          if (e !== null)
+                            resArray[idx] = e;
+                          else
+                            resArray[idx] = -1;
                           props.changeResponse(resArray);
                         }}
                       />

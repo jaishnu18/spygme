@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 // import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 
@@ -34,10 +34,11 @@ const questions = [
 ];
 
 
-function GradedGamesFeedback() {
+function GradedGamesFeedback(props) {
+
   const [disableWWW, setDisableWWW] = useState(false);
   const [disableFeedback, setDisableFeedback] = useState(false);
-
+  console.log(props);
   return (
     props.whatWentWrong ?
       (
