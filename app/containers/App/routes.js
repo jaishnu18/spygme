@@ -34,6 +34,8 @@ import GradedExpressionEvaluationGame from 'containers/GAMES/PropositionalLogic/
 import GradedMatchExpressionGame from 'containers/GAMES/PropositionalLogic/GradedMatchExpressionGame';
 import GradedNodeConsistency from 'containers/GAMES/CSP/GradedNodeConsistency';
 import GradedArcConsistency from 'containers/GAMES/CSP/GradedArcConsistency';
+import AboutPage from 'containers/AboutPage';
+
 import GradedWriteExpressionGame from '../GAMES/PropositionalLogic/GradedWriteExpressionGame';
 import NodeConsistencyGame from '../GAMES/CSP/NodeConsistencyGame';
 import DrawCrosswordGraphGame from '../GAMES/CSP/DrawCrosswordGraphGame';
@@ -45,6 +47,7 @@ function Routes(props) {
     return (
       <Switch>
         <Route exact path="/" component={HomePage} />
+        <Route exact path="/about" component={AboutPage} />
 
         <Route
           path="/auth"
@@ -63,6 +66,7 @@ function Routes(props) {
   return (
     <Switch>
       <Route exact path="/" component={HomePage} />
+      <Route exact path="/about" component={AboutPage} />
 
       <Route path="/dashboard" component={DashboardPage} />
       {/*

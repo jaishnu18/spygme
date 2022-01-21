@@ -20,6 +20,7 @@ import CheckCircleFilled from '@ant-design/icons/CheckCircleFilled';
 import CloseCircleFilled from '@ant-design/icons/CloseCircleFilled';
 import CustomCard from 'components/CustomCard';
 import Descriptions from 'antd/lib/descriptions';
+import CountdownCircleTimer from 'react-countdown-circle-timer';
 
 function GradedExpressionEvaluationGame(props) {
   const { gameData } = props;
@@ -34,6 +35,9 @@ function GradedExpressionEvaluationGame(props) {
           setCurrentLevel={props.setCurrentLevel}
           submit={props.submit}
           value={props.value}
+          evaluatedAnswer={evaluatedAnswer}
+          examDuration={300}
+          submit={props.submit}
         />
       </Col>
 

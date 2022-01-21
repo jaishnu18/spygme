@@ -56,25 +56,6 @@ export function HomePage(props) {
       </Helmet>
 
       <Welcome />
-      <Row
-        style={{ padding: '10px', }}
-      >
-        <Col span={8} offset={8}>
-          <Title>
-            What is it all about ?
-          </Title>
-        </Col>
-        <Paragraph>
-          In today's world, AI has got diverse applications and is used in
-          fields like Healthcare, Self-driving Cars, Agriculture and so on. We
-          want you to start learning AI from the very basic concepts so that you
-          can build a strong foundation and have no problem while understanding
-          more advanced stuffs. Don't worry!! We don't give lecture videos and
-          take exams. We use AI to teach you AI. You will learn each and every
-          concept while playing interesting games and reading short reading
-          materials.
-        </Paragraph>
-      </Row>
       <Divider />
       <Row>
         <FaqSection />

@@ -18,7 +18,9 @@ import reducer from './reducer';
 import saga from './saga';
 import NavigationBar from 'components/NavigationBar';
 import GameComponent from 'components/GAMES/PropositionalLogic/GradedExpressionEvaluationGame';
-import { getGamesDataStart, evaluateResponseStart } from './actions';
+import GradedGamesFeedback from 'components/FEEDBACK/GradedGamesFeedback';
+import notification from 'antd/lib/notification';
+import { getGamesDataStart, evaluateResponseStart,putFeedbackStart } from './actions';
 
 export function GradedExpressionEvaluationGame(props) {
   useInjectReducer({ key: 'gradedExpressionEvaluationGame', reducer });
@@ -26,6 +28,7 @@ export function GradedExpressionEvaluationGame(props) {
 
   const [currentLevel, setCurrentLevel] = useState(0);
   const [value, setValue] = useState(undefined);
+  const [alreadyFeedback, setAlreadyFeedback] = useState(false);
 
   useEffect(() => {
     props.getGameData();
@@ -38,6 +41,47 @@ export function GradedExpressionEvaluationGame(props) {
       );
     }
   }, [props.state.gameData]);
+
+  useEffect(() => {
+    if (evaluatedAnswer && !alreadyFeedback) {
+      setAlreadyFeedback(true);
+      const practiceGamesFeedback = <GradedGamesFeedback submitFeedback={submitFeedback} />
+      const args = {
+        message: 'Feedback',
+        description:
+          practiceGamesFeedback,
+        duration: 0,
+      };
+      notification.open(args);
+      if (evaluatedAnswer.score !== 1) {
+        const practiceGamesFeedback = <GradedGamesFeedback whatWentWrong submitWWW={submitWWW} />
+        const args = {
+          message: 'Why you made mistake?',
+          description:
+            practiceGamesFeedback,
+          duration: 0,
+          placement: 'topLeft',
+        };
+        notification.open(args);
+      }
+    }
+  }, [props.state]);
+
+  const submitWWW = values => {
+    const response = {};
+    response.isGraded = true;
+    response.whatwentwrong = JSON.stringify(values);
+    props.saveFeedback(response);
+  };
+
+  const submitFeedback = values => {
+    const response = {};
+    response.isGraded = true;
+    response.feedback = JSON.stringify(values);
+    props.saveFeedback(response);
+  }
+
+  const { evaluatedAnswer } = props.state;
 
   const submit = () => {
     const { gameData } = props.state;

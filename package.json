@@ -92,6 +92,7 @@
     "prop-types": "15.7.2",
     "querystring": "^0.2.0",
     "react": "^17.0.2",
+    "react-countdown-circle-timer": "^3.0.6",
     "react-cytoscapejs": "^1.2.1",
     "react-dom": "16.8.6",
     "react-google-login": "^5.2.2",

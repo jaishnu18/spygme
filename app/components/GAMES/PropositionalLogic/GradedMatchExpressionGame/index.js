@@ -34,6 +34,9 @@ function GradedMatchExpressionGame(props) {
           setCurrentLevel={props.setCurrentLevel}
           submit={props.submit}
           value={props.value}
+          examDuration={600}
+          evaluatedAnswer={evaluatedAnswer}
+          submit={props.submit}
         />
       </Col>
 
@@ -54,11 +57,12 @@ function GradedMatchExpressionGame(props) {
                       <InputNumber
                         onChange={e => {
                           const resArray = props.value;
-                          if (e)
+                          if (e !== null)
                             resArray[currentLevel][idx] = e;
                           else
                             resArray[currentLevel][idx] = -1;
                           props.setValue(resArray);
+                          console.log(props.value);
                         }}
                       />
                     </Form.Item>
