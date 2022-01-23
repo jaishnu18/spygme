@@ -20,8 +20,11 @@ import CytoscapeComponent from 'react-cytoscapejs';
 import CustomButton from '../atoms/CustomButton';
 import H1 from '../atoms/H1';
 cytoscape.use(popper);
+
 export const showNodeIDs = (props, myCyRef) => {
   const { gameData } = props;
+
+  console.log(myCyRef)
 
   if (gameData && myCyRef) {
     console.log(myCyRef.children);
@@ -217,11 +220,20 @@ function Graph(props) {
           },
           style: {
             'control-point-weight': 0.5,
-            'control-point-distance': -20 * (edgeCurvature ? edgeCurvature[i][j] : 0),
+            'control-point-distance':
+              -20 * (edgeCurvature ? edgeCurvature[i][j] : 0),
             'line-color':
-              content[i] === '~' ? '#000' : j === 0 && edgeCurvature ? 'red' : 'blue',
+              content[i] === '~'
+                ? '#000'
+                : j === 0 && edgeCurvature
+                ? 'red'
+                : 'blue',
             'target-arrow-color':
-              content[i] === '~' ? '#000' : j === 0 && edgeCurvature ? 'red' : 'blue',
+              content[i] === '~'
+                ? '#000'
+                : j === 0 && edgeCurvature
+                ? 'red'
+                : 'blue',
           },
         };
         elements.push(obj);

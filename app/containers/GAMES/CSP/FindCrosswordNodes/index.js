@@ -20,6 +20,7 @@ import { useInjectReducer } from 'utils/injectReducer';
 import moment from 'moment';
 import Col from 'antd/lib/col';
 import Row from 'antd/lib/row';
+import notification from 'antd/lib/notification';
 import makeSelectFindCrosswordNodes from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -28,7 +29,6 @@ import {
   evaluateResponseStart,
   putFeedbackStart,
 } from './actions';
-import notification from 'antd/lib/notification';
 import PracticeGamesFeedback from '../../../../components/FEEDBACK/PracticeGamesFeedback';
 
 export function FindCrosswordNodes(props) {
@@ -47,20 +47,22 @@ export function FindCrosswordNodes(props) {
   useEffect(() => {
     if (evaluatedAnswer && !alreadyFeedback) {
       setAlreadyFeedback(true);
-      const practiceGamesFeedback = <PracticeGamesFeedback submitFeedback={submitFeedback} />
+      const practiceGamesFeedback = (
+        <PracticeGamesFeedback submitFeedback={submitFeedback} />
+      );
       const args = {
         message: 'Feedback',
-        description:
-          practiceGamesFeedback,
+        description: practiceGamesFeedback,
         duration: 0,
       };
       notification.open(args);
       if (evaluatedAnswer.score !== 1) {
-        const practiceGamesFeedback = <PracticeGamesFeedback whatWentWrong submitWWW={submitWWW} />
+        const practiceGamesFeedback = (
+          <PracticeGamesFeedback whatWentWrong submitWWW={submitWWW} />
+        );
         const args = {
           message: 'Why you made mistake?',
-          description:
-            practiceGamesFeedback,
+          description: practiceGamesFeedback,
           duration: 0,
           placement: 'topLeft',
         };
@@ -90,7 +92,7 @@ export function FindCrosswordNodes(props) {
     const response = {};
     response.feedback = JSON.stringify(values);
     props.saveFeedback(response);
-  }
+  };
 
   const { gameData } = props.state;
   const { evaluatedAnswer } = props.state;
@@ -129,9 +131,7 @@ export function FindCrosswordNodes(props) {
 
           <Row style={{ width: '100%' }}>
             <Col>
-              <GameDescription
-                description={gameData.gameDescription}
-              />
+              <GameDescription description={gameData.gameDescription} />
             </Col>
           </Row>
           <GameComponent
