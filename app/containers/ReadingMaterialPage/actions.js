@@ -4,6 +4,7 @@
  *
  */
 
+import message from 'antd/lib/message';
 import {
   DEFAULT_ACTION,
   GET_RM_FAILURE,
@@ -48,6 +49,7 @@ export function markAsReadStart(payload) {
   };
 }
 export function markAsReadSuccess(payload) {
+  message.success('Successfully marked as read');
   return {
     type: MARK_READ_SUCCESS,
     payload,

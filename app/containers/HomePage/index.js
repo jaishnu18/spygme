@@ -41,7 +41,7 @@ export function HomePage(props) {
   useInjectReducer({ key: 'homePage', reducer });
   useInjectSaga({ key: 'homePage', saga });
 
-  useEffect(()=>{
+  useEffect(() => {
     window.scrollTo(0, 0);
   });
 

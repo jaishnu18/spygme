@@ -20,6 +20,7 @@ import CustomButton from 'components/atoms/CustomButton';
 import Button from 'antd/lib/button';
 import Form from 'antd/lib/form/Form';
 import Graph from 'components/Graph';
+import Affix from 'antd/lib/affix';
 
 function ArcConsistencyGame(props) {
   const { gameData } = props;
@@ -90,19 +91,19 @@ function ArcConsistencyGame(props) {
           ))}
         </Col>
         <Col xs={{ span: 24 }} xl={{ span: 11, offset: 1 }}>
-          <Crossword grid={gameData.grid} />
-          <Row>
-            <Col>
-              <CustomButton disableOnClick onClick={props.submit}>
-                Check Answer
-              </CustomButton>
-            </Col>
-            {evaluatedAnswer &&
-              <Col span={24}>
-                <Title level={3}>{"Score : " + Math.round(evaluatedAnswer.score * 100) + "%"}</Title>
+          <Affix>
+            <Crossword grid={gameData.grid} />
+            <Row>
+              <Col>
+                <CustomButton disableOnClick onClick={props.submit}>Check Answer</CustomButton>
               </Col>
-            }
-          </Row>
+              {evaluatedAnswer &&
+                <Col span={24}>
+                  <Title level={3}>{"Score : " + Math.round(evaluatedAnswer.score * 100) + "%"}</Title>
+                </Col>
+              }
+            </Row>
+          </Affix>
         </Col>
       </Row>
       {evaluatedAnswer && (

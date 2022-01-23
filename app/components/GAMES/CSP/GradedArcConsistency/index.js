@@ -19,6 +19,7 @@ import Paragraph from 'antd/lib/typography/Paragraph';
 // import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 import Descriptions from 'antd/lib/descriptions';
+import Affix from 'antd/lib/affix';
 
 function GradedArcConsistency(props) {
   const { gameData } = props;
@@ -105,34 +106,36 @@ function GradedArcConsistency(props) {
               }
             </Col>
             <Col xs={{ span: 24 }} xl={{ span: 11, offset: 1 }}>
-              <Crossword grid={gameData[currentLevel].grid} />
-              {evaluatedAnswer &&
-                <Row style={{ paddingTop: '40px' }}>
-                  <Col span={22}>
-                    <CustomCard title="Summary Report">
-                      <Col xl={{ span: 23 }} xs={{ span: 24 }}>
-                        <Descriptions layout="horizontal" bordered>
-                          <Descriptions.Item label="Score" span={24}>
-                            <Col span={24}>
-                              {Math.round(evaluatedAnswer[props.maxLevel].score * 100) + "%"}
-                            </Col>
-                          </Descriptions.Item>
-                          <Descriptions.Item label="Correctly Answered" span={24}>
-                            <Col span={24}>
-                              {evaluatedAnswer[props.maxLevel].correctlyAnswered}
-                            </Col>
-                          </Descriptions.Item>
-                          <Descriptions.Item label="Wrong Answered" span={24}>
-                            <Col span={24}>
-                              {evaluatedAnswer[props.maxLevel].wrongAnswered}
-                            </Col>
-                          </Descriptions.Item>
-                        </Descriptions>
-                      </Col>
-                    </CustomCard>
-                  </Col>
-                </Row>
-              }
+              <Affix>
+                <Crossword grid={gameData[currentLevel].grid} />
+                {evaluatedAnswer &&
+                  <Row style={{ paddingTop: '40px' }}>
+                    <Col span={22}>
+                      <CustomCard title="Summary Report">
+                        <Col xl={{ span: 23 }} xs={{ span: 24 }}>
+                          <Descriptions layout="horizontal" bordered>
+                            <Descriptions.Item label="Score" span={24}>
+                              <Col span={24}>
+                                {Math.round(evaluatedAnswer[props.maxLevel].score * 100) + "%"}
+                              </Col>
+                            </Descriptions.Item>
+                            <Descriptions.Item label="Correctly Answered" span={24}>
+                              <Col span={24}>
+                                {evaluatedAnswer[props.maxLevel].correctlyAnswered}
+                              </Col>
+                            </Descriptions.Item>
+                            <Descriptions.Item label="Wrong Answered" span={24}>
+                              <Col span={24}>
+                                {evaluatedAnswer[props.maxLevel].wrongAnswered}
+                              </Col>
+                            </Descriptions.Item>
+                          </Descriptions>
+                        </Col>
+                      </CustomCard>
+                    </Col>
+                  </Row>
+                }
+              </Affix>
             </Col>
           </Row>
         </Form>

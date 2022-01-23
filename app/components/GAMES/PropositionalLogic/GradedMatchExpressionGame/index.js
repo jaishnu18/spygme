@@ -25,7 +25,9 @@ function GradedMatchExpressionGame(props) {
   const { gameData } = props;
   const { evaluatedAnswer } = props;
   const { currentLevel } = props;
-
+  
+  gameData[currentLevel].ptr=0;
+  
   return (
     <Row style={{ padding: '40px' }}>
       <Col xs={{ span: 24 }} xl={{ span: 4 }}>

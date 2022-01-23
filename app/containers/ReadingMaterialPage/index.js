@@ -46,9 +46,9 @@ export function ReadingMaterialPage(props) {
   const backToMaterials = () => {
     const secs = end(startTime);
     const response = {};
-    const date = new Date(); 
+    const date = new Date();
     const timestamp = new Date().toISOString();
-    response.timestamp = timestamp;  
+    response.timestamp = timestamp;
     response.rmId = rmId;
     response.timeSpent = secs;
     props.recordTime(response);
@@ -61,6 +61,7 @@ export function ReadingMaterialPage(props) {
     const response = {};
     response.rmId = rmId;
     props.markAsRead(response);
+    readingMaterialContent.read = true;
   };
 
   return (

@@ -48,17 +48,6 @@ function TopicListComponent(props) {
             />
           </Title>
         </Col>
-        <Col xs={{ span: 24 }} xl={{ span: 8, offset: 1 }}>
-          <Image
-            src={RobotReading}
-            style={{
-              height: '100%',
-              objectFit: 'cover',
-              border: '1px solid black',
-            }}
-            preview={false}
-          />
-        </Col>
       </StyledRow>
       <StyledRow
         style={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}

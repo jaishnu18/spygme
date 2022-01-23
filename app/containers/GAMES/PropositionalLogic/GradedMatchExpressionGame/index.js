@@ -39,7 +39,6 @@ export function GradedMatchExpressionGame(props) {
       const initArray = new Array(props.state.gameData.length);
       for (let i = 0; i < props.state.gameData.length; i += 1) {
         if (props.state.gameData[i].exp_to_display) {
-          props.state.gameData[i].ptr = 0;
           initArray[i] = new Array(props.state.gameData[i].exp_to_display.length).fill(-1);
         }
       }

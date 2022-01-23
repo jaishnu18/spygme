@@ -82,7 +82,7 @@ function NavBar(props) {
                 xl={{ span: 7 }}
               >
                 <Link to=''>
-                  <H4>AI For School</H4>
+                  <H4>AI For Schools</H4>
                 </Link>
               </Col>
 

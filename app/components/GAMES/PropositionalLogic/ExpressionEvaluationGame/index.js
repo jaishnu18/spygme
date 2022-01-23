@@ -40,7 +40,7 @@ function ExpressionEvaluationGame(props) {
               {"where " +
                 (
                   gameData.content.map((key, idx) => (
-                    key.match(/[a-z]/i) ? key + " = " + gameData.values[idx] : ""
+                    key.charCodeAt(0)>=97 && key.charCodeAt(0)<=122 ? key + " = " + gameData.values[idx] : ""
                   )))}
             </Title>
 
