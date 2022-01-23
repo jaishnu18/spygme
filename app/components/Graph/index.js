@@ -24,8 +24,9 @@ export const showNodeIDs = (props, myCyRef) => {
   const { gameData } = props;
 
   if (gameData && myCyRef) {
+    console.log(myCyRef.children);
     for (let i = 0; i < gameData.num_nodes; i += 1) {
-      const popper = myCyRef.getElementById(i).popper({
+      const popper = myCyRef.getElementById(0).popper({
         content: () => {
           const div = document.createElement('h2');
           div.style.textAlign = 'left';
@@ -40,13 +41,13 @@ export const showNodeIDs = (props, myCyRef) => {
         },
       });
 
-      const update = () => {
-        popper.update();
-      };
+      //     const update = () => {
+      //       popper.update();
+      //     };
 
-      myCyRef.getElementById(i).on('position', update);
+      //     myCyRef.getElementById(i).on('position', update);
 
-      myCyRef.on('pan zoom resize', update);
+      //     myCyRef.on('pan zoom resize', update);
     }
   }
 };
@@ -192,7 +193,7 @@ function Graph(props) {
 
     for (let i = 0; i < gameData.num_nodes; i += 1) {
       const obj = {
-        data: { id: i, label: gameData.content[i] },
+        data: { id: i, label: `${gameData.content[i]}${(props.nodeID ? ' : ' + i : '')}` },
         position: {
           x: 100 * (xCoordinate[i] + 1),
           y: 100 * (yCoordinate[i] + 1),
@@ -230,7 +231,7 @@ function Graph(props) {
     setGraphData(elements);
   }, [gameData]);
 
-  let myCyRef;
+  const [myCyRef, setMyCyRef] = useState(undefined);
   console.log(gameData);
 
   return (
@@ -305,7 +306,7 @@ function Graph(props) {
         )}
       </Col>
 
-      {graphData && (
+      {graphData && gameData && (
         <Col>
           <CytoscapeComponent
             elements={CytoscapeComponent.normalizeElements(graphData)}
@@ -337,6 +338,8 @@ function Graph(props) {
                   'text-valign': 'center',
                   'text-halign': 'center',
                   'font-size': '17px',
+                  "text-outline-color": "#666",
+                  "text-outline-width": props.nodeID ? "2px" : '0px',
                 },
               },
               {
@@ -364,8 +367,8 @@ function Graph(props) {
               },
             ]}
             cy={cy => {
-              myCyRef = cy;
-              if (props.nodeID) showNodeIDs(props, myCyRef);
+              setMyCyRef(cy);
+              // if (props.nodeID) showNodeIDs(props, myCyRef);
             }}
           />
         </Col>

@@ -11,6 +11,7 @@ import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
 import { Link, useHistory } from 'react-router-dom';
 import CustomButton from 'components/atoms/CustomButton';
+import ArrowLeftOutlined from '@ant-design/icons/ArrowLeftOutlined';
 
 function NavigationBar(props) {
 
@@ -23,6 +24,7 @@ function NavigationBar(props) {
           style={{ display: 'flex', alignItems: 'center' }}
         >
           <CustomButton onClick={props.backToMaterials}>
+            <ArrowLeftOutlined/>
             {props.prevPageText}
           </CustomButton>
         </Col>
@@ -34,7 +36,7 @@ function NavigationBar(props) {
             style={{ display: 'flex', alignItems: 'center' }}
           >
             <Link to={props.prevPageLink}>
-              <CustomButton>{props.prevPageText}</CustomButton>
+              <CustomButton><ArrowLeftOutlined/>{props.prevPageText}</CustomButton>
             </Link>
           </Col>
         )

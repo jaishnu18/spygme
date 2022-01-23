@@ -25,6 +25,11 @@ function DashboardComponent(props) {
   const { dashboard } = props;
   const columns = [
     {
+      title: 'Rank',
+      dataIndex: 'rank',
+      key: 'rank',
+    },
+    {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
@@ -57,19 +62,10 @@ function DashboardComponent(props) {
           <Title>
             <Typewriter
               onInit={typewriter => {
-                typewriter.typeString('Hello ' + dashboard.username + ' !').start();
+                typewriter.typeString('Hello ' + props.username + ' !').start();
               }}
             />
           </Title>
-        </Col>
-      </Row>
-      <Row style={{ paddingTop: '20px', paddingBottom: '20px' }}>
-        <Col offset={1}>
-          <Link to="/topics">
-            <CustomButton>
-              Learn AI
-            </CustomButton>
-          </Link>
         </Col>
       </Row>
       <Row>

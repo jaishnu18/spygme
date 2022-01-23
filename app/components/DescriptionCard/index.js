@@ -22,7 +22,7 @@ function DescriptionCard(props) {
     <CustomCard title={props.title} hoverable={props.hoverable}>
       <Row style={{ display: 'flex', flexDirection: 'column' }}>
         {props.isReadingMaterial ? (
-          props.description.map((key, idx) => <Paragraph>{key}</Paragraph>)
+          props.description.map((key, idx) => <pre style={{fontFamily:'cursive'}}>{`${key}\n<b>sdfd</b>`}</pre>)
         ) : (
           <Title level={3} ellipsis>
             {props.description}

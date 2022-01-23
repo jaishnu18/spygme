@@ -23,6 +23,7 @@ import saga from './saga';
 import Section from '../../components/Section';
 import DashboardComponent from '../../components/DashboardComponent';
 import { getDashboardStart } from './actions';
+import { useAuth } from '../App/AuthContext';
 
 export function DashboardPage(props) {
   useInjectReducer({ key: 'dashboardPage', reducer });
@@ -33,7 +34,7 @@ export function DashboardPage(props) {
   }, []);
 
   const { dashboard } = props.dashboardPage;
-
+  const authData = useAuth();
   return (
     <div>
       <Helmet>
@@ -41,7 +42,7 @@ export function DashboardPage(props) {
         <meta name="description" content="Description of DashboardPage" />
       </Helmet>
       {dashboard && (
-        <DashboardComponent dashboard={dashboard} />
+        <DashboardComponent dashboard={dashboard} username={authData.name} />
       )
       }
     </div>

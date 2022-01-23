@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import Typography from 'antd/lib/typography';
 import DescriptionCard from 'components/DescriptionCard';
 import NavigationBar from '../NavigationBar';
+import Divider from 'antd/lib/divider';
 
 const { Title } = Typography;
 
@@ -22,9 +23,9 @@ function ConceptListComponent(props) {
   const { parentTopic } = props;
   return (
     <div>
-      <NavigationBar prevPageText="Back to Topics" prevPageLink="/topics"/>
-    <Row
-        style={{ padding: '40px 40px 20px 40px', margin: 0 }}
+      <NavigationBar prevPageText="Back to Topics" prevPageLink="/topics" />
+      <Row
+        style={{ padding: '20px', margin: 0 }}
         gutter={[16, 16]}
       >
         <Col
@@ -37,6 +38,8 @@ function ConceptListComponent(props) {
         >
           <Title style={{ textAlign: 'center' }}>{props.topicName}</Title>
         </Col>
+        <Divider />
+
         {concepts
           ? concepts.map((key, idx) => (
             <Col xs={{ span: 24 }} xl={{ span: 8 }}>

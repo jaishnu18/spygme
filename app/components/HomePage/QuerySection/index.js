@@ -16,6 +16,7 @@ import Location from 'images/location.png';
 import Typography from 'antd/lib/typography';
 import CustomCard from 'components/CustomCard';
 import Image from 'antd/lib/image';
+import Radio from 'antd/lib/radio';
 // import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 
@@ -30,26 +31,13 @@ function QuerySection(props) {
       <Col span={10} offset={7}>
         <Paragraph>If you have any queries, please go through the FAQ's. For any other query feel free to fill the form below so that we can reach you out.</Paragraph>
       </Col>
-      <Col xs={{ span: 24 }} xl={{ span: 9, offset: 2 }}>
-        <CustomCard>
-          <h3>
-            <img src={Phone} style={{ height: '15px' }} /> Phone :1203222090
-          </h3>
-          <h3>
-            <Image src={Email} /> Email :
-            aiforschool@gmail.com
-          </h3>
-          <h3>
-            <img src={Location} style={{ height: '15px' }} /> Address : Indian
-            institute of technology Kharagpur
-          </h3>
-        </CustomCard>
-      </Col>
-      <Col xs={{ span: 24 }} xl={{ span: 9, offset: 2 }}>
+
+      <Col xs={{ span: 24 }} xl={{ span: 10, offset: 7 }}>
         <CustomCard>
           <Form name="QueryForm" onFinish={props.querySubmit}>
             <div>
               <Form.Item
+                label="Name"
                 name="name"
                 rules={[
                   {
@@ -62,6 +50,7 @@ function QuerySection(props) {
                 <Input placeholder="your name" />
               </Form.Item>
               <Form.Item
+                label="Email"
                 name="email"
                 rules={[
                   { type: 'email', message: 'Please enter valid email!' },
@@ -75,19 +64,26 @@ function QuerySection(props) {
                 <Input placeholder="your email" />
               </Form.Item>
               <Form.Item
-                name="phone"
+                label="I am a"
+                name="who_are_you"
                 rules={[
                   {
-                    required: false,
+                    required: true,
+                    message: 'Please input your Response!',
                   },
                 ]}
                 style={{ marginLeft: '20px', width: '400px' }}
               >
-                <Input placeholder="your phone" />
+                <Radio.Group buttonStyle="solid">
+                  <Radio.Button value="Student">Student</Radio.Button>
+                  <Radio.Button value="Teacher">Teacher</Radio.Button>
+                  <Radio.Button value="Others">Others</Radio.Button>
+                </Radio.Group>
               </Form.Item>
             </div>
             <div>
               <Form.Item
+                label="Query:"
                 name="message"
                 rules={[
                   {
@@ -104,6 +100,21 @@ function QuerySection(props) {
               Send Message
             </Button>
           </Form>
+        </CustomCard>
+      </Col>
+      <Col xs={{ span: 24 }} xl={{ span: 10, offset: 7 }} style={{ paddingTop: '10px' }}>
+        <CustomCard>
+          <h3>
+            <img src={Phone} style={{ height: '15px' }} /> Phone :1203222090
+          </h3>
+          <h3>
+            <Image src={Email} /> Email :
+            aiforschool@gmail.com
+          </h3>
+          <h3>
+            <img src={Location} style={{ height: '15px' }} /> Address : Indian
+            institute of technology Kharagpur
+          </h3>
         </CustomCard>
       </Col>
     </Row>
