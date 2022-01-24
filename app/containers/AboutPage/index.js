@@ -43,10 +43,30 @@ export function AboutPage() {
             <Paragraph>
               This project was started by UG students of Indian Institute of Technology, Kharagpur with the hope that we can develop a platform where school
               students can learn fundamentals of Artificial Intelligence by playing interesting games instead of watching lectures. Currently the project is
-              being carried out under the guidance of Prof. Partha P Chakrabarti of Computer Science & Engg. department, IIT Kharagpur and Rajiv Agarwal. 
+              being carried out under the guidance of Prof. Partha P Chakrabarti of Computer Science & Engg. department, IIT Kharagpur and Rajiv Agarwal.
             </Paragraph>
           </Col>
         </Row>
+        <Col xs={{ span: 24 }} xl={{ span: 24 }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <CustomCard>
+            <Avatar size={200} icon={<Image preview={false} />} />
+            <Row>
+              <Col>
+                <Title level={3}>Prof. Partha P Chakrabarti</Title>
+                <Paragraph>Computer Science & Enggineering</Paragraph>
+                <Paragraph>IIT Kharagpur</Paragraph>
+              </Col>
+            </Row>
+            <Row style={{ padding: '20px' }}>
+              <Col span={12}>
+                <a href="" target="__blank"><LinkedinFilled style={{ fontSize: '20px' }} /></a>
+              </Col>
+              <Col span={12}>
+                <a href="" target="__blank"><FacebookFilled style={{ fontSize: '20px' }} /></a>
+              </Col>
+            </Row>
+          </CustomCard>
+        </Col>
         <Col xs={{ span: 24 }} xl={{ span: 8 }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <CustomCard>
             <Avatar size={200} icon={<Image preview={false} />} />

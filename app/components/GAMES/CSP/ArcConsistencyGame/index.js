@@ -40,7 +40,7 @@ function ArcConsistencyGame(props) {
                 {gameData.word_bag[idx].map((nkey, jdx) => (
                   <Col span={7}>
                     <Button
-                      style={{ backgroundColor: 'blue', color: 'white' }}
+                      style={{ backgroundColor: 'blue', color: 'white', fontWeight: 700, }}
                       id={`${idx}-${jdx}`}
                       onClick={e => {
                         const newArr = props.value;
@@ -49,9 +49,14 @@ function ArcConsistencyGame(props) {
                         let target = e.target;
                         if (target.tagName === 'SPAN')
                           target = target.parentElement;
-                        if (target.style.backgroundColor === 'red')
+                        if (target.style.backgroundColor === 'yellow') {
                           target.style.backgroundColor = 'blue';
-                        else target.style.backgroundColor = 'red';
+                          target.style.color = 'white';
+                        }
+                        else {
+                          target.style.backgroundColor = 'yellow';
+                          target.style.color = 'black';
+                        }
                       }}
                     >
                       {nkey}
@@ -76,14 +81,14 @@ function ArcConsistencyGame(props) {
                       <CheckCircleFilled
                         style={{ fontSize: '20px', color: 'green' }}
                       />
-                      <Paragraph>All choices are correct</Paragraph>
+                      <Paragraph>You made its domain arc consistent</Paragraph>
                     </div>
                   ) : (
                     <div>
                       <CloseCircleFilled
                         style={{ fontSize: '20px', color: 'red' }}
                       />
-                      <Paragraph>All choices are not correct</Paragraph>
+                      <Paragraph>You could not make the domain arc consistent</Paragraph>
                     </div>
                   ))}
               </Row>
@@ -91,7 +96,7 @@ function ArcConsistencyGame(props) {
           ))}
         </Col>
         <Col xs={{ span: 24 }} xl={{ span: 11, offset: 1 }}>
-          <Affix>
+          <Affix offsetTop={60}>
             <Crossword grid={gameData.grid} />
             <Row>
               <Col>
@@ -108,10 +113,12 @@ function ArcConsistencyGame(props) {
       </Row>
       {evaluatedAnswer && (
         <Row>
-          <Graph gameData={evaluatedAnswer} width={'60'} />
+          <Col xs={{ span: 24 }} xl={{ span: 10, offset: 1 }}>
+            <Graph gameData={evaluatedAnswer} width={'60'} />
+          </Col>
         </Row>
       )
-      //sdf
+        //sdf
       }
     </div>
   );

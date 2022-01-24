@@ -32,6 +32,8 @@ import Typography from 'antd/lib/typography';
 import Divider from 'antd/lib/divider';
 import { sendMessageStart } from './actions';
 import FaqSection from '../../components/HomePage/FaqSection';
+import Timeline from 'antd/lib/timeline';
+import Image from 'antd/lib/image';
 
 const { Panel } = Collapse;
 const { Title } = Typography;
@@ -56,6 +58,28 @@ export function HomePage(props) {
       </Helmet>
 
       <Welcome />
+      <Divider />
+      <Row>
+        <Col
+          span={24}
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Title style={{ textAlign: 'center' }}>How it works?</Title>
+        </Col>
+        <Col
+          span={24}
+        >
+          <Timeline mode='alternate'>
+            <Timeline.Item label="Read short reading materials"><Image style={{ height: '200px', width: '496px' }} preview={false} src={require("images/Screenshot_ReadMat.png")} /></Timeline.Item>
+            <Timeline.Item label="Play practice games as much as you want"><Image style={{ height: '200px', width: '512px' }} preview={false} src={require("images/Screenshot_Game.png")} /></Timeline.Item>
+            <Timeline.Item label="Attempt graded tests based on what you played during practice"><Image style={{ height: '200px', width: '410px' }} preview={false} src={require("images/Screenshot_Graded.png")} /></Timeline.Item>
+          </Timeline>
+        </Col>
+      </Row>
       <Divider />
       <Row>
         <FaqSection />
