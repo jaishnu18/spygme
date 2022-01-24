@@ -62,6 +62,7 @@ function TopicListComponent(props) {
                   title={`Topic : ${idx + 1}`}
                   description={key.name}
                   imageLocation={idx == 0 ? Topic1Icon : Topic2Icon}
+                  suggestionText={key.description}
                 />
               </Link>
             </Col>

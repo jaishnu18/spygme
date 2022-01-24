@@ -35,17 +35,21 @@ function NodeConsistencyGame(props) {
                 {
                   gameData.shuffled_bag.map((nkey, jdx) => (
                     <Col span={7}>
-                      <Button style={{ backgroundColor: 'blue', color: 'white' }} id={`${idx}-${jdx}`} onClick={(e) => {
+                      <Button style={{ backgroundColor: 'blue', color: 'white', fontWeight: 700, }} id={`${idx}-${jdx}`} onClick={(e) => {
                         const newArr = props.value;
                         newArr[idx][jdx] = newArr[idx][jdx] ? false : true;
                         props.setValue(newArr);
                         let target = e.target;
                         if (target.tagName === 'SPAN')
                           target = target.parentElement;
-                        if (target.style.backgroundColor === 'red')
+                        if (target.style.backgroundColor === 'yellow') {
                           target.style.backgroundColor = 'blue';
-                        else
-                          target.style.backgroundColor = 'red';
+                          target.style.color = 'white';
+                        }
+                        else {
+                          target.style.backgroundColor = 'yellow';
+                          target.style.color = 'black';
+                        }
                       }}>
                         {nkey}
                       </Button>
@@ -67,12 +71,12 @@ function NodeConsistencyGame(props) {
                     evaluatedAnswer.result[idx] ?
                       <div>
                         <CheckCircleFilled style={{ fontSize: '20px', color: 'green' }} />
-                        <Paragraph>All choices are correct</Paragraph>
+                        <Paragraph>You made its domain node consistent</Paragraph>
                       </div>
                       :
                       <div>
                         <CloseCircleFilled style={{ fontSize: '20px', color: 'red' }} />
-                        <Paragraph>All choices are not correct</Paragraph>
+                        <Paragraph>You could not make the domain node consistent</Paragraph>
                       </div>
                   )
                 }
@@ -83,7 +87,7 @@ function NodeConsistencyGame(props) {
         }
       </Col>
       <Col xs={{ span: 24 }} xl={{ span: 11, offset: 1 }}>
-        <Affix>
+        <Affix offsetTop={60}>
           <Crossword grid={gameData.grid} />
           <Row>
             <Col>
