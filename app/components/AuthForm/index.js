@@ -112,7 +112,7 @@ function AuthForm(props) {
                     rules={[
                       {
                         required: true,
-                        message: 'Please input your Email Address!',
+                        message: 'Please input your Name!',
                       },
                     ]}
                   >
@@ -143,7 +143,7 @@ function AuthForm(props) {
                         },
                       ]}
                     >
-                      <InputNumber />
+                      <InputNumber max="12" min='6'/>
                     </Form.Item>
                   )}
 
@@ -206,7 +206,7 @@ function AuthForm(props) {
                   />
                 </div>
               </TabPane>
-              <TabPane tab="Returning User" key="2">
+              <TabPane tab="Existing User" key="2">
                 <Form
                   name="basic"
                   style={{ marginTop: '20px' }}

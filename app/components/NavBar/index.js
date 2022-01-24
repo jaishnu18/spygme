@@ -167,7 +167,7 @@ function NavBar(props) {
                       </Menu.Item> */}
                       <Menu.Item key="2" onClick={() => history.push('/about')}>About Us</Menu.Item>
                       <Menu.Item key="3" onClick={() => history.push('/auth')}>
-                        Sign In
+                        Login/Register
                       </Menu.Item>
                     </Menu>
                   </Col>
