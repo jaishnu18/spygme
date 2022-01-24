@@ -45,10 +45,7 @@ function FindCrosswordNodesGame(props) {
         style={{ display: 'flex', flexDirection: 'column' }}
       >
         <Row>
-          <Col xs={{ span: 24 }} xl={{ span: 12 }}>
-            <Crossword grid={gameData.grid} />
-          </Col>
-          <Col span={10} offset={2}>
+          <Col span={10} offset={1}>
             <Form
               form={form}
               name={`Form-${props.ID || ''}`}
@@ -174,21 +171,21 @@ function FindCrosswordNodesGame(props) {
                       <Descriptions.Item label="Correct Nodes">
                         {evaluatedAnswer.correct_nodes_list.map((key, idx) => (
                           <Col span={24}>
-                            {`${key[0]}-${key[1]}-${key[1] === 65 ? 'A' : 'D'}`}
+                            {`${key[0]}-${key[1]}-${key[2] === 65 ? 'A' : 'D'}`}
                           </Col>
                         ))}
                       </Descriptions.Item>
                       <Descriptions.Item label="Wrong Nodes">
                         {evaluatedAnswer.wrong_nodes_list.map((key, idx) => (
                           <Col span={24}>
-                            {`${key[0]}-${key[1]}-${key[1] === 65 ? 'A' : 'D'}`}
+                            {`${key[0]}-${key[1]}-${key[2] === 65 ? 'A' : 'D'}`}
                           </Col>
                         ))}
                       </Descriptions.Item>
                       <Descriptions.Item label="Mised Nodes">
                         {evaluatedAnswer.missed_nodes_list.map((key, idx) => (
                           <Col span={24}>
-                            {`${key[0]}-${key[1]}-${key[1] === 65 ? 'A' : 'D'}`}
+                            {`${key[0]}-${key[1]}-${key[2] === 65 ? 'A' : 'D'}`}
                           </Col>
                         ))}
                       </Descriptions.Item>
@@ -197,6 +194,9 @@ function FindCrosswordNodesGame(props) {
                 </Col>
               </Row>
             )}
+          </Col>
+          <Col xs={{ span: 24 }} xl={{ span: 11, offset: 1 }}>
+            <Crossword grid={gameData.grid} />
           </Col>
         </Row>
       </Col>

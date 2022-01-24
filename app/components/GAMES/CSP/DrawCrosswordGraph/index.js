@@ -43,10 +43,7 @@ function DrawCrosswordGraph(props) {
         style={{ display: 'flex', flexDirection: 'column' }}
       >
         <Row>
-          <Col span={12}>
-            <Crossword grid={gameData.grid} />
-          </Col>
-          <Col span={10} offset={2}>
+          <Col span={10} offset={1}>
             <Form
               form={form}
               name="dynamic_form_nest_item"
@@ -79,7 +76,7 @@ function DrawCrosswordGraph(props) {
                               rules={[
                                 {
                                   required: true,
-                                  message: 'Missing Row',
+                                  message: 'Missing Node',
                                 },
                               ]}
                             >
@@ -109,7 +106,7 @@ function DrawCrosswordGraph(props) {
                               rules={[
                                 {
                                   required: true,
-                                  message: 'Missing Row',
+                                  message: 'Missing Node',
                                 },
                               ]}
                             >
@@ -147,7 +144,6 @@ function DrawCrosswordGraph(props) {
               </Form.List>
               <Form.Item offset="3">
                 <Button
-                  style={{ width: '20%' }}
                   type="primary"
                   htmlType="submit"
                 >
@@ -156,81 +152,58 @@ function DrawCrosswordGraph(props) {
               </Form.Item>
             </Form>
             {evaluatedAnswer && (
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <div style={{ display: 'flex' }}>
-                  All Correct
-                  {evaluatedAnswer.allCorrect ? (
-                    <div style={{ marginLeft: '20px' }}>Yes</div>
+              <Row style={{ paddingTop: '10px' }}>
+                <Col span={24} style={{ display: 'flex' }}>
+                  {evaluatedAnswer.score === 1 ? (
+                    <CheckCircleFilled
+                      style={{ fontSize: '20px', color: 'green' }}
+                    />
                   ) : (
-                    <div style={{ marginLeft: '20px' }}>No</div>
+                    <CloseCircleFilled
+                      style={{ fontSize: '20px', color: 'red' }}
+                    />
                   )}
-                </div>
-                <div
-                  style={{
-                    marginTop: '20px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                  }}
-                >
-                  Correct Answered Edges
-                  {evaluatedAnswer.correct_edges_list.length === 0 ? (
-                    <div style={{ marginLeft: '30px' }}> 0 </div>
-                  ) : (
-                    evaluatedAnswer.correct_edges_list.map(item => (
-                      <div>
-                        {item[0]}-{item[1]}-A :- {item[3]}-{item[4]}-D
-                      </div>
-                    ))
-                  )}
-                </div>
-
-                {evaluatedAnswer &&
-                  evaluatedAnswer.missed_edges_list.length > 0 && (
-                    <div
-                      style={{
-                        marginTop: '20px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                      }}
-                    >
-                      Missing Edges
-                      {evaluatedAnswer.missed_edges_list.length === 0 ? (
-                        <div style={{ marginLeft: '30px' }}> 0 </div>
-                      ) : (
-                        evaluatedAnswer.missed_edges_list.map(item => (
-                          <div>
-                            {item[0]}-{item[1]}-A :- {item[3]}-{item[4]}
-                            -D
-                          </div>
-                        ))
-                      )}
-                    </div>
-                  )}
-
-                {evaluatedAnswer &&
-                  evaluatedAnswer.wrong_edges_list.length > 0 && (
-                    <div
-                      style={{
-                        marginTop: '20px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                      }}
-                    >
-                      Wrong Nodes
-                      {evaluatedAnswer.wrong_edges_list.length === 0 ? (
-                        <div style={{ marginLeft: '30px' }}> 0 </div>
-                      ) : (
-                        evaluatedAnswer.wrong_edges_list.map(item => (
-                          <div>
-                            {item[0]}-{item[1]}-A :- {item[3]}-{item[4]}
-                            -D
-                          </div>
-                        ))
-                      )}
-                    </div>
-                  )}
-              </div>
+                  <Paragraph style={{ paddingLeft: '10px' }}>
+                    {evaluatedAnswer.score === 1
+                      ? 'All are correct'
+                      : 'All are not correct'}
+                  </Paragraph>
+                </Col>
+                <Col span={24}>
+                  <Title level={3}>
+                    {`Score : ${Math.round(evaluatedAnswer.score * 100)}%`}
+                  </Title>
+                  <Col xl={{ span: 23 }} xs={{ span: 24 }}>
+                    <Descriptions layout="vertical" bordered>
+                      <Descriptions.Item label="Correct Edges">
+                        {evaluatedAnswer.correct_edges_list.map((key, idx) => (
+                          <Col span={24}>
+                            {`${key[0]}-${key[1]}-${key[2] === 65 ? 'A' : 'D'} -> ${key[3]}-${key[4]}-${key[5] === 65 ? 'A' : 'D'}`}
+                          </Col>
+                        ))}
+                      </Descriptions.Item>
+                      <Descriptions.Item label="Wrong Edges">
+                        {evaluatedAnswer.wrong_edges_list.map((key, idx) => (
+                          <Col span={24}>
+                            {`${key[0]}-${key[1]}-${key[2] === 65 ? 'A' : 'D'} -> ${key[3]}-${key[4]}-${key[5] === 65 ? 'A' : 'D'}`}
+                          </Col>
+                        ))}
+                      </Descriptions.Item>
+                      <Descriptions.Item label="Mised Edges">
+                        {evaluatedAnswer.missed_edges_list.map((key, idx) => (
+                          <Col span={24}>
+                            {`${key[0]}-${key[1]}-${key[2] === 65 ? 'A' : 'D'} -> ${key[3]}-${key[4]}-${key[5] === 65 ? 'A' : 'D'}`}
+                          </Col>
+                        ))}
+                      </Descriptions.Item>
+                    </Descriptions>
+                  </Col>
+                </Col>
+              </Row>
             )}
+          </Col>
+          <Col xs={{ span: 24 }} xl={{ span: 11, offset: 1 }}>
+            <Crossword grid={gameData.grid} />
           </Col>
         </Row>
       </Col>
