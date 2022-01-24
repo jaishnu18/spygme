@@ -1,10 +1,11 @@
+/* eslint-disable no-param-reassign */
 /**
  *
  * Auth
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -14,6 +15,7 @@ import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import AuthForm from 'components/AuthForm';
 import Spin from 'antd/lib/spin';
+import history from 'utils/history';
 import makeSelectAuth from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -21,6 +23,8 @@ import saga from './saga';
 export function Auth(props) {
   useInjectReducer({ key: 'auth', reducer });
   useInjectSaga({ key: 'auth', saga });
+
+  const [userRole, setUserRole] = useState('Student');
 
   const googleSignIn = async res => {
     const gtoken = res.tokenId;
@@ -32,11 +36,12 @@ export function Auth(props) {
   };
 
   const handleSignUp = values => {
+    values.userRole = userRole;
     props.signup(values);
+    history.push({ pathname: '/check-mail', state: { email: values.email } });
   };
 
-  const handleError = errorInfo => {
-  };
+  const handleError = errorInfo => {};
 
   return (
     <div>
@@ -51,6 +56,8 @@ export function Auth(props) {
           handleSignIn={handleSignIn}
           handleError={handleError}
           errorMessages={props.AuthState.loggingError}
+          userRole={userRole}
+          setUserRole={setUserRole}
         />
       </Spin>
     </div>

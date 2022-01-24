@@ -40,7 +40,8 @@ import GradedWriteExpressionGame from '../GAMES/PropositionalLogic/GradedWriteEx
 import NodeConsistencyGame from '../GAMES/CSP/NodeConsistencyGame';
 import DrawCrosswordGraphGame from '../GAMES/CSP/DrawCrosswordGraphGame';
 import ArcConsistencyGame from '../GAMES/CSP/ArcConsistencyGame';
-//
+import CheckMailPage from '../CheckMailPage';
+import EmailVerificationPage from '../EmailVerificationPage';
 
 function Routes(props) {
   if (!props.AuthData.isLoggedIn) {
@@ -59,6 +60,13 @@ function Routes(props) {
             />
           )}
         />
+        <Route path="/check-mail" component={CheckMailPage} />
+        <Route
+          path="/verify/:token"
+          render={({ match }) => (
+            <EmailVerificationPage token={match.params.token} />
+          )}
+        />
         <Route exact path="/*" render={() => <Redirect to="auth" />} />
       </Switch>
     );
@@ -69,10 +77,6 @@ function Routes(props) {
       <Route exact path="/about" component={AboutPage} />
 
       <Route path="/dashboard" component={DashboardPage} />
-      {/*
-
-      
-       */}
 
       <Route exact path="/home" component={prop => <HomePage {...prop} />} />
       <Route exact path="/topics" component={TopicListPage} />

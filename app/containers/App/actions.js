@@ -23,6 +23,7 @@
  *
  */
 
+import history from 'utils/history';
 import {
   SIGNIN_START,
   SIGNIN_SUCCESS,

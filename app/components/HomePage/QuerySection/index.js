@@ -24,12 +24,15 @@ const { Title } = Typography;
 const { Paragraph } = Typography;
 function QuerySection(props) {
   return (
-    <Row style={{ padding: '10px', }}>
+    <Row style={{ padding: '10px' }}>
       <Col span={6} offset={9}>
         <Title>Contact us</Title>
       </Col>
       <Col span={10} offset={7}>
-        <Paragraph>If you have any queries, please go through the FAQ's. For any other query feel free to fill the form below so that we can reach you out.</Paragraph>
+        <Paragraph>
+          If you have any queries, please go through the FAQ's. For any other
+          query feel free to fill the form below so that we can reach you out.
+        </Paragraph>
       </Col>
 
       <Col xs={{ span: 24 }} xl={{ span: 10, offset: 7 }}>
@@ -102,14 +105,17 @@ function QuerySection(props) {
           </Form>
         </CustomCard>
       </Col>
-      <Col xs={{ span: 24 }} xl={{ span: 10, offset: 7 }} style={{ paddingTop: '10px' }}>
+      <Col
+        xs={{ span: 24 }}
+        xl={{ span: 10, offset: 7 }}
+        style={{ paddingTop: '10px' }}
+      >
         <CustomCard>
           <h3>
             <img src={Phone} style={{ height: '15px' }} /> Phone :1203222090
           </h3>
           <h3>
-            <Image src={Email} /> Email :
-            aiforschool@gmail.com
+            <Image src={Email} /> Email : aiforschool@gmail.com
           </h3>
           <h3>
             <img src={Location} style={{ height: '15px' }} /> Address : Indian

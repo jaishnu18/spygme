@@ -1,3 +1,7 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in */
+/* eslint-disable no-console */
+/* eslint-disable radix */
 /* eslint-disable no-shadow */
 /**
  *
@@ -39,6 +43,8 @@ export function DrawCrosswordGraphGame(props) {
   const [startTime, setStartTime] = useState(0);
   const [value, setValue] = useState(undefined);
   const [alreadyFeedback, setAlreadyFeedback] = useState(false);
+  const [AcrossNodes, setAcrossNodes] = useState([]);
+  const [DownNodes, setDownNodes] = useState([]);
 
   const { level } = props;
   const { gameId } = props;
@@ -78,9 +84,63 @@ export function DrawCrosswordGraphGame(props) {
   }, [level]);
 
   useEffect(() => {
-    setValue({
-      nodes: [{ node: null, row: null, col: null }],
-    });
+    if (props.state.gameData) {
+      const { gameData } = props.state;
+
+      const elements = [];
+      const ac = [];
+      const dn = [];
+      gameData.ptr = -1;
+      for (let i = 0; i < gameData.nodes.length; i += 1) {
+        if (gameData.nodes[i][2] === 65) {
+          // across
+          ac.push(`${gameData.nodes[i][0]}-${gameData.nodes[i][1]}-A`);
+          const obj = {
+            data: {
+              id: `${gameData.nodes[i][0]}-${gameData.nodes[i][1]}-${
+                gameData.nodes[i][2] === 65 ? 'A' : 'D'
+              }`,
+              label: `${gameData.nodes[i][0]}-${gameData.nodes[i][1]}-${
+                gameData.nodes[i][2] === 65 ? 'A' : 'D'
+              }`,
+            },
+            position: {
+              x: 100 * (i + 1),
+              y: 100,
+            },
+          };
+          elements.push(obj);
+        } else {
+          // down
+          dn.push(`${gameData.nodes[i][0]}-${gameData.nodes[i][1]}-D`);
+          if (gameData.ptr === -1) {
+            gameData.ptr = i;
+          }
+          const obj = {
+            data: {
+              id: `${gameData.nodes[i][0]}-${gameData.nodes[i][1]}-${
+                gameData.nodes[i][2] === 65 ? 'A' : 'D'
+              }`,
+              label: `${gameData.nodes[i][0]}-${gameData.nodes[i][1]}-${
+                gameData.nodes[i][2] === 65 ? 'A' : 'D'
+              }`,
+            },
+            position: {
+              x: 100 * (i - gameData.ptr + 1),
+              y: 400,
+            },
+          };
+          elements.push(obj);
+        }
+      }
+
+      setAcrossNodes(ac);
+      setDownNodes(dn);
+
+      setValue({
+        nodes: [{ across: null, down: null }],
+      });
+    }
   }, [props.state.gameData]);
 
   const submitWWW = values => {
@@ -102,7 +162,39 @@ export function DrawCrosswordGraphGame(props) {
     const secs = end(startTime);
     const response = {};
 
-    gameData.response = values.nodes;
+    const res = [];
+    for (const item in values.nodes) {
+      const arr1 = values.nodes[item].across.split('-');
+      const arr2 = values.nodes[item].down.split('-');
+      const newArr = [];
+      for (let i = 0; i < arr1.length; i += 1) {
+        if (i === 2) {
+          if (arr1[i] === 'A') {
+            newArr.push(65);
+          } else {
+            newArr.push(68);
+          }
+        } else {
+          newArr.push(parseInt(arr1[i]));
+        }
+      }
+      for (let i = 0; i < arr2.length; i += 1) {
+        if (i === 2) {
+          if (arr2[i] === 'A') {
+            newArr.push(65);
+          } else {
+            newArr.push(68);
+          }
+        } else {
+          newArr.push(parseInt(arr2[i]));
+        }
+      }
+
+      console.log(newArr);
+      res.push(newArr);
+    }
+
+    gameData.response = res;
     const formatted = moment.utc(secs * 1000).format('mm:ss');
     gameData.timeTaken = formatted;
     gameData.level = level;
@@ -146,6 +238,8 @@ export function DrawCrosswordGraphGame(props) {
             submit={submit}
             setValue={setValue}
             value={value}
+            AcrossNodes={AcrossNodes}
+            DownNodes={DownNodes}
           />
         </>
       )}

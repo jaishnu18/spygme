@@ -99,6 +99,7 @@ export function FindCrosswordNodes(props) {
 
   const submit = values => {
     const secs = end(startTime);
+    console.log('ending');
     const response = {};
 
     gameData.response = values.nodes;

@@ -32,7 +32,6 @@ export function* signinUser(action) {
       },
     );
 
-
     const userData = response.data;
     const userToken = userData.data;
     const info = jwtDecode(userToken);
@@ -47,17 +46,32 @@ export function* signinUser(action) {
 
     if (errorsValidation) yield put(signinUserFailure(errorsValidation));
     else yield put(signupUserFailure(errors));
-
   }
 }
 
 export function* signupUser(action) {
   try {
-    const { name, email, password, confirm_password, _class } = action.payload;
+    const {
+      name,
+      email,
+      password,
+      confirm_password,
+      _class,
+      organisation,
+      userRole,
+    } = action.payload;
 
     const response = yield api.post(
       `/auth/register`,
-      { name, email, password, _class, confirm_password },
+      {
+        name,
+        email,
+        password,
+        _class,
+        confirm_password,
+        userRole,
+        organisation,
+      },
       {
         headers: {
           Accept: 'application/json',
@@ -67,22 +81,19 @@ export function* signupUser(action) {
       },
     );
 
-    const userData = response.data;
-    const userToken = userData.data;
-    const info = jwtDecode(userToken);
-    info.token = userToken;
-    info.isLoggedIn = true;
+    // const userData = response.data;
+    // const userToken = userData.data;
+    // const info = jwtDecode(userToken);
+    // info.token = userToken;
+    // info.isLoggedIn = true;
 
-
-    yield* setTokenToLocalStorage(userToken);
-    yield put(signupUserSuccess(info));
-    history.push('/dashboard');
+    // yield* setTokenToLocalStorage(userToken);
+    yield put(signupUserSuccess('Registered Successfully'));
   } catch (err) {
     const { errors, errorsValidation } = err.response.data;
 
     if (errorsValidation) yield put(signupUserFailure(errorsValidation));
     else yield put(signupUserFailure(errors));
-
   }
 }
 

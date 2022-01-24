@@ -25,8 +25,6 @@ function FormFindCrosswordNodes(props) {
     { label: 'Down Node', val: 68 },
   ];
 
-  console.log(props.form);
-
   return (
     <div>
       <Form
@@ -38,11 +36,16 @@ function FormFindCrosswordNodes(props) {
             org[props.currentLevel] = value;
             props.setValue(org);
           } else {
+            console.log('Here');
             props.setValue(value);
             props.submit(value);
           }
         }}
-        initialValues={props.value[props.currentLevel]}
+        initialValues={
+          Array.isArray(props.value)
+            ? props.value[props.currentLevel]
+            : props.value
+        }
         autoComplete="off"
       >
         <Form.List

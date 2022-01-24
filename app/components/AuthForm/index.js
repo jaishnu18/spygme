@@ -13,6 +13,7 @@ import Button from 'antd/lib/button';
 import InputNumber from 'antd/lib/input-number';
 import Divider from 'antd/lib/divider';
 import Alert from 'antd/lib/alert';
+import Radio from 'antd/lib/radio';
 
 import React, { memo } from 'react';
 import Section from 'components/Section';
@@ -75,6 +76,26 @@ function AuthForm(props) {
 
             <Tabs defaultActiveKey="2" style={{ marginTop: '10px' }}>
               <TabPane tab="New User" key="1">
+                <Radio.Group buttonStyle="solid" defaultValue={props.userRole}>
+                  <Radio.Button
+                    onClick={() => props.setUserRole('Student')}
+                    value="Student"
+                  >
+                    Student
+                  </Radio.Button>
+                  <Radio.Button
+                    onClick={() => props.setUserRole('Teacher')}
+                    value="Teacher"
+                  >
+                    Teacher
+                  </Radio.Button>
+                  <Radio.Button
+                    onClick={() => props.setUserRole('Others')}
+                    value="Others"
+                  >
+                    Others
+                  </Radio.Button>
+                </Radio.Group>
                 <Form
                   name="basic"
                   style={{ marginTop: '20px' }}
@@ -99,7 +120,7 @@ function AuthForm(props) {
                   </Form.Item>
 
                   <Form.Item
-                    label="Email Id (personal)"
+                    label="Email Id"
                     name="email"
                     rules={[
                       {
@@ -111,17 +132,37 @@ function AuthForm(props) {
                     <Input />
                   </Form.Item>
 
+                  {props.userRole === 'Student' && (
+                    <Form.Item
+                      label="Class"
+                      name="_class"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please input your class!',
+                        },
+                      ]}
+                    >
+                      <InputNumber />
+                    </Form.Item>
+                  )}
+
                   <Form.Item
-                    label="Class"
-                    name="_class"
+                    label={
+                      props.userRole === 'Others'
+                        ? 'Organisation'
+                        : 'School/Institution'
+                    }
+                    name="organisation"
                     rules={[
                       {
                         required: true,
-                        message: 'Please input your class!',
+                        message:
+                          'Please input your School/Institution/Organisation!',
                       },
                     ]}
                   >
-                    <InputNumber />
+                    <Input />
                   </Form.Item>
 
                   <Form.Item
