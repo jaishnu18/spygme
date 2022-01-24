@@ -48,6 +48,7 @@ function GoogleButton(props) {
 }
 
 function AuthForm(props) {
+  console.log(props.errorMessages);
   return (
     <Section height="calc(100vh - 64px)">
       <Row style={{ justifyContent: 'center' }}>
@@ -65,7 +66,10 @@ function AuthForm(props) {
               props.errorMessages.map(errorMessage => (
                 <Alert
                   style={{ marginTop: '10px' }}
-                  message={errorMessage}
+                  message={JSON.stringify(errorMessage).substring(
+                    1,
+                    JSON.stringify(errorMessage).length - 1,
+                  )}
                   type="error"
                   showIcon
                 />

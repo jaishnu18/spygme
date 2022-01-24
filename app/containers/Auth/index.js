@@ -38,7 +38,6 @@ export function Auth(props) {
   const handleSignUp = values => {
     values.userRole = userRole;
     props.signup(values);
-    history.push({ pathname: '/check-mail', state: { email: values.email } });
   };
 
   const handleError = errorInfo => {};
