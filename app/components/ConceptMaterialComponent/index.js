@@ -14,6 +14,7 @@ import Typography from 'antd/lib/typography';
 import DescriptionCard from 'components/DescriptionCard';
 import NavigationBar from '../NavigationBar';
 import Divider from 'antd/lib/divider';
+import Modal from 'antd/lib/modal';
 const { Title } = Typography;
 
 function ConceptMaterialComponent(props) {
@@ -69,67 +70,91 @@ function ConceptMaterialComponent(props) {
           : null}
       </Row>
 
-      <Row
-        style={{ padding: '40px 40px 20px 40px', margin: 0 }}
-        gutter={[16, 16]}
-      >
-        <Col
-          span={24}
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
+      {games && games.length > 0 &&
+        <Row
+          style={{ padding: '40px 40px 20px 40px', margin: 0 }}
+          gutter={[16, 16]}
         >
-          <Title style={{ textAlign: 'center' }} level={2}>Practice Games</Title>
-        </Col>
-        {games
-          ? (games.length > 0 ? games.map((key, idx) => (
-            <Col xs={{ span: 24 }} xl={{ span: 8 }}>
-              <Link to={`${key.link}${parentTopic}/${parentConcept}/${key.id}/1`} onClick={() => {
-                this.forceUpdate();
-              }}>
-                <DescriptionCard
-                  title={`Practice Game : ${idx + 1}`}
-                  description={key.name}
-                  progress={Math.round(key.progress * 100)}
-                />
-              </Link>
-            </Col>
-          )) : <Title>Coming soon!</Title>)
-          : null}
-      </Row>
+          <Col
+            span={24}
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Title style={{ textAlign: 'center' }} level={2}>Practice Games</Title>
+          </Col>
+          {games
+            ? (games.length > 0 ? games.map((key, idx) => (
+              <Col xs={{ span: 24 }} xl={{ span: 8 }}>
+                <Link to={`${key.link}${parentTopic}/${parentConcept}/${key.id}/1`} onClick={() => {
+                  this.forceUpdate();
+                }}>
+                  <DescriptionCard
+                    title={`Practice Game : ${idx + 1}`}
+                    description={key.name}
+                    progress={Math.round(key.progress * 100)}
+                    suggestionText={key.maxScore}
+                    practiceGame
+                  />
+                </Link>
+              </Col>
+            )) : <Title>Coming soon!</Title>)
+            : null}
+        </Row>
+      }
 
-      <Row
-        style={{ padding: '40px 40px 20px 40px', margin: 0 }}
-        gutter={[16, 16]}
-      >
-        <Col
-          span={24}
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
+      {games && games.length > 0 &&
+        <Row
+          style={{ padding: '40px 40px 20px 40px', margin: 0 }}
+          gutter={[16, 16]}
         >
-          <Title style={{ textAlign: 'center' }} level={2}>Graded Games</Title>
-        </Col>
-        {games
-          ? (games.length > 0 ? games.map((key, idx) => (
-            <Col xs={{ span: 24 }} xl={{ span: 8 }}>
-              <Link to={key.graded_done ? '/' : `/graded-quiz${key.link}${parentTopic}/${parentConcept}/${key.id}`} onClick={() => {
-                this.forceUpdate();
-              }}>
-                <DescriptionCard
-                  title={`Graded Game : ${idx + 1}`}
-                  description={key.name}
-                  progress={key.graded_done ? 100 : 0}
-                />
-              </Link>
-            </Col>
-          )) : <Title>Coming soon!</Title>)
-          : null}
-      </Row>
+          <Col
+            span={24}
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Title style={{ textAlign: 'center' }} level={2}>Graded Games</Title>
+          </Col>
+          {games
+            ? (games.length > 0 ? games.map((key, idx) => (
+              <Col xs={{ span: 24 }} xl={{ span: 8 }}>
+                <Link to={key.graded_done ? '/' : `/graded-quiz${key.link}${parentTopic}/${parentConcept}/${key.id}`} onClick={() => {
+                  props.setModalVisiblity(true);
+                  console.log(props.modalVisible);
+                }}>
+                  <DescriptionCard
+                    title={`Graded Game : ${idx + 1}`}
+                    description={key.name}
+                    progress={key.graded_done ? 100 : 0}
+                    gradedGame
+                    suggestionText={"You are left with " + key.attempts_left + " attempts. Your average score in this test is " + key.graded_score + "%"}
+                  // onClick={() => {
+                  //   props.setModalVisiblity(true);
+                  // }}
+                  />
+                </Link>
+              </Col>
+            )) : <Title>Coming soon!</Title>)
+            : null}
+        </Row>
+      }
+      <Modal
+        title="Important !!">
+        visible={props.modalVisible}
+        onOk={() => {
+          props.setModalVisiblity(false);
+        }}
+        onCancel={() => {
+          props.setModalVisiblity(false);
+          
+        }}
+
+      </Modal>
     </div>
   );
 }

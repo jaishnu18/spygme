@@ -21,7 +21,7 @@ function ExamNavigator(props) {
   }
   return (
     <div>
-      <Affix offsetTop={80}>
+      <Affix offsetTop={120}>
         <Row>
           <Col span={24}>
             <CountdownCircleTimer

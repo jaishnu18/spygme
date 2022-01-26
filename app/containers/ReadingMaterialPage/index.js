@@ -54,7 +54,6 @@ export function ReadingMaterialPage(props) {
     props.recordTime(response);
   };
   const { timeRecorded } = props.readingMaterialPage;
-  console.log(timeRecorded);
 
 
   const markAsRead = () => {
@@ -70,10 +69,13 @@ export function ReadingMaterialPage(props) {
         <title>ReadingMaterialPage</title>
         <meta name="description" content="Description of ReadingMaterialPage" />
       </Helmet>
-      <NavigationBar prevPageText="Back to materials" prevPageLink={`/concept/${topicId}/${conceptId}`} readingMaterial backToMaterials={backToMaterials} />
+      {readingMaterialContent &&
+        <NavigationBar prevPageText="Back to materials" prevPageLink={`/concept/${topicId}/${conceptId}`} readingMaterial backToMaterials={backToMaterials} markAsRead={markAsRead} read={readingMaterialContent.read} />
+      }
+
       {readingMaterialContent &&
         (
-          <ReadingMaterialComponent content={readingMaterialContent} markAsRead={markAsRead} />
+          <ReadingMaterialComponent content={readingMaterialContent} />
         )
       }
     </div>

@@ -44,15 +44,15 @@ function NavBar(props) {
   };
 
   const enabledRoutes = () => {
-    if (history.location.pathname.startsWith('/match-expression')) {
-      return false;
-    }
-    if (history.location.pathname.startsWith('/evaluate-expression')) {
-      return false;
-    }
-    if (history.location.pathname.startsWith('/write-expression')) {
-      return false;
-    }
+    // if (history.location.pathname.startsWith('/match-expression')) {
+    //   return false;
+    // }
+    // if (history.location.pathname.startsWith('/evaluate-expression')) {
+    //   return false;
+    // }
+    // if (history.location.pathname.startsWith('/write-expression')) {
+    //   return false;
+    // }
     return true;
   };
 
