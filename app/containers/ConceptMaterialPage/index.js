@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -24,6 +24,8 @@ export function ConceptMaterialPage(props) {
   useInjectReducer({ key: 'conceptMaterialPage', reducer });
   useInjectSaga({ key: 'conceptMaterialPage', saga });
 
+  const [modalVisible, setModalVisiblity] = useState(false);
+
   const { conceptId } = props;
   const { topicId } = props;
 
@@ -42,7 +44,7 @@ export function ConceptMaterialPage(props) {
         <title>ConceptMaterialPage</title>
         <meta name="description" content="Description of ConceptMaterialPage" />
       </Helmet>
-      <ConceptMaterialComponent readingMaterials={readingMaterials} games={games} parentConcept={conceptId} parentTopic={topicId} />
+      <ConceptMaterialComponent readingMaterials={readingMaterials} games={games} parentConcept={conceptId} parentTopic={topicId} setModalVisiblity={setModalVisiblity} modalVisible={modalVisible}/>
     </div>
   );
 }
