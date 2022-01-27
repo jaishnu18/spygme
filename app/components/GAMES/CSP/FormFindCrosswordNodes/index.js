@@ -30,16 +30,12 @@ function FormFindCrosswordNodes(props) {
       <Form
         form={props.form}
         name={`Form-${props.ID || ''}`}
-        onFinish={value => {
-          if (Array.isArray(props.value)) {
-            const org = props.value;
-            org[props.currentLevel] = value;
-            props.setValue(org);
-          } else {
-            console.log('Here');
-            props.setValue(value);
-            props.submit(value);
-          }
+        onFinish={values => {
+          console.log(values);
+          const org = props.value;
+          console.log(org);
+          org[props.currentLevel] = values;
+          props.setValue(org);
         }}
         initialValues={
           Array.isArray(props.value)

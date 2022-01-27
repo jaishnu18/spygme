@@ -71,6 +71,7 @@ export function* signupUser(action) {
         confirm_password,
         userRole,
         organisation,
+        domain: window.location.origin,
       },
       {
         headers: {

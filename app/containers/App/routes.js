@@ -42,6 +42,7 @@ import DrawCrosswordGraphGame from '../GAMES/CSP/DrawCrosswordGraphGame';
 import ArcConsistencyGame from '../GAMES/CSP/ArcConsistencyGame';
 import CheckMailPage from '../CheckMailPage';
 import EmailVerificationPage from '../EmailVerificationPage';
+import GradedDrawCrosswordGraph from '../GAMES/CSP/GradedDrawCrosswordGraph';
 
 function Routes(props) {
   if (!props.AuthData.isLoggedIn) {
@@ -193,6 +194,13 @@ function Routes(props) {
         path="/graded-quiz/find-nodes/:topicId/:conceptId/:gameId"
         render={({ match }) => (
           <GradedFindCrosswordNodes gameId={match.params.gameId} />
+        )}
+      />
+      <Route
+        exact
+        path="/graded-quiz/draw-crossword-graph/:topicId/:conceptId/:gameId"
+        render={({ match }) => (
+          <GradedDrawCrosswordGraph gameId={match.params.gameId} />
         )}
       />
       <Route

@@ -10,9 +10,13 @@ import {
   evaluateResponseSuccess,
   evaluateResponseFailure,
   putFeedbackFailure,
-  putFeedbackSuccess
+  putFeedbackSuccess,
 } from './actions';
-import { GET_GAME_DATA_START, EVALUATE_RESPONSE_START,PUT_FEEDBACK_START } from './constants'; // Individual exports for testing
+import {
+  GET_GAME_DATA_START,
+  EVALUATE_RESPONSE_START,
+  PUT_FEEDBACK_START,
+} from './constants'; // Individual exports for testing
 
 export function* getCrossword(action) {
   try {
@@ -62,7 +66,6 @@ export function* saveFeedback(action) {
   }
 }
 
-
 // Individual exports for testing
 export default function* drawCrosswordGraphGameSaga() {
   // See example in containers/HomePage/saga.js
@@ -70,6 +73,5 @@ export default function* drawCrosswordGraphGameSaga() {
     takeLatest(GET_GAME_DATA_START, getCrossword),
     takeLatest(EVALUATE_RESPONSE_START, evaluateAnswer),
     takeLatest(PUT_FEEDBACK_START, saveFeedback),
-
   ]);
 }
