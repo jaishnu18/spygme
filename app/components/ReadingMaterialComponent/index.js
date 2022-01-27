@@ -32,7 +32,7 @@ function ReadingMaterialComponent(props) {
                 contentArr.map((key, idx) => (
                   key.endsWith('.png') ?
                     (
-                      <Image preview={false} src={require('images/' + key)} />
+                      <Image preview={false} src={require('images/' + key)} style={{height:'128px'}}/>
                     ) : (
 
                       key.startsWith('Answer:') ?
