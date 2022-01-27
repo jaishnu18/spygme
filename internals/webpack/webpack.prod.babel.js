@@ -145,7 +145,7 @@ module.exports = require('./webpack.base.babel')({
 
     new IgnorePlugin(/^\.\/locale$/, /moment$/),
 
-    new BundleAnalyzerPlugin(),
+    // new BundleAnalyzerPlugin(),
   ],
 
   performance: {
