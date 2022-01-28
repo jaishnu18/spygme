@@ -136,7 +136,7 @@ function GradedNodeConsistency(props) {
               {evaluatedAnswer ?
                 <Crossword grid={gameData[currentLevel].grid} />
                 :
-                <Affix offsetTop={60}>
+                <Affix offsetTop={100}>
                   <Crossword grid={gameData[currentLevel].grid} />
                 </Affix>
               }

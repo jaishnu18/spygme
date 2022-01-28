@@ -87,7 +87,7 @@ function NodeConsistencyGame(props) {
         }
       </Col>
       <Col xs={{ span: 24 }} xl={{ span: 11, offset: 1 }}>
-        <Affix offsetTop={60}>
+        <Affix offsetTop={100}>
           <Crossword grid={gameData.grid} />
           <Row>
             <Col>

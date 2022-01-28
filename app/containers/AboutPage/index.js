@@ -39,7 +39,7 @@ export function AboutPage() {
       </Helmet>
       <Row style={{ padding: '40px' }}>
         <Row>
-          <Col span={24} style={{display: 'flex', justifyContent: 'center'}}>
+          <Col span={24} style={{ display: 'flex', justifyContent: 'center' }}>
             <Title>Why this project?</Title>
           </Col>
           <Col span={24}>
@@ -51,91 +51,93 @@ export function AboutPage() {
           </Col>
         </Row>
         <Row>
-          <Col span={24} style={{display: 'flex', justifyContent: 'center'}}>
+          <Col span={24} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Title>The team</Title>
           </Col>
         </Row>
-        
-        <Col xs={{ span: 22 }} xl={{ span: 8 }} offset={1} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <CustomCard>
-            <Avatar size={200} icon={<Image preview={false} src="https://drive.google.com/uc?export=view&id=1puMfUqpYPp-IWkVNesnwG9_51WkOE86b"/>} />
-            <Row>
-              <Col>
-                <Title level={3}>Prof. Partha P Chakrabarti</Title>
-                <Paragraph>Computer Science & Enggineering</Paragraph>
-                <Paragraph>IIT Kharagpur</Paragraph>
-              </Col>
-            </Row>
-            <Row style={{ padding: '20px' }}>
-              <Col span={12}>
-                <a href="" target="__blank"><LinkedinFilled style={{ fontSize: '20px' }} /></a>
-              </Col>
-              <Col span={12}>
-                <a href="" target="__blank"><FacebookFilled style={{ fontSize: '20px' }} /></a>
-              </Col>
-            </Row>
-          </CustomCard>
-        </Col>
-        <Col xs={{ span: 24 }} xl={{ span: 8 }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <CustomCard>
-            <Avatar size={200} icon={<Image preview={false} src="https://drive.google.com/uc?export=view&id=1qmgpib1opai8BNPV_rSHe8NqexZd20k9"/>} />
-            <Row>
-              <Col>
-                <Title level={3}>Rajiv Agarwal</Title>
-                <Paragraph>CEO & Co-Founder</Paragraph>
-                <Paragraph>Edudigm</Paragraph>
-              </Col>
-            </Row>
-            <Row style={{ padding: '20px' }}>
-              <Col span={12}>
-                <a href="" target="__blank"><LinkedinFilled style={{ fontSize: '20px' }} /></a>
-              </Col>
-              <Col span={12}>
-                <a href="" target="__blank"><FacebookFilled style={{ fontSize: '20px' }} /></a>
-              </Col>
-            </Row>
-          </CustomCard>
-        </Col>
-        <Col xs={{ span: 24 }} xl={{ span: 8 }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <CustomCard>
-            <Avatar size={200} icon={<Image preview={false} src="https://drive.google.com/uc?export=view&id=1qFWbnFB2Cmn00-tQnJcxXDLNBPwD62Ue"/>} />
-            <Row>
-              <Col>
-                <Title level={3}>Bbiswabasu Roy</Title>
-                <Paragraph>Electronics & Electrical Communication</Paragraph>
-                <Paragraph>IIT Kharagpur</Paragraph>
-              </Col>
-            </Row>
-            <Row style={{ padding: '20px' }}>
-              <Col span={12}>
-                <a href="https://www.linkedin.com/in/bbiswabasu-roy-2437331a9/" target="__blank"><LinkedinFilled style={{ fontSize: '20px' }} /></a>
-              </Col>
-              <Col span={12}>
-                <a href="https://www.facebook.com/bbiswabasu.roy.1/" target="__blank"><FacebookFilled style={{ fontSize: '20px' }} /></a>
-              </Col>
-            </Row>
-          </CustomCard>
-        </Col>
-        <Col xs={{ span: 24 }} xl={{ span: 8 }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <CustomCard>
-            <Avatar size={200} icon={<Image preview={false} />} />
-            <Row>
-              <Col>
-                <Title level={3}>Prashant Jangid</Title>
-                <Paragraph>Dept</Paragraph>
-                <Paragraph>IIT Kharagpur</Paragraph>
-              </Col>
-            </Row>
-            <Row style={{ padding: '20px' }}>
-              <Col span={12}>
-                <a href="" target="__blank"><LinkedinFilled style={{ fontSize: '20px' }} /></a>
-              </Col>
-              <Col span={12}>
-                <a href="" target="__blank"><FacebookFilled style={{ fontSize: '20px' }} /></a>
-              </Col>
-            </Row>
-          </CustomCard>
-        </Col>
+
+        <Row>
+          <Col xs={{ span: 22 }} xl={{ span: 8 }} offset={1} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <CustomCard>
+              <Avatar size={200} icon={<Image preview={false} src="https://drive.google.com/uc?export=view&id=1puMfUqpYPp-IWkVNesnwG9_51WkOE86b" />} />
+              <Row>
+                <Col>
+                  <Title level={3}>Prof. Partha P Chakrabarti</Title>
+                  <Paragraph>Computer Science & Enggineering</Paragraph>
+                  <Paragraph>IIT Kharagpur</Paragraph>
+                </Col>
+              </Row>
+              <Row style={{ padding: '20px' }}>
+                <Col span={12}>
+                  <a href="" target="__blank"><LinkedinFilled style={{ fontSize: '20px' }} /></a>
+                </Col>
+                <Col span={12}>
+                  <a href="" target="__blank"><FacebookFilled style={{ fontSize: '20px' }} /></a>
+                </Col>
+              </Row>
+            </CustomCard>
+          </Col>
+          <Col xs={{ span: 24 }} xl={{ span: 8 }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <CustomCard>
+              <Avatar size={200} icon={<Image preview={false} src="https://drive.google.com/uc?export=view&id=1qmgpib1opai8BNPV_rSHe8NqexZd20k9" />} />
+              <Row>
+                <Col>
+                  <Title level={3}>Rajiv Agarwal</Title>
+                  <Paragraph>CEO & Co-Founder</Paragraph>
+                  <Paragraph>Edudigm</Paragraph>
+                </Col>
+              </Row>
+              <Row style={{ padding: '20px' }}>
+                <Col span={12}>
+                  <a href="" target="__blank"><LinkedinFilled style={{ fontSize: '20px' }} /></a>
+                </Col>
+                <Col span={12}>
+                  <a href="" target="__blank"><FacebookFilled style={{ fontSize: '20px' }} /></a>
+                </Col>
+              </Row>
+            </CustomCard>
+          </Col>
+          <Col xs={{ span: 24 }} xl={{ span: 8 }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <CustomCard>
+              <Avatar size={200} icon={<Image preview={false} src="https://drive.google.com/uc?export=view&id=1qFWbnFB2Cmn00-tQnJcxXDLNBPwD62Ue" />} />
+              <Row>
+                <Col>
+                  <Title level={3}>Bbiswabasu Roy</Title>
+                  <Paragraph>Electronics & Electrical Communication</Paragraph>
+                  <Paragraph>IIT Kharagpur</Paragraph>
+                </Col>
+              </Row>
+              <Row style={{ padding: '20px' }}>
+                <Col span={12}>
+                  <a href="https://www.linkedin.com/in/bbiswabasu-roy-2437331a9/" target="__blank"><LinkedinFilled style={{ fontSize: '20px' }} /></a>
+                </Col>
+                <Col span={12}>
+                  <a href="https://www.facebook.com/bbiswabasu.roy.1/" target="__blank"><FacebookFilled style={{ fontSize: '20px' }} /></a>
+                </Col>
+              </Row>
+            </CustomCard>
+          </Col>
+          <Col xs={{ span: 24 }} xl={{ span: 8 }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <CustomCard>
+              <Avatar size={200} icon={<Image preview={false} />} />
+              <Row>
+                <Col>
+                  <Title level={3}>Prashant Jangid</Title>
+                  <Paragraph>Industrial & Systems Engineering</Paragraph>
+                  <Paragraph>IIT Kharagpur</Paragraph>
+                </Col>
+              </Row>
+              <Row style={{ padding: '20px' }}>
+                <Col span={12}>
+                  <a href="" target="__blank"><LinkedinFilled style={{ fontSize: '20px' }} /></a>
+                </Col>
+                <Col span={12}>
+                  <a href="" target="__blank"><FacebookFilled style={{ fontSize: '20px' }} /></a>
+                </Col>
+              </Row>
+            </CustomCard>
+          </Col>
+        </Row>
       </Row>
     </div>
   );

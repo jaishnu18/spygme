@@ -116,6 +116,11 @@ function NavigationBar(props) {
                 width: '100%',
               }}
             >
+              <CustomButton danger
+                onClick={() => {
+                  history.back();
+                }}
+              >Exit Test</CustomButton>
               <CustomButton disableOnClick
                 onClick={() => {
                   props.submit();
