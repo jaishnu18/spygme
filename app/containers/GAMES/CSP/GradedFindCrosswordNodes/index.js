@@ -91,18 +91,19 @@ export function GradedFindCrosswordNodes(props) {
 
   const { evaluatedAnswer } = props.state;
 
-  const submit = values => {
-    console.log(values);
-    for (let i = 0; i < values.length; i += 1) {
-      values[i].submit();
-    }
+  const submit = () => {
 
     console.log(value);
     const { gameData } = props.state;
     const response = {};
 
     for (let i = 0; i < gameData.length; i += 1) {
-      gameData[i].response = value[i];
+      const curValue = [];
+      for (let j = 0; j < value[i].nodes.length; j++) {
+        if (value[i].nodes[j].col !== null && value[i].nodes[j].row !== null && value[i].nodes[j].node !== null)
+          curValue.push(value[i].nodes);
+      }
+      gameData[i].response = curValue;
     }
 
     response.studentResponse = gameData;

@@ -21,12 +21,13 @@ import GameComponent from 'components/GAMES/PropositionalLogic/GradedMatchExpres
 import GradedGamesFeedback from 'components/FEEDBACK/GradedGamesFeedback';
 import notification from 'antd/lib/notification';
 import { getGamesDataStart, evaluateResponseStart, putFeedbackStart } from './actions';
+import ExamInstruction from 'components/ExamInstruction';
 
 export function GradedMatchExpressionGame(props) {
   useInjectReducer({ key: 'gradedMatchExpressionGame', reducer });
   useInjectSaga({ key: 'gradedMatchExpressionGame', saga });
 
-  const [currentLevel, setCurrentLevel] = useState(0);
+  const [currentLevel, setCurrentLevel] = useState(-1);
   const [value, setValue] = useState(undefined);
   const [alreadyFeedback, setAlreadyFeedback] = useState(false);
 
@@ -108,7 +109,11 @@ export function GradedMatchExpressionGame(props) {
           content="Description of GradedMatchExpressionGame"
         />
       </Helmet>
-      {props.state.gameData && value && (
+      {
+        currentLevel === -1 &&
+        <ExamInstruction setCurrentLevel={setCurrentLevel} />
+      }
+      {currentLevel !== -1 && props.state.gameData && value && (
         <>
           <NavigationBar
             gradedGame

@@ -25,12 +25,13 @@ import {
 } from './actions';
 import NavigationBar from 'components/NavigationBar';
 import GameComponent from 'components/GAMES/CSP/GradedNodeConsistency';
+import ExamInstruction from 'components/ExamInstruction';
 
 export function GradedNodeConsistency(props) {
   useInjectReducer({ key: 'gradedNodeConsistency', reducer });
   useInjectSaga({ key: 'gradedNodeConsistency', saga });
 
-  const [currentLevel, setCurrentLevel] = useState(0);
+  const [currentLevel, setCurrentLevel] = useState(-1);
   const [value1, setValue1] = useState(undefined);
   const [value2, setValue2] = useState(undefined);
   const [alreadyFeedback, setAlreadyFeedback] = useState(false);
@@ -117,7 +118,11 @@ export function GradedNodeConsistency(props) {
           content="Description of GradedNodeConsistency"
         />
       </Helmet>
-      {props.state.gameData && value1 && value2 && (
+      {
+        currentLevel === -1 &&
+        <ExamInstruction setCurrentLevel={setCurrentLevel} />
+      }
+      {currentLevel !== -1 && props.state.gameData && value1 && value2 && (
         <>
           <NavigationBar
             gradedGame

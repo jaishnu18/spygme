@@ -66,18 +66,18 @@ function FormFindCrosswordNodes(props) {
                         label={index >= 0 ? 'Direction' : ''}
                         name={[field.name, 'node']}
                         fieldKey={[field.fieldKey, 'node']}
-                        rules={[
-                          {
-                            validator(rule, value) {
-                              if (!value) {
-                                notification.open({
-                                  message: `Oops! Missing Some Type ${props.currentLevel +
-                                    1}`,
-                                });
-                              }
-                            },
-                          },
-                        ]}
+                        // rules={[
+                        //   {
+                        //     validator(rule, value) {
+                        //       if (!value) {
+                        //         notification.open({
+                        //           message: `Oops! Missing Some Type ${props.currentLevel +
+                        //             1}`,
+                        //         });
+                        //       }
+                        //     },
+                        //   },
+                        // ]}
                       >
                         <Select style={{ width: 130 }}>
                           {Nodes.map((item, index) => (
@@ -94,21 +94,21 @@ function FormFindCrosswordNodes(props) {
                     label={index >= 0 ? 'Row' : ''}
                     name={[field.name, 'row']}
                     fieldKey={[field.fieldKey, 'row']}
-                    rules={[
-                      {
-                        validator(rule, value) {
-                          if (!value) {
-                            // I'd like to use this instead:
-                            notification.open({
-                              message: `Oops! Missing Some Rows at Level ${props.currentLevel +
-                                1}`,
-                              // description:
-                              //   'This is the content of the notification.',
-                            });
-                          }
-                        },
-                      },
-                    ]}
+                    // rules={[
+                    //   {
+                    //     validator(rule, value) {
+                    //       if (!value) {
+                    //         // I'd like to use this instead:
+                    //         notification.open({
+                    //           message: `Oops! Missing Some Rows at Level ${props.currentLevel +
+                    //             1}`,
+                    //           // description:
+                    //           //   'This is the content of the notification.',
+                    //         });
+                    //       }
+                    //     },
+                    //   },
+                    // ]}
                   >
                     <InputNumber />
                   </Form.Item>
@@ -117,21 +117,21 @@ function FormFindCrosswordNodes(props) {
                     label={index >= 0 ? 'Column' : ''}
                     name={[field.name, 'col']}
                     fieldKey={[field.fieldKey, 'col']}
-                    rules={[
-                      {
-                        validator(rule, value, callback) {
-                          if (!value) {
-                            // I'd like to use this instead:
-                            notification.open({
-                              message: `Oops! Missing Some Columns at Level ${props.currentLevel +
-                                1}`,
-                              // description:
-                              //   'This is the content of the notification.',
-                            });
-                          }
-                        },
-                      },
-                    ]}
+                    // rules={[
+                    //   {
+                    //     validator(rule, value, callback) {
+                    //       if (!value) {
+                    //         // I'd like to use this instead:
+                    //         notification.open({
+                    //           message: `Oops! Missing Some Columns at Level ${props.currentLevel +
+                    //             1}`,
+                    //           // description:
+                    //           //   'This is the content of the notification.',
+                    //         });
+                    //       }
+                    //     },
+                    //   },
+                    // ]}
                   >
                     <InputNumber />
                   </Form.Item>

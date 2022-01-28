@@ -21,12 +21,13 @@ import GameComponent from 'components/GAMES/PropositionalLogic/GradedWriteExpres
 import GradedGamesFeedback from 'components/FEEDBACK/GradedGamesFeedback';
 import notification from 'antd/lib/notification';
 import { getGamesDataStart, evaluateResponseStart,putFeedbackStart } from './actions';
+import ExamInstruction from 'components/ExamInstruction';
 
 export function GradedWriteExpressionGame(props) {
   useInjectReducer({ key: 'gradedWriteExpressionGame', reducer });
   useInjectSaga({ key: 'gradedWriteExpressionGame', saga });
 
-  const [currentLevel, setCurrentLevel] = useState(0);
+  const [currentLevel, setCurrentLevel] = useState(-1);
   const [value, setValue] = useState(undefined);
   const [alreadyFeedback, setAlreadyFeedback] = useState(false);
 
@@ -104,7 +105,11 @@ export function GradedWriteExpressionGame(props) {
           content="Description of GradedWriteExpressionGame"
         />
       </Helmet>
-      {props.state.gameData && value && (
+      {
+        currentLevel === -1 &&
+        <ExamInstruction setCurrentLevel={setCurrentLevel} />
+      }
+      {currentLevel !== -1 && props.state.gameData && value && (
         <>
           <NavigationBar
             gradedGame
