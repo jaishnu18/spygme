@@ -15,13 +15,18 @@ import Image from 'antd/lib/image';
 import CheckCircleFilled from '@ant-design/icons/CheckCircleFilled'
 import Collapse from 'antd/lib/collapse';
 import topicIcon from 'images/topic_1_icon.png';
-
+import Title from 'antd/lib/typography/Title';
 const { Panel } = Collapse;
 function ReadingMaterialComponent(props) {
   const contentArr = props.content.content.split("<image>");
   const parse = require('html-react-parser');
   return (
     <div>
+      <Row style={{ paddingLeft: '40px', paddingBottom: '10px', paddingRight: '40px' }}>
+        <Title level={2}>
+          {props.content.parentConcept}
+        </Title>
+      </Row>
       <Row style={{ paddingLeft: '40px', paddingBottom: '10px', paddingRight: '40px' }}>
         <Col span={24}>
           {props.content && (
@@ -32,7 +37,7 @@ function ReadingMaterialComponent(props) {
                 contentArr.map((key, idx) => (
                   key.endsWith('.png') ?
                     (
-                      <Image preview={false} src={require('images/' + key)} style={{height:'128px'}}/>
+                      <Image preview={false} src={require('images/' + key)} style={{ height: '128px' }} />
                     ) : (
 
                       key.startsWith('Answer:') ?

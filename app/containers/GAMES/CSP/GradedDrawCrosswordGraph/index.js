@@ -25,12 +25,13 @@ import {
   evaluateResponseStart,
   putFeedbackStart,
 } from './actions';
+import ExamInstruction from 'components/ExamInstruction';
 
 export function GradedDrawCrosswordGraph(props) {
   useInjectReducer({ key: 'gradedDrawCrosswordGraph', reducer });
   useInjectSaga({ key: 'gradedDrawCrosswordGraph', saga });
 
-  const [currentLevel, setCurrentLevel] = useState(0);
+  const [currentLevel, setCurrentLevel] = useState(-1);
   const [value, setValue] = useState(undefined);
   const [AcrossNodes, setAcrossNodes] = useState([]);
   const [DownNodes, setDownNodes] = useState([]);
@@ -164,7 +165,11 @@ export function GradedDrawCrosswordGraph(props) {
           content="Description of GradedDrawCrosswordGraph"
         />
       </Helmet>
-      {props.state.gameData && value && (
+      {
+        currentLevel === -1 &&
+        <ExamInstruction setCurrentLevel={setCurrentLevel} saveRequired/>
+      }
+      {currentLevel !== -1 && props.state.gameData && value && (
         <>
           <GameComponent
             gameData={props.state.gameData}

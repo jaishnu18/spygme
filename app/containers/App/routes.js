@@ -35,6 +35,7 @@ import GradedMatchExpressionGame from 'containers/GAMES/PropositionalLogic/Grade
 import GradedNodeConsistency from 'containers/GAMES/CSP/GradedNodeConsistency';
 import GradedArcConsistency from 'containers/GAMES/CSP/GradedArcConsistency';
 import AboutPage from 'containers/AboutPage';
+import TestNotAllowedPage from 'containers/TestNotAllowedPage';
 
 import GradedWriteExpressionGame from '../GAMES/PropositionalLogic/GradedWriteExpressionGame';
 import NodeConsistencyGame from '../GAMES/CSP/NodeConsistencyGame';
@@ -81,6 +82,8 @@ function Routes(props) {
 
       <Route exact path="/home" component={prop => <HomePage {...prop} />} />
       <Route exact path="/topics" component={TopicListPage} />
+      <Route exact path="/testnotallowed" component={TestNotAllowedPage} />
+      
       <Route
         exact
         path="/evaluate-expression/:topicId/:conceptId/:gameId/:level"

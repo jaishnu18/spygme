@@ -140,13 +140,13 @@ function GradedNodeConsistency(props) {
               ))}
             </Col>
             <Col xs={{ span: 24 }} xl={{ span: 11, offset: 1 }}>
-              {evaluatedAnswer ? (
+              {evaluatedAnswer ? 
                 <Crossword grid={gameData[currentLevel].grid} />
-              ) : (
-                <Affix offsetTop={60}>
+                :
+                <Affix offsetTop={100}>
                   <Crossword grid={gameData[currentLevel].grid} />
                 </Affix>
-              )}
+              }
               {evaluatedAnswer && (
                 <Row style={{ paddingTop: '40px' }}>
                   <Col span={22}>

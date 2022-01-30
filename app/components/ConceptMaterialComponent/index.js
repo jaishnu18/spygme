@@ -123,9 +123,8 @@ function ConceptMaterialComponent(props) {
           {games
             ? (games.length > 0 ? games.map((key, idx) => (
               <Col xs={{ span: 24 }} xl={{ span: 8 }}>
-                <Link to={key.graded_done ? '/' : `/graded-quiz${key.link}${parentTopic}/${parentConcept}/${key.id}`} onClick={() => {
-                  props.setModalVisiblity(true);
-                  console.log(props.modalVisible);
+                <Link to={key.attempts_left === 0 ? `/testnotallowed` : `/graded-quiz${key.link}${parentTopic}/${parentConcept}/${key.id}`} onClick={() => {
+                  this.forceUpdate();
                 }}>
                   <DescriptionCard
                     title={`Graded Game : ${idx + 1}`}
@@ -151,7 +150,7 @@ function ConceptMaterialComponent(props) {
         }}
         onCancel={() => {
           props.setModalVisiblity(false);
-          
+
         }}
 
       </Modal>

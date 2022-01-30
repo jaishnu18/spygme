@@ -147,7 +147,7 @@ function AuthForm(props) {
                         },
                       ]}
                     >
-                      <InputNumber max="12" min='6'/>
+                      <InputNumber max="12" min='4'/>
                     </Form.Item>
                   )}
 

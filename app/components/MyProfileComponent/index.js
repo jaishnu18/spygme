@@ -11,6 +11,7 @@ import Button from 'antd/lib/button';
 import Alert from 'antd/lib/alert';
 import Form from 'antd/lib/form';
 import Input from 'antd/lib/input';
+import InputNumber from 'antd/lib/input-number';
 import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 import CustomCard from 'components/CustomCard';
@@ -27,7 +28,7 @@ function MyProfileComponent(props) {
         lg={{ span: 20, offset: 2 }}
         xl={{ span: 16, offset: 4 }}
       >
-        <div style={{ fontSize: '24px', fontWeight: 600, color: 'white' }}>
+        <div style={{ fontSize: '24px', fontWeight: 600 }}>
           MY PROFILE
         </div>
 
@@ -66,7 +67,7 @@ function MyProfileComponent(props) {
                   <Input />
                 </Form.Item>
                 <Form.Item label="Class" name="__class">
-                  <Input />
+                  <InputNumber min="4" max="12" />
                 </Form.Item>
                 <Form.Item label="School" name="school">
                   <Input />

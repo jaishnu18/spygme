@@ -23,6 +23,7 @@ import Select from 'antd/lib/select';
 import InputNumber from 'antd/lib/input-number';
 import MinusCircleOutlined from '@ant-design/icons/MinusCircleOutlined';
 import notification from 'antd/lib/notification';
+import Affix from 'antd/lib/affix';
 
 const { Option } = Select;
 function FindCrosswordNodesGame(props) {
@@ -40,11 +41,11 @@ function FindCrosswordNodesGame(props) {
       {/* <Col xl={{ span: 12 }}>
         <Crossword gridSize={gameData.grid_size} grid={gameData.grid} />
       </Col> */}
-      <Col
+      {/* <Col
         xl={{ span: 24 }}
         style={{ display: 'flex', flexDirection: 'column' }}
-      >
-        <Row>
+      > */}
+        {/* <Row> */}
           <Col span={10} offset={1}>
             <Form
               form={form}
@@ -136,7 +137,7 @@ function FindCrosswordNodesGame(props) {
                       style={{ display: 'flex', justifyContent: 'flex-start' }}
                     >
                       <Button onClick={() => add()}>Add Nodes</Button>
-                      <Button type="primary" htmlType="submit">
+                      <Button type="primary" htmlType="submit" disabled={evaluatedAnswer}>
                         Check Answer
                       </Button>
                     </Row>
@@ -196,10 +197,12 @@ function FindCrosswordNodesGame(props) {
             )}
           </Col>
           <Col xs={{ span: 24 }} xl={{ span: 11, offset: 1 }}>
-            <Crossword grid={gameData.grid} />
+            <Affix offsetTop={100}>
+              <Crossword grid={gameData.grid} />
+            </Affix>
           </Col>
-        </Row>
-      </Col>
+        {/* </Row> */}
+      {/* </Col> */}
     </Row>
   );
 }
