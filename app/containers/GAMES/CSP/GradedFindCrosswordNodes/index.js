@@ -25,12 +25,14 @@ import {
   evaluateResponseStart,
   putFeedbackStart,
 } from './actions';
+import ExamInstruction from 'components/ExamInstruction';
+
 
 export function GradedFindCrosswordNodes(props) {
   useInjectReducer({ key: 'gradedFindCrosswordNodes', reducer });
   useInjectSaga({ key: 'gradedFindCrosswordNodes', saga });
 
-  const [currentLevel, setCurrentLevel] = useState(0);
+  const [currentLevel, setCurrentLevel] = useState(-1);
   const [value, setValue] = useState(undefined);
   const [alreadyFeedback, setAlreadyFeedback] = useState(false);
   const [timeStamps, setTimeStamps] = useState(undefined);
@@ -144,7 +146,11 @@ export function GradedFindCrosswordNodes(props) {
           content="Description of GradedFindCrosswordNodes"
         />
       </Helmet>
-      {props.state.gameData && value && (
+      {
+        currentLevel === -1 &&
+        <ExamInstruction setCurrentLevel={setCurrentLevel} saveRequired/>
+      }
+      {currentLevel !== -1 && props.state.gameData && value && (
         <>
           <GameComponent
             gameData={props.state.gameData}

@@ -16,7 +16,6 @@ import { useInjectReducer } from 'utils/injectReducer';
 import GradedGamesFeedback from 'components/FEEDBACK/GradedGamesFeedback';
 import notification from 'antd/lib/notification';
 import NavigationBar from 'components/NavigationBar';
-import GameComponent from 'components/GAMES/CSP/GradedArcConsistency';
 import makeSelectGradedArcConsistency from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -25,7 +24,6 @@ import {
   evaluateResponseStart,
   putFeedbackStart,
 } from './actions';
-import NavigationBar from 'components/NavigationBar';
 import GameComponent from 'components/GAMES/CSP/GradedArcConsistency';
 import ExamInstruction from 'components/ExamInstruction';
 

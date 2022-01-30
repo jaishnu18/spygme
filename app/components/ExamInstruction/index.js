@@ -22,7 +22,8 @@ function ExamInstruction(props) {
 2. You must Press the "Submit" Button at the top-right corner to submit your test. The test will be automatically submitted once the timer runs out of time.\n
 3. You can navigate between the questions using “Next” and “Previous” buttons or directly from the question palette.\n
 4. Each game has to be played in the same way as you played in the Practice section.\n
-5. Each graded test can be attempted at most 3 times and the average of all those scores will be taken to calculate your proficiency.`}
+5. Each graded test can be attempted at most 3 times and the average of all those scores will be taken to calculate your proficiency.
+${props.saveRequired?'\n6. You must click on "Save Answer" to save your responses else the changes will not be considered while evaluation':'\n6. All your responses will be automatically saved'}`}
           </pre>
         </CustomCard>
       </Col>

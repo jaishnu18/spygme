@@ -23,6 +23,7 @@ const { Title } = Typography;
 
 function DashboardComponent(props) {
   const { dashboard } = props;
+  console.log(dashboard.allStudents);
   const columns = [
     {
       title: 'Rank',
