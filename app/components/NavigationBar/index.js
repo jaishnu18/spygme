@@ -19,6 +19,7 @@ import Modal from 'antd/lib/modal';
 
 function NavigationBar(props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isExitModalVisible, setIsExitModalVisible] = useState(false);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -31,6 +32,19 @@ function NavigationBar(props) {
 
   const handleCancel = () => {
     setIsModalVisible(false);
+  };
+
+  const exitModalshowModal = () => {
+    setIsExitModalVisible(true);
+  };
+
+  const exitModalhandleOk = () => {
+    setIsExitModalVisible(false);
+    history.back();
+  };
+
+  const exitModalhandleCancel = () => {
+    setIsExitModalVisible(false);
   };
 
   return (
@@ -66,7 +80,7 @@ function NavigationBar(props) {
               style={{ display: 'flex', alignItems: 'center' }}
             >
               <Link to={props.prevPageLink}>
-                <CustomButton>
+                <CustomButton onClick={() => {}}>
                   <ArrowLeftOutlined />
                   {props.prevPageText}
                 </CustomButton>
@@ -143,16 +157,23 @@ function NavigationBar(props) {
                 width: '100%',
               }}
             >
-              <CustomButton danger
-                onClick={() => {
-                  history.back();
-                }}
-              >Exit Test</CustomButton>
+              <CustomButton danger onClick={exitModalshowModal}>
+                Exit Test
+              </CustomButton>
+
+              <Modal
+                title="Exit Test"
+                visible={isExitModalVisible}
+                onOk={exitModalhandleOk}
+                onCancel={exitModalhandleCancel}
+              >
+                <p>Are you sure you want to exit the Test?</p>
+              </Modal>
               <CustomButton disableOnClick onClick={showModal}>
                 Submit
               </CustomButton>
               <Modal
-                title="Graded Game Submit"
+                title="Submit Test"
                 visible={isModalVisible}
                 onOk={handleOk}
                 onCancel={handleCancel}

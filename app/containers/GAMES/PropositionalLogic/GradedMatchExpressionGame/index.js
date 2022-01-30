@@ -13,15 +13,19 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import makeSelectGradedMatchExpressionGame from './selectors';
-import reducer from './reducer';
-import saga from './saga';
 import NavigationBar from 'components/NavigationBar';
 import GameComponent from 'components/GAMES/PropositionalLogic/GradedMatchExpressionGame';
 import GradedGamesFeedback from 'components/FEEDBACK/GradedGamesFeedback';
 import notification from 'antd/lib/notification';
-import { getGamesDataStart, evaluateResponseStart, putFeedbackStart } from './actions';
 import ExamInstruction from 'components/ExamInstruction';
+import {
+  getGamesDataStart,
+  evaluateResponseStart,
+  putFeedbackStart,
+} from './actions';
+import saga from './saga';
+import reducer from './reducer';
+import makeSelectGradedMatchExpressionGame from './selectors';
 
 export function GradedMatchExpressionGame(props) {
   useInjectReducer({ key: 'gradedMatchExpressionGame', reducer });
@@ -30,6 +34,7 @@ export function GradedMatchExpressionGame(props) {
   const [currentLevel, setCurrentLevel] = useState(-1);
   const [value, setValue] = useState(undefined);
   const [alreadyFeedback, setAlreadyFeedback] = useState(false);
+  const [timeStamps, setTimeStamps] = useState(undefined);
 
   useEffect(() => {
     props.getGameData();
@@ -46,6 +51,18 @@ export function GradedMatchExpressionGame(props) {
         }
       }
       setValue(initArray);
+
+      const T = [];
+      for (let j = 0; j < props.state.gameData.length; j += 1) {
+        const dateArray = [];
+        if (j === 0) {
+          dateArray.push(new Date());
+        }
+
+        T.push(dateArray);
+      }
+
+      setTimeStamps(T);
     }
   }, [props.state.gameData]);
 
@@ -99,8 +116,12 @@ export function GradedMatchExpressionGame(props) {
     for (let i = 0; i < gameData.length; i += 1) {
       gameData[i].response = value[i];
     }
+    const T = timeStamps;
+    T[currentLevel].push(new Date());
+    setTimeStamps(T);
 
     response.studentResponse = gameData;
+    response.timeStamps = timeStamps;
     props.checkStudentResponse(response);
   };
 
@@ -113,10 +134,9 @@ export function GradedMatchExpressionGame(props) {
           content="Description of GradedMatchExpressionGame"
         />
       </Helmet>
-      {
-        currentLevel === -1 &&
+      {currentLevel === -1 && (
         <ExamInstruction setCurrentLevel={setCurrentLevel} />
-      }
+      )}
       {currentLevel !== -1 && props.state.gameData && value && (
         <>
           <NavigationBar
@@ -125,6 +145,8 @@ export function GradedMatchExpressionGame(props) {
             setCurrentLevel={setCurrentLevel}
             maxLevel={4}
             submit={submit}
+            timeStamps={timeStamps}
+            setTimeStamps={setTimeStamps}
           />
           <GameComponent
             gameData={props.state.gameData}
@@ -135,6 +157,8 @@ export function GradedMatchExpressionGame(props) {
             setValue={setValue}
             value={value}
             maxLevel={4}
+            timeStamps={timeStamps}
+            setTimeStamps={setTimeStamps}
           />
         </>
       )}

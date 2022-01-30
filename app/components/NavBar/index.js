@@ -66,7 +66,7 @@ function NavBar(props) {
               position: 'fixed',
               width: '100vw',
               paddingRight: 0,
-              zIndex: 1,
+              zIndex: 999,
               boxShadow: '0 15px 40px rgb(16 8 3 / 8%)',
             }}
           >
@@ -75,13 +75,13 @@ function NavBar(props) {
               gutter={[20, 0]}
             >
               <Col
-                xs={{ span: 22 }}
+                xs={{ span: 17 }}
                 sm={{ span: 22 }}
                 md={{ span: 8 }}
                 lg={{ span: 6 }}
                 xl={{ span: 7 }}
               >
-                <Link to=''>
+                <Link to="">
                   <H4>AI For Schools</H4>
                 </Link>
               </Col>
@@ -89,83 +89,84 @@ function NavBar(props) {
               {AuthData.isLoggedIn ? (
                 <React.Fragment>
                   <Col
-                    xs={{ span: 2 }}
+                    xs={{ span: 7 }}
                     sm={{ span: 2 }}
                     md={{ span: 16 }}
                     lg={{ span: 18 }}
-                    xl={{ span: 9, offset: 5 }}
+                    xl={{ span: 8, offset: 5 }}
                   >
                     <Menu
                       theme="light"
                       mode="horizontal"
-                      // defaultSelectedKeys={[getHighlightedIndexLoggedIn()]}
+                      defaultSelectedKeys={[
+                        getHighlightedIndexLoggedIn(props.location),
+                      ]}
                       style={{
                         marginTop: '0px',
                         fontWeight: 700,
                         fontSize: '15px',
                       }}
                     >
-                      {/* <Menu.Item key="1" onClick={() => history.push('/')}>
-                        Home
-                      </Menu.Item> */}
-
                       <Menu.Item
-                        key="2"
+                        key="1"
                         onClick={() => history.push('/dashboard')}
                       >
                         Dashboard
                       </Menu.Item>
                       <Menu.Item
-                        key="3"
+                        key="2"
                         onClick={() => history.push('/topics')}
                       >
                         Learn
                       </Menu.Item>
 
                       <Menu.Item
-                        key="4"
+                        key="3"
                         onClick={() => history.push('/my/profile')}
                       >
                         Profile
                       </Menu.Item>
-                      <Menu.Item key="5" onClick={() => history.push('/about')}>About Us</Menu.Item>
-                      <Menu.Item key="6" onClick={showLogoutModal}>
+                      <Menu.Item key="4" onClick={showLogoutModal}>
                         Logout
                       </Menu.Item>
-                      <Modal
-                        title="Logout"
-                        visible={isLogoutModalVisible}
-                        onOk={handleSignout}
-                        onCancel={closeLogoutModal}
-                      >
-                        <p>Are you sure you want to logout?</p>
-                      </Modal>
                     </Menu>
+                    <Modal
+                      title="Logout"
+                      visible={isLogoutModalVisible}
+                      onOk={handleSignout}
+                      onCancel={closeLogoutModal}
+                    >
+                      <p>Are you sure you want to logout?</p>
+                    </Modal>
                   </Col>
                 </React.Fragment>
               ) : (
                 <React.Fragment>
                   <Col
-                    xs={{ span: 2 }}
+                    xs={{ span: 7 }}
                     sm={{ span: 2 }}
                     md={{ span: 16 }}
                     lg={{ span: 18 }}
-                    xl={{ span: 6, offset: 9 }}
+                    xl={{ span: 5, offset: 9 }}
                   >
                     <Menu
                       theme="light"
                       mode="horizontal"
-                      // defaultSelectedKeys={[getHighlightedIndexLoggedOut()]}
+                      defaultSelectedKeys={[
+                        getHighlightedIndexLoggedOut(props.location),
+                      ]}
                       style={{
                         marginTop: '0px',
                         fontWeight: 700,
                         fontSize: '15px',
                       }}
                     >
-                      {/* <Menu.Item key="1" onClick={() => history.push('/')}>
+                      <Menu.Item key="1" onClick={() => history.push('/')}>
                         Home
-                      </Menu.Item> */}
-                      <Menu.Item key="2" onClick={() => history.push('/about')}>About Us</Menu.Item>
+                      </Menu.Item>
+                      <Menu.Item key="2" onClick={() => history.push('/about')}>
+                        About Us
+                      </Menu.Item>
                       <Menu.Item key="3" onClick={() => history.push('/auth')}>
                         Login/Register
                       </Menu.Item>

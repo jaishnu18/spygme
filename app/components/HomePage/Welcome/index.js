@@ -26,33 +26,40 @@ const contentStyle = {
 
 function Welcome(props) {
   return (
-    <>
-      <Row style={{ padding: '40px' }}>
-        <Col
-          style={{ display: 'flex', alignItems: 'center' }}
-          span={23}
-          offset={1}
+    <Row justify="center" style={{ padding: '20px' }}>
+      <Col xs={{ span: 22 }} xl={{ span: 11 }}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            width: '100%',
+            height: '100%',
+          }}
         >
-          <Col xs={{ span: 24 }} xl={{ span: 11 }} >
-            <Title level={1}>AI For Schools</Title>
-            <Title level={3}>We teach AI using AI</Title>
-            <Paragraph>
-              In today's world, AI has got diverse applications and is used in
-              fields like Healthcare, Self-driving Cars, Agriculture and so on. We
-              want you to start learning AI from the very basic concepts so that you
-              can build a strong foundation and have no problem while understanding
-              more advanced stuffs. Don't worry!! We don't give lecture videos and
-              take exams. We use AI to teach you AI. You will learn each and every
-              concept while playing interesting games and reading short reading
-              materials.
-            </Paragraph>
-          </Col>
-          <Col xs={{ span: 24 }} xl={{ span: 11, offset: 1 }}>
-            <Image src={CoverPage} preview={false} />
-          </Col>
-        </Col>
-      </Row>
-    </>
+          <Title level={1} style={{ marginBottom: '10px' }}>
+            AI For Schools
+          </Title>
+          <Title level={3} style={{ marginTop: '10px' }}>
+            We teach AI using AI
+          </Title>
+          <Paragraph>
+            In today's world, AI has got diverse applications and is used in
+            fields like Healthcare, Self-driving Cars, Agriculture and so on. We
+            want you to start learning AI from the very basic concepts so that
+            you can build a strong foundation and have no problem while
+            understanding more advanced stuffs. Don't worry!! We don't give
+            lecture videos and take exams. We use AI to teach you AI. You will
+            learn each and every concept while playing interesting games and
+            reading short reading materials.
+          </Paragraph>
+        </div>
+      </Col>
+      <Col xs={{ span: 22 }} xl={{ span: 11, offset: 1 }}>
+        <Image src={CoverPage} preview={false} style={{ objectFit: 'cover' }} />
+      </Col>
+    </Row>
   );
 }
 

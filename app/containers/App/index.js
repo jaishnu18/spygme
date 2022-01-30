@@ -37,6 +37,7 @@ import {
   signoutUserStart,
   signupUserStart,
 } from './actions';
+import history from 'utils/history';
 
 import reducer from './reducer';
 import saga from './saga';
@@ -71,7 +72,7 @@ export function App(props) {
   ) : (
     <AuthProvider value={props.AuthData}>
       <AppWrapper>
-        <NavBar signout={props.signout} />
+        <NavBar location={history.location.pathname} signout={props.signout} />
         <Routes
           signin={props.signin}
           signout={props.signout}

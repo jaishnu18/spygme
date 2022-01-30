@@ -20,9 +20,7 @@ function FaqSection() {
   return (
     <Row>
       <Col span={12} offset={6}>
-        <Title>
-          Frequenty Asked questions (FAQs)
-        </Title>
+        <Title>Frequenty Asked questions (FAQs)</Title>
       </Col>
       <Col span={18} offset={3}>
         <Collapse accordion style={{}}>
@@ -41,17 +39,17 @@ function FaqSection() {
           >
             <Paragraph>
               During practice sessions, you will enter into a level of the game
-              where you wll get a new instance almost every time, complete it and
-              go to next item. For graded sessions, you can navigate backward and
-              forward as many times as you want.
+              where you wll get a new instance almost every time, complete it
+              and go to next item. For graded sessions, you can navigate
+              backward and forward as many times as you want.
             </Paragraph>
           </Panel>
           <Panel header="Does it help in my school exam as well ?" key="3">
             <Paragraph>
               It does not help you directly in your school curriculum. But
               learning on our platform can improve your logical thinking skills,
-              make you smarter than others and this may indirectly influence your
-              performance in school exams
+              make you smarter than others and this may indirectly influence
+              your performance in school exams
             </Paragraph>
           </Panel>
         </Collapse>

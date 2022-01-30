@@ -18,7 +18,11 @@ import reducer from './reducer';
 import saga from './saga';
 import ReadingMaterialComponent from '../../components/ReadingMaterialComponent';
 import { start, end } from 'utils/timerFunctions';
-import { getReadingMaterialStart, recordTimeStart, markAsReadStart } from './actions';
+import {
+  getReadingMaterialStart,
+  recordTimeStart,
+  markAsReadStart,
+} from './actions';
 import NavigationBar from '../../components/NavigationBar';
 
 export function ReadingMaterialPage(props) {
@@ -55,7 +59,6 @@ export function ReadingMaterialPage(props) {
   };
   const { timeRecorded } = props.readingMaterialPage;
 
-
   const markAsRead = () => {
     const response = {};
     response.rmId = rmId;
@@ -69,15 +72,20 @@ export function ReadingMaterialPage(props) {
         <title>ReadingMaterialPage</title>
         <meta name="description" content="Description of ReadingMaterialPage" />
       </Helmet>
-      {readingMaterialContent &&
-        <NavigationBar prevPageText="Back to materials" prevPageLink={`/concept/${topicId}/${conceptId}`} readingMaterial backToMaterials={backToMaterials} markAsRead={markAsRead} read={readingMaterialContent.read} />
-      }
+      {readingMaterialContent && (
+        <NavigationBar
+          prevPageText="Back to materials"
+          prevPageLink={`/concept/${topicId}/${conceptId}`}
+          readingMaterial
+          backToMaterials={backToMaterials}
+          markAsRead={markAsRead}
+          read={readingMaterialContent.read}
+        />
+      )}
 
-      {readingMaterialContent &&
-        (
-          <ReadingMaterialComponent content={readingMaterialContent} />
-        )
-      }
+      {readingMaterialContent && (
+        <ReadingMaterialComponent content={readingMaterialContent} />
+      )}
     </div>
   );
 }
@@ -86,7 +94,7 @@ ReadingMaterialPage.propTypes = {
   readingMaterialPage: PropTypes.object,
   getReadingMaterialContent: PropTypes.func,
   markAsRead: PropTypes.func,
-  recordTime: PropTypes.func
+  recordTime: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -95,7 +103,8 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    getReadingMaterialContent: payload => dispatch(getReadingMaterialStart(payload)),
+    getReadingMaterialContent: payload =>
+      dispatch(getReadingMaterialStart(payload)),
     markAsRead: response => dispatch(markAsReadStart(response)),
     recordTime: response => dispatch(recordTimeStart(response)),
   };

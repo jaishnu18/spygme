@@ -24,11 +24,11 @@ const { Title } = Typography;
 const { Paragraph } = Typography;
 function QuerySection(props) {
   return (
-    <Row style={{ padding: '10px' }}>
+    <Row style={{ padding: '10px', width: '100vw' }}>
       <Col span={6} offset={9}>
         <Title>Contact us</Title>
       </Col>
-      <Col span={10} offset={7}>
+      <Col xs={{ span: 24 }} xl={{ span: 10, offset: 7 }}>
         <Paragraph>
           If you have any queries, please go through the FAQ's. For any other
           query feel free to fill the form below so that we can reach you out.
@@ -36,7 +36,7 @@ function QuerySection(props) {
       </Col>
 
       <Col xs={{ span: 24 }} xl={{ span: 10, offset: 7 }}>
-        <CustomCard>
+        <CustomCard width="100%">
           <Form name="QueryForm" onFinish={props.querySubmit}>
             <div>
               <Form.Item
@@ -48,7 +48,6 @@ function QuerySection(props) {
                     message: 'Please input your Response!',
                   },
                 ]}
-                style={{ marginLeft: '20px', width: '400px' }}
               >
                 <Input placeholder="your name" />
               </Form.Item>
@@ -62,7 +61,6 @@ function QuerySection(props) {
                     message: 'Please input your Response!',
                   },
                 ]}
-                style={{ marginLeft: '20px', width: '400px' }}
               >
                 <Input placeholder="your email" />
               </Form.Item>
@@ -75,7 +73,6 @@ function QuerySection(props) {
                     message: 'Please input your Response!',
                   },
                 ]}
-                style={{ marginLeft: '20px', width: '400px' }}
               >
                 <Radio.Group buttonStyle="solid">
                   <Radio.Button value="Student">Student</Radio.Button>
@@ -94,7 +91,6 @@ function QuerySection(props) {
                     message: 'Please input your Response!',
                   },
                 ]}
-                style={{ marginLeft: '20px', width: '400px' }}
               >
                 <Input.TextArea placeholder="your message" rows={6} />
               </Form.Item>

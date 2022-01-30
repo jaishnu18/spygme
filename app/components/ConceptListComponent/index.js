@@ -24,10 +24,7 @@ function ConceptListComponent(props) {
   return (
     <div>
       <NavigationBar prevPageText="Back to Topics" prevPageLink="/topics" />
-      <Row
-        style={{ padding: '20px', margin: 0 }}
-        gutter={[16, 16]}
-      >
+      <Row style={{ padding: '20px', margin: 0 }} gutter={[16, 16]}>
         <Col
           span={24}
           style={{
@@ -42,16 +39,16 @@ function ConceptListComponent(props) {
 
         {concepts
           ? concepts.map((key, idx) => (
-            <Col xs={{ span: 24 }} xl={{ span: 8 }}>
-              <Link to={`/concept/${parentTopic}/${key.id}`}>
-                <DescriptionCard
-                  title={`Concept : ${idx + 1}`}
-                  description={key.name}
-                  progress={Math.round(key.progress * 100)}
-                />
-              </Link>
-            </Col>
-          ))
+              <Col xs={{ span: 24 }} xl={{ span: 8 }}>
+                <Link to={`/concept/${parentTopic}/${key.id}`}>
+                  <DescriptionCard
+                    title={`Concept : ${idx + 1}`}
+                    description={key.name}
+                    progress={Math.round(key.progress * 100)}
+                  />
+                </Link>
+              </Col>
+            ))
           : null}
       </Row>
     </div>

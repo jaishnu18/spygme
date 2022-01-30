@@ -24,20 +24,31 @@ import { useInjectReducer } from 'utils/injectReducer';
 import CoverPage1 from 'images/coverPage1.png';
 
 import Welcome from 'components/HomePage/Welcome';
+import Typography from 'antd/lib/typography';
+import Divider from 'antd/lib/divider';
+import Timeline from 'antd/lib/timeline';
+import Image from 'antd/lib/image';
 import makeSelectHomePage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import QuerySection from '../../components/HomePage/QuerySection';
-import Typography from 'antd/lib/typography';
-import Divider from 'antd/lib/divider';
 import { sendMessageStart } from './actions';
 import FaqSection from '../../components/HomePage/FaqSection';
-import Timeline from 'antd/lib/timeline';
-import Image from 'antd/lib/image';
+import styled from 'styled-components';
 
 const { Panel } = Collapse;
 const { Title } = Typography;
 const { Paragraph } = Typography;
+
+const StyledImage = styled(Image)`
+  height: 200px !important;
+  width: 512px !important;
+
+  @media (max-width: 768px) {
+    height: 6vh !important;
+    width: 15vh !important;
+  }
+`;
 
 export function HomePage(props) {
   useInjectReducer({ key: 'homePage', reducer });
@@ -70,13 +81,26 @@ export function HomePage(props) {
         >
           <Title style={{ textAlign: 'center' }}>How it works?</Title>
         </Col>
-        <Col
-          span={24}
-        >
-          <Timeline mode='alternate'>
-            <Timeline.Item label="Read short reading materials"><Image style={{ height: '200px', width: '496px' }} preview={false} src={require("images/Screenshot_ReadMat.png")} /></Timeline.Item>
-            <Timeline.Item label="Play practice games as much as you want"><Image style={{ height: '200px', width: '512px' }} preview={false} src={require("images/Screenshot_Game.png")} /></Timeline.Item>
-            <Timeline.Item label="Attempt graded tests based on what you played during practice"><Image style={{ height: '200px', width: '410px' }} preview={false} src={require("images/Screenshot_Graded.png")} /></Timeline.Item>
+        <Col span={24} style={{ padding: '20px' }}>
+          <Timeline mode="alternate">
+            <Timeline.Item label="Read short reading materials">
+              <StyledImage
+                preview={false}
+                src={require('images/Screenshot_ReadMat.png')}
+              />
+            </Timeline.Item>
+            <Timeline.Item label="Play practice games as much as you want">
+              <StyledImage
+                preview={false}
+                src={require('images/Screenshot_Game.png')}
+              />
+            </Timeline.Item>
+            <Timeline.Item label="Attempt graded tests based on what you played during practice">
+              <StyledImage
+                preview={false}
+                src={require('images/Screenshot_Graded.png')}
+              />
+            </Timeline.Item>
           </Timeline>
         </Col>
       </Row>

@@ -24,11 +24,12 @@ export function NotFoundPage() {
         title="404"
         subTitle="Sorry, the page you visited does not exist."
         extra={
-          <Link to=''>
-            <CustomButton type="primary">Back Home</CustomButton>}
+          <Link to="/">
+            <CustomButton type="primary">Back Home</CustomButton>
           </Link>
         }
-      />,
+      />
+      ,
     </div>
   );
 }

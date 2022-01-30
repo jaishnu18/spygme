@@ -10,14 +10,15 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+import history from 'utils/history';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
+import Result from 'antd/lib/result';
+import CustomButton from 'components/atoms/CustomButton';
 import makeSelectTestNotAllowedPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import Result from 'antd/lib/result';
-import CustomButton from 'components/atoms/CustomButton';
 
 export function TestNotAllowedPage() {
   useInjectReducer({ key: 'testNotAllowedPage', reducer });
@@ -33,7 +34,16 @@ export function TestNotAllowedPage() {
         status="403"
         title="Not Allowed"
         subTitle="Sorry, you have already attemted this graded test 3 times."
-        extra={<CustomButton type="primary" onClick={() => { history.back(); }}>Back to Materials</CustomButton>}
+        extra={
+          <CustomButton
+            type="primary"
+            onClick={() => {
+              history.back();
+            }}
+          >
+            Back to Materials
+          </CustomButton>
+        }
       />
     </div>
   );
