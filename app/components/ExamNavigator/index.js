@@ -9,16 +9,17 @@ import React, { memo } from 'react';
 // import styled from 'styled-components';
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
-import CustomButton from '../atoms/CustomButton';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import CustomCard from 'components/CustomCard';
 import Affix from 'antd/lib/affix';
+import CustomButton from 'components/atoms/CustomButton';
 
 function ExamNavigator(props) {
   const arr = new Array(props.levels);
   for (let i = 0; i < props.levels; i++) {
     arr[i] = i + 1;
   }
+
   return (
     <div>
       <Affix offsetTop={120}>
@@ -34,10 +35,10 @@ function ExamNavigator(props) {
               onComplete={props.submit}
             >
               {({ remainingTime }) => {
-                const minutes = Math.floor(remainingTime / 60)
-                const seconds = remainingTime % 60
+                const minutes = Math.floor(remainingTime / 60);
+                const seconds = remainingTime % 60;
 
-                return `${minutes}:${seconds}`
+                return `${minutes}:${seconds}`;
               }}
             </CountdownCircleTimer>
           </Col>
@@ -46,25 +47,21 @@ function ExamNavigator(props) {
           <Col span={22} style={{ display: 'flex', flexDirection: 'column' }}>
             <CustomCard title="Navigator">
               {arr.map((x, i) => (
-                // <Col
-                //   key={x}
-                //   span={2}
-                //   // offset={1}
-                //   style={{
-                //     display: 'flex',
-                //     alignItems: 'center',
-                //     justifyContent: 'center',
-                //     border: '1px solid grey',
-                //   }}
-                // >
                 <CustomButton
                   onClick={() => {
-                    props.setCurrentLevel(i);
+                    if (props.currentLevel !== i) {
+                      const D = new Date();
+                      const T = props.timeStamps;
+                      T[props.currentLevel].push(D);
+                      props.setCurrentLevel(i);
+                      T[i].push(D);
+                      props.setTimeStamps(T);
+                    }
                   }}
+                  key={`Button-${i + 1}`}
                 >
                   {x}
                 </CustomButton>
-                // </Col>
               ))}
             </CustomCard>
           </Col>

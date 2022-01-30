@@ -121,7 +121,7 @@ export function MatchExpressionGame(props) {
             attempts={gameData.attempt}
             totalLevels={gameData.maxLevels}
             evaluatedAnswer={evaluatedAnswer}
-            maxLevel="4"
+            maxLevel={4}
             conceptId={conceptId}
             topicId={topicId}
           />

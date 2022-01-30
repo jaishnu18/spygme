@@ -38,52 +38,62 @@ function GradedWriteExpressionGame(props) {
           examDuration={600}
           evaluatedAnswer={evaluatedAnswer}
           submit={props.submit}
+          {...props}
         />
       </Col>
 
       <Col xs={{ span: 24 }} xl={{ span: 11 }}>
-        <Title level={3}>Write the expression depicted by the given graph: </Title>
-        <Form
-          name={`Form-${props.currentLevel}`}>
+        <Title level={3}>
+          Write the expression depicted by the given graph:{' '}
+        </Title>
+        <Form name={`Form-${props.currentLevel}`}>
           <Form.Item name={`Input-${props.currentLevel}`}>
-            <Input onChange={(e) => {
-              const newArr = props.value;
-              if (e.target.value === '')
-                newArr[currentLevel] = '$$$';
-              else
-                newArr[currentLevel] = e.target.value;
-              props.setValue(newArr);
-            }} />
+            <Input
+              onChange={e => {
+                const newArr = props.value;
+                if (e.target.value === '') newArr[currentLevel] = '$$$';
+                else newArr[currentLevel] = e.target.value;
+                props.setValue(newArr);
+              }}
+            />
           </Form.Item>
-          {
-            evaluatedAnswer && (
-              evaluatedAnswer[currentLevel].syntax_error !== 'No syntax error' ?
-                (
-                  <Row style={{ paddingTop: '10px' }}>
-                    <Col span={24} style={{ display: 'flex' }}>
-                      <ExclamationCircleFilled style={{ fontSize: '20px', color: 'yellow' }} />
-                      <Paragraph style={{ paddingLeft: '10px' }}>{"Syntax error : " + evaluatedAnswer[currentLevel].syntax_error}</Paragraph>
-                    </Col>
-                  </Row>
-                ) : (
-                  <Row style={{ paddingTop: '10px' }}>
-                    <Col span={24} style={{ display: 'flex' }}>
-                      {
-                        evaluatedAnswer[currentLevel].score === 1 ?
-                          <CheckCircleFilled style={{ fontSize: '20px', color: 'green' }} />
-                          : (
-                            <CloseCircleFilled style={{ fontSize: '20px', color: 'red' }} />
-                          )
-
-                      }
-                      <Paragraph style={{ paddingLeft: '10px' }}>{evaluatedAnswer[currentLevel].score === 1 ? "" : "One of the correct answer : " + evaluatedAnswer[currentLevel].answer}</Paragraph>
-                    </Col>
-                  </Row>
-                )
-            )
-          }
+          {evaluatedAnswer &&
+            (evaluatedAnswer[currentLevel].syntax_error !==
+            'No syntax error' ? (
+              <Row style={{ paddingTop: '10px' }}>
+                <Col span={24} style={{ display: 'flex' }}>
+                  <ExclamationCircleFilled
+                    style={{ fontSize: '20px', color: 'yellow' }}
+                  />
+                  <Paragraph style={{ paddingLeft: '10px' }}>
+                    {'Syntax error : ' +
+                      evaluatedAnswer[currentLevel].syntax_error}
+                  </Paragraph>
+                </Col>
+              </Row>
+            ) : (
+              <Row style={{ paddingTop: '10px' }}>
+                <Col span={24} style={{ display: 'flex' }}>
+                  {evaluatedAnswer[currentLevel].score === 1 ? (
+                    <CheckCircleFilled
+                      style={{ fontSize: '20px', color: 'green' }}
+                    />
+                  ) : (
+                    <CloseCircleFilled
+                      style={{ fontSize: '20px', color: 'red' }}
+                    />
+                  )}
+                  <Paragraph style={{ paddingLeft: '10px' }}>
+                    {evaluatedAnswer[currentLevel].score === 1
+                      ? ''
+                      : 'One of the correct answer : ' +
+                        evaluatedAnswer[currentLevel].answer}
+                  </Paragraph>
+                </Col>
+              </Row>
+            ))}
         </Form>
-        {evaluatedAnswer &&
+        {evaluatedAnswer && (
           <Row style={{ paddingTop: '40px' }}>
             <Col span={22}>
               <CustomCard title="Summary Report">
@@ -91,7 +101,9 @@ function GradedWriteExpressionGame(props) {
                   <Descriptions layout="horizontal" bordered>
                     <Descriptions.Item label="Score" span={24}>
                       <Col span={24}>
-                        {Math.round(evaluatedAnswer[props.maxLevel].score * 100) + "%"}
+                        {Math.round(
+                          evaluatedAnswer[props.maxLevel].score * 100,
+                        ) + '%'}
                       </Col>
                     </Descriptions.Item>
                     <Descriptions.Item label="Attempted question" span={24}>
@@ -119,16 +131,13 @@ function GradedWriteExpressionGame(props) {
               </CustomCard>
             </Col>
           </Row>
-        }
-
+        )}
       </Col>
 
       <Col xs={{ span: 24 }} xl={{ span: 9 }}>
-        <Graph
-          gameData={gameData[currentLevel]}
-        />
+        <Graph gameData={gameData[currentLevel]} />
       </Col>
-    </Row >
+    </Row>
   );
 }
 GradedWriteExpressionGame.propTypes = {};

@@ -33,6 +33,7 @@ export function GradedFindCrosswordNodes(props) {
   const [currentLevel, setCurrentLevel] = useState(0);
   const [value, setValue] = useState(undefined);
   const [alreadyFeedback, setAlreadyFeedback] = useState(false);
+  const [timeStamps, setTimeStamps] = useState(undefined);
 
   useEffect(() => {
     props.getGameData();
@@ -45,6 +46,18 @@ export function GradedFindCrosswordNodes(props) {
           nodes: [{ node: null, row: null, col: null }],
         }),
       );
+
+      const T = [];
+      for (let j = 0; j < props.state.gameData.length; j += 1) {
+        const dateArray = [];
+        if (j === 0) {
+          dateArray.push(new Date());
+        }
+
+        T.push(dateArray);
+      }
+
+      setTimeStamps(T);
     }
   }, [props.state.gameData]);
 
@@ -91,25 +104,36 @@ export function GradedFindCrosswordNodes(props) {
 
   const { evaluatedAnswer } = props.state;
 
-  const submit = values => {
-    console.log(values);
-    for (let i = 0; i < values.length; i += 1) {
-      values[i].submit();
-    }
-
-    console.log(value);
+  const submit = () => {
     const { gameData } = props.state;
     const response = {};
 
     for (let i = 0; i < gameData.length; i += 1) {
-      gameData[i].response = value[i];
+      const nodes = [];
+      for (let j = 0; j < value[i].nodes.length; j += 1) {
+        const T = value[i].nodes[j];
+        if (T.node && T.row && T.col) {
+          nodes.push(T);
+        }
+      }
+      gameData[i].response = nodes;
     }
 
+    const T = timeStamps;
+    T[currentLevel].push(new Date());
+    setTimeStamps(T);
+
     response.studentResponse = gameData;
+    response.timeStamps = timeStamps;
     response.gameId = props.gameId;
+
+    console.log(response);
 
     props.checkStudentResponse(response);
   };
+
+  console.log('evaluatedAnswer');
+  console.log(evaluatedAnswer);
 
   return (
     <div>
@@ -130,7 +154,9 @@ export function GradedFindCrosswordNodes(props) {
             submit={submit}
             setValue={setValue}
             value={value}
-            maxLevel="3"
+            maxLevel={3}
+            timeStamps={timeStamps}
+            setTimeStamps={setTimeStamps}
           />
         </>
       )}

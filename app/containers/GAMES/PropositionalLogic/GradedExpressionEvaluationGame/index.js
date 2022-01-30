@@ -20,7 +20,11 @@ import NavigationBar from 'components/NavigationBar';
 import GameComponent from 'components/GAMES/PropositionalLogic/GradedExpressionEvaluationGame';
 import GradedGamesFeedback from 'components/FEEDBACK/GradedGamesFeedback';
 import notification from 'antd/lib/notification';
-import { getGamesDataStart, evaluateResponseStart,putFeedbackStart } from './actions';
+import {
+  getGamesDataStart,
+  evaluateResponseStart,
+  putFeedbackStart,
+} from './actions';
 
 export function GradedExpressionEvaluationGame(props) {
   useInjectReducer({ key: 'gradedExpressionEvaluationGame', reducer });
@@ -36,29 +40,29 @@ export function GradedExpressionEvaluationGame(props) {
 
   useEffect(() => {
     if (props.state.gameData) {
-      setValue(
-        new Array(props.state.gameData.length).fill(-1)
-      );
+      setValue(new Array(props.state.gameData.length).fill(-1));
     }
   }, [props.state.gameData]);
 
   useEffect(() => {
     if (evaluatedAnswer && !alreadyFeedback) {
       setAlreadyFeedback(true);
-      const practiceGamesFeedback = <GradedGamesFeedback submitFeedback={submitFeedback} />
+      const practiceGamesFeedback = (
+        <GradedGamesFeedback submitFeedback={submitFeedback} />
+      );
       const args = {
         message: 'Feedback',
-        description:
-          practiceGamesFeedback,
+        description: practiceGamesFeedback,
         duration: 0,
       };
       notification.open(args);
       if (evaluatedAnswer.score !== 1) {
-        const practiceGamesFeedback = <GradedGamesFeedback whatWentWrong submitWWW={submitWWW} />
+        const practiceGamesFeedback = (
+          <GradedGamesFeedback whatWentWrong submitWWW={submitWWW} />
+        );
         const args = {
           message: 'Why you made mistake?',
-          description:
-            practiceGamesFeedback,
+          description: practiceGamesFeedback,
           duration: 0,
           placement: 'topLeft',
         };
@@ -79,7 +83,7 @@ export function GradedExpressionEvaluationGame(props) {
     response.isGraded = true;
     response.feedback = JSON.stringify(values);
     props.saveFeedback(response);
-  }
+  };
 
   const { evaluatedAnswer } = props.state;
 
@@ -110,7 +114,7 @@ export function GradedExpressionEvaluationGame(props) {
             gradedGame
             currentLevel={currentLevel}
             setCurrentLevel={setCurrentLevel}
-            maxLevel="4"
+            maxLevel={4}
             submit={submit}
           />
           <GameComponent
@@ -121,7 +125,7 @@ export function GradedExpressionEvaluationGame(props) {
             submit={submit}
             setValue={setValue}
             value={value}
-            maxLevel="4"
+            maxLevel={4}
           />
         </>
       )}

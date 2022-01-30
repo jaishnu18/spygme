@@ -38,6 +38,7 @@ function GradedExpressionEvaluationGame(props) {
           evaluatedAnswer={evaluatedAnswer}
           examDuration={300}
           submit={props.submit}
+          {...props}
         />
       </Col>
 
@@ -47,39 +48,46 @@ function GradedExpressionEvaluationGame(props) {
           {gameData[currentLevel].expression}
         </Title>
         <Title level={4} style={{ fontWeight: 400 }}>
-          {"where " +
-            (
-              gameData[currentLevel].content.map((key, idx) => (
-                key.match(/[a-z]/i) ? key + " = " + gameData[currentLevel].values[idx] : ""
-              )))}
+          {'where ' +
+            gameData[currentLevel].content.map((key, idx) =>
+              key.match(/[a-z]/i)
+                ? key + ' = ' + gameData[currentLevel].values[idx]
+                : '',
+            )}
         </Title>
-        <Form
-          name={`Form-${props.currentLevel}`}>
+        <Form name={`Form-${props.currentLevel}`}>
           <Form.Item name={`Input-${props.currentLevel}`}>
-            <InputNumber onChange={(e) => {
-              const newArr = props.value;
-              newArr[currentLevel] = e;
-              props.setValue(newArr);
-            }} />
+            <InputNumber
+              onChange={e => {
+                const newArr = props.value;
+                newArr[currentLevel] = e;
+                props.setValue(newArr);
+              }}
+            />
           </Form.Item>
-          {
-            evaluatedAnswer && (
-              <Row style={{ paddingTop: '10px' }}>
-                <Col span={24} style={{ display: 'flex' }}>
-                  {
-                    evaluatedAnswer[currentLevel].score === 1 ?
-                      <CheckCircleFilled style={{ fontSize: '20px', color: 'green' }} />
-                      :
-                      <CloseCircleFilled style={{ fontSize: '20px', color: 'red' }} />
-
-                  }
-                  <Paragraph style={{ paddingLeft: '10px' }}>{evaluatedAnswer[currentLevel].score === 1 ? "" : "Correct Answer : " + evaluatedAnswer[currentLevel].answer}</Paragraph>
-                </Col>
-              </Row>
-            )
-          }
+          {evaluatedAnswer && (
+            <Row style={{ paddingTop: '10px' }}>
+              <Col span={24} style={{ display: 'flex' }}>
+                {evaluatedAnswer[currentLevel].score === 1 ? (
+                  <CheckCircleFilled
+                    style={{ fontSize: '20px', color: 'green' }}
+                  />
+                ) : (
+                  <CloseCircleFilled
+                    style={{ fontSize: '20px', color: 'red' }}
+                  />
+                )}
+                <Paragraph style={{ paddingLeft: '10px' }}>
+                  {evaluatedAnswer[currentLevel].score === 1
+                    ? ''
+                    : 'Correct Answer : ' +
+                      evaluatedAnswer[currentLevel].answer}
+                </Paragraph>
+              </Col>
+            </Row>
+          )}
         </Form>
-        {evaluatedAnswer &&
+        {evaluatedAnswer && (
           <Row style={{ paddingTop: '40px' }}>
             <Col span={22}>
               <CustomCard title="Summary Report">
@@ -87,7 +95,9 @@ function GradedExpressionEvaluationGame(props) {
                   <Descriptions layout="horizontal" bordered>
                     <Descriptions.Item label="Score" span={24}>
                       <Col span={24}>
-                        {Math.round(evaluatedAnswer[props.maxLevel].score * 100) + "%"}
+                        {Math.round(
+                          evaluatedAnswer[props.maxLevel].score * 100,
+                        ) + '%'}
                       </Col>
                     </Descriptions.Item>
                     <Descriptions.Item label="Attempted question" span={24}>
@@ -115,15 +125,13 @@ function GradedExpressionEvaluationGame(props) {
               </CustomCard>
             </Col>
           </Row>
-        }
+        )}
       </Col>
 
       <Col xs={{ span: 24 }} xl={{ span: 9 }}>
-        <Graph
-          gameData={gameData[currentLevel]}
-        />
+        <Graph gameData={gameData[currentLevel]} />
       </Col>
-    </Row >
+    </Row>
   );
 }
 GradedExpressionEvaluationGame.propTypes = {};

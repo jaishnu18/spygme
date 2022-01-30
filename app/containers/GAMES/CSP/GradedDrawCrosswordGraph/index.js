@@ -34,6 +34,7 @@ export function GradedDrawCrosswordGraph(props) {
   const [value, setValue] = useState(undefined);
   const [AcrossNodes, setAcrossNodes] = useState([]);
   const [DownNodes, setDownNodes] = useState([]);
+  const [timeStamps, setTimeStamps] = useState(undefined);
 
   useEffect(() => {
     props.getGameData();
@@ -73,51 +74,64 @@ export function GradedDrawCrosswordGraph(props) {
           nodes: [{ across: null, down: null }],
         }),
       );
+
+      const T = [];
+      for (let j = 0; j < props.state.gameData.length; j += 1) {
+        const dateArray = [];
+        if (j === 0) {
+          dateArray.push(new Date());
+        }
+
+        T.push(dateArray);
+      }
+
+      setTimeStamps(T);
     }
   }, [props.state.gameData]);
 
   useEffect(() => {}, [props.state.gameData]);
 
-  const submit = values => {
-    for (let i = 0; i < values.length; i += 1) {
-      values[i].submit();
-    }
-
+  const submit = () => {
     const res = [];
-    for (let k = 0; k < values.length; k += 1) {
+    for (let k = 0; k < props.state.gameData.length; k += 1) {
+      console.log(value[k].nodes);
       const currLevArr = [];
       for (const item in value[k].nodes) {
-        const arr1 = value[k].nodes[item].across.split('-');
-        const arr2 = value[k].nodes[item].down.split('-');
-        const newArr = [];
-        for (let i = 0; i < arr1.length; i += 1) {
-          if (i === 2) {
-            if (arr1[i] === 'A') {
-              newArr.push(65);
-            } else {
-              newArr.push(68);
+        if (value[k].nodes[item].across && value[k].nodes[item].down) {
+          const arr1 = value[k].nodes[item].across.split('-');
+          const arr2 = value[k].nodes[item].down.split('-');
+          const newArr = [];
+          if (arr1[0] && arr1[1] && arr1[2]) {
+            for (let i = 0; i < arr1.length; i += 1) {
+              if (i === 2) {
+                if (arr1[i] === 'A') {
+                  newArr.push(65);
+                } else {
+                  newArr.push(68);
+                }
+              } else {
+                newArr.push(parseInt(arr1[i]));
+              }
             }
-          } else {
-            newArr.push(parseInt(arr1[i]));
           }
-        }
-        for (let i = 0; i < arr2.length; i += 1) {
-          if (i === 2) {
-            if (arr2[i] === 'A') {
-              newArr.push(65);
-            } else {
-              newArr.push(68);
+          if (arr2[0] && arr2[1] && arr2[2]) {
+            for (let i = 0; i < arr2.length; i += 1) {
+              if (i === 2) {
+                if (arr2[i] === 'A') {
+                  newArr.push(65);
+                } else {
+                  newArr.push(68);
+                }
+              } else {
+                newArr.push(parseInt(arr2[i]));
+              }
             }
-          } else {
-            newArr.push(parseInt(arr2[i]));
           }
+          currLevArr.push(newArr);
         }
-
-        currLevArr.push(newArr);
       }
       res.push(currLevArr);
     }
-    console.log(res);
 
     const { gameData } = props.state;
     const response = {};
@@ -126,12 +140,20 @@ export function GradedDrawCrosswordGraph(props) {
       gameData[i].response = res[i];
     }
 
+    const T = timeStamps;
+    T[currentLevel].push(new Date());
+    setTimeStamps(T);
+
     response.studentResponse = gameData;
+    response.timeStamps = timeStamps;
     response.gameId = props.gameId;
+
     console.log(response);
 
     props.checkStudentResponse(response);
   };
+
+  console.log(props.state.evaluatedAnswer);
 
   return (
     <div>
@@ -152,9 +174,11 @@ export function GradedDrawCrosswordGraph(props) {
             submit={submit}
             setValue={setValue}
             value={value}
-            maxLevel="3"
+            maxLevel={3}
             AcrossNodes={AcrossNodes}
             DownNodes={DownNodes}
+            timeStamps={timeStamps}
+            setTimeStamps={setTimeStamps}
           />
         </>
       )}

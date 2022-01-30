@@ -21,19 +21,18 @@ const { Option } = Select;
 
 function FormDrawCrosswordGraph(props) {
   const { currentLevel } = props;
+  console.log(`Form-${props.ID}`)
   return (
     <>
       <Form
-        form={props.form}
-        name={`Form-${props.ID || ''}`}
+        name={`Form-${props.ID}`}
         onFinish={values => {
-          console.log(values);
           const org = props.value;
-          console.log(org);
-          org[currentLevel] = values;
+          org[props.currentLevel] = values;
           props.setValue(org);
+          console.log(props.value);
         }}
-        initialValues={props.value[currentLevel]}
+        initialValues={props.value[props.currentLevel]}
         autoComplete="off"
         style={{ display: 'flex', flexDirection: 'column' }}
       >
@@ -55,12 +54,6 @@ function FormDrawCrosswordGraph(props) {
                         label={index >= 0 ? 'Across' : ''}
                         name={[field.name, 'across']}
                         fieldKey={[field.fieldKey, 'node']}
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Missing Row',
-                          },
-                        ]}
                       >
                         <Select style={{ width: 130 }}>
                           {props.AcrossNodes[currentLevel].map(
@@ -87,12 +80,6 @@ function FormDrawCrosswordGraph(props) {
                         label={index >= 0 ? 'Down' : ''}
                         name={[field.name, 'down']}
                         fieldKey={[field.fieldKey, 'node']}
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Missing Row',
-                          },
-                        ]}
                       >
                         <Select style={{ width: 130 }}>
                           {props.DownNodes[currentLevel].map((item, index) => (

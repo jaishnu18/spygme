@@ -30,10 +30,14 @@ function GradedNodeConsistency(props) {
       <Col xs={{ span: 24 }} xl={{ span: 4 }}>
         <ExamNavigator
           levels={props.maxLevel}
+          currentLevel={props.currentLevel}
           setCurrentLevel={props.setCurrentLevel}
           examDuration={300}
           evaluatedAnswer={evaluatedAnswer}
           submit={props.submit}
+          timeStamps={props.timeStamps}
+          setTimeStamps={props.setTimeStamps}
+          {...props}
         />
       </Col>
       <Col xs={{ span: 24 }} xl={{ span: 20 }}>
@@ -44,9 +48,9 @@ function GradedNodeConsistency(props) {
                 <CustomCard
                   title={`${key[0]} - ${key[1]} - ${key[2] === 65 ? 'A' : 'D'}`}
                 >
-                  <Row>
+                  <Row key={`R-${idx + 1}`}>
                     {gameData[currentLevel].shuffled_bag.map((nkey, jdx) => (
-                      <Col span={7}>
+                      <Col key={`C-${jdx + 1}`} span={7}>
                         <Form.Item name={`Input-${currentLevel}-${idx}-${jdx}`}>
                           <Button
                             style={{
@@ -57,16 +61,16 @@ function GradedNodeConsistency(props) {
                                     ? 'blue'
                                     : 'yellow'
                                   : props.value2[idx][jdx]
-                                    ? 'blue'
-                                    : 'yellow',
+                                  ? 'blue'
+                                  : 'yellow',
                               color:
                                 currentLevel === 0
                                   ? props.value1[idx][jdx]
                                     ? 'white'
                                     : 'black'
                                   : props.value2[idx][jdx]
-                                    ? 'white'
-                                    : 'black',
+                                  ? 'white'
+                                  : 'black',
                               fontWeight: 700,
                             }}
                             onClick={e => {
@@ -86,8 +90,7 @@ function GradedNodeConsistency(props) {
                               if (target.style.backgroundColor === 'yellow') {
                                 target.style.backgroundColor = 'blue';
                                 target.style.color = 'white';
-                              }
-                              else {
+                              } else {
                                 target.style.backgroundColor = 'yellow';
                                 target.style.color = 'black';
                               }
@@ -118,14 +121,18 @@ function GradedNodeConsistency(props) {
                           <CheckCircleFilled
                             style={{ fontSize: '20px', color: 'green' }}
                           />
-                          <Paragraph>You made its domain node consistent</Paragraph>
+                          <Paragraph>
+                            You made its domain node consistent
+                          </Paragraph>
                         </div>
                       ) : (
                         <div>
                           <CloseCircleFilled
                             style={{ fontSize: '20px', color: 'red' }}
                           />
-                          <Paragraph>You could not make the domain node consistent</Paragraph>
+                          <Paragraph>
+                            You could not make the domain node consistent
+                          </Paragraph>
                         </div>
                       ))}
                   </Row>
@@ -133,14 +140,14 @@ function GradedNodeConsistency(props) {
               ))}
             </Col>
             <Col xs={{ span: 24 }} xl={{ span: 11, offset: 1 }}>
-              {evaluatedAnswer ?
+              {evaluatedAnswer ? (
                 <Crossword grid={gameData[currentLevel].grid} />
-                :
+              ) : (
                 <Affix offsetTop={60}>
                   <Crossword grid={gameData[currentLevel].grid} />
                 </Affix>
-              }
-              {evaluatedAnswer &&
+              )}
+              {evaluatedAnswer && (
                 <Row style={{ paddingTop: '40px' }}>
                   <Col span={22}>
                     <CustomCard title="Summary Report">
@@ -148,12 +155,20 @@ function GradedNodeConsistency(props) {
                         <Descriptions layout="horizontal" bordered>
                           <Descriptions.Item label="Score" span={24}>
                             <Col span={24}>
-                              {Math.round(evaluatedAnswer[props.maxLevel].score * 100) + "%"}
+                              {Math.round(
+                                evaluatedAnswer[props.maxLevel].score * 100,
+                              ) + '%'}
                             </Col>
                           </Descriptions.Item>
-                          <Descriptions.Item label="Correctly Answered" span={24}>
+                          <Descriptions.Item
+                            label="Correctly Answered"
+                            span={24}
+                          >
                             <Col span={24}>
-                              {evaluatedAnswer[props.maxLevel].correctlyAnswered}
+                              {
+                                evaluatedAnswer[props.maxLevel]
+                                  .correctlyAnswered
+                              }
                             </Col>
                           </Descriptions.Item>
                           <Descriptions.Item label="Wrong Answered" span={24}>
@@ -166,7 +181,7 @@ function GradedNodeConsistency(props) {
                     </CustomCard>
                   </Col>
                 </Row>
-              }
+              )}
             </Col>
           </Row>
         </Form>

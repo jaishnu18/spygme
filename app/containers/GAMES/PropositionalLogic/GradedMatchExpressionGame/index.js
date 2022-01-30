@@ -20,7 +20,11 @@ import NavigationBar from 'components/NavigationBar';
 import GameComponent from 'components/GAMES/PropositionalLogic/GradedMatchExpressionGame';
 import GradedGamesFeedback from 'components/FEEDBACK/GradedGamesFeedback';
 import notification from 'antd/lib/notification';
-import { getGamesDataStart, evaluateResponseStart, putFeedbackStart } from './actions';
+import {
+  getGamesDataStart,
+  evaluateResponseStart,
+  putFeedbackStart,
+} from './actions';
 
 export function GradedMatchExpressionGame(props) {
   useInjectReducer({ key: 'gradedMatchExpressionGame', reducer });
@@ -39,7 +43,9 @@ export function GradedMatchExpressionGame(props) {
       const initArray = new Array(props.state.gameData.length);
       for (let i = 0; i < props.state.gameData.length; i += 1) {
         if (props.state.gameData[i].exp_to_display) {
-          initArray[i] = new Array(props.state.gameData[i].exp_to_display.length).fill(-1);
+          initArray[i] = new Array(
+            props.state.gameData[i].exp_to_display.length,
+          ).fill(-1);
         }
       }
       setValue(initArray);
@@ -49,20 +55,22 @@ export function GradedMatchExpressionGame(props) {
   useEffect(() => {
     if (evaluatedAnswer && !alreadyFeedback) {
       setAlreadyFeedback(true);
-      const practiceGamesFeedback = <GradedGamesFeedback submitFeedback={submitFeedback} />
+      const practiceGamesFeedback = (
+        <GradedGamesFeedback submitFeedback={submitFeedback} />
+      );
       const args = {
         message: 'Feedback',
-        description:
-          practiceGamesFeedback,
+        description: practiceGamesFeedback,
         duration: 0,
       };
       notification.open(args);
       if (evaluatedAnswer.score !== 1) {
-        const practiceGamesFeedback = <GradedGamesFeedback whatWentWrong submitWWW={submitWWW} />
+        const practiceGamesFeedback = (
+          <GradedGamesFeedback whatWentWrong submitWWW={submitWWW} />
+        );
         const args = {
           message: 'Why you made mistake?',
-          description:
-            practiceGamesFeedback,
+          description: practiceGamesFeedback,
           duration: 0,
           placement: 'topLeft',
         };
@@ -83,7 +91,7 @@ export function GradedMatchExpressionGame(props) {
     response.isGraded = true;
     response.feedback = JSON.stringify(values);
     props.saveFeedback(response);
-  }
+  };
 
   const { evaluatedAnswer } = props.state;
   console.log(value);
@@ -114,7 +122,7 @@ export function GradedMatchExpressionGame(props) {
             gradedGame
             currentLevel={currentLevel}
             setCurrentLevel={setCurrentLevel}
-            maxLevel="4"
+            maxLevel={4}
             submit={submit}
           />
           <GameComponent
@@ -125,7 +133,7 @@ export function GradedMatchExpressionGame(props) {
             submit={submit}
             setValue={setValue}
             value={value}
-            maxLevel="4"
+            maxLevel={4}
           />
         </>
       )}

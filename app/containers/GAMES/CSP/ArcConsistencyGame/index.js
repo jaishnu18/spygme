@@ -46,20 +46,22 @@ export function ArcConsistencyGame(props) {
   useEffect(() => {
     if (evaluatedAnswer && !alreadyFeedback) {
       setAlreadyFeedback(true);
-      const practiceGamesFeedback = <PracticeGamesFeedback submitFeedback={submitFeedback} />
+      const practiceGamesFeedback = (
+        <PracticeGamesFeedback submitFeedback={submitFeedback} />
+      );
       const args = {
         message: 'Feedback',
-        description:
-          practiceGamesFeedback,
+        description: practiceGamesFeedback,
         duration: 0,
       };
       notification.open(args);
       if (evaluatedAnswer.score !== 1) {
-        const practiceGamesFeedback = <PracticeGamesFeedback whatWentWrong submitWWW={submitWWW} />
+        const practiceGamesFeedback = (
+          <PracticeGamesFeedback whatWentWrong submitWWW={submitWWW} />
+        );
         const args = {
           message: 'Why you made mistake?',
-          description:
-            practiceGamesFeedback,
+          description: practiceGamesFeedback,
           duration: 0,
           placement: 'topLeft',
         };
@@ -75,10 +77,11 @@ export function ArcConsistencyGame(props) {
 
   useEffect(() => {
     if (props.state.gameData) {
-      const nodesLen = props.state.gameData.nodes.length, bagSize = props.state.gameData.bag_size;
+      const nodesLen = props.state.gameData.nodes.length,
+        bagSize = props.state.gameData.bag_size;
       const newArr = new Array(nodesLen);
       for (let i = 0; i < nodesLen; i += 1)
-        newArr[i] = (new Array(bagSize).fill(true));
+        newArr[i] = new Array(bagSize).fill(true);
       setValue(newArr);
     }
   }, [props.state.gameData]);
@@ -96,7 +99,7 @@ export function ArcConsistencyGame(props) {
     const response = {};
     response.feedback = JSON.stringify(values);
     props.saveFeedback(response);
-  }
+  };
 
   const submit = values => {
     const secs = end(startTime);
@@ -122,7 +125,7 @@ export function ArcConsistencyGame(props) {
             name="Arc Consistency"
             level={level}
             attempts={props.state.gameData.attempt}
-            maxLevel="2"
+            maxLevel={2}
             evaluatedAnswer={evaluatedAnswer}
             conceptId={conceptId}
             topicId={topicId}
@@ -130,9 +133,7 @@ export function ArcConsistencyGame(props) {
 
           <Row style={{ width: '100%' }}>
             <Col>
-              <GameDescription
-                description={gameData.gameDescription}
-              />
+              <GameDescription description={gameData.gameDescription} />
             </Col>
           </Row>
           <GameComponent

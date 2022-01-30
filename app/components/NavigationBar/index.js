@@ -4,19 +4,34 @@
  *
  */
 
-import React, { memo } from 'react';
-// import PropTypes from 'prop-types';
+import React, { memo, useState } from 'react';
+import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import CustomButton from 'components/atoms/CustomButton';
 import ArrowLeftOutlined from '@ant-design/icons/ArrowLeftOutlined';
 import Affix from 'antd/lib/affix';
 import CheckCircleFilled from '@ant-design/icons/CheckCircleFilled';
 import Tooltip from 'antd/lib/tooltip';
+import Modal from 'antd/lib/modal';
 
 function NavigationBar(props) {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+    props.submit();
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
   return (
     <Affix offsetTop={60}>
@@ -31,16 +46,18 @@ function NavigationBar(props) {
               <ArrowLeftOutlined />
               {props.prevPageText}
             </CustomButton>
-            {
-              props.read ?
-                <Tooltip title="Marked as read">
-                  <CheckCircleFilled style={{ fontSize: '30px', color: 'green' }} />
-                </Tooltip>
-                :
-                <CustomButton onClick={props.markAsRead}>Mark as Read</CustomButton>
-            }
+            {props.read ? (
+              <Tooltip title="Marked as read">
+                <CheckCircleFilled
+                  style={{ fontSize: '30px', color: 'green' }}
+                />
+              </Tooltip>
+            ) : (
+              <CustomButton onClick={props.markAsRead}>
+                Mark as Read
+              </CustomButton>
+            )}
           </Col>
-
         ) : (
           props.prevPageLink && (
             <Col
@@ -49,7 +66,10 @@ function NavigationBar(props) {
               style={{ display: 'flex', alignItems: 'center' }}
             >
               <Link to={props.prevPageLink}>
-                <CustomButton><ArrowLeftOutlined />{props.prevPageText}</CustomButton>
+                <CustomButton>
+                  <ArrowLeftOutlined />
+                  {props.prevPageText}
+                </CustomButton>
               </Link>
             </Col>
           )
@@ -85,24 +105,31 @@ function NavigationBar(props) {
           <Row style={{ width: '100%' }}>
             <Col xl={{ span: 12 }}>
               <CustomButton
-                onClick={() =>
-                  props.setCurrentLevel(
-                    Math.max(0, parseInt(props.currentLevel) - 1),
-                  )
-                }
+                onClick={() => {
+                  if (props.currentLevel !== 0) {
+                    const D = new Date();
+                    const T = props.timeStamps;
+                    T[props.currentLevel].push(D);
+                    props.setCurrentLevel(props.currentLevel - 1);
+                    T[props.currentLevel - 1].push(D);
+                    props.setTimeStamps(T);
+                  }
+                }}
               >
                 Previous
               </CustomButton>
               <CustomButton
                 marginLeft="20px"
-                onClick={() =>
-                  props.setCurrentLevel(
-                    Math.min(
-                      props.maxLevel - 1,
-                      parseInt(props.currentLevel) + 1,
-                    ),
-                  )
-                }
+                onClick={() => {
+                  if (props.currentLevel !== props.maxLevel - 1) {
+                    const D = new Date();
+                    const T = props.timeStamps;
+                    T[props.currentLevel].push(D);
+                    props.setCurrentLevel(props.currentLevel + 1);
+                    T[props.currentLevel + 1].push(D);
+                    props.setTimeStamps(T);
+                  }
+                }}
               >
                 Next
               </CustomButton>
@@ -116,13 +143,17 @@ function NavigationBar(props) {
                 width: '100%',
               }}
             >
-              <CustomButton disableOnClick
-                onClick={() => {
-                  props.submit();
-                }}
-              >
+              <CustomButton disableOnClick onClick={showModal}>
                 Submit
               </CustomButton>
+              <Modal
+                title="Graded Game Submit"
+                visible={isModalVisible}
+                onOk={handleOk}
+                onCancel={handleCancel}
+              >
+                <p>Are you sure you want to submit the Test?</p>
+              </Modal>
             </Col>
           </Row>
         )}
@@ -131,6 +162,13 @@ function NavigationBar(props) {
   );
 }
 
-NavigationBar.propTypes = {};
+NavigationBar.propTypes = {
+  currentLevel: PropTypes.number,
+  timeStamps: PropTypes.array,
+  maxLevel: PropTypes.number,
+  setCurrentLevel: PropTypes.func,
+  setTimeStamps: PropTypes.func,
+  gradedGame: PropTypes.bool,
+};
 
 export default memo(NavigationBar);
