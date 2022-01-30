@@ -28,21 +28,16 @@ function FormFindCrosswordNodes(props) {
   return (
     <div>
       <Form
-        form={props.form}
-        name={`Form-${props.ID || ''}`}
+        name={`Form-${props.currentLevel}`}
         onFinish={values => {
-          console.log(values);
           const org = props.value;
-          console.log(org);
           org[props.currentLevel] = values;
           props.setValue(org);
+          console.log(props.value);
         }}
-        initialValues={
-          Array.isArray(props.value)
-            ? props.value[props.currentLevel]
-            : props.value
-        }
+        initialValues={props.value[props.currentLevel]}
         autoComplete="off"
+        style={{ display: 'flex', flexDirection: 'column' }}
       >
         <Form.List
           shouldUpdate
@@ -66,18 +61,6 @@ function FormFindCrosswordNodes(props) {
                         label={index >= 0 ? 'Direction' : ''}
                         name={[field.name, 'node']}
                         fieldKey={[field.fieldKey, 'node']}
-                        // rules={[
-                        //   {
-                        //     validator(rule, value) {
-                        //       if (!value) {
-                        //         notification.open({
-                        //           message: `Oops! Missing Some Type ${props.currentLevel +
-                        //             1}`,
-                        //         });
-                        //       }
-                        //     },
-                        //   },
-                        // ]}
                       >
                         <Select style={{ width: 130 }}>
                           {Nodes.map((item, index) => (
@@ -94,21 +77,6 @@ function FormFindCrosswordNodes(props) {
                     label={index >= 0 ? 'Row' : ''}
                     name={[field.name, 'row']}
                     fieldKey={[field.fieldKey, 'row']}
-                    // rules={[
-                    //   {
-                    //     validator(rule, value) {
-                    //       if (!value) {
-                    //         // I'd like to use this instead:
-                    //         notification.open({
-                    //           message: `Oops! Missing Some Rows at Level ${props.currentLevel +
-                    //             1}`,
-                    //           // description:
-                    //           //   'This is the content of the notification.',
-                    //         });
-                    //       }
-                    //     },
-                    //   },
-                    // ]}
                   >
                     <InputNumber />
                   </Form.Item>
@@ -117,21 +85,6 @@ function FormFindCrosswordNodes(props) {
                     label={index >= 0 ? 'Column' : ''}
                     name={[field.name, 'col']}
                     fieldKey={[field.fieldKey, 'col']}
-                    // rules={[
-                    //   {
-                    //     validator(rule, value, callback) {
-                    //       if (!value) {
-                    //         // I'd like to use this instead:
-                    //         notification.open({
-                    //           message: `Oops! Missing Some Columns at Level ${props.currentLevel +
-                    //             1}`,
-                    //           // description:
-                    //           //   'This is the content of the notification.',
-                    //         });
-                    //       }
-                    //     },
-                    //   },
-                    // ]}
                   >
                     <InputNumber />
                   </Form.Item>
@@ -144,7 +97,7 @@ function FormFindCrosswordNodes(props) {
               <Row style={{ display: 'flex', justifyContent: 'flex-start' }}>
                 <Button onClick={() => add()}>Add Nodes</Button>
                 <Button type="primary" htmlType="submit">
-                  Check Answer
+                  Save Answer
                 </Button>
               </Row>
             </>

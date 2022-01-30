@@ -23,12 +23,11 @@ function CustomButton(props) {
       width={props.width}
       height={props.height}
       style={props.style}
-      onClick={(e) => {
+      onClick={e => {
         props.onClick();
         if (props.disableOnClick) {
-          let target = e.target;
-          if (target.tagName === 'SPAN')
-            target = target.parentElement;
+          let { target } = e;
+          if (target.tagName === 'SPAN') target = target.parentElement;
           target.disabled = true;
         }
       }}

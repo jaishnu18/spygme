@@ -115,7 +115,7 @@ export function GradedWriteExpressionGame(props) {
             gradedGame
             currentLevel={currentLevel}
             setCurrentLevel={setCurrentLevel}
-            maxLevel="4"
+            maxLevel={4}
             submit={submit}
           />
           <GameComponent
@@ -126,7 +126,7 @@ export function GradedWriteExpressionGame(props) {
             submit={submit}
             setValue={setValue}
             value={value}
-            maxLevel="4"
+            maxLevel={4}
           />
         </>
       )}

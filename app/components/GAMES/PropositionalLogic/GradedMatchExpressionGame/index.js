@@ -25,9 +25,9 @@ function GradedMatchExpressionGame(props) {
   const { gameData } = props;
   const { evaluatedAnswer } = props;
   const { currentLevel } = props;
-  
-  gameData[currentLevel].ptr=0;
-  
+
+  gameData[currentLevel].ptr = 0;
+
   return (
     <Row style={{ padding: '40px' }}>
       <Col xs={{ span: 24 }} xl={{ span: 4 }}>
@@ -39,6 +39,7 @@ function GradedMatchExpressionGame(props) {
           examDuration={600}
           evaluatedAnswer={evaluatedAnswer}
           submit={props.submit}
+          {...props}
         />
       </Col>
 
@@ -59,44 +60,47 @@ function GradedMatchExpressionGame(props) {
                       <InputNumber
                         onChange={e => {
                           const resArray = props.value;
-                          if (e !== null)
-                            resArray[currentLevel][idx] = e;
-                          else
-                            resArray[currentLevel][idx] = -1;
+                          if (e !== null) resArray[currentLevel][idx] = e;
+                          else resArray[currentLevel][idx] = -1;
                           props.setValue(resArray);
                           console.log(props.value);
                         }}
                       />
                     </Form.Item>
-                    <Col>
-
-                    </Col>
+                    <Col />
                   </Col>
                 </Row>
-                {evaluatedAnswer && evaluatedAnswer[currentLevel].correctResponse && (
-                  evaluatedAnswer[currentLevel].correctResponse.includes(idx) ?
-                    (
-                      <Row style={{ paddingTop: '10px', paddingBottom: '10px' }}>
-                        <Col span={24}>
-                          <CheckCircleFilled style={{ fontSize: '20px', color: 'green' }} />
-                        </Col>
-                      </Row>
-                    ) : (
-                      <Row style={{ paddingTop: '10px', paddingBottom: '10px' }}>
-                        <Col span={24} style={{ display: 'flex' }}>
-                          <CloseCircleFilled style={{ fontSize: '20px', color: 'red' }} />
-                          <Paragraph style={{ padding: '10px' }}>{"Correct Node ID : " + evaluatedAnswer[currentLevel].wrongResponse[gameData[currentLevel].ptr++][1]}</Paragraph>
-                        </Col>
-                      </Row>
-                    )
-                )}
+                {evaluatedAnswer &&
+                  evaluatedAnswer[currentLevel].correctResponse &&
+                  (evaluatedAnswer[currentLevel].correctResponse.includes(
+                    idx,
+                  ) ? (
+                    <Row style={{ paddingTop: '10px', paddingBottom: '10px' }}>
+                      <Col span={24}>
+                        <CheckCircleFilled
+                          style={{ fontSize: '20px', color: 'green' }}
+                        />
+                      </Col>
+                    </Row>
+                  ) : (
+                    <Row style={{ paddingTop: '10px', paddingBottom: '10px' }}>
+                      <Col span={24} style={{ display: 'flex' }}>
+                        <CloseCircleFilled
+                          style={{ fontSize: '20px', color: 'red' }}
+                        />
+                        <Paragraph style={{ padding: '10px' }}>
+                          {'Correct Node ID : ' +
+                            evaluatedAnswer[currentLevel].wrongResponse[
+                              gameData[currentLevel].ptr++
+                            ][1]}
+                        </Paragraph>
+                      </Col>
+                    </Row>
+                  ))}
               </div>
-
-            ))
-          }
-
+            ))}
         </Form>
-        {evaluatedAnswer &&
+        {evaluatedAnswer && (
           <Row style={{ paddingTop: '40px' }}>
             <Col span={22}>
               <CustomCard title="Summary Report">
@@ -104,7 +108,9 @@ function GradedMatchExpressionGame(props) {
                   <Descriptions layout="horizontal" bordered>
                     <Descriptions.Item label="Score" span={24}>
                       <Col span={24}>
-                        {Math.round(evaluatedAnswer[props.maxLevel].score * 100) + "%"}
+                        {Math.round(
+                          evaluatedAnswer[props.maxLevel].score * 100,
+                        ) + '%'}
                       </Col>
                     </Descriptions.Item>
                     <Descriptions.Item label="Attempted question" span={24}>
@@ -132,15 +138,13 @@ function GradedMatchExpressionGame(props) {
               </CustomCard>
             </Col>
           </Row>
-        }
+        )}
       </Col>
 
       <Col xs={{ span: 24 }} xl={{ span: 9 }}>
-        <Graph
-          gameData={gameData[currentLevel]} nodeID
-        />
+        <Graph gameData={gameData[currentLevel]} nodeID />
       </Col>
-    </Row >
+    </Row>
   );
 }
 GradedMatchExpressionGame.propTypes = {};

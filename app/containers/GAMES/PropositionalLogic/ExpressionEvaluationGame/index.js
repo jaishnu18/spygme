@@ -51,20 +51,22 @@ export function ExpressionEvaluationGame(props) {
   useEffect(() => {
     if (evaluatedAnswer && !alreadyFeedback) {
       setAlreadyFeedback(true);
-      const practiceGamesFeedback = <PracticeGamesFeedback submitFeedback={submitFeedback} />
+      const practiceGamesFeedback = (
+        <PracticeGamesFeedback submitFeedback={submitFeedback} />
+      );
       const args = {
         message: 'Feedback',
-        description:
-          practiceGamesFeedback,
+        description: practiceGamesFeedback,
         duration: 0,
       };
       notification.open(args);
       if (evaluatedAnswer.score !== 1) {
-        const practiceGamesFeedback = <PracticeGamesFeedback whatWentWrong submitWWW={submitWWW} />
+        const practiceGamesFeedback = (
+          <PracticeGamesFeedback whatWentWrong submitWWW={submitWWW} />
+        );
         const args = {
           message: 'Why you made mistake?',
-          description:
-            practiceGamesFeedback,
+          description: practiceGamesFeedback,
           duration: 0,
           placement: 'topLeft',
         };
@@ -78,7 +80,6 @@ export function ExpressionEvaluationGame(props) {
   const { conceptId } = props;
   const { topicId } = props;
 
-
   const submitWWW = values => {
     const response = {};
     response.whatwentwrong = JSON.stringify(values);
@@ -89,7 +90,7 @@ export function ExpressionEvaluationGame(props) {
     const response = {};
     response.feedback = JSON.stringify(values);
     props.saveFeedback(response);
-  }
+  };
 
   const submit = () => {
     const secs = end(startTime);
@@ -119,7 +120,7 @@ export function ExpressionEvaluationGame(props) {
             name="Expression Evaluation"
             level={props.level}
             attempts={gameData.attempt}
-            maxLevel="4"
+            maxLevel={4}
             evaluatedAnswer={evaluatedAnswer}
             conceptId={conceptId}
             topicId={topicId}

@@ -218,7 +218,7 @@ export function DrawCrosswordGraphGame(props) {
             name="Draw Crossword Graph"
             level={level}
             attempts={props.state.gameData.attempt}
-            maxLevel="3"
+            maxLevel={3}
             evaluatedAnswer={evaluatedAnswer}
             conceptId={conceptId}
             topicId={topicId}
