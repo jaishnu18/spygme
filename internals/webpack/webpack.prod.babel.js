@@ -117,9 +117,9 @@ module.exports = require('./webpack.base.babel')({
     }),
 
     new WebpackPwaManifest({
-      name: 'Wriper Assignment Help',
-      short_name: 'Wriper',
-      description: 'Wriper',
+      name: 'AI For Schools',
+      short_name: 'AI For Schools',
+      description: 'AI For Schools',
       background_color: '#fafafa',
       theme_color: '#b1624d',
       inject: true,
