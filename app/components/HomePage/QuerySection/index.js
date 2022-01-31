@@ -24,18 +24,18 @@ const { Title } = Typography;
 const { Paragraph } = Typography;
 function QuerySection(props) {
   return (
-    <Row style={{ padding: '10px', width: '100vw' }}>
-      <Col span={6} offset={9}>
-        <Title>Contact us</Title>
+    <Row justify="center" style={{ padding: '10px', width: '100vw' }}>
+      <Col span={24}>
+        <Title style={{ textAlign: 'center' }}>Contact us</Title>
       </Col>
-      <Col xs={{ span: 24 }} xl={{ span: 10, offset: 7 }}>
+      <Col xs={{ span: 20 }} xl={{ span: 10, offset: 7 }}>
         <Paragraph>
           If you have any queries, please go through the FAQ's. For any other
           query feel free to fill the form below so that we can reach you out.
         </Paragraph>
       </Col>
 
-      <Col xs={{ span: 24 }} xl={{ span: 10, offset: 7 }}>
+      <Col xs={{ span: 20 }} xl={{ span: 10, offset: 7 }}>
         <CustomCard width="100%">
           <Form name="QueryForm" onFinish={props.querySubmit}>
             <div>
@@ -102,9 +102,9 @@ function QuerySection(props) {
         </CustomCard>
       </Col>
       <Col
-        xs={{ span: 24 }}
+        xs={{ span: 20 }}
         xl={{ span: 10, offset: 7 }}
-        style={{ paddingTop: '10px' }}
+        style={{ marginTop: '30px' }}
       >
         <CustomCard>
           <h3>
@@ -115,7 +115,7 @@ function QuerySection(props) {
           </h3>
           <h3>
             <img src={Location} style={{ height: '15px' }} /> Address : Indian
-            institute of technology Kharagpur
+            Institute of Technology Kharagpur
           </h3>
         </CustomCard>
       </Col>

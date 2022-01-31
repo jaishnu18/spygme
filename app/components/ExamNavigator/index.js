@@ -21,7 +21,7 @@ function ExamNavigator(props) {
   }
 
   return (
-    <div>
+    <div style={{ padding: '20px' }}>
       <Affix offsetTop={120}>
         <Row>
           <Col span={24}>
@@ -45,7 +45,7 @@ function ExamNavigator(props) {
         </Row>
         <Row style={{ paddingTop: '10px' }}>
           <Col span={22} style={{ display: 'flex', flexDirection: 'column' }}>
-            <CustomCard title="Navigator">
+            <CustomCard title="Questions">
               {arr.map((x, i) => (
                 <CustomButton
                   onClick={() => {
@@ -59,6 +59,7 @@ function ExamNavigator(props) {
                     }
                   }}
                   key={`Button-${i + 1}`}
+                  style={{ margin: '4px' }}
                 >
                   {x}
                 </CustomButton>
