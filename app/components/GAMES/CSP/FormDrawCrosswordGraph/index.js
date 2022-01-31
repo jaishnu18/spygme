@@ -113,7 +113,7 @@ function FormDrawCrosswordGraph(props) {
         </Form.List>
         <Form.Item offset="3">
           <Button style={{ width: '20%' }} type="primary" htmlType="submit">
-            Check Answer
+            Save Answer
           </Button>
         </Form.Item>
       </Form>

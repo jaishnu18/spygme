@@ -67,6 +67,13 @@ function GradedFindCrosswordNodes(props) {
             <CustomCard title="Summary Report">
               <Col xl={{ span: 24 }} xs={{ span: 24 }}>
                 <Descriptions layout="horizontal" bordered>
+                  <Descriptions.Item label="Score" span={24}>
+                    <Col span={24}>
+                      {Math.round(
+                        evaluatedAnswer[props.maxLevel].score * 100,
+                      ) + '%'}
+                    </Col>
+                  </Descriptions.Item>
                   <Descriptions.Item label="Correctly Answered" span={24}>
                     <Col span={24}>
                       {evaluatedAnswer[props.maxLevel].totalCorrect}
@@ -91,19 +98,7 @@ function GradedFindCrosswordNodes(props) {
 
       {evaluatedAnswer && (
         <Row style={{ paddingTop: '10px' }}>
-          <Col span={24} style={{ display: 'flex' }}>
-            {evaluatedAnswer[props.maxLevel].score === 1 ? (
-              <CheckCircleFilled style={{ fontSize: '20px', color: 'green' }} />
-            ) : (
-              <CloseCircleFilled style={{ fontSize: '20px', color: 'red' }} />
-            )}
-          </Col>
           <Col span={24}>
-            <Title level={3}>
-              {`Overall Score : ${Math.round(
-                evaluatedAnswer[props.maxLevel].score,
-              )}%`}
-            </Title>
             <Col xl={{ span: 23 }} xs={{ span: 24 }}>
               <Descriptions layout="vertical" bordered>
                 <Descriptions.Item label="Correct Nodes">
