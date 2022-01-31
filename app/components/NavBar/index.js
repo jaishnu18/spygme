@@ -93,7 +93,7 @@ function NavBar(props) {
                     sm={{ span: 2 }}
                     md={{ span: 16 }}
                     lg={{ span: 18 }}
-                    xl={{ span: 8, offset: 5 }}
+                    xl={{ span: 10, offset: 5 }}
                   >
                     <Menu
                       theme="light"
@@ -147,7 +147,7 @@ function NavBar(props) {
                     sm={{ span: 2 }}
                     md={{ span: 16 }}
                     lg={{ span: 18 }}
-                    xl={{ span: 5, offset: 9 }}
+                    xl={{ span: 8, offset: 7 }}
                   >
                     <Menu
                       theme="light"
@@ -161,9 +161,9 @@ function NavBar(props) {
                         fontSize: '15px',
                       }}
                     >
-                      <Menu.Item key="1" onClick={() => history.push('/')}>
+                      {/* <Menu.Item key="1" onClick={() => history.push('/')}>
                         Home
-                      </Menu.Item>
+                      </Menu.Item> */}
                       <Menu.Item key="2" onClick={() => history.push('/about')}>
                         About Us
                       </Menu.Item>

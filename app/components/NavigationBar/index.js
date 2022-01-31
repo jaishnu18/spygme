@@ -20,6 +20,7 @@ import Modal from 'antd/lib/modal';
 function NavigationBar(props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isExitModalVisible, setIsExitModalVisible] = useState(false);
+  const [testSubmitted, setIsTestSubmiited] = useState(false);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -28,6 +29,7 @@ function NavigationBar(props) {
   const handleOk = () => {
     setIsModalVisible(false);
     props.submit();
+    setIsTestSubmiited(true);
   };
 
   const handleCancel = () => {
@@ -80,7 +82,7 @@ function NavigationBar(props) {
               style={{ display: 'flex', alignItems: 'center' }}
             >
               <Link to={props.prevPageLink}>
-                <CustomButton onClick={() => {}}>
+                <CustomButton onClick={() => { }}>
                   <ArrowLeftOutlined />
                   {props.prevPageText}
                 </CustomButton>
@@ -119,6 +121,7 @@ function NavigationBar(props) {
           <Row style={{ width: '100%' }}>
             <Col xs={{ span: 24 }} xl={{ span: 12 }}>
               <CustomButton
+                disabled={props.currentLevel === 0}
                 onClick={() => {
                   if (props.currentLevel !== 0) {
                     const D = new Date();
@@ -133,6 +136,7 @@ function NavigationBar(props) {
                 Previous
               </CustomButton>
               <CustomButton
+                disabled={props.currentLevel === props.maxLevel - 1}
                 marginLeft="20px"
                 onClick={() => {
                   if (props.currentLevel !== props.maxLevel - 1) {
@@ -170,7 +174,7 @@ function NavigationBar(props) {
               >
                 <p>Are you sure you want to exit the Test?</p>
               </Modal>
-              <CustomButton disableOnClick onClick={showModal}>
+              <CustomButton disabled={testSubmitted} onClick={showModal}>
                 Submit
               </CustomButton>
               <Modal

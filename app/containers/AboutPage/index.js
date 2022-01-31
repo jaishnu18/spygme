@@ -51,13 +51,11 @@ export function AboutPage() {
           </Col>
         </Row>
         <Row>
-          <Col span={24} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Title>The team</Title>
+          <Col span={24} style={{ display: 'flex', justifyContent: 'center' }}>
+            <Title>The Team</Title>
           </Col>
-        </Row>
 
-        <Row>
-          <Col xs={{ span: 22 }} xl={{ span: 8 }} offset={1} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Col xs={{ span: 22, offset: 1 }} xl={{ span: 8, offset: 2 }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <CustomCard>
               <Avatar size={200} icon={<Image preview={false} src="https://drive.google.com/uc?export=view&id=1puMfUqpYPp-IWkVNesnwG9_51WkOE86b" />} />
               <Row>
@@ -69,15 +67,15 @@ export function AboutPage() {
               </Row>
               <Row style={{ padding: '20px' }}>
                 <Col span={12}>
-                  <a href="" target="__blank"><LinkedinFilled style={{ fontSize: '20px' }} /></a>
+                  <a href="http://cse.iitkgp.ac.in/~ppchak/" target="__blank"><Image style={{ height: '20px' }} preview={false} src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" /></a>
                 </Col>
                 <Col span={12}>
-                  <a href="" target="__blank"><FacebookFilled style={{ fontSize: '20px' }} /></a>
+                  <a href="https://www.facebook.com/profile.php?id=100011897616155" target="__blank"><FacebookFilled style={{ fontSize: '20px' }} /></a>
                 </Col>
               </Row>
             </CustomCard>
           </Col>
-          <Col xs={{ span: 24 }} xl={{ span: 8 }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Col xs={{ span: 22, offset: 1 }} xl={{ span: 8, offset: 4 }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <CustomCard>
               <Avatar size={200} icon={<Image preview={false} src="https://drive.google.com/uc?export=view&id=1qmgpib1opai8BNPV_rSHe8NqexZd20k9" />} />
               <Row>
@@ -89,15 +87,15 @@ export function AboutPage() {
               </Row>
               <Row style={{ padding: '20px' }}>
                 <Col span={12}>
-                  <a href="" target="__blank"><LinkedinFilled style={{ fontSize: '20px' }} /></a>
+                  <a href="https://www.linkedin.com/in/rajivagarwal1/" target="__blank"><LinkedinFilled style={{ fontSize: '20px' }} /></a>
                 </Col>
                 <Col span={12}>
-                  <a href="" target="__blank"><FacebookFilled style={{ fontSize: '20px' }} /></a>
+                  <a href="https://www.facebook.com/rajiv.agarwal.509" target="__blank"><FacebookFilled style={{ fontSize: '20px' }} /></a>
                 </Col>
               </Row>
             </CustomCard>
           </Col>
-          <Col xs={{ span: 24 }} xl={{ span: 8 }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Col xs={{ span: 22, offset: 1 }} xl={{ span: 8, offset: 2 }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '10px' }}>
             <CustomCard>
               <Avatar size={200} icon={<Image preview={false} src="https://drive.google.com/uc?export=view&id=1qFWbnFB2Cmn00-tQnJcxXDLNBPwD62Ue" />} />
               <Row>
@@ -117,9 +115,9 @@ export function AboutPage() {
               </Row>
             </CustomCard>
           </Col>
-          <Col xs={{ span: 24 }} xl={{ span: 8 }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Col xs={{ span: 22, offset: 1 }} xl={{ span: 8, offset: 4 }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '10px' }}>
             <CustomCard>
-              <Avatar size={200} icon={<Image preview={false} />} />
+              <Avatar size={200} icon={<Image preview={false} src="https://drive.google.com/uc?export=view&id=1bGRYoZkGz2b68CYwv9fzStbIDZY61Dgw"/>} />
               <Row>
                 <Col>
                   <Title level={3}>Prashant Jangid</Title>
@@ -129,10 +127,10 @@ export function AboutPage() {
               </Row>
               <Row style={{ padding: '20px' }}>
                 <Col span={12}>
-                  <a href="" target="__blank"><LinkedinFilled style={{ fontSize: '20px' }} /></a>
+                  <a href="https://www.linkedin.com/in/prashant-jangid-600051196/" target="__blank"><LinkedinFilled style={{ fontSize: '20px' }} /></a>
                 </Col>
                 <Col span={12}>
-                  <a href="" target="__blank"><FacebookFilled style={{ fontSize: '20px' }} /></a>
+                  <a href="https://www.facebook.com/prashant.jangid.779642" target="__blank"><FacebookFilled style={{ fontSize: '20px' }} /></a>
                 </Col>
               </Row>
             </CustomCard>
