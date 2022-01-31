@@ -105,11 +105,9 @@ export function HomePage(props) {
         </Col>
       </Row>
       <Divider />
-      <Row>
-        <FaqSection />
-        <Divider />
-        <QuerySection querySubmit={querySubmit} />
-      </Row>
+      <FaqSection />
+      <Divider />
+      <QuerySection querySubmit={querySubmit} />
     </div>
   );
 }

@@ -18,11 +18,20 @@ const { Paragraph } = Typography;
 
 function FaqSection() {
   return (
-    <Row>
-      <Col span={12} offset={6}>
-        <Title>Frequenty Asked questions (FAQs)</Title>
+    <Row justify="center" style={{ padding: '20px' }}>
+      <Col
+        span={24}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Title style={{ textAlign: 'center' }}>
+          Frequenty Asked questions (FAQs)
+        </Title>
       </Col>
-      <Col span={18} offset={3}>
+      <Col span={20} style={{ marginTop: '2vh' }}>
         <Collapse accordion style={{}}>
           <Panel
             header="I have no prior knowledge of Artificial Intelligence. Can I solve the problems ?"

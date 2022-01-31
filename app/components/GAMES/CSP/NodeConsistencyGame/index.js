@@ -26,78 +26,96 @@ function NodeConsistencyGame(props) {
   const { evaluatedAnswer } = props;
 
   return (
-    <Row>
+    <Row gutter={[32, 50]}>
       <Col xs={{ span: 24 }} xl={{ span: 10, offset: 1 }}>
-        {
-          gameData.nodes.map((key, idx) => (
-            <CustomCard title={key[0] + " - " + key[1] + " - " + (key[2] === 65 ? "A" : "D")}>
-              <Row>
-                {
-                  gameData.shuffled_bag.map((nkey, jdx) => (
-                    <Col span={7}>
-                      <Button style={{ backgroundColor: 'blue', color: 'white', fontWeight: 700, }} id={`${idx}-${jdx}`} onClick={(e) => {
-                        const newArr = props.value;
-                        newArr[idx][jdx] = newArr[idx][jdx] ? false : true;
-                        props.setValue(newArr);
-                        let target = e.target;
-                        if (target.tagName === 'SPAN')
-                          target = target.parentElement;
-                        if (target.style.backgroundColor === 'yellow') {
-                          target.style.backgroundColor = 'blue';
-                          target.style.color = 'white';
-                        }
-                        else {
-                          target.style.backgroundColor = 'yellow';
-                          target.style.color = 'black';
-                        }
-                      }}>
-                        {nkey}
-                      </Button>
-                      {
-                        evaluatedAnswer && (
-                          evaluatedAnswer.tick_cross[idx][jdx] ?
-                            <CheckCircleFilled style={{ fontSize: '20px', color: 'green' }} />
-                            :
-                            <CloseCircleFilled style={{ fontSize: '20px', color: 'red' }} />
-                        )
+        {gameData.nodes.map((key, idx) => (
+          <CustomCard
+            title={
+              key[0] + ' - ' + key[1] + ' - ' + (key[2] === 65 ? 'A' : 'D')
+            }
+            marginBottom="20px"
+          >
+            <Row gutter={[32, 20]}>
+              {gameData.shuffled_bag.map((nkey, jdx) => (
+                <Col span={7}>
+                  <Button
+                    style={{
+                      backgroundColor: 'blue',
+                      color: 'white',
+                      fontWeight: 700,
+                      minWidth: '40%',
+                    }}
+                    id={`${idx}-${jdx}`}
+                    onClick={e => {
+                      const newArr = props.value;
+                      newArr[idx][jdx] = newArr[idx][jdx] ? false : true;
+                      props.setValue(newArr);
+                      let target = e.target;
+                      if (target.tagName === 'SPAN')
+                        target = target.parentElement;
+                      if (target.style.backgroundColor === 'yellow') {
+                        target.style.backgroundColor = 'blue';
+                        target.style.color = 'white';
+                      } else {
+                        target.style.backgroundColor = 'yellow';
+                        target.style.color = 'black';
                       }
-                    </Col>
-                  ))
-                }
-              </Row>
-              <Row>
-                {
-                  evaluatedAnswer && (
-                    evaluatedAnswer.result[idx] ?
-                      <div>
-                        <CheckCircleFilled style={{ fontSize: '20px', color: 'green' }} />
-                        <Paragraph>You made its domain node consistent</Paragraph>
-                      </div>
-                      :
-                      <div>
-                        <CloseCircleFilled style={{ fontSize: '20px', color: 'red' }} />
-                        <Paragraph>You could not make the domain node consistent</Paragraph>
-                      </div>
-                  )
-                }
-              </Row>
-
-            </CustomCard>
-          ))
-        }
+                    }}
+                  >
+                    {nkey}
+                  </Button>
+                  {evaluatedAnswer &&
+                    (evaluatedAnswer.tick_cross[idx][jdx] ? (
+                      <CheckCircleFilled
+                        style={{ fontSize: '20px', color: 'green' }}
+                      />
+                    ) : (
+                      <CloseCircleFilled
+                        style={{ fontSize: '20px', color: 'red' }}
+                      />
+                    ))}
+                </Col>
+              ))}
+            </Row>
+            <Row gutter={[32, 20]}>
+              {evaluatedAnswer &&
+                (evaluatedAnswer.result[idx] ? (
+                  <div>
+                    <CheckCircleFilled
+                      style={{ fontSize: '20px', color: 'green' }}
+                    />
+                    <Paragraph>You made its domain node consistent</Paragraph>
+                  </div>
+                ) : (
+                  <div>
+                    <CloseCircleFilled
+                      style={{ fontSize: '20px', color: 'red' }}
+                    />
+                    <Paragraph>
+                      You could not make the domain node consistent
+                    </Paragraph>
+                  </div>
+                ))}
+            </Row>
+          </CustomCard>
+        ))}
       </Col>
       <Col xs={{ span: 24 }} xl={{ span: 11, offset: 1 }}>
         <Affix offsetTop={100}>
           <Crossword grid={gameData.grid} />
           <Row>
             <Col>
-              <CustomButton disableOnClick onClick={props.submit}>Check Answer</CustomButton>
+              <CustomButton disableOnClick onClick={props.submit}>
+                Check Answer
+              </CustomButton>
             </Col>
-            {evaluatedAnswer &&
+            {evaluatedAnswer && (
               <Col span={24}>
-                <Title level={3}>{"Score : " + Math.round(evaluatedAnswer.score * 100) + "%"}</Title>
+                <Title level={3}>
+                  {'Score : ' + Math.round(evaluatedAnswer.score * 100) + '%'}
+                </Title>
               </Col>
-            }
+            )}
           </Row>
         </Affix>
       </Col>

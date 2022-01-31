@@ -35,12 +35,17 @@ function ArcConsistencyGame(props) {
               title={
                 key[0] + ' - ' + key[1] + ' - ' + (key[2] === 65 ? 'A' : 'D')
               }
+              marginBottom="20px"
             >
-              <Row>
+              <Row gutter={[32, 20]}>
                 {gameData.word_bag[idx].map((nkey, jdx) => (
                   <Col span={7}>
                     <Button
-                      style={{ backgroundColor: 'blue', color: 'white', fontWeight: 700, }}
+                      style={{
+                        backgroundColor: 'blue',
+                        color: 'white',
+                        fontWeight: 700,
+                      }}
                       id={`${idx}-${jdx}`}
                       onClick={e => {
                         const newArr = props.value;
@@ -52,8 +57,7 @@ function ArcConsistencyGame(props) {
                         if (target.style.backgroundColor === 'yellow') {
                           target.style.backgroundColor = 'blue';
                           target.style.color = 'white';
-                        }
-                        else {
+                        } else {
                           target.style.backgroundColor = 'yellow';
                           target.style.color = 'black';
                         }
@@ -88,7 +92,9 @@ function ArcConsistencyGame(props) {
                       <CloseCircleFilled
                         style={{ fontSize: '20px', color: 'red' }}
                       />
-                      <Paragraph>You could not make the domain arc consistent</Paragraph>
+                      <Paragraph>
+                        You could not make the domain arc consistent
+                      </Paragraph>
                     </div>
                   ))}
               </Row>
@@ -100,13 +106,17 @@ function ArcConsistencyGame(props) {
             <Crossword grid={gameData.grid} />
             <Row>
               <Col>
-                <CustomButton disableOnClick onClick={props.submit}>Check Answer</CustomButton>
+                <CustomButton disableOnClick onClick={props.submit}>
+                  Check Answer
+                </CustomButton>
               </Col>
-              {evaluatedAnswer &&
+              {evaluatedAnswer && (
                 <Col span={24}>
-                  <Title level={3}>{"Score : " + Math.round(evaluatedAnswer.score * 100) + "%"}</Title>
+                  <Title level={3}>
+                    {'Score : ' + Math.round(evaluatedAnswer.score * 100) + '%'}
+                  </Title>
                 </Col>
-              }
+              )}
             </Row>
           </Affix>
         </Col>
@@ -118,7 +128,7 @@ function ArcConsistencyGame(props) {
           </Col>
         </Row>
       )
-        //sdf
+      //sdf
       }
     </div>
   );

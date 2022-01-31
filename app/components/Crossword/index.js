@@ -15,14 +15,19 @@ import Row from 'antd/lib/row';
 import Typography from 'antd/lib/typography';
 const { Title } = Typography;
 
-const MyGrid = styled.div`
-  width: 100%;
-  height: 100%;
-  .chessboard {
-    width: ${props => props.blocksize};
-    height: ${props => props.blocksize};
-    border: 2px solid #333;
+const CrosswordBlock = styled.div`
+  @media (max-width: 500px) {
+    width: 10vw !important;
+    height: 10vw !important;
   }
+
+  @media (max-width: 1000px) {
+    width: 5vw !important;
+    height: 5vw !important;
+  }
+
+  width: 2vw !important;
+  height: 2vw !important;
 `;
 
 function Crossword(props) {
@@ -30,7 +35,6 @@ function Crossword(props) {
   return (
     <Row
       style={{
-        width: '100%',
         margin: '20px',
         boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
         padding: '40px 20px',
@@ -50,26 +54,29 @@ function Crossword(props) {
         }}
         justify="center"
       >
-        <Col span={12} style={{ fontFamily: 'montserrat' }}>
-          <Title style={{ fontWeight: 700 }}>CROSSWORD</Title>
+        <Col span={24}>
+          <Title level={2} style={{ fontWeight: 700, margin: '0' }}>
+            CROSSWORD
+          </Title>
         </Col>
       </Row>
       {grid && (
         <Row style={{}}>
           {grid.map((row, idx) => (
             <Row
+              justify="center"
               key={`Row-${idx + 1}`}
               style={{ display: 'flex', width: '100%' }}
             >
               {row.map((col, jdx) => (
                 <Col key={`Col-${jdx + 1}`}>
-                  <div
+                  <CrosswordBlock
                     style={{
-                      height: '38px',
-                      width: '38px',
+                      
                       border: idx !== 0 && jdx !== 0 && '1px solid grey',
                       display: 'flex',
                       justifyContent: 'center',
+                      alignItems: 'center',
                       backgroundColor:
                         idx === 0 || jdx === 0
                           ? 'transparent'
@@ -83,7 +90,7 @@ function Crossword(props) {
                       : idx !== 0 && jdx === 0
                       ? idx
                       : ''}
-                  </div>
+                  </CrosswordBlock>
                 </Col>
               ))}
             </Row>

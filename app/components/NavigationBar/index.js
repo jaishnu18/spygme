@@ -117,7 +117,7 @@ function NavigationBar(props) {
 
         {props.gradedGame && (
           <Row style={{ width: '100%' }}>
-            <Col xl={{ span: 12 }}>
+            <Col xs={{ span: 24 }} xl={{ span: 12 }}>
               <CustomButton
                 onClick={() => {
                   if (props.currentLevel !== 0) {
@@ -155,6 +155,7 @@ function NavigationBar(props) {
                 display: 'flex',
                 justifyContent: 'flex-end',
                 width: '100%',
+                marginTop: '20px',
               }}
             >
               <CustomButton danger onClick={exitModalshowModal}>
