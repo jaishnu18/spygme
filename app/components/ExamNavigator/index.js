@@ -23,7 +23,7 @@ function ExamNavigator(props) {
   return (
     <div style={{ padding: '20px' }}>
       <Affix offsetTop={120}>
-        <Row>
+        <Row style={{ zIndex: 999 }}>
           <Col span={24}>
             <CountdownCircleTimer
               isPlaying={!props.evaluatedAnswer}

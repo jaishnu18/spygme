@@ -114,7 +114,7 @@ function MyProfileComponent(props) {
                 autoComplete="off"
               >
                 <Form.Item
-                  label="Old Password"
+                  label="Current Password"
                   name="password"
                   rules={[
                     {

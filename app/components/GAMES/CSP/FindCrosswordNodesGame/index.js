@@ -45,163 +45,161 @@ function FindCrosswordNodesGame(props) {
         xl={{ span: 24 }}
         style={{ display: 'flex', flexDirection: 'column' }}
       > */}
-        {/* <Row> */}
-          <Col span={10} offset={1}>
-            <Form
-              form={form}
-              name={`Form-${props.ID || ''}`}
-              onFinish={value => {
-                console.log('hereu');
-                props.setValue(value);
-                props.submit(value);
-              }}
-              initialValues={props.value}
-              autoComplete="off"
-            >
-              <Form.List
-                shouldUpdate
-                name="nodes"
-                style={{ display: 'flex', flexDirection: 'column' }}
-              >
-                {(fields, { add, remove }) => (
-                  <>
-                    {fields.map((field, index) => (
-                      <Space key={field.key} align="baseline">
-                        <Form.Item
-                          noStyle
-                          shouldUpdate={(prevValues, curValues) =>
-                            prevValues.area !== curValues.area ||
-                            prevValues.sights !== curValues.sights
-                          }
-                        >
-                          {() => (
-                            <Form.Item
-                              {...field}
-                              label={index >= 0 ? 'Direction' : ''}
-                              name={[field.name, 'node']}
-                              fieldKey={[field.fieldKey, 'node']}
-                              rules={[
-                                {
-                                  required: true,
-                                  message: 'Direction Required',
-                                },
-                              ]}
-                            >
-                              <Select style={{ width: 130 }}>
-                                {Nodes.map((item, index) => (
-                                  <Option key={index} value={item.val}>
-                                    {item.label}
-                                  </Option>
-                                ))}
-                              </Select>
-                            </Form.Item>
-                          )}
-                        </Form.Item>
-                        <Form.Item
-                          {...field}
-                          label={index >= 0 ? 'Row' : ''}
-                          name={[field.name, 'row']}
-                          fieldKey={[field.fieldKey, 'row']}
-                          rules={[
-                            {
-                              required: true,
-                              message: 'Row Required',
-                            },
-                          ]}
-                        >
-                          <InputNumber />
-                        </Form.Item>
-                        <Form.Item
-                          {...field}
-                          label={index >= 0 ? 'Column' : ''}
-                          name={[field.name, 'col']}
-                          fieldKey={[field.fieldKey, 'col']}
-                          rules={[
-                            {
-                              required: true,
-                              message: 'Column Required',
-                            },
-                          ]}
-                        >
-                          <InputNumber />
-                        </Form.Item>
-
-                        {index > 0 && (
-                          <MinusCircleOutlined
-                            onClick={() => remove(field.name)}
-                          />
-                        )}
-                      </Space>
-                    ))}
-                    <Row
-                      style={{ display: 'flex', justifyContent: 'flex-start' }}
+      {/* <Row> */}
+      <Col span={10} offset={1}>
+        <Form
+          form={form}
+          name={`Form-${props.ID || ''}`}
+          onFinish={value => {
+            console.log('hereu');
+            props.setValue(value);
+            props.submit(value);
+          }}
+          initialValues={props.value}
+          autoComplete="off"
+        >
+          <Form.List
+            shouldUpdate
+            name="nodes"
+            style={{ display: 'flex', flexDirection: 'column' }}
+          >
+            {(fields, { add, remove }) => (
+              <>
+                {fields.map((field, index) => (
+                  <Space key={field.key} align="baseline">
+                    <Form.Item
+                      noStyle
+                      shouldUpdate={(prevValues, curValues) =>
+                        prevValues.area !== curValues.area ||
+                        prevValues.sights !== curValues.sights
+                      }
                     >
-                      <Button onClick={() => add()}>Add Nodes</Button>
-                      <Button type="primary" htmlType="submit" disabled={evaluatedAnswer}>
-                        Check Answer
-                      </Button>
-                    </Row>
-                  </>
-                )}
-              </Form.List>
-            </Form>
-            {evaluatedAnswer && (
-              <Row style={{ paddingTop: '10px' }}>
-                <Col span={24} style={{ display: 'flex' }}>
-                  {evaluatedAnswer.score === 1 ? (
-                    <CheckCircleFilled
-                      style={{ fontSize: '20px', color: 'green' }}
-                    />
-                  ) : (
-                    <CloseCircleFilled
-                      style={{ fontSize: '20px', color: 'red' }}
-                    />
-                  )}
-                  <Paragraph style={{ paddingLeft: '10px' }}>
-                    {evaluatedAnswer.score === 1
-                      ? 'All are correct'
-                      : 'All are not correct'}
-                  </Paragraph>
-                </Col>
-                <Col span={24}>
-                  <Title level={3}>
-                    {`Score : ${Math.round(evaluatedAnswer.score * 100)}%`}
-                  </Title>
-                  <Col xl={{ span: 23 }} xs={{ span: 24 }}>
-                    <Descriptions layout="vertical" bordered>
-                      <Descriptions.Item label="Correct Nodes">
-                        {evaluatedAnswer.correct_nodes_list.map((key, idx) => (
-                          <Col span={24}>
-                            {`${key[0]}-${key[1]}-${key[2] === 65 ? 'A' : 'D'}`}
-                          </Col>
-                        ))}
-                      </Descriptions.Item>
-                      <Descriptions.Item label="Wrong Nodes">
-                        {evaluatedAnswer.wrong_nodes_list.map((key, idx) => (
-                          <Col span={24}>
-                            {`${key[0]}-${key[1]}-${key[2] === 65 ? 'A' : 'D'}`}
-                          </Col>
-                        ))}
-                      </Descriptions.Item>
-                      <Descriptions.Item label="Mised Nodes">
-                        {evaluatedAnswer.missed_nodes_list.map((key, idx) => (
-                          <Col span={24}>
-                            {`${key[0]}-${key[1]}-${key[2] === 65 ? 'A' : 'D'}`}
-                          </Col>
-                        ))}
-                      </Descriptions.Item>
-                    </Descriptions>
-                  </Col>
-                </Col>
-              </Row>
+                      {() => (
+                        <Form.Item
+                          {...field}
+                          label={index >= 0 ? 'Direction' : ''}
+                          name={[field.name, 'node']}
+                          fieldKey={[field.fieldKey, 'node']}
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Direction Required',
+                            },
+                          ]}
+                        >
+                          <Select style={{ width: 130 }}>
+                            {Nodes.map((item, index) => (
+                              <Option key={index} value={item.val}>
+                                {item.label}
+                              </Option>
+                            ))}
+                          </Select>
+                        </Form.Item>
+                      )}
+                    </Form.Item>
+                    <Form.Item
+                      {...field}
+                      label={index >= 0 ? 'Row' : ''}
+                      name={[field.name, 'row']}
+                      fieldKey={[field.fieldKey, 'row']}
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Row Required',
+                        },
+                      ]}
+                    >
+                      <InputNumber />
+                    </Form.Item>
+                    <Form.Item
+                      {...field}
+                      label={index >= 0 ? 'Column' : ''}
+                      name={[field.name, 'col']}
+                      fieldKey={[field.fieldKey, 'col']}
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Column Required',
+                        },
+                      ]}
+                    >
+                      <InputNumber />
+                    </Form.Item>
+
+                    {index > 0 && (
+                      <MinusCircleOutlined onClick={() => remove(field.name)} />
+                    )}
+                  </Space>
+                ))}
+                <Row style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                  <Button onClick={() => add()}>Add Nodes</Button>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    disabled={evaluatedAnswer}
+                  >
+                    Check Answer
+                  </Button>
+                </Row>
+              </>
             )}
-          </Col>
-          <Col xs={{ span: 24 }} xl={{ span: 11, offset: 1 }}>
-            <Affix offsetTop={100}>
-              <Crossword grid={gameData.grid} />
-            </Affix>
-          </Col>
-        {/* </Row> */}
+          </Form.List>
+        </Form>
+        {evaluatedAnswer && (
+          <Row style={{ paddingTop: '10px' }}>
+            <Col span={24} style={{ display: 'flex' }}>
+              {evaluatedAnswer.score === 1 ? (
+                <CheckCircleFilled
+                  style={{ fontSize: '20px', color: 'green' }}
+                />
+              ) : (
+                <CloseCircleFilled style={{ fontSize: '20px', color: 'red' }} />
+              )}
+              <Paragraph style={{ paddingLeft: '10px' }}>
+                {evaluatedAnswer.score === 1
+                  ? 'All are correct'
+                  : 'All are not correct'}
+              </Paragraph>
+            </Col>
+            <Col span={24}>
+              <Title level={3}>
+                {`Score : ${Math.round(evaluatedAnswer.score * 100)}%`}
+              </Title>
+              <Col xl={{ span: 23 }} xs={{ span: 24 }}>
+                <Descriptions layout="vertical" bordered>
+                  <Descriptions.Item label="Correct Nodes">
+                    {evaluatedAnswer.correct_nodes_list.map((key, idx) => (
+                      <Col span={24}>
+                        {`${key[0]}-${key[1]}-${key[2] === 65 ? 'A' : 'D'}`}
+                      </Col>
+                    ))}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Wrong Nodes">
+                    {evaluatedAnswer.wrong_nodes_list.map((key, idx) => (
+                      <Col span={24}>
+                        {`${key[0]}-${key[1]}-${key[2] === 65 ? 'A' : 'D'}`}
+                      </Col>
+                    ))}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Mised Nodes">
+                    {evaluatedAnswer.missed_nodes_list.map((key, idx) => (
+                      <Col span={24}>
+                        {`${key[0]}-${key[1]}-${key[2] === 65 ? 'A' : 'D'}`}
+                      </Col>
+                    ))}
+                  </Descriptions.Item>
+                </Descriptions>
+              </Col>
+            </Col>
+          </Row>
+        )}
+      </Col>
+      <Col xs={{ span: 24 }} xl={{ span: 11, offset: 1 }}>
+        <Affix offsetTop={100}>
+          <Crossword grid={gameData.grid} />
+        </Affix>
+      </Col>
+      {/* </Row> */}
       {/* </Col> */}
     </Row>
   );
