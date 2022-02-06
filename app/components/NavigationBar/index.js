@@ -107,7 +107,7 @@ function NavigationBar(props) {
         {props.game ? (
           <Col xs={{ span: 24 }} xl={{ span: 4 }}>
             <CustomButton
-              disabled={props.level === props.maxLevel}
+              disabled={props.level === props.maxLevel.toString()}
               onClick={() => {
                 window.location.href = props.nextLevelLink;
               }}
