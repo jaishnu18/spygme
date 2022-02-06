@@ -49,14 +49,14 @@ export function WriteExpressionGame(props) {
   }, [props.level]);
 
   useEffect(() => {
-    if (evaluatedAnswer && evaluatedAnswer.syntax_error==='No syntax error' && !alreadyFeedback) {
+    if (evaluatedAnswer && evaluatedAnswer.syntax_error === 'No syntax error' && !alreadyFeedback) {
       setAlreadyFeedback(true);
       const practiceGamesFeedback = <PracticeGamesFeedback saveFeedback={props.saveFeedback} />
       const args = {
         message: 'Feedback',
         description:
           practiceGamesFeedback,
-        duration: 0,
+        duration: 0, key: 'feedback',
       };
       notification.open(args);
       if (evaluatedAnswer.score !== 1) {
@@ -66,7 +66,7 @@ export function WriteExpressionGame(props) {
           description:
             practiceGamesFeedback,
           duration: 0,
-          placement: 'topLeft',
+          placement: 'topLeft', key: 'www'
         };
         notification.open(args);
       }
@@ -123,6 +123,7 @@ export function WriteExpressionGame(props) {
             maxLevel={4}
             conceptId={conceptId}
             topicId={topicId}
+            saveFeedback={props.saveFeedback}
           />
 
           <Row style={{ width: '100%' }}>

@@ -57,7 +57,7 @@ export function ExpressionEvaluationGame(props) {
       const args = {
         message: 'Feedback',
         description: practiceGamesFeedback,
-        duration: 0, key:'feedback',
+        duration: 0, key: 'feedback',
       };
       notification.open(args);
       if (evaluatedAnswer.score !== 1) {
@@ -68,7 +68,7 @@ export function ExpressionEvaluationGame(props) {
           message: 'Why you made mistake?',
           description: practiceGamesFeedback,
           duration: 0,
-          placement: 'topLeft', key:'www'
+          placement: 'topLeft', key: 'www'
         };
         notification.open(args);
       }
@@ -124,6 +124,7 @@ export function ExpressionEvaluationGame(props) {
             evaluatedAnswer={evaluatedAnswer}
             conceptId={conceptId}
             topicId={topicId}
+            saveFeedback={props.saveFeedback}
           />
 
           <Row style={{ width: '100%' }}>

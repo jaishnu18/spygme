@@ -16,11 +16,23 @@ import Affix from 'antd/lib/affix';
 import CheckCircleFilled from '@ant-design/icons/CheckCircleFilled';
 import Tooltip from 'antd/lib/tooltip';
 import Modal from 'antd/lib/modal';
+import Form from 'antd/lib/form';
+import Checkbox from 'antd/lib/checkbox/Checkbox';
+import Button from 'antd/lib/button';
+import { evaluateAnswer } from '../../containers/GAMES/PropositionalLogic/ExpressionEvaluationGame/saga';
+
+
+const errors = [
+  'Question was wrong',
+  'Provided solution was wrong',
+  'Some part of question was not visible',
+];
 
 function NavigationBar(props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isExitModalVisible, setIsExitModalVisible] = useState(false);
   const [testSubmitted, setIsTestSubmiited] = useState(false);
+  const [reportModalVisible, setReportModalVisible] = useState(false);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -92,7 +104,47 @@ function NavigationBar(props) {
         )}
 
         {props.game ? (
-          <Col xs={{ span: 24 }} xl={{ span: 4, offset: 6 }}>
+          <Col xs={{ span: 24 }} xl={{ span: 4, offset: 2 }}>
+            <CustomButton type="danger"
+              disabled={props.evaluatedAnswer === undefined}
+              onClick={() => {
+                setReportModalVisible(true);
+              }}
+            >
+              {'Report error'}
+            </CustomButton>
+          </Col>
+        ) : null}
+        <Modal
+        title="Report Error !!"
+          visible={reportModalVisible}
+          onCancel={() => { setReportModalVisible(false); }}
+          onOk={() => { setReportModalVisible(false); }}
+          footer={null}>
+          <Form
+            name="feedback"
+            onFinish={values => {
+              const response = {};
+              response.error = JSON.stringify(values);
+              props.saveFeedback(response);
+              setReportModalVisible(false);
+            }}
+          >
+            {errors.map((key, idx) => (
+              <Form.Item name={key} valuePropName="checked">
+                <Checkbox checked={false}>{key}</Checkbox>
+              </Form.Item>
+            ))}
+            <Form.Item>
+              <Button type="primary" htmlType="submit" onClick={() => { }}>
+                Submit
+              </Button>
+            </Form.Item>
+          </Form>
+        </Modal>
+
+        {props.game ? (
+          <Col xs={{ span: 24 }} xl={{ span: 4 }}>
             <CustomButton
               disabled={props.level === '1'}
               onClick={() => {

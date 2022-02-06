@@ -122,6 +122,7 @@ export function ArcConsistencyGame(props) {
             evaluatedAnswer={evaluatedAnswer}
             conceptId={conceptId}
             topicId={topicId}
+            saveFeedback={props.saveFeedback}
           />
 
           <Row style={{ width: '100%' }}>

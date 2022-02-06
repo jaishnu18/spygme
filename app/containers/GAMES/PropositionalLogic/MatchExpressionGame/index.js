@@ -55,7 +55,7 @@ export function MatchExpressionGame(props) {
         message: 'Feedback',
         description:
           practiceGamesFeedback,
-        duration: 0,
+        duration: 0, key: 'feedback',
       };
       notification.open(args);
       if (evaluatedAnswer.score !== 1) {
@@ -65,7 +65,7 @@ export function MatchExpressionGame(props) {
           description:
             practiceGamesFeedback,
           duration: 0,
-          placement: 'topLeft',
+          placement: 'topLeft', key: 'www'
         };
         notification.open(args);
       }
@@ -124,6 +124,7 @@ export function MatchExpressionGame(props) {
             maxLevel={4}
             conceptId={conceptId}
             topicId={topicId}
+            saveFeedback={props.saveFeedback}
           />
 
           <Row style={{ width: '100%' }}>
