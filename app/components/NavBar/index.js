@@ -26,7 +26,9 @@ import { Link } from 'react-router-dom';
 
 import Typography from 'antd/lib/typography';
 
-import { FrownOutlined, MehOutlined, SmileOutlined } from '@ant-design/icons';
+import FrownOutlined from '@ant-design/icons/FrownOutlined';
+import MehOutlined from '@ant-design/icons/MehOutlined';
+import SmileOutlined from '@ant-design/icons/SmileOutlined';
 
 const customIcons = {
   1: <FrownOutlined style={{ fontSize: '40px' }} />,
