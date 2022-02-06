@@ -61,7 +61,7 @@ export function AboutPage() {
               <Row>
                 <Col>
                   <Title level={3}>Prof. Partha P Chakrabarti</Title>
-                  <Paragraph>Computer Science & Enggineering</Paragraph>
+                  <Paragraph>Computer Science & Engineering</Paragraph>
                   <Paragraph>IIT Kharagpur</Paragraph>
                 </Col>
               </Row>

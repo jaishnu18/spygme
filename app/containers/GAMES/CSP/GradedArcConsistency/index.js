@@ -139,7 +139,7 @@ export function GradedArcConsistency(props) {
             gradedGame
             currentLevel={currentLevel}
             setCurrentLevel={setCurrentLevel}
-            maxLevel={3}
+            maxLevel={2}
             submit={submit}
             timeStamps={timeStamps}
             setTimeStamps={setTimeStamps}
