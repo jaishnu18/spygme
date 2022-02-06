@@ -14,19 +14,24 @@ import Typography from 'antd/lib/typography';
 import Paragraph from 'antd/lib/typography/Paragraph';
 import Progress from 'antd/lib/progress';
 import Image from 'antd/lib/image';
+import Tooltip from 'antd/lib/tooltip';
 
 const { Title } = Typography;
 
 function DescriptionCard(props) {
   return (
     <CustomCard title={props.title} hoverable={props.hoverable}>
-      <Row style={{ display: 'flex', flexDirection: 'column' }}>
+      <Row>
         {props.isReadingMaterial ? (
-          props.description.map((key, idx) => <pre style={{ fontFamily: 'cursive' }}>{`${key}\n<b>sdfd</b>`}</pre>)
+          props.description.map((key, idx) => (
+            <pre style={{ fontFamily: 'cursive' }}>{`${key}\n<b>sdfd</b>`}</pre>
+          ))
         ) : (
-          <Title level={3} ellipsis>
-            {props.description}
-          </Title>
+          <Tooltip title={props.description}>
+            <Title level={3} ellipsis>
+              {props.description}
+            </Title>
+          </Tooltip>
         )}
       </Row>
       {props.imageLocation && (
@@ -51,21 +56,16 @@ function DescriptionCard(props) {
         </div>
       )}
       <Row>
-        {
-          props.practiceGame ?
-            <div>
-              <Paragraph>{"Your levelwise highest scores are:"}</Paragraph>
-              <Paragraph>
-                {
-                  props.suggestionText.map((key, idx) => (
-                    key + "%, "
-                  ))
-                }
-              </Paragraph>
-            </div>
-            :
-            <Paragraph>{props.suggestionText}</Paragraph>
-        }
+        {props.practiceGame ? (
+          <div>
+            <Paragraph>{'Your levelwise highest scores are:'}</Paragraph>
+            <Paragraph>
+              {props.suggestionText.map((key, idx) => key + '%, ')}
+            </Paragraph>
+          </div>
+        ) : (
+          <Paragraph>{props.suggestionText}</Paragraph>
+        )}
       </Row>
     </CustomCard>
   );

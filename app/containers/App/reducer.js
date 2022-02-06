@@ -16,6 +16,7 @@ export const initialState = {
   authData: {
     isLoggedIn: false,
   },
+  isSignedUp: false,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -28,6 +29,7 @@ const appReducer = (state = initialState, action) =>
         break;
 
       case SIGNUP_SUCCESS:
+        draft.isSignedUp = true;
         draft.logging = false;
         draft.authData = action.payload;
         draft.loggingError = undefined;

@@ -51,7 +51,7 @@ export function WriteExpressionGame(props) {
   useEffect(() => {
     if (evaluatedAnswer && evaluatedAnswer.syntax_error==='No syntax error' && !alreadyFeedback) {
       setAlreadyFeedback(true);
-      const practiceGamesFeedback = <PracticeGamesFeedback submitFeedback={submitFeedback} />
+      const practiceGamesFeedback = <PracticeGamesFeedback saveFeedback={props.saveFeedback} />
       const args = {
         message: 'Feedback',
         description:
@@ -60,7 +60,7 @@ export function WriteExpressionGame(props) {
       };
       notification.open(args);
       if (evaluatedAnswer.score !== 1) {
-        const practiceGamesFeedback = <PracticeGamesFeedback whatWentWrong submitWWW={submitWWW} />
+        const practiceGamesFeedback = <PracticeGamesFeedback whatWentWrong saveFeedback={props.saveFeedback} />
         const args = {
           message: 'Why you made mistake?',
           description:

@@ -33,61 +33,63 @@ const questions = [
   'How tight was the time limit?',
 ];
 
-
 function GradedGamesFeedback(props) {
-
   const [disableWWW, setDisableWWW] = useState(false);
   const [disableFeedback, setDisableFeedback] = useState(false);
   console.log(props);
-  return (
-    props.whatWentWrong ?
-      (
-        <Collapse>
-          <Panel header="Give your opinion">
-            <Form
-              name="whatWentWrong"
-              onFinish={props.submitWWW}>
-              {
-                errors.map((key, idx) => (
-                  <Form.Item name={key} valuePropName="checked">
-                    <Checkbox checked={false}>{key}</Checkbox>
-                  </Form.Item>
-                ))
-              }
-              <Form.Item>
-                <Button type="primary" disabled={disableWWW} htmlType='submit' onClick={() => {
-                }}>
-                  Submit
-                </Button>
+  return props.whatWentWrong ? (
+    <Collapse>
+      <Panel header="Give your opinion">
+        <Form
+          name="whatWentWrong"
+          onFinish={values => {
+            const response = {};
+            response.whatwentwrong = JSON.stringify(values);
+            props.saveFeedback(response);
+            notification.close('www');
+          }}
+        >
+          {errors.map((key, idx) => (
+            <Form.Item name={key} valuePropName="checked">
+              <Checkbox checked={false}>{key}</Checkbox>
+            </Form.Item>
+          ))}
+          <Form.Item>
+            <Button type="primary" htmlType="submit" onClick={() => {}}>
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
+      </Panel>
+    </Collapse>
+  ) : (
+    <Collapse>
+      <Panel header="Give your opinion">
+        <Form
+          name="feedback"
+          onFinish={values => {
+            const response = {};
+            response.feedback = JSON.stringify(values);
+            props.saveFeedback(response);
+            notification.close('feedback');
+          }}
+        >
+          {questions.map((key, idx) => (
+            <div>
+              <Paragraph>{`${idx + 1}. ${key}`}</Paragraph>
+              <Form.Item name={key}>
+                <Rate />
               </Form.Item>
-            </Form>
-          </Panel>
-        </Collapse>
-      ) : (
-        <Collapse>
-          <Panel header="Give your opinion">
-            <Form
-              name="feedback"
-              onFinish={props.submitFeedback}>{
-                questions.map((key, idx) => (
-                  <div>
-                    <Paragraph>{(idx + 1) + ". " + key}</Paragraph>
-                    <Form.Item name={key}>
-                      <Rate />
-                    </Form.Item>
-                  </div>
-                ))
-              }
-              <Form.Item >
-                <Button type="primary" htmlType='submit' disabled={disableFeedback} onClick={() => {
-                }}>
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </Panel>
-        </Collapse>
-      )
+            </div>
+          ))}
+          <Form.Item>
+            <Button type="primary" htmlType="submit" onClick={() => {}}>
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
+      </Panel>
+    </Collapse>
   );
 }
 

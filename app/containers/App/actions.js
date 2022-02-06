@@ -44,7 +44,8 @@ export function signupUserStart(payload) {
 }
 
 export function signupUserSuccess(payload) {
-  history.push('/check-email');
+  console.log(payload);
+  history.push(`/check/mail/${payload}`);
   return {
     type: SIGNUP_SUCCESS,
     payload,
@@ -79,9 +80,10 @@ export function signinUserFailure(err) {
   };
 }
 
-export function signoutUserStart() {
+export function signoutUserStart(payload) {
   return {
     type: SIGNOUT_START,
+    payload,
   };
 }
 

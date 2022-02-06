@@ -47,23 +47,28 @@ export function ArcConsistencyGame(props) {
     if (evaluatedAnswer && !alreadyFeedback) {
       setAlreadyFeedback(true);
       const practiceGamesFeedback = (
-        <PracticeGamesFeedback submitFeedback={submitFeedback} />
+        <PracticeGamesFeedback saveFeedback={props.saveFeedback} />
       );
       const args = {
         message: 'Feedback',
         description: practiceGamesFeedback,
         duration: 0,
+        key: 'feedback',
       };
       notification.open(args);
       if (evaluatedAnswer.score !== 1) {
         const practiceGamesFeedback = (
-          <PracticeGamesFeedback whatWentWrong submitWWW={submitWWW} />
+          <PracticeGamesFeedback
+            whatWentWrong
+            saveFeedback={props.saveFeedback}
+          />
         );
         const args = {
           message: 'Why you made mistake?',
           description: practiceGamesFeedback,
           duration: 0,
           placement: 'topLeft',
+          key: 'www',
         };
         notification.open(args);
       }
@@ -77,8 +82,8 @@ export function ArcConsistencyGame(props) {
 
   useEffect(() => {
     if (props.state.gameData) {
-      const nodesLen = props.state.gameData.nodes.length,
-        bagSize = props.state.gameData.bag_size;
+      const nodesLen = props.state.gameData.nodes.length;
+      const bagSize = props.state.gameData.bag_size;
       const newArr = new Array(nodesLen);
       for (let i = 0; i < nodesLen; i += 1)
         newArr[i] = new Array(bagSize).fill(true);
@@ -88,18 +93,6 @@ export function ArcConsistencyGame(props) {
 
   const { gameData } = props.state;
   const { evaluatedAnswer } = props.state;
-
-  const submitWWW = values => {
-    const response = {};
-    response.whatwentwrong = JSON.stringify(values);
-    props.saveFeedback(response);
-  };
-
-  const submitFeedback = values => {
-    const response = {};
-    response.feedback = JSON.stringify(values);
-    props.saveFeedback(response);
-  };
 
   const submit = values => {
     const secs = end(startTime);

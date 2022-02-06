@@ -59,7 +59,11 @@ function ExamNavigator(props) {
                     }
                   }}
                   key={`Button-${i + 1}`}
-                  style={{ margin: '4px' }}
+                  style={{
+                    margin: '4px',
+                    backgroundColor:
+                      props.currentLevel === i ? 'green' : 'blue',
+                  }}
                 >
                   {x}
                 </CustomButton>

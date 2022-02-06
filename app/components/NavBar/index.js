@@ -12,6 +12,7 @@ import Row from 'antd/lib/row';
 import Layout from 'antd/lib/layout';
 import Menu from 'antd/lib/menu';
 import Modal from 'antd/lib/modal';
+import Rate from 'antd/lib/rate';
 
 import H4 from 'components/atoms/H4';
 // import { WHITE } from 'utils/constants';
@@ -23,12 +24,25 @@ import {
 } from 'utils/navbarHighlighter';
 import { Link } from 'react-router-dom';
 
+import Typography from 'antd/lib/typography';
+
+import { FrownOutlined, MehOutlined, SmileOutlined } from '@ant-design/icons';
+
+const customIcons = {
+  1: <FrownOutlined style={{ fontSize: '40px' }} />,
+  2: <FrownOutlined style={{ fontSize: '40px' }} />,
+  3: <MehOutlined style={{ fontSize: '40px' }} />,
+  4: <SmileOutlined style={{ fontSize: '40px' }} />,
+  5: <SmileOutlined style={{ fontSize: '40px' }} />,
+};
+
 const { Header } = Layout;
 
 function NavBar(props) {
   const AuthData = useAuth();
 
   const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
+  const [rating, setRating] = useState(3);
 
   const showLogoutModal = () => {
     setIsLogoutModalVisible(true);
@@ -40,7 +54,7 @@ function NavBar(props) {
 
   const handleSignout = () => {
     closeLogoutModal();
-    props.signout();
+    props.signout({ rating });
   };
 
   const enabledRoutes = () => {
@@ -81,7 +95,7 @@ function NavBar(props) {
                 lg={{ span: 6 }}
                 xl={{ span: 7 }}
               >
-                <Link to="">
+                <Link to="/">
                   <H4>AI For Schools</H4>
                 </Link>
               </Col>
@@ -136,7 +150,23 @@ function NavBar(props) {
                       onOk={handleSignout}
                       onCancel={closeLogoutModal}
                     >
-                      <p>Are you sure you want to logout?</p>
+                      <Typography.Title level={5} type="warning">
+                        Rate us!
+                      </Typography.Title>
+                      <Rate
+                        defaultValue={rating}
+                        character={({ index }) => customIcons[index + 1]}
+                        onChange={value => {
+                          setRating(value);
+                        }}
+                      />
+                      <Typography.Title
+                        level={5}
+                        type="primary"
+                        style={{ marginTop: '20px' }}
+                      >
+                        Are you sure you want to logout?
+                      </Typography.Title>
                     </Modal>
                   </Col>
                 </React.Fragment>

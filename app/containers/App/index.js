@@ -22,6 +22,7 @@ import SplashScreen from 'components/SplashScreen';
 
 import GlobalStyle from 'global-styles';
 import NavBar from 'components/NavBar';
+import history from 'utils/history';
 import Routes from './routes';
 import AuthProvider from './AuthContext';
 import {
@@ -37,7 +38,6 @@ import {
   signoutUserStart,
   signupUserStart,
 } from './actions';
-import history from 'utils/history';
 
 import reducer from './reducer';
 import saga from './saga';
@@ -79,6 +79,7 @@ export function App(props) {
           signup={props.signup}
           AuthState={props.AuthState}
           AuthData={props.AuthData}
+          isSignedUp={props.AuthState.isSignedUp}
         />
         <GlobalStyle />
       </AppWrapper>
@@ -106,7 +107,7 @@ export function mapDispatchToProps(dispatch) {
   return {
     signin: payload => dispatch(signinUserStart(payload)),
     signup: payload => dispatch(signupUserStart(payload)),
-    signout: () => dispatch(signoutUserStart()),
+    signout: payload => dispatch(signoutUserStart(payload)),
     setAuthData: payload => dispatch(signinUserSuccess(payload)),
   };
 }

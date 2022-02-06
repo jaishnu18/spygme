@@ -50,7 +50,7 @@ export function MatchExpressionGame(props) {
   useEffect(() => {
     if (evaluatedAnswer && !alreadyFeedback) {
       setAlreadyFeedback(true);
-      const practiceGamesFeedback = <PracticeGamesFeedback submitFeedback={submitFeedback} />
+      const practiceGamesFeedback = <PracticeGamesFeedback saveFeedback={props.saveFeedback} />
       const args = {
         message: 'Feedback',
         description:
@@ -59,7 +59,7 @@ export function MatchExpressionGame(props) {
       };
       notification.open(args);
       if (evaluatedAnswer.score !== 1) {
-        const practiceGamesFeedback = <PracticeGamesFeedback whatWentWrong submitWWW={submitWWW} />
+        const practiceGamesFeedback = <PracticeGamesFeedback whatWentWrong saveFeedback={props.saveFeedback} />
         const args = {
           message: 'Why you made mistake?',
           description:

@@ -52,23 +52,23 @@ export function ExpressionEvaluationGame(props) {
     if (evaluatedAnswer && !alreadyFeedback) {
       setAlreadyFeedback(true);
       const practiceGamesFeedback = (
-        <PracticeGamesFeedback submitFeedback={submitFeedback} />
+        <PracticeGamesFeedback saveFeedback={props.saveFeedback} />
       );
       const args = {
         message: 'Feedback',
         description: practiceGamesFeedback,
-        duration: 0,
+        duration: 0, key:'feedback',
       };
       notification.open(args);
       if (evaluatedAnswer.score !== 1) {
         const practiceGamesFeedback = (
-          <PracticeGamesFeedback whatWentWrong submitWWW={submitWWW} />
+          <PracticeGamesFeedback whatWentWrong saveFeedback={props.saveFeedback} />
         );
         const args = {
           message: 'Why you made mistake?',
           description: practiceGamesFeedback,
           duration: 0,
-          placement: 'topLeft',
+          placement: 'topLeft', key:'www'
         };
         notification.open(args);
       }

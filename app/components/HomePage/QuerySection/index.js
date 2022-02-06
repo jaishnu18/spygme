@@ -24,18 +24,18 @@ const { Title } = Typography;
 const { Paragraph } = Typography;
 function QuerySection(props) {
   return (
-    <Row justify="center" style={{ padding: '10px', width: '100vw' }}>
+    <Row justify="center" style={{ padding: '10px', width: '100%' }}>
       <Col span={24}>
         <Title style={{ textAlign: 'center' }}>Contact us</Title>
       </Col>
-      <Col xs={{ span: 20 }} xl={{ span: 10, offset: 7 }}>
+      <Col xs={{ span: 20 }} xl={{ span: 12 }}>
         <Paragraph>
           If you have any queries, please go through the FAQ's. For any other
           query feel free to fill the form below so that we can reach you out.
         </Paragraph>
       </Col>
 
-      <Col xs={{ span: 20 }} xl={{ span: 10, offset: 7 }}>
+      <Col xs={{ span: 20 }} xl={{ span: 13 }}>
         <CustomCard width="100%">
           <Form name="QueryForm" onFinish={props.querySubmit}>
             <div>
@@ -101,11 +101,7 @@ function QuerySection(props) {
           </Form>
         </CustomCard>
       </Col>
-      <Col
-        xs={{ span: 20 }}
-        xl={{ span: 10, offset: 7 }}
-        style={{ marginTop: '30px' }}
-      >
+      <Col xs={{ span: 20 }} xl={{ span: 13 }} style={{ marginTop: '30px' }}>
         <CustomCard>
           <h3>
             <img src={Phone} style={{ height: '15px' }} /> Phone :1203222090

@@ -48,25 +48,30 @@ export function FindCrosswordNodes(props) {
     if (evaluatedAnswer && !alreadyFeedback) {
       setAlreadyFeedback(true);
       const practiceGamesFeedback = (
-        <PracticeGamesFeedback submitFeedback={submitFeedback} />
+        <PracticeGamesFeedback saveFeedback={props.saveFeedback} />
       );
       const args = {
         message: 'Feedback',
         description: practiceGamesFeedback,
         duration: 0,
+        key: 'feedback',
       };
       notification.open(args);
       if (evaluatedAnswer.score !== 1) {
         const practiceGamesFeedback = (
-          <PracticeGamesFeedback whatWentWrong submitWWW={submitWWW} />
+          <PracticeGamesFeedback
+            whatWentWrong
+            saveFeedback={props.saveFeedback}
+          />
         );
-        const args = {
+        const args1 = {
           message: 'Why you made mistake?',
           description: practiceGamesFeedback,
           duration: 0,
           placement: 'topLeft',
+          key: 'www',
         };
-        notification.open(args);
+        notification.open(args1);
       }
     }
   }, [props.state]);
@@ -82,24 +87,11 @@ export function FindCrosswordNodes(props) {
     });
   }, [props.state.gameData]);
 
-  const submitWWW = values => {
-    const response = {};
-    response.whatwentwrong = JSON.stringify(values);
-    props.saveFeedback(response);
-  };
-
-  const submitFeedback = values => {
-    const response = {};
-    response.feedback = JSON.stringify(values);
-    props.saveFeedback(response);
-  };
-
   const { gameData } = props.state;
   const { evaluatedAnswer } = props.state;
 
   const submit = values => {
     const secs = end(startTime);
-    console.log('ending');
     const response = {};
 
     gameData.response = values.nodes;

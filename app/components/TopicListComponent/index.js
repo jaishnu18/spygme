@@ -26,14 +26,14 @@ const StyledRow = styled(Row)`
   margin-top: 20px !important;
   justify-content: left !important;
 
-  @media only screen and (max-width: 1440px) {
+  @media only screen and (max-width: 768px) {
     justify-content: center !important;
   }
 `;
 function TopicListComponent(props) {
   const { topics } = props;
   return (
-    <div>
+    <div style={{ padding: '20px' }}>
       <StyledRow gutter={[32, 20]}>
         <Col
           style={{ display: 'flex', alignItems: 'center' }}
@@ -51,22 +51,22 @@ function TopicListComponent(props) {
       </StyledRow>
       <StyledRow
         style={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}
-        guttter={[32, 20]}
+        gutter={[32, 20]}
       >
         {topics
           ? topics.map((key, idx) => (
-            <Col xs={{ span: 23 }} xl={{ span: 6, offset: 1 }}>
-              <Link to={`topics/${idx + 1}`}>
-                <DescriptionCard
-                  hoverable
-                  title={`Topic : ${idx + 1}`}
-                  description={key.name}
-                  imageLocation={idx == 0 ? Topic1Icon : Topic2Icon}
-                  suggestionText={key.description}
-                />
-              </Link>
-            </Col>
-          ))
+              <Col xs={{ span: 23 }} xl={{ span: 6, offset: 1 }}>
+                <Link to={`topics/${idx + 1}`}>
+                  <DescriptionCard
+                    hoverable
+                    title={`Topic : ${idx + 1}`}
+                    description={key.name}
+                    imageLocation={idx === 0 ? Topic1Icon : Topic2Icon}
+                    suggestionText={key.description}
+                  />
+                </Link>
+              </Col>
+            ))
           : null}
       </StyledRow>
     </div>

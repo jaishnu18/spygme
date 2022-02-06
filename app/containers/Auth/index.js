@@ -5,7 +5,7 @@
  *
  */
 
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -25,6 +25,13 @@ export function Auth(props) {
   useInjectSaga({ key: 'auth', saga });
 
   const [userRole, setUserRole] = useState('Student');
+
+  // useEffect(() => {
+  //   if(props.isSignedUp) {
+  //     history.push('/check-mail');
+
+  //   } 
+  // },[props.isSignedUp]);
 
   const googleSignIn = async res => {
     const gtoken = res.tokenId;

@@ -13,8 +13,8 @@ import Col from 'antd/lib/col';
 import { Link } from 'react-router-dom';
 import Typography from 'antd/lib/typography';
 import DescriptionCard from 'components/DescriptionCard';
-import NavigationBar from '../NavigationBar';
 import Divider from 'antd/lib/divider';
+import NavigationBar from '../NavigationBar';
 
 const { Title } = Typography;
 
@@ -33,7 +33,9 @@ function ConceptListComponent(props) {
             alignItems: 'center',
           }}
         >
-          <Title style={{ textAlign: 'center' }}>{props.topicName}</Title>
+          <Title style={{ textAlign: 'center', marginBottom: '0px' }}>
+            {props.topicName}
+          </Title>
         </Col>
         <Divider />
 

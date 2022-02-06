@@ -82,14 +82,16 @@ export function* signupUser(action) {
       },
     );
 
-    // const userData = response.data;
+    console.log(response);
+
+    const token = response.data.data;
     // const userToken = userData.data;
-    // const info = jwtDecode(userToken);
+    const info = jwtDecode(token);
     // info.token = userToken;
     // info.isLoggedIn = true;
 
     // yield* setTokenToLocalStorage(userToken);
-    yield put(signupUserSuccess('Registered Successfully'));
+    yield put(signupUserSuccess(info.email));
   } catch (err) {
     const { errors, errorsValidation } = err.response.data;
 
@@ -98,8 +100,26 @@ export function* signupUser(action) {
   }
 }
 
-export function* signoutUser() {
+export function* signoutUser(action) {
   try {
+    const { rating } = action.payload;
+
+    const response = yield api.post(
+      `/auth/user-rating`,
+      {
+        rating,
+      },
+      {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: localStorage._UFT_,
+        },
+      },
+    );
+
+    console.log('Done');
+
     localStorage.removeItem('_UFT_');
     yield put(signoutUserSuccess());
     history.push('/');

@@ -62,7 +62,11 @@ function Routes(props) {
             />
           )}
         />
-        <Route path="/check-mail" component={CheckMailPage} />
+        <Route
+          exact
+          path="/check/mail/:email"
+          render={({ match }) => <CheckMailPage email={match.params.email} />}
+        />
         <Route
           path="/verify/:token"
           render={({ match }) => (
@@ -83,7 +87,7 @@ function Routes(props) {
       <Route exact path="/home" component={prop => <HomePage {...prop} />} />
       <Route exact path="/topics" component={TopicListPage} />
       <Route exact path="/testnotallowed" component={TestNotAllowedPage} />
-      
+
       <Route
         exact
         path="/evaluate-expression/:topicId/:conceptId/:gameId/:level"

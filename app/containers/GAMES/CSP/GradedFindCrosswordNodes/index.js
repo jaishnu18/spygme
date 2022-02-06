@@ -67,42 +67,30 @@ export function GradedFindCrosswordNodes(props) {
     if (evaluatedAnswer && !alreadyFeedback) {
       setAlreadyFeedback(true);
       const practiceGamesFeedback = (
-        <GradedGamesFeedback submitFeedback={submitFeedback} />
+        <GradedGamesFeedback saveFeedback={props.saveFeedback} />
       );
       const args = {
         message: 'Feedback',
         description: practiceGamesFeedback,
-        duration: 0,
+        duration: 0, key:'feedback',
       };
       notification.open(args);
       if (evaluatedAnswer.score !== 1) {
         const practiceGamesFeedback = (
-          <GradedGamesFeedback whatWentWrong submitWWW={submitWWW} />
+          <GradedGamesFeedback whatWentWrong saveFeedback={props.saveFeedback} />
         );
         const args = {
           message: 'Why you made mistake?',
           description: practiceGamesFeedback,
           duration: 0,
-          placement: 'topLeft',
+          placement: 'topLeft', key:'www'
         };
         notification.open(args);
       }
     }
   }, [props.state]);
 
-  const submitWWW = values => {
-    const response = {};
-    response.isGraded = true;
-    response.whatwentwrong = JSON.stringify(values);
-    props.saveFeedback(response);
-  };
-
-  const submitFeedback = values => {
-    const response = {};
-    response.isGraded = true;
-    response.feedback = JSON.stringify(values);
-    props.saveFeedback(response);
-  };
+  
 
   const { evaluatedAnswer } = props.state;
 
