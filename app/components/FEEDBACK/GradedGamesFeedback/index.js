@@ -44,6 +44,7 @@ function GradedGamesFeedback(props) {
           name="whatWentWrong"
           onFinish={values => {
             const response = {};
+            response.isGraded = true;
             response.whatwentwrong = JSON.stringify(values);
             props.saveFeedback(response);
             notification.close('www');
@@ -69,6 +70,7 @@ function GradedGamesFeedback(props) {
           name="feedback"
           onFinish={values => {
             const response = {};
+            response.isGraded = true;
             response.feedback = JSON.stringify(values);
             props.saveFeedback(response);
             notification.close('feedback');

@@ -16,6 +16,7 @@ import RobotHello from 'images/Robot-hello.png';
 import Typewriter from 'typewriter-effect';
 import Typography from 'antd/lib/typography';
 import CustomCard from 'components/CustomCard';
+import Button from 'antd/lib/button';
 import { Link } from 'react-router-dom';
 import Table from 'antd/lib/table';
 
@@ -67,6 +68,15 @@ function DashboardComponent(props) {
               }}
             />
           </Title>
+        </Col>
+      </Row>
+      <Row style={{ paddingBottom: '20px' }}>
+        <Col span={24} offset={1}>
+          <Link to='/topics'>
+            <Button shape='round' type='primary'>
+              Learn AI
+            </Button>
+          </Link>
         </Col>
       </Row>
       <Row>

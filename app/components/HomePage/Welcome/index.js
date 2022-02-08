@@ -14,6 +14,8 @@ import CoverPage from 'images/coverPage.png';
 import Image from 'antd/lib/image';
 import Title from 'antd/lib/typography/Title';
 import Paragraph from 'antd/lib/typography/Paragraph';
+import Button from 'antd/lib/button';
+import { Link } from 'react-router-dom';
 // const Carousel = React.lazy(() => import('antd/lib/carousel'));
 
 const contentStyle = {
@@ -54,6 +56,9 @@ function Welcome(props) {
             learn each and every concept while playing interesting games and
             reading short reading materials.
           </Paragraph>
+          <Link to={localStorage.getItem('_UFT_') ? '/dashboard' : '/auth'}>
+            <Button type="primary" shape="round">Get Started</Button>
+          </Link>
         </div>
       </Col>
       <Col xs={{ span: 22 }} xl={{ span: 11, offset: 1 }}>

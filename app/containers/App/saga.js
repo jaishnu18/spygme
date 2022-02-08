@@ -102,6 +102,7 @@ export function* signupUser(action) {
 
 export function* signoutUser(action) {
   try {
+    if(action.payload && action.payload.rating){
     const { rating } = action.payload;
 
     const response = yield api.post(
@@ -119,6 +120,7 @@ export function* signoutUser(action) {
     );
 
     console.log('Done');
+    }
 
     localStorage.removeItem('_UFT_');
     yield put(signoutUserSuccess());
