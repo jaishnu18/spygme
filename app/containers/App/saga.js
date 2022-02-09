@@ -102,25 +102,25 @@ export function* signupUser(action) {
 
 export function* signoutUser(action) {
   try {
-    if(action.payload && action.payload.rating){
-    const { rating } = action.payload;
+    if (action.payload && action.payload.rating) {
+      const { rating } = action.payload;
 
-    const response = yield api.post(
-      `/auth/user-rating`,
-      {
-        rating,
-      },
-      {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: localStorage._UFT_,
+      const response = yield api.post(
+        `/auth/user-rating`,
+        {
+          rating,
         },
-      },
-    );
-
+        {
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: localStorage._UFT_,
+          },
+        },
+      );
+    }
     localStorage.removeItem('_UFT_');
-    yield put(signoutUserSuccess());
+    yield put(signoutUserSuccess('Logged Out Successfully!'));
   } catch (err) {
     yield put(signoutUserFailure(err.response.data.message));
   }
