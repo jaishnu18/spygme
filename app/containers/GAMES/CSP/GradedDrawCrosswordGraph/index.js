@@ -26,6 +26,8 @@ import {
   putFeedbackStart,
 } from './actions';
 import ExamInstruction from 'components/ExamInstruction';
+import GradedGamesFeedback from 'components/FEEDBACK/GradedGamesFeedback';
+import notification from 'antd/lib/notification';
 
 export function GradedDrawCrosswordGraph(props) {
   useInjectReducer({ key: 'gradedDrawCrosswordGraph', reducer });
@@ -35,6 +37,7 @@ export function GradedDrawCrosswordGraph(props) {
   const [value, setValue] = useState(undefined);
   const [AcrossNodes, setAcrossNodes] = useState([]);
   const [DownNodes, setDownNodes] = useState([]);
+  const [alreadyFeedback, setAlreadyFeedback] = useState(false);
   const [timeStamps, setTimeStamps] = useState(undefined);
 
   useEffect(() => {
@@ -91,6 +94,35 @@ export function GradedDrawCrosswordGraph(props) {
   }, [props.state.gameData]);
 
   useEffect(() => {}, [props.state.gameData]);
+  
+  useEffect(() => {
+    if (evaluatedAnswer && !alreadyFeedback) {
+      setAlreadyFeedback(true);
+      const practiceGamesFeedback = (
+        <GradedGamesFeedback saveFeedback={props.saveFeedback} />
+      );
+      const args = {
+        message: 'Feedback',
+        description: practiceGamesFeedback,
+        duration: 0, key:'feedback',
+      };
+      notification.open(args);
+      if (evaluatedAnswer.score !== 1) {
+        const practiceGamesFeedback = (
+          <GradedGamesFeedback whatWentWrong saveFeedback={props.saveFeedback} />
+        );
+        const args = {
+          message: 'Why you made mistake?',
+          description: practiceGamesFeedback,
+          duration: 0,
+          placement: 'topLeft', key:'www'
+        };
+        notification.open(args);
+      }
+    }
+  }, [props.state]);
+  
+  const { evaluatedAnswer } = props.state;
 
   const submit = () => {
     const res = [];
@@ -135,6 +167,7 @@ export function GradedDrawCrosswordGraph(props) {
     }
 
     const { gameData } = props.state;
+    console.log(props);
     const response = {};
 
     for (let i = 0; i < gameData.length; i += 1) {

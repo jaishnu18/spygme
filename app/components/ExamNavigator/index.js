@@ -35,9 +35,16 @@ function ExamNavigator(props) {
               onComplete={props.submit}
             >
               {({ remainingTime }) => {
-                const minutes = Math.floor(remainingTime / 60);
-                const seconds = remainingTime % 60;
-
+                const mint = Math.floor(remainingTime / 60);
+                const secs = remainingTime % 60;
+                
+                let minutes=mint.toString();
+                if(minutes.length==1)
+                minutes='0'+minutes;
+                
+                let seconds=secs.toString();
+                if(seconds.length==1)
+                seconds='0'+seconds;
                 return `${minutes}:${seconds}`;
               }}
             </CountdownCircleTimer>

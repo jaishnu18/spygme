@@ -104,10 +104,7 @@ function QuerySection(props) {
       <Col xs={{ span: 20 }} xl={{ span: 13 }} style={{ marginTop: '30px' }}>
         <CustomCard>
           <h3>
-            <img src={Phone} style={{ height: '15px' }} /> Phone :1203222090
-          </h3>
-          <h3>
-            <Image src={Email} /> Email : aiforschool@gmail.com
+            <Image src={Email} /> Email : contact@ai4schools.org
           </h3>
           <h3>
             <img src={Location} style={{ height: '15px' }} /> Address : Indian
