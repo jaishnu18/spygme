@@ -205,7 +205,7 @@ function AuthForm(props) {
                 <Divider>or</Divider>
                 <div style={{ textAlign: 'center' }}>
                   <GoogleButton
-                    text="Sign Up with Google"
+                    text="Sign In with Google"
                     onSuccess={props.googleSignIn}
                   />
                 </div>

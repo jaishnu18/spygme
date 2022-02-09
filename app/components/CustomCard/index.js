@@ -21,6 +21,8 @@ function CustomCard(props) {
         marginBottom: props.marginBottom || 'auto',
         borderRadius: props.borderRadius || 'auto',
         width: props.width || '100%',
+        flex: props.flex || null,
+        justifyContent: props.justifyContent || null,
       }}
     >
       {props.children}

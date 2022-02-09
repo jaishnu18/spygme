@@ -6,7 +6,7 @@
 
 import React, { memo, useState } from 'react';
 import PropTypes from 'prop-types';
-// import styled from 'styled-components';
+import styled from 'styled-components';
 import Col from 'antd/lib/col';
 import Row from 'antd/lib/row';
 import Layout from 'antd/lib/layout';
@@ -39,6 +39,12 @@ const customIcons = {
 };
 
 const { Header } = Layout;
+const StyledMenu = styled(Menu)`
+  svg {
+    font-size: 20px !important;
+    font-weight: 700 !important;
+  }
+`;
 
 function NavBar(props) {
   const AuthData = useAuth();
@@ -111,7 +117,7 @@ function NavBar(props) {
                     lg={{ span: 18 }}
                     xl={{ span: 10, offset: 5 }}
                   >
-                    <Menu
+                    <StyledMenu
                       theme="light"
                       mode="horizontal"
                       defaultSelectedKeys={[
@@ -145,7 +151,7 @@ function NavBar(props) {
                       <Menu.Item key="4" onClick={showLogoutModal}>
                         Logout
                       </Menu.Item>
-                    </Menu>
+                    </StyledMenu>
                     <Modal
                       title="Logout"
                       visible={isLogoutModalVisible}
@@ -181,7 +187,7 @@ function NavBar(props) {
                     lg={{ span: 18 }}
                     xl={{ span: 8, offset: 7 }}
                   >
-                    <Menu
+                    <StyledMenu
                       theme="light"
                       mode="horizontal"
                       defaultSelectedKeys={[
@@ -202,7 +208,7 @@ function NavBar(props) {
                       <Menu.Item key="3" onClick={() => history.push('/auth')}>
                         Login/Register
                       </Menu.Item>
-                    </Menu>
+                    </StyledMenu>
                   </Col>
                 </React.Fragment>
               )}

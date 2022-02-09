@@ -30,11 +30,12 @@ export function Auth(props) {
   //   if(props.isSignedUp) {
   //     history.push('/check-mail');
 
-  //   } 
+  //   }
   // },[props.isSignedUp]);
 
   const googleSignIn = async res => {
     const gtoken = res.tokenId;
+    console.log(gtoken);
     props.signin({ gtoken });
   };
 
