@@ -11,4 +11,4 @@ export const NAVYBLUE = '#0971f1';
 export const SHADOW1 = '0 1px 6px 0 rgb(32 33 36 / 20%)';
 
 export const GOOGLE_CLIENT_ID =
-  '81413974537-1hj670ovlk3degn5mqkku4768p06hc8b.apps.googleusercontent.com';
+  '81413974537-66848ummg0v23tvkfu9q9mkkofck953j.apps.googleusercontent.com';
