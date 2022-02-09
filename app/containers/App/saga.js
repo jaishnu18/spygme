@@ -119,12 +119,8 @@ export function* signoutUser(action) {
       },
     );
 
-    console.log('Done');
-    }
-
     localStorage.removeItem('_UFT_');
     yield put(signoutUserSuccess());
-    history.push('/');
   } catch (err) {
     yield put(signoutUserFailure(err.response.data.message));
   }

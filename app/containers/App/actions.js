@@ -44,7 +44,6 @@ export function signupUserStart(payload) {
 }
 
 export function signupUserSuccess(payload) {
-  console.log(payload);
   history.push(`/check/mail/${payload}`);
   return {
     type: SIGNUP_SUCCESS,
@@ -88,6 +87,7 @@ export function signoutUserStart(payload) {
 }
 
 export function signoutUserSuccess() {
+  history.push('/');
   return {
     type: SIGNOUT_SUCCESS,
   };
