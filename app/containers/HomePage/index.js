@@ -101,6 +101,12 @@ export function HomePage(props) {
                 src={require('images/Screenshot_Graded.png')}
               />
             </Timeline.Item>
+            <Timeline.Item label="Check your overall progress and proficiency on dashboard along with where you stand in the leaderboard">
+              <StyledImage
+                preview={false}
+                src={require('images/Screenshot_Dashboard.png')}
+              />
+            </Timeline.Item>
           </Timeline>
         </Col>
       </Row>

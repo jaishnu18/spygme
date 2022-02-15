@@ -58,9 +58,9 @@ function DescriptionCard(props) {
       <Row>
         {props.practiceGame ? (
           <div>
-            <Paragraph>{'Your levelwise highest scores are:'}</Paragraph>
+            <Paragraph>{'Your highest scores:'}</Paragraph>
             <Paragraph>
-              {props.suggestionText.map((key, idx) => key + '%, ')}
+              {props.suggestionText.map((key, idx) => 'Level ' + (idx+1) + ': ' + key + '%, ')}
             </Paragraph>
           </div>
         ) : (

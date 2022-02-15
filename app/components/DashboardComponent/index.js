@@ -74,7 +74,7 @@ function DashboardComponent(props) {
         <Col span={24} offset={1}>
           <Link to='/topics'>
             <Button shape='round' type='primary'>
-              Learn AI
+              Start Learning
             </Button>
           </Link>
         </Col>

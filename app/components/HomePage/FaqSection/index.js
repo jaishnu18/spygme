@@ -39,26 +39,28 @@ function FaqSection() {
           >
             <Paragraph>
               No prior knowledge of AI is required. You will get to learn each
-              concept by playing games accompanied by short reading materials
+              concept by playing games accompanied by short reading materials. If you have basic mathematical and logical skills, you are good to go
             </Paragraph>
           </Panel>
-          <Panel
-            header="Is there any backward free navigation so I can revisit my question that has been previously attempted ? "
-            key="2"
-          >
+          <Panel header="Does it help in my school exam as well ?" key="2">
             <Paragraph>
-              During practice sessions, you will enter into a level of the game
-              where you wll get a new instance almost every time, complete it
-              and go to next item. For graded sessions, you can navigate
-              backward and forward as many times as you want.
+              Some boards of education have already introduced AI in their cirriculum.
+              So, if you have this subject in your school cirriculum, it will certainly help you in exams as well because here you will learn concepts by playing games which will make you more involved with the topics 
             </Paragraph>
           </Panel>
-          <Panel header="Does it help in my school exam as well ?" key="3">
+          <Panel header="Who is this platform meant for ?" key="3">
             <Paragraph>
-              It does not help you directly in your school curriculum. But
-              learning on our platform can improve your logical thinking skills,
-              make you smarter than others and this may indirectly influence
-              your performance in school exams
+              Students from classes IV to XII can register on the platform and start learning AI from a very fundamental level. Apart from this, teachers and other people can also register on the platform by choosing option during registration if they want to try out the platform 
+            </Paragraph>
+          </Panel>
+          <Panel header="Is there any time limit by which I should complete the course ?" key="4">
+            <Paragraph>
+              We have not put any limit on the time since this platform is meant for students of wide range of class. You can learn at your own pace 
+            </Paragraph>
+          </Panel>
+          <Panel header="What topics are covered in this ?" key="5">
+            <Paragraph>
+              Currently we have reading materials, practice games and graded games for the most fundamental topics of AI which include Constraint Satisfaction Problems and Propositional Logic. Each topic has several concepts within it which you can learn. More topics will be added soon.
             </Paragraph>
           </Panel>
         </Collapse>

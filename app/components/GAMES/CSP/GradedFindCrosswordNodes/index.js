@@ -46,7 +46,7 @@ function GradedFindCrosswordNodes(props) {
           levels={props.maxLevel}
           setCurrentLevel={props.setCurrentLevel}
           value={props.value}
-          examDuration={300}
+          examDuration={600}
           {...props}
         />
       </Col>

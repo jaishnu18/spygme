@@ -7,7 +7,7 @@
 import Col from 'antd/lib/col';
 import Row from 'antd/lib/row';
 import Form from 'antd/lib/form';
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import Input from 'antd/lib/input';
 import Button from 'antd/lib/button';
 import Email from 'images/email.png';
@@ -22,7 +22,10 @@ import Radio from 'antd/lib/radio';
 
 const { Title } = Typography;
 const { Paragraph } = Typography;
+
+
 function QuerySection(props) {
+  const [remaining, setRemaining] = useState(500);
   return (
     <Row justify="center" style={{ padding: '10px', width: '100%' }}>
       <Col span={24}>
@@ -92,8 +95,11 @@ function QuerySection(props) {
                   },
                 ]}
               >
-                <Input.TextArea placeholder="your message" rows={6} />
+                <Input.TextArea placeholder="your message" rows={6} maxLength="500" onChange={(e)=>{setRemaining(500-e.target.value.length);}}/>
               </Form.Item>
+              <Paragraph style={{float:'right'}}>
+                {remaining+"/500"}
+              </Paragraph>
             </div>
             <Button type="primary" htmlType="submit">
               Send Message
@@ -105,10 +111,6 @@ function QuerySection(props) {
         <CustomCard>
           <h3>
             <Image src={Email} /> Email : contact@ai4schools.org
-          </h3>
-          <h3>
-            <img src={Location} style={{ height: '15px' }} /> Address : Indian
-            Institute of Technology Kharagpur
           </h3>
         </CustomCard>
       </Col>
