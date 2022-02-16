@@ -107,13 +107,6 @@ function QuerySection(props) {
           </Form>
         </CustomCard>
       </Col>
-      <Col xs={{ span: 20 }} xl={{ span: 13 }} style={{ marginTop: '30px' }}>
-        <CustomCard>
-          <h3>
-            <Image src={Email} /> Email : contact@ai4schools.org
-          </h3>
-        </CustomCard>
-      </Col>
     </Row>
   );
 }

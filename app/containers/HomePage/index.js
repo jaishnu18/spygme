@@ -35,6 +35,9 @@ import QuerySection from '../../components/HomePage/QuerySection';
 import { sendMessageStart } from './actions';
 import FaqSection from '../../components/HomePage/FaqSection';
 import styled from 'styled-components';
+import FacebookFilled from '@ant-design/icons/FacebookFilled';
+import MailFilled from '@ant-design/icons/MailFilled';
+import InstagramFilled from '@ant-design/icons/InstagramFilled';
 
 const { Panel } = Collapse;
 const { Title } = Typography;
@@ -114,6 +117,30 @@ export function HomePage(props) {
       <FaqSection />
       <Divider />
       <QuerySection querySubmit={querySubmit} />
+      <Row style={{ backgroundColor: '#488de8', padding: '20px' }}>
+        <Col xl={{ span: '4', offset: '1' }} xs={{ span: '22', offset: '1' }} >
+          <a href="mailto:contact@ai4schools.org" target="_blank">
+            <MailFilled style={{ color: 'white', fontSize: '20px' }} />
+          </a>
+          <a href="https://www.facebook.com/AI-For-Schools-102466005708506" target="_blank">
+            <FacebookFilled style={{ color: 'white', fontSize: '20px' }} />
+          </a>
+          <a href="#" target="_blank">
+            <InstagramFilled style={{ color: 'white', fontSize: '20px' }} />
+          </a>
+        </Col>
+        <Col xl={{ span: '4', offset: '1' }} xs={{ span: '22', offset: '1' }} >
+          <a href="#" target="_blank" style={{ color: 'white' }}>
+            Terms and conditions
+          </a><br />
+          <a href="#" target="_blank" style={{ color: 'white' }}>
+            Privacy Policy
+          </a><br />
+          <a href="#" target="_blank" style={{ color: 'white' }}>
+            About us
+          </a>
+        </Col>
+      </Row>
     </div>
   );
 }
