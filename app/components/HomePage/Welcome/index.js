@@ -51,7 +51,7 @@ function Welcome(props) {
             In this field of study, we learn how to make computers solve wide variety of problems, how to make them take intelligent decisions, how to make them recognize patterns, how to program them to learn from experience and provide some kind of predictions.
           </Paragraph>
           <Paragraph>
-          AI applications include advanced web search engines (e.g., Google), recommendation systems (used by YouTube, Amazon and Netflix), understanding human speech (such as Siri and Alexa), self-driving cars (e.g., Tesla), automated decision-making and competing at the highest level in strategic game systems (such as chess and Go).
+            AI applications include advanced web search engines (e.g., Google), recommendation systems (used by YouTube, Amazon and Netflix), understanding human speech (such as Siri and Alexa), self-driving cars (e.g., Tesla), automated decision-making and competing at the highest level in strategic game systems (such as chess and Go).
           </Paragraph>
           <Paragraph>
             This platform is built so that students of any age can start learning AI from the most basic concepts thereby building a strong foundation and having acquired the skills can apply them to solve real world problems. Don't worry!! We don't give

@@ -226,7 +226,7 @@ export function AboutPage() {
                     Bbiswabasu Roy
                   </Title>
                   <Paragraph style={{ margin: '0', textAlign: 'center' }}>
-                    Electronics & Electrical Communication
+                    Electronics & Electrical Communication Engineering
                   </Paragraph>
                   <Paragraph style={{ margin: '0', textAlign: 'center' }}>
                     IIT Kharagpur

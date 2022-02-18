@@ -38,6 +38,7 @@ import styled from 'styled-components';
 import FacebookFilled from '@ant-design/icons/FacebookFilled';
 import MailFilled from '@ant-design/icons/MailFilled';
 import InstagramFilled from '@ant-design/icons/InstagramFilled';
+import LinkedinFilled from '@ant-design/icons/LinkedinFilled';
 
 const { Panel } = Collapse;
 const { Title } = Typography;
@@ -117,26 +118,31 @@ export function HomePage(props) {
       <FaqSection />
       <Divider />
       <QuerySection querySubmit={querySubmit} />
-      <Row style={{ backgroundColor: '#488de8', padding: '20px' }}>
+      <Row style={{ backgroundColor: '#333333', padding: '20px', display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
         <Col xl={{ span: '4', offset: '1' }} xs={{ span: '22', offset: '1' }} >
+          <b style={{ color: 'white', fontSize:'20px' }}>Connect with us</b><br />
           <a href="mailto:contact@ai4schools.org" target="_blank">
             <MailFilled style={{ color: 'white', fontSize: '20px' }} />
           </a>
-          <a href="https://www.facebook.com/AI-For-Schools-102466005708506" target="_blank">
+          <a href="https://www.facebook.com/AI4SchoolsOrg/" target="_blank">
             <FacebookFilled style={{ color: 'white', fontSize: '20px' }} />
           </a>
-          <a href="#" target="_blank">
+          <a href="https://www.instagram.com/ai4schoolsorg/" target="_blank">
             <InstagramFilled style={{ color: 'white', fontSize: '20px' }} />
+          </a>
+          <a href="/" target="_blank">
+            <LinkedinFilled style={{ color: 'white', fontSize: '20px' }} />
           </a>
         </Col>
         <Col xl={{ span: '4', offset: '1' }} xs={{ span: '22', offset: '1' }} >
-          <a href="#" target="_blank" style={{ color: 'white' }}>
+          <b style={{ color: 'white', fontSize:'20px' }}>Company</b><br />
+          <a href="https://drive.google.com/file/d/1zNKhCimTiAaMcZRL92pvNw3X2d_0yyho/view?usp=sharing" target="_blank" style={{ color: 'white' }}>
             Terms and conditions
           </a><br />
-          <a href="#" target="_blank" style={{ color: 'white' }}>
+          <a href="https://drive.google.com/file/d/1jnW3EwSc3jDCKrMaWYgZJI_yd_rjT_Cs/view?usp=sharing" target="_blank" style={{ color: 'white' }}>
             Privacy Policy
           </a><br />
-          <a href="#" target="_blank" style={{ color: 'white' }}>
+          <a href="/about" target="_blank" style={{ color: 'white' }}>
             About us
           </a>
         </Col>
