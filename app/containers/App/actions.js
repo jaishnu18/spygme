@@ -34,6 +34,7 @@ import {
   SIGNOUT_START,
   SIGNOUT_SUCCESS,
   SIGNOUT_FAILURE,
+  REMOVE_ERROR_MESSAGES,
 } from './constants';
 
 export function signupUserStart(payload) {
@@ -97,5 +98,11 @@ export function signoutUserFailure(err) {
   return {
     type: SIGNOUT_FAILURE,
     payload: err,
+  };
+}
+
+export function removeErrorMessages() {
+  return {
+    type: REMOVE_ERROR_MESSAGES,
   };
 }

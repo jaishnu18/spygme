@@ -14,6 +14,7 @@ import InputNumber from 'antd/lib/input-number';
 import Divider from 'antd/lib/divider';
 import Alert from 'antd/lib/alert';
 import Radio from 'antd/lib/radio';
+import history from 'utils/history';
 
 import React, { memo } from 'react';
 import Section from 'components/Section';
@@ -23,6 +24,7 @@ import { SHADOW1, GOOGLE_CLIENT_ID } from 'utils/constants';
 import PropTypes from 'prop-types';
 import CustomCard from 'components/CustomCard';
 import GoogleOutlined from '@ant-design/icons/GoogleOutlined';
+import Title from 'antd/lib/typography/Title';
 // import styled from 'styled-components';
 
 const { TabPane } = Tabs;
@@ -37,6 +39,9 @@ function GoogleButton(props) {
           icon={<GoogleOutlined />}
           onClick={renderProps.onClick}
           disabled={renderProps.disabled}
+          style={{
+            fontWeight: 500,
+          }}
         >
           {props.text}
         </Button>
@@ -48,7 +53,6 @@ function GoogleButton(props) {
 }
 
 function AuthForm(props) {
-  console.log(props.errorMessages);
   return (
     <Section height="calc(100vh - 64px)">
       <Row style={{ justifyContent: 'center' }}>
@@ -60,7 +64,7 @@ function AuthForm(props) {
           xl={{ span: 8 }}
         >
           <CustomCard shadow={SHADOW1} borderRadius="8px">
-            <H4>SIGN IN TO YOUR ACCOUNT</H4>
+            <Title level={4}>SIGN IN TO YOUR ACCOUNT</Title>
 
             {props.errorMessages ? (
               props.errorMessages.map(errorMessage => (
@@ -78,7 +82,13 @@ function AuthForm(props) {
               <span />
             )}
 
-            <Tabs defaultActiveKey="2" style={{ marginTop: '10px' }}>
+            <Tabs
+              defaultActiveKey="2"
+              style={{ marginTop: '10px', fontWeight: 500 }}
+              onChange={() => {
+                props.resetErrorMessages();
+              }}
+            >
               <TabPane tab="New User" key="1">
                 <Radio.Group buttonStyle="solid" defaultValue={props.userRole}>
                   <Radio.Button
@@ -103,7 +113,7 @@ function AuthForm(props) {
                 <Form
                   name="basic"
                   style={{ marginTop: '20px' }}
-                  labelCol={{ span: 8 }}
+                  labelCol={{ span: 6 }}
                   wrapperCol={{ span: 16 }}
                   initialValues={{ remember: true }}
                   onFinish={props.handleSignUp}
@@ -147,7 +157,7 @@ function AuthForm(props) {
                         },
                       ]}
                     >
-                      <InputNumber max="12" min='4'/>
+                      <InputNumber max="12" min="4" />
                     </Form.Item>
                   )}
 
@@ -195,10 +205,16 @@ function AuthForm(props) {
                     <Input.Password />
                   </Form.Item>
 
-                  <Form.Item wrapperCol={{ offset: 10, span: 12 }}>
-                    <Button type="primary" htmlType="submit">
-                      Sign Up
-                    </Button>
+                  <Form.Item wrapperCol={{ span: 24 }}>
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        style={{ width: '30%', fontWeight: 500 }}
+                      >
+                        Sign Up
+                      </Button>
+                    </div>
                   </Form.Item>
                 </Form>
 
@@ -214,7 +230,7 @@ function AuthForm(props) {
                 <Form
                   name="basic"
                   style={{ marginTop: '20px' }}
-                  labelCol={{ span: 8 }}
+                  labelCol={{ span: 5 }}
                   wrapperCol={{ span: 16 }}
                   initialValues={{ remember: true }}
                   onFinish={props.handleSignIn}
@@ -247,24 +263,46 @@ function AuthForm(props) {
                     <Input.Password />
                   </Form.Item>
 
-                  <Form.Item
-                    wrapperCol={{
-                      offset: 10,
-                      span: 12,
-                    }}
-                  >
-                    <Button type="primary" htmlType="submit">
-                      Sign In
-                    </Button>
+                  <Form.Item wrapperCol={{ span: 24 }}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        style={{ width: '50%', fontWeight: 500 }}
+                      >
+                        Sign In
+                      </Button>
+                      <Button
+                        type="danger"
+                        onClick={() => {
+                          history.push('/forgot-password');
+                        }}
+                        style={{
+                          width: '50%',
+                          marginTop: '12px',
+                          fontWeight: 500,
+                        }}
+                      >
+                        Forgot Password?
+                      </Button>
+                    </div>
                   </Form.Item>
                 </Form>
                 <Divider>or</Divider>
+
                 <div style={{ textAlign: 'center' }}>
                   <GoogleButton
                     text="Sign In with Google"
                     onSuccess={props.googleSignIn}
                   />
                 </div>
+                <div style={{ marginTop: '12px', textAlign: 'center' }} />
               </TabPane>
             </Tabs>
           </CustomCard>

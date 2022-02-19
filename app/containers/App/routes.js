@@ -37,6 +37,8 @@ import GradedArcConsistency from 'containers/GAMES/CSP/GradedArcConsistency';
 import AboutPage from 'containers/AboutPage';
 import TestNotAllowedPage from 'containers/TestNotAllowedPage';
 
+import ForgotPasswordPage from 'containers/ForgotPasswordPage';
+import ResetPasswordPage from 'containers/ResetPasswordPage';
 import GradedWriteExpressionGame from '../GAMES/PropositionalLogic/GradedWriteExpressionGame';
 import NodeConsistencyGame from '../GAMES/CSP/NodeConsistencyGame';
 import DrawCrosswordGraphGame from '../GAMES/CSP/DrawCrosswordGraphGame';
@@ -58,6 +60,7 @@ function Routes(props) {
             <Auth
               signin={props.signin}
               signup={props.signup}
+              resetErrorMessages={props.resetErrorMessages}
               AuthState={props.AuthState}
             />
           )}
@@ -73,6 +76,13 @@ function Routes(props) {
             <EmailVerificationPage token={match.params.token} />
           )}
         />
+        <Route
+          path="/reset-password/:token"
+          render={({ match }) => (
+            <ResetPasswordPage token={match.params.token} />
+          )}
+        />
+        <Route exact path="/forgot-password" component={ForgotPasswordPage} />
         <Route exact path="/*" render={() => <Redirect to="auth" />} />
       </Switch>
     );
