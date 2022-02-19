@@ -25,7 +25,6 @@ const { Paragraph } = Typography;
 
 
 function QuerySection(props) {
-  const [remaining, setRemaining] = useState(500);
   return (
     <Row justify="center" style={{ padding: '10px', width: '100%' }}>
       <Col span={24}>
@@ -95,11 +94,8 @@ function QuerySection(props) {
                   },
                 ]}
               >
-                <Input.TextArea placeholder="your message" rows={6} maxLength="500" onChange={(e)=>{setRemaining(500-e.target.value.length);}}/>
+                <Input.TextArea placeholder="your message" rows={6} showCount maxLength="500" />
               </Form.Item>
-              <Paragraph style={{float:'right'}}>
-                {remaining+"/500"}
-              </Paragraph>
             </div>
             <Button type="primary" htmlType="submit">
               Send Message
