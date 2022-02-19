@@ -37,7 +37,7 @@ import {
   signinUserSuccess,
   signoutUserStart,
   signupUserStart,
-  removeErrorMessages
+  removeErrorMessages,
 } from './actions';
 
 import reducer from './reducer';

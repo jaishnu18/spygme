@@ -152,10 +152,9 @@ function DashboardComponent(props) {
         </Col>
       </Row>
       <Row style={{ paddingBottom: '20px' }}>
-
-        <Col span={24} offset={1}>
-          <Link to='/topics'>
-            <Button shape='round' type='primary'>
+        <Col span={23} offset={1}>
+          <Link to="/topics">
+            <Button shape="round" type="primary">
               Start Learning
             </Button>
           </Link>
