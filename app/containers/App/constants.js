@@ -20,3 +20,5 @@ export const SIGNUP_FAILURE = 'app/Auth/SIGNUP_FAILURE';
 export const SIGNOUT_START = 'app/Auth/SIGNOUT_START';
 export const SIGNOUT_SUCCESS = 'app/Auth/SIGNOUT_SUCCESS';
 export const SIGNOUT_FAILURE = 'app/Auth/SIGNOUT_FAILURE';
+
+export const REMOVE_ERROR_MESSAGES = 'app/Auth/REMOVE_ERROR_MESSAGES';

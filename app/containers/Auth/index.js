@@ -65,6 +65,7 @@ export function Auth(props) {
           errorMessages={props.AuthState.loggingError}
           userRole={userRole}
           setUserRole={setUserRole}
+          resetErrorMessages={props.resetErrorMessages}
         />
       </Spin>
     </div>

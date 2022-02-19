@@ -37,6 +37,7 @@ import {
   signinUserSuccess,
   signoutUserStart,
   signupUserStart,
+  removeErrorMessages
 } from './actions';
 
 import reducer from './reducer';
@@ -80,6 +81,7 @@ export function App(props) {
           AuthState={props.AuthState}
           AuthData={props.AuthData}
           isSignedUp={props.AuthState.isSignedUp}
+          resetErrorMessages={props.resetErrorMessages}
         />
         <GlobalStyle />
       </AppWrapper>
@@ -109,6 +111,7 @@ export function mapDispatchToProps(dispatch) {
     signup: payload => dispatch(signupUserStart(payload)),
     signout: payload => dispatch(signoutUserStart(payload)),
     setAuthData: payload => dispatch(signinUserSuccess(payload)),
+    resetErrorMessages: () => dispatch(removeErrorMessages()),
   };
 }
 

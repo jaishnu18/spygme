@@ -42,7 +42,9 @@ export function CheckMailPage(props) {
             {props.email} <br />
           </Title>
           <Title style={{ textAlign: 'center', margin: '10px 0' }} level={2}>
-            Please verify your acount from there.
+            {props.email
+              ? 'Please reset your password from the link sent to the mail.'
+              : 'Please verify your account from the mail.'}
           </Title>
           <Divider />
         </Col>

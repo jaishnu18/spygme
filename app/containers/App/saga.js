@@ -5,7 +5,12 @@ import { put, takeLatest, all } from 'redux-saga/effects';
 import api from 'api';
 import jwtDecode from 'jwt-decode';
 import history from 'utils/history';
-import { SIGNIN_START, SIGNOUT_START, SIGNUP_START } from './constants';
+import {
+  REMOVE_ERROR_MESSAGES,
+  SIGNIN_START,
+  SIGNOUT_START,
+  SIGNUP_START,
+} from './constants';
 
 import {
   signinUserSuccess,
@@ -131,6 +136,10 @@ export function* setTokenToLocalStorage(token) {
   localStorage.setItem('_UFT_', userToken);
 }
 
+export function* removeErrorMessages() {
+  yield put(signupUserFailure(undefined));
+}
+
 /**
  * Root saga manages watcher lifecycle
  */
@@ -140,5 +149,6 @@ export default function* appSaga() {
     takeLatest(SIGNIN_START, signinUser),
     takeLatest(SIGNUP_START, signupUser),
     takeLatest(SIGNOUT_START, signoutUser),
+    takeLatest(REMOVE_ERROR_MESSAGES, removeErrorMessages),
   ]);
 }
