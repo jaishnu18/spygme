@@ -47,12 +47,15 @@ function Welcome(props) {
             We teach AI using AI
           </Title>
           <Paragraph>
-            In today's world, AI has got diverse applications and is used in
-            fields like Healthcare, Self-driving Cars, Agriculture and so on. We
-            want you to start learning AI from the very basic concepts so that
-            you can build a strong foundation and have no problem while
-            understanding more advanced concepts. Don't worry!! We don't give
-            lecture videos and take exams. We use AI to teach you AI. You will
+            Artificial intelligence (AI) is intelligence demonstrated by machines, as opposed to natural intelligence displayed by animals including humans.
+            In this field of study, we learn how to make computers solve wide variety of problems, how to make them take intelligent decisions, how to make them recognize patterns, how to program them to learn from experience and provide some kind of predictions.
+          </Paragraph>
+          <Paragraph>
+            AI applications include advanced web search engines (e.g., Google), recommendation systems (used by YouTube, Amazon and Netflix), understanding human speech (such as Siri and Alexa), self-driving cars (e.g., Tesla), automated decision-making and competing at the highest level in strategic game systems (such as chess and Go).
+          </Paragraph>
+          <Paragraph>
+            This platform is built so that students of any age can start learning AI from the most basic concepts thereby building a strong foundation and having acquired the skills can apply them to solve real world problems. Don't worry!! We don't give
+            lecture videos and take exams. We use AI to teach AI. Students will
             learn each and every concept while playing interesting games and
             reading short reading materials.
           </Paragraph>

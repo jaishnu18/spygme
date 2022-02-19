@@ -157,7 +157,8 @@ function AuthForm(props) {
                         },
                       ]}
                     >
-                      <InputNumber max="12" min="4" />
+                      <InputNumber max="12" min='4' />
+
                     </Form.Item>
                   )}
 
@@ -180,6 +181,7 @@ function AuthForm(props) {
                   </Form.Item>
 
                   <Form.Item
+                    extra="Password length must be atleast 6 characters"
                     label="Password"
                     name="password"
                     rules={[

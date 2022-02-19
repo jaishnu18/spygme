@@ -35,7 +35,7 @@ function GradedWriteExpressionGame(props) {
           setCurrentLevel={props.setCurrentLevel}
           submit={props.submit}
           value={props.value}
-          examDuration={600}
+          examDuration={900}
           evaluatedAnswer={evaluatedAnswer}
           submit={props.submit}
           {...props}
