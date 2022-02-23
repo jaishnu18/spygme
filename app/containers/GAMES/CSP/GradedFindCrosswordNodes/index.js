@@ -27,7 +27,6 @@ import {
 } from './actions';
 import ExamInstruction from 'components/ExamInstruction';
 
-
 export function GradedFindCrosswordNodes(props) {
   useInjectReducer({ key: 'gradedFindCrosswordNodes', reducer });
   useInjectSaga({ key: 'gradedFindCrosswordNodes', saga });
@@ -72,25 +71,28 @@ export function GradedFindCrosswordNodes(props) {
       const args = {
         message: 'Feedback',
         description: practiceGamesFeedback,
-        duration: 0, key:'feedback',
+        duration: 0,
+        key: 'feedback',
       };
       notification.open(args);
       if (evaluatedAnswer.score !== 1) {
         const practiceGamesFeedback = (
-          <GradedGamesFeedback whatWentWrong saveFeedback={props.saveFeedback} />
+          <GradedGamesFeedback
+            whatWentWrong
+            saveFeedback={props.saveFeedback}
+          />
         );
         const args = {
           message: 'Why you made mistake?',
           description: practiceGamesFeedback,
           duration: 0,
-          placement: 'topLeft', key:'www'
+          placement: 'topLeft',
+          key: 'www',
         };
         notification.open(args);
       }
     }
   }, [props.state]);
-
-  
 
   const { evaluatedAnswer } = props.state;
 
@@ -134,10 +136,9 @@ export function GradedFindCrosswordNodes(props) {
           content="Description of GradedFindCrosswordNodes"
         />
       </Helmet>
-      {
-        currentLevel === -1 &&
-        <ExamInstruction setCurrentLevel={setCurrentLevel} saveRequired/>
-      }
+      {currentLevel === -1 && (
+        <ExamInstruction setCurrentLevel={setCurrentLevel} saveRequired />
+      )}
       {currentLevel !== -1 && props.state.gameData && value && (
         <>
           <GameComponent

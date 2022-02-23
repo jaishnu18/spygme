@@ -54,14 +54,13 @@ function GoogleButton(props) {
 
 function AuthForm(props) {
   return (
-    <Section height="calc(100vh - 64px)">
+    <Section height="calc(100vh - 80px)">
       <Row style={{ justifyContent: 'center' }}>
         <Col
           xs={{ span: 24 }}
           sm={{ span: 24 }}
           md={{ span: 12 }}
-          lg={{ span: 10 }}
-          xl={{ span: 8 }}
+          xl={{ span: 11 }}
         >
           <CustomCard shadow={SHADOW1} borderRadius="8px">
             <Title level={4}>SIGN IN TO YOUR ACCOUNT</Title>
@@ -276,7 +275,7 @@ function AuthForm(props) {
                       <Button
                         type="primary"
                         htmlType="submit"
-                        style={{ width: '50%', fontWeight: 500 }}
+                        style={{ width: '30%', fontWeight: 500 }}
                       >
                         Sign In
                       </Button>
@@ -286,7 +285,7 @@ function AuthForm(props) {
                           history.push('/forgot-password');
                         }}
                         style={{
-                          width: '50%',
+                          width: '45%',
                           marginTop: '12px',
                           fontWeight: 500,
                         }}

@@ -45,7 +45,7 @@ export function signupUserStart(payload) {
 }
 
 export function signupUserSuccess(payload) {
-  history.push(`/check/mail/${payload}`);
+  history.push(`/check/mail/register/${payload}`);
   return {
     type: SIGNUP_SUCCESS,
     payload,

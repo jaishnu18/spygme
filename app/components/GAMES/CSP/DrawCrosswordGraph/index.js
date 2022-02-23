@@ -123,9 +123,7 @@ function DrawCrosswordGraph(props) {
                     </Form.Item>
 
                     {index > 0 && (
-                      <MinusCircleOutlined
-                        onClick={() => remove(field.name)}
-                      />
+                      <MinusCircleOutlined onClick={() => remove(field.name)} />
                     )}
                   </Space>
                 ))}
@@ -144,10 +142,7 @@ function DrawCrosswordGraph(props) {
             )}
           </Form.List>
           <Form.Item offset="3">
-            <Button
-              type="primary"
-              htmlType="submit" disabled={evaluatedAnswer}
-            >
+            <Button type="primary" htmlType="submit" disabled={evaluatedAnswer}>
               Check Answer
             </Button>
           </Form.Item>
@@ -160,9 +155,7 @@ function DrawCrosswordGraph(props) {
                   style={{ fontSize: '20px', color: 'green' }}
                 />
               ) : (
-                <CloseCircleFilled
-                  style={{ fontSize: '20px', color: 'red' }}
-                />
+                <CloseCircleFilled style={{ fontSize: '20px', color: 'red' }} />
               )}
               <Paragraph style={{ paddingLeft: '10px' }}>
                 {evaluatedAnswer.score === 1
@@ -179,21 +172,27 @@ function DrawCrosswordGraph(props) {
                   <Descriptions.Item label="Correct Edges">
                     {evaluatedAnswer.correct_edges_list.map((key, idx) => (
                       <Col span={24}>
-                        {`${key[0]}-${key[1]}-${key[2] === 65 ? 'A' : 'D'} -> ${key[3]}-${key[4]}-${key[5] === 65 ? 'A' : 'D'}`}
+                        {`${key[0]}-${key[1]}-${key[2] === 65 ? 'A' : 'D'} -> ${
+                          key[3]
+                        }-${key[4]}-${key[5] === 65 ? 'A' : 'D'}`}
                       </Col>
                     ))}
                   </Descriptions.Item>
                   <Descriptions.Item label="Wrong Edges">
                     {evaluatedAnswer.wrong_edges_list.map((key, idx) => (
                       <Col span={24}>
-                        {`${key[0]}-${key[1]}-${key[2] === 65 ? 'A' : 'D'} -> ${key[3]}-${key[4]}-${key[5] === 65 ? 'A' : 'D'}`}
+                        {`${key[0]}-${key[1]}-${key[2] === 65 ? 'A' : 'D'} -> ${
+                          key[3]
+                        }-${key[4]}-${key[5] === 65 ? 'A' : 'D'}`}
                       </Col>
                     ))}
                   </Descriptions.Item>
                   <Descriptions.Item label="Mised Edges">
                     {evaluatedAnswer.missed_edges_list.map((key, idx) => (
                       <Col span={24}>
-                        {`${key[0]}-${key[1]}-${key[2] === 65 ? 'A' : 'D'} -> ${key[3]}-${key[4]}-${key[5] === 65 ? 'A' : 'D'}`}
+                        {`${key[0]}-${key[1]}-${key[2] === 65 ? 'A' : 'D'} -> ${
+                          key[3]
+                        }-${key[4]}-${key[5] === 65 ? 'A' : 'D'}`}
                       </Col>
                     ))}
                   </Descriptions.Item>

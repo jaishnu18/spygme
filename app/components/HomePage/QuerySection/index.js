@@ -23,7 +23,6 @@ import Radio from 'antd/lib/radio';
 const { Title } = Typography;
 const { Paragraph } = Typography;
 
-
 function QuerySection(props) {
   return (
     <Row justify="center" style={{ padding: '10px', width: '100%' }}>
@@ -33,7 +32,7 @@ function QuerySection(props) {
       <Col xs={{ span: 20 }} xl={{ span: 12 }}>
         <Paragraph>
           If you have any queries, please go through the FAQ's. For any other
-          query feel free to fill the form below so that we can reach you out.
+          query feel free to fill the form below.
         </Paragraph>
       </Col>
 
@@ -76,7 +75,7 @@ function QuerySection(props) {
                   },
                 ]}
               >
-                <Radio.Group buttonStyle="solid">
+                <Radio.Group buttonStyle="solid" defaultValue="Student">
                   <Radio.Button value="Student">Student</Radio.Button>
                   <Radio.Button value="Teacher">Teacher</Radio.Button>
                   <Radio.Button value="Others">Others</Radio.Button>
@@ -94,7 +93,12 @@ function QuerySection(props) {
                   },
                 ]}
               >
-                <Input.TextArea placeholder="your message" rows={6} showCount maxLength="500" />
+                <Input.TextArea
+                  placeholder="your message"
+                  rows={6}
+                  showCount
+                  maxLength="500"
+                />
               </Form.Item>
             </div>
             <Button type="primary" htmlType="submit">

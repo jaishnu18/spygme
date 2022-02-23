@@ -27,6 +27,8 @@ export function CheckMailPage(props) {
   useInjectReducer({ key: 'checkMailPage', reducer });
   useInjectSaga({ key: 'checkMailPage', saga });
 
+  const { domain } = props;
+
   return (
     <div>
       <Helmet>
@@ -34,7 +36,7 @@ export function CheckMailPage(props) {
         <meta name="description" content="Description of CheckMailPage" />
       </Helmet>
       <Row style={{ marginTop: '20px', padding: '20px' }}>
-        <Col>
+        <Col span={24}>
           <Title level={2} style={{ textAlign: 'center', margin: '10px 0' }}>
             Email Has been sent to <br />
           </Title>
@@ -42,7 +44,7 @@ export function CheckMailPage(props) {
             {props.email} <br />
           </Title>
           <Title style={{ textAlign: 'center', margin: '10px 0' }} level={2}>
-            {props.email
+            {domain && domain === 'forgot-password'
               ? 'Please reset your password from the link sent to the mail.'
               : 'Please verify your account from the mail.'}
           </Title>

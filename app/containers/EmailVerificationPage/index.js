@@ -32,7 +32,7 @@ export function EmailVerificationPage(props) {
     props.verifyEmail({ token });
   }, []);
 
-  console.log(props.state.isVerified);
+  console.log(window.location.hostname);
 
   return (
     <div>
@@ -43,19 +43,19 @@ export function EmailVerificationPage(props) {
           content="Description of EmailVerificationPage"
         />
       </Helmet>
-      
-        <Row justify="center">
-          <Col style={{ display: 'flex', justifyContent: 'center' }}>
-            {props.state.isVerified && props.state.isVerified === 'Success' ? (
-              <Title>Successfully Verified Please log in</Title>
-            ) : (
-              <Title>Failed to verify Sign up again</Title>
-            )}
-          </Col>
-          <Col style={{ display: 'flex', justifyContent: 'center' }}>
-            <Button onClick={() => history.push('/auth')}>Log In</Button>
-          </Col>
-        </Row>
+
+      <Row justify="center">
+        <Col style={{ display: 'flex', justifyContent: 'center' }}>
+          {props.state.isVerified && props.state.isVerified === 'Success' ? (
+            <Title>Successfully Verified Please log in</Title>
+          ) : (
+            <Title>Failed to verify Sign up again</Title>
+          )}
+        </Col>
+        <Col style={{ display: 'flex', justifyContent: 'center' }}>
+          <Button onClick={() => history.push('/auth')}>Log In</Button>
+        </Col>
+      </Row>
     </div>
   );
 }

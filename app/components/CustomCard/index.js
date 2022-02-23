@@ -20,8 +20,7 @@ function CustomCard(props) {
         boxShadow: props.shadow || '0 15px 40px rgb(16 8 3 / 8%)',
         marginBottom: props.marginBottom || 'auto',
         borderRadius: props.borderRadius || 'auto',
-        width: props.width || '100%',
-        flex: props.flex || null,
+        minWidth: '100%',
         justifyContent: props.justifyContent || null,
       }}
     >

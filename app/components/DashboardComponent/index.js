@@ -98,7 +98,6 @@ const month = [
 
 function DashboardComponent(props) {
   const { dashboard } = props;
-  console.log(dashboard);
 
   const [date, setDate] = useState(new Date());
 
@@ -109,8 +108,8 @@ function DashboardComponent(props) {
   return (
     <div>
       <Row style={{ paddingTop: '20px', paddingBottom: '20px' }}>
-        {!dashboard.isProfileComplete && (
-          <Col xs={{ span: 24 }} xl={{ span: 12, offset: 1 }}>
+        <Col xs={{ span: 24 }} xl={{ span: 12, offset: 1 }}>
+          {!dashboard.isProfileCompleted && (
             <StyledDiv>
               <Progress
                 strokeColor={{
@@ -127,25 +126,36 @@ function DashboardComponent(props) {
                 profile. <Link to="/my/profile">Complete Your Profile</Link>
               </Title>
             </StyledDiv>
-            <StyledDiv>
-              <Title level={2} style={{ marginTop: '10px', marginBottom: '0' }}>
-                {getDayName(date.getDay())}, {month[date.getMonth()]}{' '}
-                {date.getDate()}
-              </Title>
-              <Title level={1} style={{ marginTop: '10px', marginBottom: '0' }}>
-                Hello! {props.username}
-              </Title>
-            </StyledDiv>
-          </Col>
-        )}
-        <Col xs={{ span: 24 }} xl={{ span: 5, offset: 3 }}>
+          )}
+
+          <StyledDiv>
+            <Title level={2} style={{ marginTop: '10px', marginBottom: '0' }}>
+              {getDayName(date.getDay())}, {month[date.getMonth()]}{' '}
+              {date.getDate()}
+            </Title>
+            <Title level={1} style={{ marginTop: '10px', marginBottom: '0' }}>
+              Hello! {props.username}
+            </Title>
+          </StyledDiv>
+        </Col>
+
+        <Col
+          xs={{ span: 24 }}
+          xl={{ span: 5, offset: 3 }}
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
           <Image
             src={RobotHello}
             style={{
-              height: '100%',
+              height: '90%',
               width: '100%',
               objectFit: 'cover',
-              border: '1px solid black',
+              boxShadow:
+                'rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset',
+              padding: '40px',
             }}
             preview={false}
           />

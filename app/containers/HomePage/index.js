@@ -125,7 +125,9 @@ export function HomePage(props) {
           display: 'flex',
           justifyContent: 'center',
           alignContent: 'center',
+          height: '200px',
         }}
+        gutter={[0, 24]}
       >
         <Col xl={{ span: '4', offset: '1' }} xs={{ span: '22', offset: '1' }}>
           <b style={{ color: 'white', fontSize: '20px' }}>Connect with us</b>
@@ -134,16 +136,22 @@ export function HomePage(props) {
             <MailFilled style={{ color: 'white', fontSize: '20px' }} />
           </a>
           <a href="https://www.facebook.com/AI4SchoolsOrg/" target="_blank">
-            <FacebookFilled style={{ color: 'white', fontSize: '20px' }} />
+            <FacebookFilled
+              style={{ color: 'white', fontSize: '20px', marginLeft: '12px' }}
+            />
           </a>
           <a href="https://www.instagram.com/ai4schoolsorg/" target="_blank">
-            <InstagramFilled style={{ color: 'white', fontSize: '20px' }} />
+            <InstagramFilled
+              style={{ color: 'white', fontSize: '20px', marginLeft: '12px' }}
+            />
           </a>
           <a
             href="https://www.linkedin.com/in/ai-for-schools-0b8607232/"
             target="_blank"
           >
-            <LinkedinFilled style={{ color: 'white', fontSize: '20px' }} />
+            <LinkedinFilled
+              style={{ color: 'white', fontSize: '20px', marginLeft: '12px' }}
+            />
           </a>
         </Col>
         <Col xl={{ span: '4', offset: '1' }} xs={{ span: '22', offset: '1' }}>

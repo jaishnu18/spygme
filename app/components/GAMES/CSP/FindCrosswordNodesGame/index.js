@@ -131,9 +131,12 @@ function FindCrosswordNodesGame(props) {
                     )}
                   </Space>
                 ))}
-                <Row style={{ display: 'flex', justifyContent: 'flex-start' }}>
-                  <Button onClick={() => add()}>Add Nodes</Button>
+                <Row style={{ display: 'flex', flexDirection: 'column' }}>
+                  <Button style={{ width: '120px' }} onClick={() => add()}>
+                    Add Nodes
+                  </Button>
                   <Button
+                    style={{ width: '140px', marginTop: '20px' }}
                     type="primary"
                     htmlType="submit"
                     disabled={evaluatedAnswer}

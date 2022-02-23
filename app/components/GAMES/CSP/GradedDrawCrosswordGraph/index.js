@@ -11,7 +11,6 @@ import React, { memo } from 'react';
 import CustomCard from 'components/CustomCard';
 
 import ExamNavigator from 'components/ExamNavigator';
-import Form from 'antd/lib/form';
 // import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 import NavigationBar from 'components/NavigationBar';
@@ -22,11 +21,19 @@ import CheckCircleFilled from '@ant-design/icons/CheckCircleFilled';
 import Paragraph from 'antd/lib/typography/Paragraph';
 import Crossword from 'components/Crossword';
 import FormDrawCrosswordGraph from '../FormDrawCrosswordGraph';
+import { useForm } from 'antd/lib/form/Form';
 
 function GradedDrawCrosswordGraph(props) {
   const { gameData } = props;
   const { currentLevel } = props;
   const { evaluatedAnswer } = props;
+
+  const array = [];
+  for (let i = 0; i < props.currentLevel; i += 1) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [form] = useForm();
+    array.push(form);
+  }
 
   return (
     <Row style={{ padding: '40px' }}>
@@ -52,29 +59,9 @@ function GradedDrawCrosswordGraph(props) {
       </Col>
       <Col xs={{ span: 24 }} xl={{ span: 9 }} style={{ padding: '20px' }}>
         <Crossword grid={gameData[currentLevel].grid} />
-      </Col>
-
-      <Col
-        xs={{ span: 24 }}
-        xl={{ span: 10 }}
-        style={{ padding: '20px', display: 'flex', flexDirection: 'column' }}
-      >
-        <Title level={3} style={{ marginBottom: '20px' }}>
-          Match all the crossword nodes:{' '}
-        </Title>
-        <FormDrawCrosswordGraph
-          key={`Item-D-${props.currentLevel + 1}`}
-          ID={`D-Number-${currentLevel + 1}`}
-          value={props.value}
-          setValue={props.setValue}
-          currentLevel={currentLevel}
-          grid={gameData[currentLevel].grid}
-          AcrossNodes={props.AcrossNodes}
-          DownNodes={props.DownNodes}
-        />
         {evaluatedAnswer && (
-          <Row style={{ paddingTop: '40px' }}>
-            <Col span={22}>
+          <Row style={{ paddingTop: '40px', width: '100%' }}>
+            <Col span={24}>
               <CustomCard title="Summary Report">
                 <Col xl={{ span: 24 }} xs={{ span: 24 }}>
                   <Descriptions layout="horizontal" bordered>
@@ -98,6 +85,28 @@ function GradedDrawCrosswordGraph(props) {
             </Col>
           </Row>
         )}
+      </Col>
+
+      <Col
+        xs={{ span: 24 }}
+        xl={{ span: 10 }}
+        style={{ padding: '20px', display: 'flex', flexDirection: 'column' }}
+      >
+        <Title level={3} style={{ marginBottom: '20px' }}>
+          Match all the crossword nodes:{' '}
+        </Title>
+        <FormDrawCrosswordGraph
+          form={array[props.currentLevel]}
+          key={`Item-D-${props.currentLevel + 1}`}
+          ID={`D-Number-${currentLevel + 1}`}
+          value={props.value}
+          setValue={props.setValue}
+          currentLevel={currentLevel}
+          grid={gameData[currentLevel].grid}
+          AcrossNodes={props.AcrossNodes}
+          DownNodes={props.DownNodes}
+        />
+
         {evaluatedAnswer && (
           <Row style={{ paddingTop: '10px', marginTop: '10px' }}>
             <Col span={24}>

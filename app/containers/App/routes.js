@@ -67,8 +67,13 @@ function Routes(props) {
         />
         <Route
           exact
-          path="/check/mail/:email"
-          render={({ match }) => <CheckMailPage email={match.params.email} />}
+          path="/check/mail/:domain/:email"
+          render={({ match }) => (
+            <CheckMailPage
+              email={match.params.email}
+              domain={match.params.domain}
+            />
+          )}
         />
         <Route
           path="/verify/:token"

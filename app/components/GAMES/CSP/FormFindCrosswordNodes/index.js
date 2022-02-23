@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useEffect, useRef } from 'react';
 // import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 import Form from 'antd/lib/form';
@@ -25,16 +25,23 @@ function FormFindCrosswordNodes(props) {
     { label: 'Down Node', val: 68 },
   ];
 
+  const myRefname = useRef(null);
+
+  const submitForm = () => {
+    myRefname.current.click();
+  };
+
   return (
     <div>
       <Form
+        form={props.form}
         name={`Form-${props.currentLevel}`}
         onFinish={values => {
           const org = props.value;
           org[props.currentLevel] = values;
           props.setValue(org);
-          console.log(props.value);
         }}
+        onChange={submitForm}
         initialValues={props.value[props.currentLevel]}
         autoComplete="off"
         style={{ display: 'flex', flexDirection: 'column' }}
@@ -62,7 +69,7 @@ function FormFindCrosswordNodes(props) {
                         name={[field.name, 'node']}
                         fieldKey={[field.fieldKey, 'node']}
                       >
-                        <Select style={{ width: 130 }}>
+                        <Select style={{ width: 130 }} onChange={submitForm}>
                           {Nodes.map((item, index) => (
                             <Option key={index} value={item.val}>
                               {item.label}
@@ -96,7 +103,12 @@ function FormFindCrosswordNodes(props) {
               ))}
               <Row style={{ display: 'flex', justifyContent: 'flex-start' }}>
                 <Button onClick={() => add()}>Add Nodes</Button>
-                <Button type="primary" htmlType="submit">
+                <Button
+                  style={{ display: 'none' }}
+                  ref={myRefname}
+                  type="primary"
+                  htmlType="submit"
+                >
                   Save Answer
                 </Button>
               </Row>

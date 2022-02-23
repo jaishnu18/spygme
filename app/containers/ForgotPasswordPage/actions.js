@@ -19,7 +19,7 @@ export function forgotPasswordStart(payload) {
 }
 
 export function forgotPasswordSuccess(payload) {
-  history.push(`/check/mail/${payload}`);
+  history.push(`/check/mail/forgot-password/${payload}`);
   return {
     type: FORGOT_PASSWORD_SUCCESS,
     payload,

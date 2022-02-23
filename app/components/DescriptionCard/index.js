@@ -21,16 +21,14 @@ const { Title } = Typography;
 function DescriptionCard(props) {
   return (
     <CustomCard title={props.title} hoverable={props.hoverable}>
-      <Row>
+      <Row style={{ display: 'inline-block', width: 'max-content' }}>
         {props.isReadingMaterial ? (
           props.description.map((key, idx) => (
             <pre style={{ fontFamily: 'cursive' }}>{`${key}\n<b>sdfd</b>`}</pre>
           ))
         ) : (
           <Tooltip title={props.description}>
-            <Title level={3} ellipsis>
-              {props.description}
-            </Title>
+            <Title level={3}>{props.description}</Title>
           </Tooltip>
         )}
       </Row>
@@ -60,7 +58,9 @@ function DescriptionCard(props) {
           <div>
             <Paragraph>{'Your highest scores:'}</Paragraph>
             <Paragraph>
-              {props.suggestionText.map((key, idx) => 'Level ' + (idx+1) + ': ' + key + '%, ')}
+              {props.suggestionText.map(
+                (key, idx) => `Level ${idx + 1}: ${key}%, `,
+              )}
             </Paragraph>
           </div>
         ) : (

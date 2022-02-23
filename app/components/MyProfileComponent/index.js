@@ -28,9 +28,7 @@ function MyProfileComponent(props) {
         lg={{ span: 20, offset: 2 }}
         xl={{ span: 16, offset: 4 }}
       >
-        <div style={{ fontSize: '24px', fontWeight: 600 }}>
-          MY PROFILE
-        </div>
+        <div style={{ fontSize: '24px', fontWeight: 600 }}>MY PROFILE</div>
 
         <Row
           gutter={[32, 32]}
@@ -52,7 +50,7 @@ function MyProfileComponent(props) {
                   email: profile.email,
                   phoneNumber: profile.phone_number,
                   __class: profile.class,
-                  school: profile.school_name,
+                  school: profile.organisation,
                 }}
                 onFinish={props.handleEditProfile}
                 autoComplete="off"
@@ -114,7 +112,7 @@ function MyProfileComponent(props) {
                 autoComplete="off"
               >
                 <Form.Item
-                  label="Current Password"
+                  label="Old Password"
                   name="password"
                   rules={[
                     {

@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useRef } from 'react';
 // import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 import Form from 'antd/lib/form';
@@ -21,17 +21,25 @@ const { Option } = Select;
 
 function FormDrawCrosswordGraph(props) {
   const { currentLevel } = props;
-  console.log(`Form-${props.ID}`)
+
+  const myRefname = useRef(null);
+
+  const submitForm = () => {
+    myRefname.current.click();
+  };
+
   return (
     <>
       <Form
-        name={`Form-${props.ID}`}
+        form={props.form}
+        name={`Form-DrawCrosswordGraph-${props.currentLevel}`}
         onFinish={values => {
           const org = props.value;
           org[props.currentLevel] = values;
           props.setValue(org);
           console.log(props.value);
         }}
+        onChange={submitForm}
         initialValues={props.value[props.currentLevel]}
         autoComplete="off"
         style={{ display: 'flex', flexDirection: 'column' }}
@@ -55,7 +63,7 @@ function FormDrawCrosswordGraph(props) {
                         name={[field.name, 'across']}
                         fieldKey={[field.fieldKey, 'node']}
                       >
-                        <Select style={{ width: 130 }}>
+                        <Select style={{ width: 130 }} onChange={submitForm}>
                           {props.AcrossNodes[currentLevel].map(
                             (item, index) => (
                               <Option key={index} value={item}>
@@ -81,7 +89,7 @@ function FormDrawCrosswordGraph(props) {
                         name={[field.name, 'down']}
                         fieldKey={[field.fieldKey, 'node']}
                       >
-                        <Select style={{ width: 130 }}>
+                        <Select style={{ width: 130 }} onChange={submitForm}>
                           {props.DownNodes[currentLevel].map((item, index) => (
                             <Option key={index} value={item}>
                               {item}
@@ -112,7 +120,12 @@ function FormDrawCrosswordGraph(props) {
           )}
         </Form.List>
         <Form.Item offset="3">
-          <Button style={{ width: '20%' }} type="primary" htmlType="submit">
+          <Button
+            style={{ display: 'none' }}
+            ref={myRefname}
+            type="primary"
+            htmlType="submit"
+          >
             Save Answer
           </Button>
         </Form.Item>
