@@ -25,10 +25,9 @@ function FormFindCrosswordNodes(props) {
     { label: 'Down Node', val: 68 },
   ];
 
-  const myRefname = useRef(null);
-
+  const ref1 = useRef();
   const submitForm = () => {
-    myRefname.current.click();
+    ref1.current.click();
   };
 
   return (
@@ -40,8 +39,11 @@ function FormFindCrosswordNodes(props) {
           const org = props.value;
           org[props.currentLevel] = values;
           props.setValue(org);
+          console.log(props.value);
         }}
-        onChange={submitForm}
+        onChange={() => {
+          submitForm();
+        }}
         initialValues={props.value[props.currentLevel]}
         autoComplete="off"
         style={{ display: 'flex', flexDirection: 'column' }}
@@ -69,7 +71,12 @@ function FormFindCrosswordNodes(props) {
                         name={[field.name, 'node']}
                         fieldKey={[field.fieldKey, 'node']}
                       >
-                        <Select style={{ width: 130 }} onChange={submitForm}>
+                        <Select
+                          style={{ width: 130 }}
+                          onChange={() => {
+                            submitForm();
+                          }}
+                        >
                           {Nodes.map((item, index) => (
                             <Option key={index} value={item.val}>
                               {item.label}
@@ -105,7 +112,7 @@ function FormFindCrosswordNodes(props) {
                 <Button onClick={() => add()}>Add Nodes</Button>
                 <Button
                   style={{ display: 'none' }}
-                  ref={myRefname}
+                  ref={ref1}
                   type="primary"
                   htmlType="submit"
                 >

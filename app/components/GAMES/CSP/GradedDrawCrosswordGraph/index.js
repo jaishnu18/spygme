@@ -29,11 +29,13 @@ function GradedDrawCrosswordGraph(props) {
   const { evaluatedAnswer } = props;
 
   const array = [];
-  for (let i = 0; i < props.currentLevel; i += 1) {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [form] = useForm();
-    array.push(form);
-  }
+
+  const [form1] = useForm();
+  const [form2] = useForm();
+  const [form3] = useForm();
+  array.push(form1);
+  array.push(form2);
+  array.push(form3);
 
   return (
     <Row style={{ padding: '40px' }}>
@@ -43,6 +45,8 @@ function GradedDrawCrosswordGraph(props) {
           currentLevel={currentLevel}
           setCurrentLevel={props.setCurrentLevel}
           maxLevel={3}
+          timeStamps={props.timeStamps}
+          setTimeStamps={props.setTimeStamps}
           submit={() => {
             props.submit();
           }}

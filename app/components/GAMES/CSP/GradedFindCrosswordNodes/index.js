@@ -7,7 +7,7 @@
 import Button from 'antd/lib/button';
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
-import React, { memo } from 'react';
+import React, { memo, useRef } from 'react';
 import ExamNavigator from 'components/ExamNavigator';
 import CustomCard from 'components/CustomCard';
 
@@ -29,11 +29,13 @@ function GradedFindCrosswordNodes(props) {
   const { evaluatedAnswer } = props;
 
   const array = [];
-  for (let i = 0; i < props.currentLevel; i += 1) {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [form] = useForm();
-    array.push(form);
-  }
+
+  const [form1] = useForm();
+  const [form2] = useForm();
+  const [form3] = useForm();
+  array.push(form1);
+  array.push(form2);
+  array.push(form3);
 
   return (
     <Row style={{ padding: '40px', width: '100%' }}>
@@ -42,6 +44,8 @@ function GradedFindCrosswordNodes(props) {
           gradedGame
           currentLevel={currentLevel}
           setCurrentLevel={props.setCurrentLevel}
+          timeStamps={props.timeStamps}
+          setTimeStamps={props.setTimeStamps}
           maxLevel={3}
           submit={() => {
             props.submit();
