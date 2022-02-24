@@ -21,7 +21,6 @@ import Checkbox from 'antd/lib/checkbox/Checkbox';
 import Button from 'antd/lib/button';
 import { evaluateAnswer } from '../../containers/GAMES/PropositionalLogic/ExpressionEvaluationGame/saga';
 
-
 const errors = [
   'Question was wrong',
   'Provided solution was wrong',
@@ -94,7 +93,7 @@ function NavigationBar(props) {
               style={{ display: 'flex', alignItems: 'center' }}
             >
               <Link to={props.prevPageLink}>
-                <CustomButton onClick={() => { }}>
+                <CustomButton onClick={() => {}}>
                   <ArrowLeftOutlined />
                   {props.prevPageText}
                 </CustomButton>
@@ -105,7 +104,8 @@ function NavigationBar(props) {
 
         {props.game ? (
           <Col xs={{ span: 24 }} xl={{ span: 4, offset: 2 }}>
-            <CustomButton type="danger"
+            <CustomButton
+              type="danger"
               disabled={props.evaluatedAnswer === undefined}
               onClick={() => {
                 setReportModalVisible(true);
@@ -116,11 +116,16 @@ function NavigationBar(props) {
           </Col>
         ) : null}
         <Modal
-        title="Report Error !!"
+          title="Report Error !!"
           visible={reportModalVisible}
-          onCancel={() => { setReportModalVisible(false); }}
-          onOk={() => { setReportModalVisible(false); }}
-          footer={null}>
+          onCancel={() => {
+            setReportModalVisible(false);
+          }}
+          onOk={() => {
+            setReportModalVisible(false);
+          }}
+          footer={null}
+        >
           <Form
             name="feedback"
             onFinish={values => {
@@ -136,7 +141,7 @@ function NavigationBar(props) {
               </Form.Item>
             ))}
             <Form.Item>
-              <Button type="primary" htmlType="submit" onClick={() => { }}>
+              <Button type="primary" htmlType="submit" onClick={() => {}}>
                 Submit
               </Button>
             </Form.Item>

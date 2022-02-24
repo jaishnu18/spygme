@@ -55,7 +55,11 @@ function TopicListComponent(props) {
       >
         {topics
           ? topics.map((key, idx) => (
-              <Col xs={{ span: 23 }} xl={{ span: 6, offset: 1 }}>
+              <Col
+                xs={{ span: 23 }}
+                xl={{ span: 8, offset: 1 }}
+                xxl={{ span: 6, offset: 1 }}
+              >
                 <Link to={`topics/${idx + 1}`}>
                   <DescriptionCard
                     hoverable

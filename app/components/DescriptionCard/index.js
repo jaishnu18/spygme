@@ -21,7 +21,7 @@ const { Title } = Typography;
 function DescriptionCard(props) {
   return (
     <CustomCard title={props.title} hoverable={props.hoverable}>
-      <Row style={{ display: 'inline-block', width: 'max-content' }}>
+      <Row>
         {props.isReadingMaterial ? (
           props.description.map((key, idx) => (
             <pre style={{ fontFamily: 'cursive' }}>{`${key}\n<b>sdfd</b>`}</pre>
