@@ -13,6 +13,7 @@ import Typography from 'antd/lib/typography';
 import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 const { Title } = Typography;
+const { Paragraph } = Typography;
 
 function GameDescription(props) {
   return (
@@ -21,7 +22,7 @@ function GameDescription(props) {
     >
       <Col span={24} style={{ padding: '40px' }}>
         <Title level={3}>How to play?</Title>
-        <Title level={4} style={{ fontWeight: 400 }}>{props.description}</Title>
+        <Paragraph>{props.description}</Paragraph>
       </Col>
     </Row>
   );
