@@ -40,11 +40,11 @@ export function* getProfile() {
 
 export function* updateProfile(action) {
   try {
-    const { name, phoneNumber, __class, school } = action.payload;
+    const { name, phoneNumber, __class, school, role } = action.payload;
 
     const response = yield api.post(
       `/auth/profile`,
-      { name, phoneNumber, __class, school },
+      { name, phoneNumber, __class, school, role },
       {
         headers: {
           Accept: 'application/json',

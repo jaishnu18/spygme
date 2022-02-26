@@ -37,20 +37,22 @@ function ExpressionEvaluationGame(props) {
               {gameData.expression}
             </Title>
             <Title level={4} style={{ fontWeight: 400 }}>
-              {"where " +
-                (
-                  gameData.content.map((key, idx) => (
-                    key.charCodeAt(0)>=97 && key.charCodeAt(0)<=122 ? key + " = " + gameData.values[idx] : ""
-                  )))}
+              {'where ' +
+                gameData.content.map((key, idx) =>
+                  key.charCodeAt(0) >= 97 && key.charCodeAt(0) <= 122
+                    ? key + ' = ' + gameData.values[idx]
+                    : '',
+                )}
             </Title>
 
             <InputNumber
               onChange={e => {
                 props.setValue(e);
               }}
+              required
             />
             <CustomButton
-            disableOnClick
+              disableOnClick
               onClick={e => {
                 props.submit();
               }}
@@ -60,17 +62,25 @@ function ExpressionEvaluationGame(props) {
             {evaluatedAnswer ? (
               <Row style={{ paddingTop: '10px' }}>
                 <Col span={24} style={{ display: 'flex' }}>
-                  {
-                    evaluatedAnswer.score === 1 ?
-                      <CheckCircleFilled style={{ fontSize: '20px', color: 'green' }} />
-                      :
-                      <CloseCircleFilled style={{ fontSize: '20px', color: 'red' }} />
-
-                  }
-                  <Paragraph style={{ paddingLeft: '10px' }}>{evaluatedAnswer.score === 1 ? "" : "Correct Answer : " + evaluatedAnswer.answer}</Paragraph>
+                  {evaluatedAnswer.score === 1 ? (
+                    <CheckCircleFilled
+                      style={{ fontSize: '20px', color: 'green' }}
+                    />
+                  ) : (
+                    <CloseCircleFilled
+                      style={{ fontSize: '20px', color: 'red' }}
+                    />
+                  )}
+                  <Paragraph style={{ paddingLeft: '10px' }}>
+                    {evaluatedAnswer.score === 1
+                      ? ''
+                      : 'Correct Answer : ' + evaluatedAnswer.answer}
+                  </Paragraph>
                 </Col>
                 <Col span={24}>
-                  <Title level={3}>{"Score : " + Math.round(evaluatedAnswer.score * 100) + "%"}</Title>
+                  <Title level={3}>
+                    {'Score : ' + Math.round(evaluatedAnswer.score * 100) + '%'}
+                  </Title>
                 </Col>
               </Row>
             ) : null}

@@ -32,6 +32,7 @@ const StyledRow = styled(Row)`
 `;
 function TopicListComponent(props) {
   const { topics } = props;
+
   return (
     <div style={{ padding: '20px' }}>
       <StyledRow gutter={[32, 20]}>

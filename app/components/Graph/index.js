@@ -24,7 +24,7 @@ cytoscape.use(popper);
 export const showNodeIDs = (props, myCyRef) => {
   const { gameData } = props;
 
-  console.log(myCyRef)
+  console.log(myCyRef);
 
   if (gameData && myCyRef) {
     console.log(myCyRef.children);
@@ -141,11 +141,18 @@ export const resetGraph = (
   myCyRef,
   setvisualizeStarted,
   setVisualizeDisable,
+  evaluatedAnswer,
 ) => {
   const { gameData } = props;
   if (gameData && myCyRef) {
     if (gameData.orderOfEvaluation)
-      reset(props, myCyRef, setvisualizeStarted, setVisualizeDisable);
+      reset(
+        props,
+        myCyRef,
+        setvisualizeStarted,
+        setVisualizeDisable,
+        evaluatedAnswer,
+      );
     myCyRef.reset();
   }
 };
@@ -155,6 +162,7 @@ export const reset = (
   myCyRef,
   setvisualizeStarted,
   setVisualizeDisable,
+  evaluatedAnswer,
 ) => {
   const { gameData } = props;
 
@@ -169,8 +177,9 @@ export const reset = (
     const elements = document.getElementsByClassName('Popper');
     while (elements.length > 0) elements[0].parentNode.removeChild(elements[0]);
 
+    console.log(evaluatedAnswer);
     setvisualizeStarted(false);
-    setVisualizeDisable(false);
+    if (evaluatedAnswer) setVisualizeDisable(false);
   }
 };
 
@@ -184,6 +193,7 @@ function Graph(props) {
 
   useEffect(() => {
     if (evaluatedAnswer) setVisualizeDisable(false);
+    console.log('changed');
   }, [evaluatedAnswer]);
 
   useEffect(() => {
@@ -196,7 +206,10 @@ function Graph(props) {
 
     for (let i = 0; i < gameData.num_nodes; i += 1) {
       const obj = {
-        data: { id: i, label: `${gameData.content[i]}${(props.nodeID ? ' : ' + i : '')}` },
+        data: {
+          id: i,
+          label: `${gameData.content[i]}${props.nodeID ? ' : ' + i : ''}`,
+        },
         position: {
           x: 100 * (xCoordinate[i] + 1),
           y: 100 * (yCoordinate[i] + 1),
@@ -280,6 +293,7 @@ function Graph(props) {
               myCyRef,
               setvisualizeStarted,
               setVisualizeDisable,
+              evaluatedAnswer,
             );
           }}
         >
@@ -295,7 +309,7 @@ function Graph(props) {
                 setVisualizeDisable,
               );
             }}
-            disabled={visualizeDisable}
+            disabled={evaluatedAnswer === undefined || visualizeDisable}
           >
             {visualizeStarted ? 'Next' : 'Visualize in steps'}
           </CustomButton>
@@ -350,8 +364,8 @@ function Graph(props) {
                   'text-valign': 'center',
                   'text-halign': 'center',
                   'font-size': '17px',
-                  "text-outline-color": "#666",
-                  "text-outline-width": props.nodeID ? "2px" : '0px',
+                  'text-outline-color': '#666',
+                  'text-outline-width': props.nodeID ? '2px' : '0px',
                 },
               },
               {

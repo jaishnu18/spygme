@@ -11,6 +11,7 @@ import Button from 'antd/lib/button';
 import Alert from 'antd/lib/alert';
 import Form from 'antd/lib/form';
 import Input from 'antd/lib/input';
+import Radio from 'antd/lib/radio';
 import InputNumber from 'antd/lib/input-number';
 import PropTypes from 'prop-types';
 // import styled from 'styled-components';
@@ -64,12 +65,27 @@ function MyProfileComponent(props) {
                 <Form.Item label="Phone" name="phoneNumber">
                   <Input />
                 </Form.Item>
-                <Form.Item label="Class" name="__class">
-                  <InputNumber min="4" max="12" />
-                </Form.Item>
-                <Form.Item label="School" name="school">
+                {(!profile.role || profile.role === 'Student') && (
+                  <Form.Item label="Class" name="__class">
+                    <InputNumber min="4" max="12" />
+                  </Form.Item>
+                )}
+                <Form.Item label="School/Institution" name="school">
                   <Input />
                 </Form.Item>
+                {!profile.role && (
+                  <Form.Item
+                    label="Role"
+                    name="role"
+                    extra="Once set cannot be changed."
+                  >
+                    <Radio.Group buttonStyle="solid" defaultValue="Student">
+                      <Radio.Button value="Student">Student</Radio.Button>
+                      <Radio.Button value="Teacher">Teacher</Radio.Button>
+                      <Radio.Button value="Others">Others</Radio.Button>
+                    </Radio.Group>
+                  </Form.Item>
+                )}
                 <Form.Item wrapperCol={{ offset: 6 }}>
                   <div style={{ display: 'flex' }}>
                     <Button

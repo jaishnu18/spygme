@@ -16,7 +16,11 @@ import { useInjectReducer } from 'utils/injectReducer';
 import makeSelectMyProfilePage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { getProfileStart, updatePasswordStart, updateProfileStart } from './actions';
+import {
+  getProfileStart,
+  updatePasswordStart,
+  updateProfileStart,
+} from './actions';
 export function MyProfilePage(props) {
   useInjectReducer({ key: 'myProfilePage', reducer });
   useInjectSaga({ key: 'myProfilePage', saga });
@@ -29,6 +33,7 @@ export function MyProfilePage(props) {
   console.log(profile);
 
   const handleEditProfile = values => {
+    // console.log(values);
     props.editProfile(values);
   };
 
@@ -46,7 +51,7 @@ export function MyProfilePage(props) {
           profile={profile}
           handleEditProfile={handleEditProfile}
           handleChangePassword={handleChangePassword}
-        // errorMessages={props.state.loadingError}
+          // errorMessages={props.state.loadingError}
         />
       </div>
     </div>
