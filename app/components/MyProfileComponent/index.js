@@ -79,7 +79,7 @@ function MyProfileComponent(props) {
                     name="role"
                     extra="Once set cannot be changed."
                   >
-                    <Radio.Group buttonStyle="solid" defaultValue="Student">
+                    <Radio.Group buttonStyle="solid">
                       <Radio.Button value="Student">Student</Radio.Button>
                       <Radio.Button value="Teacher">Teacher</Radio.Button>
                       <Radio.Button value="Others">Others</Radio.Button>
