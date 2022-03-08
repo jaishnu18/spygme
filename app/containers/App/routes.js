@@ -46,6 +46,7 @@ import ArcConsistencyGame from '../GAMES/CSP/ArcConsistencyGame';
 import CheckMailPage from '../CheckMailPage';
 import EmailVerificationPage from '../EmailVerificationPage';
 import GradedDrawCrosswordGraph from '../GAMES/CSP/GradedDrawCrosswordGraph';
+import CrosswordBacktrackingTreeGame from '../GAMES/CSP/CrosswordBacktrackingTreeGame';
 
 function Routes(props) {
   if (!props.AuthData.isLoggedIn) {
@@ -169,6 +170,18 @@ function Routes(props) {
         path="/arc-consistency/:topicId/:conceptId/:gameId/:level"
         render={({ match }) => (
           <ArcConsistencyGame
+            level={match.params.level}
+            gameId={match.params.gameId}
+            topicId={match.params.topicId}
+            conceptId={match.params.conceptId}
+          />
+        )}
+      />
+      <Route
+        exact
+        path="/crossword-backtracking-tree/:topicId/:conceptId/:gameId/:level"
+        render={({ match }) => (
+          <CrosswordBacktrackingTreeGame
             level={match.params.level}
             gameId={match.params.gameId}
             topicId={match.params.topicId}
