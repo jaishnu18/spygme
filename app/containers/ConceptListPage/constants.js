@@ -14,3 +14,9 @@ export const GET_CONCEPTS_SUCCESS =
   'app/ConceptListPage/GET_CONCEPTS_SUCCESS';
 export const GET_CONCEPTS_FAILURE =
   'app/ConceptListPage/GET_CONCEPTS_FAILURE';
+
+export const GET_CONCEPTS_PREREQ_START = 'app/ConceptListPage/GET_CONCEPTS_PREREQ_START';
+export const GET_CONCEPTS_PREREQ_SUCCESS =
+  'app/ConceptListPage/GET_CONCEPTS_PREREQ_SUCCESS';
+export const GET_CONCEPTS_PREREQ_FAILURE =
+  'app/ConceptListPage/GET_CONCEPTS_PREREQ_FAILURE';
