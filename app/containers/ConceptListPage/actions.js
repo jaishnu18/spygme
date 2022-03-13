@@ -9,6 +9,9 @@ import {
   GET_CONCEPTS_FAILURE,
   GET_CONCEPTS_START,
   GET_CONCEPTS_SUCCESS,
+  GET_CONCEPTS_PREREQ_FAILURE,
+  GET_CONCEPTS_PREREQ_START,
+  GET_CONCEPTS_PREREQ_SUCCESS,
   GET_TOPIC_FAILURE,
   GET_TOPIC_START,
   GET_TOPIC_SUCCESS,
@@ -58,6 +61,27 @@ export function getConceptsSuccess(payload) {
 export function getConceptsFailure(err) {
   return {
     type: GET_CONCEPTS_FAILURE,
+    payload: err,
+  };
+}
+
+export function getConceptsPrereqStart(payload) {
+  return {
+    type: GET_CONCEPTS_PREREQ_START,
+    payload,
+  };
+}
+
+export function getConceptsPrereqSuccess(payload) {
+  return {
+    type: GET_CONCEPTS_PREREQ_SUCCESS,
+    payload,
+  };
+}
+
+export function getConceptsPrereqFailure(err) {
+  return {
+    type: GET_CONCEPTS_PREREQ_FAILURE,
     payload: err,
   };
 }

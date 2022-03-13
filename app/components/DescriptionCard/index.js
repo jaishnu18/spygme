@@ -20,7 +20,7 @@ const { Title } = Typography;
 
 function DescriptionCard(props) {
   return (
-    <CustomCard title={props.title} hoverable={props.hoverable}>
+    <CustomCard title={props.title} hoverable={props.hoverable} color={props.color ? props.color : 'white'}>
       <Row>
         {props.isReadingMaterial ? (
           props.description.map((key, idx) => (

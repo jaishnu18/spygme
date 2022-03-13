@@ -8,6 +8,9 @@ import {
   GET_CONCEPTS_FAILURE,
   GET_CONCEPTS_START,
   GET_CONCEPTS_SUCCESS,
+  GET_CONCEPTS_PREREQ_FAILURE,
+  GET_CONCEPTS_PREREQ_START,
+  GET_CONCEPTS_PREREQ_SUCCESS,
   GET_TOPIC_FAILURE,
   GET_TOPIC_START,
   GET_TOPIC_SUCCESS,
@@ -17,6 +20,7 @@ export const initialState = {
   isLoadingTopicData: false,
   topicData: undefined,
   concepts: undefined,
+  prereq: undefined,
   isConceptsLoading: false,
 };
 
@@ -46,6 +50,18 @@ const ConceptListPageReducer = (state = initialState, action) =>
       case GET_CONCEPTS_FAILURE:
         draft.isConceptsLoading = false;
         draft.concepts = action.payload;
+        break;
+
+      case GET_CONCEPTS_PREREQ_START:
+        draft.isConceptsLoading = true;
+        break;
+      case GET_CONCEPTS_PREREQ_SUCCESS:
+        draft.isConceptsLoading = false;
+        draft.prereq = action.payload;
+        break;
+      case GET_CONCEPTS_PREREQ_FAILURE:
+        draft.isConceptsLoading = false;
+        draft.prereq = action.payload;
         break;
     }
   });

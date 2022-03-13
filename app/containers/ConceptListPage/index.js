@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -17,24 +17,43 @@ import makeSelectConceptListPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
-import { getTopicStart, getConceptsStart } from './actions';
+import { getTopicStart, getConceptsStart, getConceptsPrereqStart } from './actions';
 import ConceptListComponent from '../../components/ConceptListComponent';
 
 export function ConceptListPage(props) {
   useInjectReducer({ key: 'conceptListPage', reducer });
   useInjectSaga({ key: 'conceptListPage', saga });
 
+  const [done, setDone] = useState(false);
+
   const { topicId } = props;
-  console.log(topicId);
+  console.log(props);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    setDone(false);
     props.getTopicData({ topicId: parseInt(topicId) });
     props.getConcepts({ topicId: parseInt(topicId) });
+
   }, []);
+
+  useEffect(() => {
+    if (concepts && !done) {
+      const conceptCompleted = {};
+      const completed = [];
+      for (let i = 0; i < concepts.length; i++) {
+        completed.push([concepts[i].id - 1, concepts[i].progress]);
+      }
+      conceptCompleted.completed = completed;
+      conceptCompleted.topicId = parseInt(topicId);
+      props.getConceptsPrereq(conceptCompleted);
+      setDone(true);
+    }
+  }, [props.conceptListPage]);
 
   const { concepts } = props.conceptListPage;
   const { topicData } = props.conceptListPage;
+  const { prereq } = props.conceptListPage;
 
   return (
     <div>
@@ -42,12 +61,13 @@ export function ConceptListPage(props) {
         <title>ConceptListPage</title>
         <meta name="description" content="Description of ConceptListPage" />
       </Helmet>
-      {topicData && (
+      {topicData && prereq &&(
         <ConceptListComponent
           concepts={concepts}
           topicName={topicData.name}
           parentTopic={topicId}
           type="Concept"
+          prereq={prereq}
         />
       )}
     </div>
@@ -58,6 +78,7 @@ ConceptListPage.propTypes = {
   conceptListPage: PropTypes.object,
   getTopicData: PropTypes.func,
   getConcepts: PropTypes.func,
+  getConceptsPrereq: PropTypes.func,
   topicNo: PropTypes.string,
 };
 
@@ -69,6 +90,7 @@ function mapDispatchToProps(dispatch) {
   return {
     getTopicData: payload => dispatch(getTopicStart(payload)),
     getConcepts: payload => dispatch(getConceptsStart(payload)),
+    getConceptsPrereq: payload => dispatch(getConceptsPrereqStart(payload)),
   };
 }
 

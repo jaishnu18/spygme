@@ -41,16 +41,17 @@ function ConceptListComponent(props) {
 
         {concepts
           ? concepts.map((key, idx) => (
-              <Col xs={{ span: 24 }} xl={{ span: 8 }}>
-                <Link to={`/concept/${parentTopic}/${key.id}`}>
-                  <DescriptionCard
-                    title={`Concept : ${idx + 1}`}
-                    description={key.name}
-                    progress={Math.round(key.progress * 100)}
-                  />
-                </Link>
-              </Col>
-            ))
+            <Col xs={{ span: 24 }} xl={{ span: 8 }}>
+              <Link to={`/concept/${parentTopic}/${key.id}`}>
+                <DescriptionCard
+                  title={`Concept : ${idx + 1}`}
+                  description={key.name}
+                  progress={Math.round(key.progress * 100)}
+                  color={props.prereq.status[idx]===0?'red':'green'}
+                />
+              </Link>
+            </Col>
+          ))
           : null}
       </Row>
     </div>
