@@ -135,7 +135,7 @@ export function NodeConsistencyGame(props) {
 
           <Row style={{ width: '100%' }}>
             <Col>
-              <GameDescription description={gameData.gameDescription} />
+              <GameDescription gameData={gameData} evaluatedAnswer={evaluatedAnswer} />
             </Col>
           </Row>
           <GameComponent

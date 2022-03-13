@@ -11,10 +11,11 @@ import H4 from 'components/atoms/H4';
 import Typography from 'antd/lib/typography';
 
 import PropTypes from 'prop-types';
+
+import QuestionDataDownload from '../QuestionDataDownload';
 // import styled from 'styled-components';
 const { Title } = Typography;
 const { Paragraph } = Typography;
-
 function GameDescription(props) {
   return (
     <Row
@@ -22,8 +23,13 @@ function GameDescription(props) {
     >
       <Col span={24} style={{ padding: '40px' }}>
         <Title level={3}>How to play?</Title>
-        <Paragraph>{props.description}</Paragraph>
+        <Paragraph>{props.gameData.gameDescription}</Paragraph>
       </Col>
+      {props.evaluatedAnswer && (
+        <Col span={24}>
+          <QuestionDataDownload gameData={props.gameData} />
+        </Col>
+      )}
     </Row>
   );
 }
