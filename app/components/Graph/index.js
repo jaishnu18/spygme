@@ -24,10 +24,8 @@ cytoscape.use(popper);
 export const showNodeIDs = (props, myCyRef) => {
   const { gameData } = props;
 
-  console.log(myCyRef);
 
   if (gameData && myCyRef) {
-    console.log(myCyRef.children);
     for (let i = 0; i < gameData.num_nodes; i += 1) {
       const popper = myCyRef.getElementById(0).popper({
         content: () => {
@@ -177,7 +175,6 @@ export const reset = (
     const elements = document.getElementsByClassName('Popper');
     while (elements.length > 0) elements[0].parentNode.removeChild(elements[0]);
 
-    console.log(evaluatedAnswer);
     setvisualizeStarted(false);
     if (evaluatedAnswer) setVisualizeDisable(false);
   }
@@ -193,7 +190,6 @@ function Graph(props) {
 
   useEffect(() => {
     if (evaluatedAnswer) setVisualizeDisable(false);
-    console.log('changed');
   }, [evaluatedAnswer]);
 
   useEffect(() => {
@@ -257,7 +253,6 @@ function Graph(props) {
   }, [gameData]);
 
   const [myCyRef, setMyCyRef] = useState(undefined);
-  console.log(gameData);
 
   return (
     <Row

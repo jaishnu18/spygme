@@ -47,7 +47,7 @@ function ConceptListComponent(props) {
                   title={`Concept : ${idx + 1}`}
                   description={key.name}
                   progress={Math.round(key.progress * 100)}
-                  color={props.prereq.status[idx]===0?'red':'green'}
+                  suggestionText={props.concepts[idx].status===0?'Prerequisites not fulfilled':'Prerequisites fulfilled'}
                 />
               </Link>
             </Col>

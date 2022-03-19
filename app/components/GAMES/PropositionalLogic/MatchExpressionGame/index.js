@@ -62,16 +62,16 @@ function MatchExpressionGame(props) {
                   {evaluatedAnswer && evaluatedAnswer.correctResponse && (
                     evaluatedAnswer.correctResponse.includes(idx) ?
                       (
-                        <Row style={{ paddingTop: '10px', paddingBottom: '10px' }}>
+                        <Row style={{paddingBottom: '20px' }}>
                           <Col span={24}>
                             <CheckCircleFilled style={{ fontSize: '20px', color: 'green' }} />
                           </Col>
                         </Row>
                       ) : (
-                        <Row style={{ paddingTop: '10px', paddingBottom: '10px' }}>
+                        <Row style={{paddingBottom: '20px' }}>
                           <Col span={24} style={{ display: 'flex' }}>
                             <CloseCircleFilled style={{ fontSize: '20px', color: 'red' }} />
-                            <Paragraph style={{ padding: '10px' }}>{"Correct Node ID : " + evaluatedAnswer.wrongResponse[gameData.ptr++][1]}</Paragraph>
+                            <Paragraph style={{ paddingLeft: '10px' }}>{"Correct Node ID : " + evaluatedAnswer.wrongResponse[gameData.ptr++][1]}</Paragraph>
                           </Col>
                         </Row>
                       )
