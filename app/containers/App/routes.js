@@ -48,6 +48,8 @@ import EmailVerificationPage from '../EmailVerificationPage';
 import GradedDrawCrosswordGraph from '../GAMES/CSP/GradedDrawCrosswordGraph';
 import CrosswordBacktrackingTreeGame from '../GAMES/CSP/CrosswordBacktrackingTreeGame';
 import RevisitQuestionPage from '../RevisitQuestionPage';
+import EvaluateAllNodes from '../GAMES/PropositionalLogic/EvaluateAllNodesGame';
+import GradedEvaluateAllNodesGame from '../GAMES/PropositionalLogic/GradedEvaluateAllNodesGame';
 
 function Routes(props) {
   if (!props.AuthData.isLoggedIn) {
@@ -134,6 +136,18 @@ function Routes(props) {
         path="/write-expression/:topicId/:conceptId/:gameId/:level"
         render={({ match }) => (
           <WriteExpressionGame
+            level={match.params.level}
+            gameId={match.params.gameId}
+            topicId={match.params.topicId}
+            conceptId={match.params.conceptId}
+          />
+        )}
+      />
+      <Route
+        exact
+        path="/evaluate-all-nodes/:topicId/:conceptId/:gameId/:level"
+        render={({ match }) => (
+          <EvaluateAllNodes
             level={match.params.level}
             gameId={match.params.gameId}
             topicId={match.params.topicId}
@@ -229,6 +243,13 @@ function Routes(props) {
         path="/graded-quiz/write-expression/:topicId/:conceptId/:gameId"
         render={({ match }) => (
           <GradedWriteExpressionGame gameId={match.params.gameId} />
+        )}
+      />
+      <Route
+        exact
+        path="/graded-quiz/evaluate-all-nodes/:topicId/:conceptId/:gameId"
+        render={({ match }) => (
+          <GradedEvaluateAllNodesGame gameId={match.params.gameId} />
         )}
       />
 

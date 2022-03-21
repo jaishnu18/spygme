@@ -24,10 +24,8 @@ cytoscape.use(popper);
 export const showNodeIDs = (props, myCyRef) => {
   const { gameData } = props;
 
-  console.log(myCyRef);
 
   if (gameData && myCyRef) {
-    console.log(myCyRef.children);
     for (let i = 0; i < gameData.num_nodes; i += 1) {
       const popper = myCyRef.getElementById(0).popper({
         content: () => {
