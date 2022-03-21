@@ -48,7 +48,7 @@ import EmailVerificationPage from '../EmailVerificationPage';
 import GradedDrawCrosswordGraph from '../GAMES/CSP/GradedDrawCrosswordGraph';
 import CrosswordBacktrackingTreeGame from '../GAMES/CSP/CrosswordBacktrackingTreeGame';
 import EvaluateAllNodes from '../GAMES/PropositionalLogic/EvaluateAllNodesGame';
-import { GradedEvaluateAllNodesGame } from '../GAMES/PropositionalLogic/GradedEvaluateAllNodesGame';
+import GradedEvaluateAllNodesGame from '../GAMES/PropositionalLogic/GradedEvaluateAllNodesGame';
 
 function Routes(props) {
   if (!props.AuthData.isLoggedIn) {

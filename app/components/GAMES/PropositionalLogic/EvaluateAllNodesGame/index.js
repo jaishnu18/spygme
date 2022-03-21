@@ -54,7 +54,6 @@ function EvaluateAllNodesGame(props) {
                         else
                           resArray[idx] = -1;
                         props.changeResponse(resArray);
-                        console.log(props.value)
                       }}
                     />
                     <Col>

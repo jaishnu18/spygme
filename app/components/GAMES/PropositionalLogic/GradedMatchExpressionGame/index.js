@@ -36,7 +36,7 @@ function GradedMatchExpressionGame(props) {
           setCurrentLevel={props.setCurrentLevel}
           submit={props.submit}
           value={props.value}
-          examDuration={600}
+          examDuration={300}
           evaluatedAnswer={evaluatedAnswer}
           submit={props.submit}
           {...props}
@@ -75,7 +75,7 @@ function GradedMatchExpressionGame(props) {
                   (evaluatedAnswer[currentLevel].correctResponse.includes(
                     idx,
                   ) ? (
-                    <Row style={{ paddingTop: '10px', paddingBottom: '10px' }}>
+                    <Row style={{paddingBottom: '20px' }}>
                       <Col span={24}>
                         <CheckCircleFilled
                           style={{ fontSize: '20px', color: 'green' }}
@@ -83,7 +83,7 @@ function GradedMatchExpressionGame(props) {
                       </Col>
                     </Row>
                   ) : (
-                    <Row style={{ paddingTop: '10px', paddingBottom: '10px' }}>
+                    <Row style={{paddingBottom: '20px' }}>
                       <Col span={24} style={{ display: 'flex' }}>
                         <CloseCircleFilled
                           style={{ fontSize: '20px', color: 'red' }}

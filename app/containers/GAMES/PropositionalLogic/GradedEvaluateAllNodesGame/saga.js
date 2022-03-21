@@ -23,7 +23,6 @@ export function* getExpression() {
     const response = yield api.get(`/game/evaluate-all-nodes/graded-quiz`, {
       headers: { Authorization: localStorage._UFT_ },
     });
-    console.log(response);
     yield put(getGamesDataSuccess(response.data.data));
   } catch (err) {
     console.log(err);

@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo,useState,useEffect } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -30,82 +30,89 @@ import ExamInstruction from 'components/ExamInstruction';
 export function GradedEvaluateAllNodesGame(props) {
   useInjectReducer({ key: 'gradedEvaluateAllNodesGame', reducer });
   useInjectSaga({ key: 'gradedEvaluateAllNodesGame', saga });
-  console.log(props);
 
   const [currentLevel, setCurrentLevel] = useState(-1);
   const [value, setValue] = useState(undefined);
   const [alreadyFeedback, setAlreadyFeedback] = useState(false);
   const [timeStamps, setTimeStamps] = useState(undefined);
 
-  // useEffect(() => {
-  //   props.getGameData();
-  // }, []);
+  useEffect(() => {
+    props.getGameData();
+  }, []);
 
-  // useEffect(() => {
-  //   if (props.state.gameData) {
-  //     setValue(new Array(props.state.gameData.length).fill(-1));
-  //     const T = [];
-  //     for (let j = 0; j < props.state.gameData.length; j += 1) {
-  //       const dateArray = [];
-  //       if (j === 0) {
-  //         dateArray.push(new Date());
-  //       }
+  useEffect(() => {
+    if (props.state.gameData) {
+      const initArray = new Array(props.state.gameData.length);
+      for (let i = 0; i < props.state.gameData.length; i += 1) {
+        if (props.state.gameData[i].num_nodes) {
+          initArray[i] = new Array(
+            props.state.gameData[i].num_nodes,
+          ).fill(-1);
+        }
+      }
+      setValue(initArray);
+      const T = [];
+      for (let j = 0; j < props.state.gameData.length; j += 1) {
+        const dateArray = [];
+        if (j === 0) {
+          dateArray.push(new Date());
+        }
 
-  //       T.push(dateArray);
-  //     }
+        T.push(dateArray);
+      }
 
-  //     setTimeStamps(T);
-  //   }
-  // }, [props.state.gameData]);
+      setTimeStamps(T);
+    }
+  }, [props.state.gameData]);
 
-  // useEffect(() => {
-  //   if (evaluatedAnswer && !alreadyFeedback) {
-  //     setAlreadyFeedback(true);
-  //     const practiceGamesFeedback = (
-  //       <GradedGamesFeedback saveFeedback={props.saveFeedback} />
-  //     );
-  //     const args = {
-  //       message: 'Feedback',
-  //       description: practiceGamesFeedback,
-  //       duration: 0, key: 'feedback',
-  //     };
-  //     notification.open(args);
-  //     if (evaluatedAnswer.score !== 1) {
-  //       const practiceGamesFeedback = (
-  //         <GradedGamesFeedback whatWentWrong saveFeedback={props.saveFeedback} />
-  //       );
-  //       const args = {
-  //         message: 'Why you made mistake?',
-  //         description: practiceGamesFeedback,
-  //         duration: 0,
-  //         placement: 'topLeft', key: 'www'
-  //       };
-  //       notification.open(args);
-  //     }
-  //   }
-  // }, [props.state]);
+  useEffect(() => {
+    if (evaluatedAnswer && !alreadyFeedback) {
+      setAlreadyFeedback(true);
+      const practiceGamesFeedback = (
+        <GradedGamesFeedback saveFeedback={props.saveFeedback} />
+      );
+      const args = {
+        message: 'Feedback',
+        description: practiceGamesFeedback,
+        duration: 0, key: 'feedback',
+      };
+      notification.open(args);
+      if (evaluatedAnswer.score !== 1) {
+        const practiceGamesFeedback = (
+          <GradedGamesFeedback whatWentWrong saveFeedback={props.saveFeedback} />
+        );
+        const args = {
+          message: 'Why you made mistake?',
+          description: practiceGamesFeedback,
+          duration: 0,
+          placement: 'topLeft', key: 'www'
+        };
+        notification.open(args);
+      }
+    }
+  }, [props.state]);
 
 
 
-  // const { evaluatedAnswer } = props.state;
+  const { evaluatedAnswer } = props.state;
 
-  // const submit = () => {
-  //   const { gameData } = props.state;
-  //   const response = {};
+  const submit = () => {
+    const { gameData } = props.state;
+    const response = {};
 
-  //   for (let i = 0; i < gameData.length; i += 1) {
-  //     gameData[i].response = value[i];
-  //   }
+    for (let i = 0; i < gameData.length; i += 1) {
+      gameData[i].response = value[i];
+    }
 
-  //   const T = timeStamps;
-  //   T[currentLevel].push(new Date());
-  //   setTimeStamps(T);
+    const T = timeStamps;
+    T[currentLevel].push(new Date());
+    setTimeStamps(T);
 
-  //   response.studentResponse = gameData;
-  //   response.timeStamps = timeStamps;
+    response.studentResponse = gameData;
+    response.timeStamps = timeStamps;
 
-  //   props.checkStudentResponse(response);
-  // };
+    props.checkStudentResponse(response);
+  };
 
   return (
     <div>
