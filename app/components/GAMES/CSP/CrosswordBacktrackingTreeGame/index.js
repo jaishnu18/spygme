@@ -20,6 +20,7 @@ import Crossword from 'components/Crossword';
 import CustomCard from 'components/CustomCard';
 import CustomButton from 'components/atoms/CustomButton';
 import Graph from 'components/Graph';
+import DagreGraph from 'components/DagreGraph';
 
 const CrosswordBlock = styled.div`
   @media (max-width: 500px) {
@@ -42,67 +43,66 @@ function CrosswordBacktrackingTreeGame(props) {
   return (
     <Row>
       <Col xs={{ span: 24 }} xl={{ span: 12 }}>
-        {
-          gameData.gridStateList.map((grid) => (
-            <Row>
-              <Col span={20}>
-                <Row style={{}}>
-                  {grid.map((row, idx) => (
-                    <Row
-                      justify="center"
-                      key={`Row-${idx + 1}`}
-                      style={{ display: 'flex', width: '100%' }}
-                    >
-                      {row.map((col, jdx) => (
-                        <Col key={`Col-${jdx + 1}`}>
-                          <CrosswordBlock
-                            style={{
-
-                              border: idx !== 0 && jdx !== 0 && '1px solid grey',
-                              display: 'flex',
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                              backgroundColor:
-                                idx === 0 || jdx === 0
-                                  ? 'transparent'
-                                  : col === 35
-                                    ? 'black'
-                                    : 'white',
-                            }}
-                          >
-                            
-                            {
-                              col !== 35 && col !== 46 && (
-                                <Paragraph>{String.fromCharCode(col)}</Paragraph>
-                              )
-                            }
-                          </CrosswordBlock>
-                        </Col>
-                      ))}
-                    </Row>
-                  ))}
-                </Row>
-              </Col>
-              <Col span={3}>
-
-                <InputNumber min="0" />
-              </Col>
-            </Row>
-
-          ))
-        }
+        {gameData.gridStateList.map((grid, ldx) => (
+          <Row>
+            <Col span={20}>
+              <Row style={{}}>
+                {grid.map((row, idx) => (
+                  <Row
+                    justify="center"
+                    key={`Row-${idx + 1}`}
+                    style={{ display: 'flex', width: '100%' }}
+                  >
+                    {row.map((col, jdx) => (
+                      <Col key={`Col-${jdx + 1}`}>
+                        <CrosswordBlock
+                          style={{
+                            border: idx !== 0 && jdx !== 0 && '1px solid grey',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            backgroundColor:
+                              idx === 0 || jdx === 0
+                                ? 'transparent'
+                                : col === 35
+                                ? 'black'
+                                : 'white',
+                          }}
+                        >
+                          {col !== 35 && col !== 46 && (
+                            <Paragraph>{String.fromCharCode(col)}</Paragraph>
+                          )}
+                        </CrosswordBlock>
+                      </Col>
+                    ))}
+                  </Row>
+                ))}
+              </Row>
+            </Col>
+            <Col span={3}>
+              <InputNumber
+                min="0"
+                onChange={value => {
+                  const v = props.value;
+                  if (value !== null) {
+                    v[ldx] = value;
+                    props.setValue(v);
+                  } else {
+                    v[ldx] = -1;
+                    props.setValue(v);
+                  }
+                }}
+              />
+            </Col>
+          </Row>
+        ))}
       </Col>
       <Col xs={{ span: 24 }} xl={{ span: 12 }}>
-        <Graph
-          gameData={gameData}
-          evaluatedAnswer={evaluatedAnswer}
-        />
-        <CustomButton onClick={props.submit}>
-          Check Answer
-        </CustomButton>
+        <DagreGraph gameData={gameData} evaluatedAnswer={evaluatedAnswer} />
+        <CustomButton onClick={props.submit}>Check Answer</CustomButton>
       </Col>
     </Row>
-  )
+  );
 }
 
 CrosswordBacktrackingTreeGame.propTypes = {};

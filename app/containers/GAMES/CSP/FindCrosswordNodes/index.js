@@ -43,6 +43,7 @@ export function FindCrosswordNodes(props) {
   const { gameId } = props;
   const { conceptId } = props;
   const { topicId } = props;
+  const { visitedGameData } = props;
 
   useEffect(() => {
     if (evaluatedAnswer && !alreadyFeedback) {
@@ -126,13 +127,13 @@ export function FindCrosswordNodes(props) {
           <Row style={{ width: '100%' }}>
             <Col>
               <GameDescription
-                gameData={gameData}
+                gameData={visitedGameData || gameData}
                 evaluatedAnswer={evaluatedAnswer}
               />
             </Col>
           </Row>
           <GameComponent
-            gameData={gameData}
+            gameData={visitedGameData || gameData}
             evaluatedAnswer={evaluatedAnswer}
             animate
             visualize

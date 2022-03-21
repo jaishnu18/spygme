@@ -13,24 +13,52 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import makeSelectCrosswordBacktrackingTreeGame from './selectors';
-import reducer from './reducer';
-import saga from './saga';
 import { start, end } from 'utils/timerFunctions';
 import GameBar from 'components/GameBar';
 import GameDescription from 'components/GameDescription';
 import GameComponent from 'components/GAMES/CSP/CrosswordBacktrackingTreeGame';
-import PracticeGamesFeedback from '../../../../components/FEEDBACK/PracticeGamesFeedback';
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
 import notification from 'antd/lib/notification';
 
+import moment from 'moment';
 import {
   getGamesDataStart,
   evaluateResponseStart,
   putFeedbackStart,
 } from './actions';
-import moment from 'moment';
+import PracticeGamesFeedback from '../../../../components/FEEDBACK/PracticeGamesFeedback';
+import saga from './saga';
+import reducer from './reducer';
+import makeSelectCrosswordBacktrackingTreeGame from './selectors';
+
+function getHeights(graph, V) {
+  // array to store level of each node
+  const level = Array(V);
+  const marked = Array(V).fill(false);
+
+  const que = [];
+  que.push(0);
+  level[0] = 0;
+  marked[0] = true;
+  let x;
+
+  while (que.length > 0) {
+    x = que[0];
+    que.shift();
+
+    for (let i = 0; i < graph[x].length; i += 1) {
+      const b = graph[x][i];
+      if (!marked[b]) {
+        que.push(b);
+        level[b] = level[x] + 1;
+        marked[b] = true;
+      }
+    }
+  }
+
+  return level;
+}
 
 export function CrosswordBacktrackingTreeGame(props) {
   useInjectReducer({ key: 'crosswordBacktrackingTreeGame', reducer });
@@ -82,15 +110,9 @@ export function CrosswordBacktrackingTreeGame(props) {
     start(setStartTime);
   }, [level]);
 
-  console.log(props.state);
   useEffect(() => {
     if (props.state.gameData) {
-      // const nodesLen = props.state.gameData.nodes.length;
-      // const bagSize = props.state.gameData.bag_size;
-      // const newArr = new Array(nodesLen);
-      // for (let i = 0; i < nodesLen; i += 1)
-      //   newArr[i] = new Array(bagSize).fill(true);
-      // setValue(newArr);
+      setValue(new Array(props.state.gameData.gridStateList.length).fill(-1));
     }
   }, [props.state.gameData]);
 
@@ -134,7 +156,10 @@ export function CrosswordBacktrackingTreeGame(props) {
 
           <Row style={{ width: '100%' }}>
             <Col>
-              <GameDescription description={gameData.gameDescription} />
+              <GameDescription
+                gameData={gameData}
+                evaluatedAnswer={evaluatedAnswer}
+              />
             </Col>
           </Row>
           <GameComponent

@@ -43,14 +43,6 @@ export const showNodeIDs = (props, myCyRef) => {
           return div;
         },
       });
-
-      //     const update = () => {
-      //       popper.update();
-      //     };
-
-      //     myCyRef.getElementById(i).on('position', update);
-
-      //     myCyRef.on('pan zoom resize', update);
     }
   }
 };
@@ -177,7 +169,6 @@ export const reset = (
     const elements = document.getElementsByClassName('Popper');
     while (elements.length > 0) elements[0].parentNode.removeChild(elements[0]);
 
-    console.log(evaluatedAnswer);
     setvisualizeStarted(false);
     if (evaluatedAnswer) setVisualizeDisable(false);
   }
@@ -193,7 +184,6 @@ function Graph(props) {
 
   useEffect(() => {
     if (evaluatedAnswer) setVisualizeDisable(false);
-    console.log('changed');
   }, [evaluatedAnswer]);
 
   useEffect(() => {
@@ -208,7 +198,7 @@ function Graph(props) {
       const obj = {
         data: {
           id: i,
-          label: `${gameData.content[i]}${props.nodeID ? ' : ' + i : ''}`,
+          label: `${gameData.content[i]}${props.nodeID ? ` : ${i}` : ''}`,
         },
         position: {
           x: 100 * (xCoordinate[i] + 1),
@@ -257,7 +247,6 @@ function Graph(props) {
   }, [gameData]);
 
   const [myCyRef, setMyCyRef] = useState(undefined);
-  console.log(gameData);
 
   return (
     <Row

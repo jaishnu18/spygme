@@ -12,16 +12,22 @@ import {
   putFeedbackFailure,
   putFeedbackSuccess,
 } from './actions';
-import { GET_GAME_DATA_START, EVALUATE_RESPONSE_START ,PUT_FEEDBACK_START,} from './constants';
+import {
+  GET_GAME_DATA_START,
+  EVALUATE_RESPONSE_START,
+  PUT_FEEDBACK_START,
+} from './constants';
 
 export function* getCrosswordBacktrackingTree(action) {
   try {
     const level = action.payload;
 
-    const response = yield api.get(`/game/crossword-backtracking-tree/question/${level}`, {
-      headers: { Authorization: localStorage._UFT_ },
-    });
-    console.log(response);
+    const response = yield api.get(
+      `/game/crossword-backtracking-tree/question/${level}`,
+      {
+        headers: { Authorization: localStorage._UFT_ },
+      },
+    );
     yield put(getGamesDataSuccess(response.data.data));
   } catch (err) {
     console.log(err);

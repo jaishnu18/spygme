@@ -47,6 +47,7 @@ import CheckMailPage from '../CheckMailPage';
 import EmailVerificationPage from '../EmailVerificationPage';
 import GradedDrawCrosswordGraph from '../GAMES/CSP/GradedDrawCrosswordGraph';
 import CrosswordBacktrackingTreeGame from '../GAMES/CSP/CrosswordBacktrackingTreeGame';
+import RevisitQuestionPage from '../RevisitQuestionPage';
 
 function Routes(props) {
   if (!props.AuthData.isLoggedIn) {
@@ -153,6 +154,13 @@ function Routes(props) {
           />
         )}
       />
+
+      <Route
+        exact
+        path="/revisit/question"
+        render={({ match }) => <RevisitQuestionPage />}
+      />
+
       <Route
         exact
         path="/node-consistency/:topicId/:conceptId/:gameId/:level"
