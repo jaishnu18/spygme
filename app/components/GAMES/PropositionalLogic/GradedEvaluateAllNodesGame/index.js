@@ -1,33 +1,31 @@
 /**
  *
- * GradedMatchExpressionGame
+ * GradedEvaluateAllNodesGame
  *
  */
 
-import Button from 'antd/lib/button';
-import Row from 'antd/lib/row';
-import Col from 'antd/lib/col';
-import React, { memo, useEffect } from 'react';
-import ExamNavigator from 'components/ExamNavigator';
-import Title from 'antd/lib/typography/Title';
-import Paragraph from 'antd/lib/typography/Paragraph';
+import React, { memo } from 'react';
 // import PropTypes from 'prop-types';
 // import styled from 'styled-components';
-import Graph from 'components/Graph';
+import Row from 'antd/lib/row';
+import Col from 'antd/lib/col';
+import ExamNavigator from 'components/ExamNavigator';
+import Typography from 'antd/lib/typography';
 import Form from 'antd/lib/form';
 import InputNumber from 'antd/lib/input-number';
-import CheckCircleFilled from '@ant-design/icons/CheckCircleFilled';
-import CloseCircleFilled from '@ant-design/icons/CloseCircleFilled';
 import CustomCard from 'components/CustomCard';
 import Descriptions from 'antd/lib/descriptions';
+import CheckCircleFilled from '@ant-design/icons/CheckCircleFilled';
+import CloseCircleFilled from '@ant-design/icons/CloseCircleFilled';
 
-function GradedMatchExpressionGame(props) {
+const { Title } = Typography;
+const { Paragraph } = Typography;
+import Graph from 'components/Graph';
+
+function GradedEvaluateAllNodesGame(props) {
   const { gameData } = props;
   const { evaluatedAnswer } = props;
   const { currentLevel } = props;
-
-  gameData[currentLevel].ptr = 0;
-
   return (
     <Row style={{ padding: '40px' }}>
       <Col xs={{ span: 24 }} xl={{ span: 4 }}>
@@ -36,23 +34,30 @@ function GradedMatchExpressionGame(props) {
           setCurrentLevel={props.setCurrentLevel}
           submit={props.submit}
           value={props.value}
-          examDuration={300}
+          examDuration={600}
           evaluatedAnswer={evaluatedAnswer}
           submit={props.submit}
           {...props}
         />
       </Col>
-
       <Col xs={{ span: 24 }} xl={{ span: 11 }}>
-        <Title level={3}>Match each expression with their node ID: </Title>
+        <Title level={3}>Enter value stored in each node after evaluation: </Title>
+        <Title level={4} style={{ fontWeight: 400 }}>
+          {'Assume  ' +
+            gameData[currentLevel].content.map((key, idx) =>
+              key.charCodeAt(0) >= 97 && key.charCodeAt(0) <= 122
+                ? key + ' = ' + gameData[currentLevel].values[idx]
+                : '',
+            )}
+        </Title>
         <Form name={`Form-${props.currentLevel}`}>
-          {gameData[currentLevel].exp_to_display &&
-            gameData[currentLevel].exp_to_display.map((exp, idx) => (
+          {gameData[currentLevel].values &&
+            gameData[currentLevel].values.map((val, idx) => (
               <div>
-                <Row key={exp} style={{ display: 'flex' }}>
+                <Row key={val} style={{ display: 'flex' }}>
                   <Col span={18}>
                     <Title level={4} code>
-                      {exp}
+                      {"Value at node ID: " + idx}
                     </Title>
                   </Col>
                   <Col span={4}>
@@ -63,40 +68,29 @@ function GradedMatchExpressionGame(props) {
                           if (e !== null) resArray[currentLevel][idx] = e;
                           else resArray[currentLevel][idx] = -1;
                           props.setValue(resArray);
-                          console.log(props.value);
                         }}
                       />
                     </Form.Item>
-                    <Col />
+                    <Col>
+
+                    </Col>
                   </Col>
                 </Row>
-                {evaluatedAnswer &&
-                  evaluatedAnswer[currentLevel].correctResponse &&
-                  (evaluatedAnswer[currentLevel].correctResponse.includes(
-                    idx,
-                  ) ? (
-                    <Row style={{paddingBottom: '20px' }}>
+                {evaluatedAnswer && evaluatedAnswer[currentLevel].result && (
+                  evaluatedAnswer[currentLevel].result[idx] ? (
+                    <Row style={{ paddingBottom: '20px' }}>
                       <Col span={24}>
-                        <CheckCircleFilled
-                          style={{ fontSize: '20px', color: 'green' }}
-                        />
+                        <CheckCircleFilled style={{ fontSize: '20px', color: 'green' }} />
                       </Col>
-                    </Row>
-                  ) : (
-                    <Row style={{paddingBottom: '20px' }}>
+                    </Row>) : (
+                    <Row style={{ paddingBottom: '20px' }}>
                       <Col span={24} style={{ display: 'flex' }}>
-                        <CloseCircleFilled
-                          style={{ fontSize: '20px', color: 'red' }}
-                        />
-                        <Paragraph style={{ padding: '10px' }}>
-                          {'Correct Node ID : ' +
-                            evaluatedAnswer[currentLevel].wrongResponse[
-                              gameData[currentLevel].ptr++
-                            ][1]}
-                        </Paragraph>
+                        <CloseCircleFilled style={{ fontSize: '20px', color: 'red' }} />
+                        <Paragraph style={{ paddingLeft: '10px' }}>{"Correct Answer : " + gameData[currentLevel].values[idx]}</Paragraph>
                       </Col>
                     </Row>
-                  ))}
+                  )
+                )}
               </div>
             ))}
         </Form>
@@ -147,6 +141,7 @@ function GradedMatchExpressionGame(props) {
     </Row>
   );
 }
-GradedMatchExpressionGame.propTypes = {};
 
-export default memo(GradedMatchExpressionGame);
+GradedEvaluateAllNodesGame.propTypes = {};
+
+export default memo(GradedEvaluateAllNodesGame);

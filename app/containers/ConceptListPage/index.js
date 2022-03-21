@@ -24,32 +24,15 @@ export function ConceptListPage(props) {
   useInjectReducer({ key: 'conceptListPage', reducer });
   useInjectSaga({ key: 'conceptListPage', saga });
 
-  const [done, setDone] = useState(false);
-
   const { topicId } = props;
   console.log(props);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    setDone(false);
     props.getTopicData({ topicId: parseInt(topicId) });
     props.getConcepts({ topicId: parseInt(topicId) });
 
   }, []);
-
-  useEffect(() => {
-    if (concepts && !done) {
-      const conceptCompleted = {};
-      const completed = [];
-      for (let i = 0; i < concepts.length; i++) {
-        completed.push([concepts[i].id - 1, concepts[i].progress]);
-      }
-      conceptCompleted.completed = completed;
-      conceptCompleted.topicId = parseInt(topicId);
-      props.getConceptsPrereq(conceptCompleted);
-      setDone(true);
-    }
-  }, [props.conceptListPage]);
 
   const { concepts } = props.conceptListPage;
   const { topicData } = props.conceptListPage;
@@ -61,13 +44,12 @@ export function ConceptListPage(props) {
         <title>ConceptListPage</title>
         <meta name="description" content="Description of ConceptListPage" />
       </Helmet>
-      {topicData && prereq &&(
+      {topicData && concepts && (
         <ConceptListComponent
           concepts={concepts}
           topicName={topicData.name}
           parentTopic={topicId}
           type="Concept"
-          prereq={prereq}
         />
       )}
     </div>
