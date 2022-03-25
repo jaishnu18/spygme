@@ -123,7 +123,7 @@ export function EvaluateAllNodesGame(props) {
           content="Description of EvaluateAllNodesGame"
         />
       </Helmet>
-      {gameData && arr &&(
+      {gameData && arr && (
         <>
           <GameBar
             name="Evaluate All Nodes"
@@ -138,7 +138,7 @@ export function EvaluateAllNodesGame(props) {
 
           <Row style={{ width: '100%' }}>
             <Col>
-              <GameDescription description={gameData.gameDescription} />
+              <GameDescription gameData={gameData} evaluatedAnswer={evaluatedAnswer} />
             </Col>
           </Row>
           <GameComponent
