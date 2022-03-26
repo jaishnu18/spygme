@@ -32,34 +32,6 @@ import saga from './saga';
 import reducer from './reducer';
 import makeSelectCrosswordBacktrackingTreeGame from './selectors';
 
-function getHeights(graph, V) {
-  // array to store level of each node
-  const level = Array(V);
-  const marked = Array(V).fill(false);
-
-  const que = [];
-  que.push(0);
-  level[0] = 0;
-  marked[0] = true;
-  let x;
-
-  while (que.length > 0) {
-    x = que[0];
-    que.shift();
-
-    for (let i = 0; i < graph[x].length; i += 1) {
-      const b = graph[x][i];
-      if (!marked[b]) {
-        que.push(b);
-        level[b] = level[x] + 1;
-        marked[b] = true;
-      }
-    }
-  }
-
-  return level;
-}
-
 export function CrosswordBacktrackingTreeGame(props) {
   useInjectReducer({ key: 'crosswordBacktrackingTreeGame', reducer });
   useInjectSaga({ key: 'crosswordBacktrackingTreeGame', saga });

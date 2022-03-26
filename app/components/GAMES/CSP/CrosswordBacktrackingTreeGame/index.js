@@ -15,12 +15,14 @@ import Descriptions from 'antd/lib/descriptions';
 import CloseCircleFilled from '@ant-design/icons/CloseCircleFilled';
 import CheckCircleFilled from '@ant-design/icons/CheckCircleFilled';
 import Paragraph from 'antd/lib/typography/Paragraph';
+import Title from 'antd/lib/typography/Title';
 import InputNumber from 'antd/lib/input-number';
 import Crossword from 'components/Crossword';
 import CustomCard from 'components/CustomCard';
 import CustomButton from 'components/atoms/CustomButton';
 import Graph from 'components/Graph';
 import DagreGraph from 'components/DagreGraph';
+import Affix from 'antd/lib/affix';
 
 const CrosswordBlock = styled.div`
   @media (max-width: 500px) {
@@ -42,10 +44,15 @@ function CrosswordBacktrackingTreeGame(props) {
   const { evaluatedAnswer } = props;
   return (
     <Row>
-      <Col xs={{ span: 24 }} xl={{ span: 12 }}>
+      <Col xs={{ span: 24 }} xl={{ span: 13 }}>
+        <Row style={{ padding: '30px' }} span={24} offset={1}>
+          <Title level={3}>
+            Match crossword states with node IDs in Backtracking tree
+          </Title>
+        </Row>
         {gameData.gridStateList.map((grid, ldx) => (
-          <Row>
-            <Col span={20}>
+          <Row style={{ display: 'flex', alignItems: 'center' }}>
+            <Col span={14}>
               <Row style={{}}>
                 {grid.map((row, idx) => (
                   <Row
@@ -65,8 +72,8 @@ function CrosswordBacktrackingTreeGame(props) {
                               idx === 0 || jdx === 0
                                 ? 'transparent'
                                 : col === 35
-                                ? 'black'
-                                : 'white',
+                                  ? 'black'
+                                  : 'white',
                           }}
                         >
                           {col !== 35 && col !== 46 && (
@@ -79,27 +86,58 @@ function CrosswordBacktrackingTreeGame(props) {
                 ))}
               </Row>
             </Col>
-            <Col span={3}>
-              <InputNumber
-                min="0"
-                onChange={value => {
-                  const v = props.value;
-                  if (value !== null) {
-                    v[ldx] = value;
-                    props.setValue(v);
-                  } else {
-                    v[ldx] = -1;
-                    props.setValue(v);
-                  }
-                }}
-              />
+            <Col span={7}>
+              <Col span={24}>
+                <InputNumber
+                  min="0"
+                  onChange={value => {
+                    const v = props.value;
+                    if (value !== null) {
+                      v[ldx] = value;
+                      props.setValue(v);
+                    } else {
+                      v[ldx] = -1;
+                      props.setValue(v);
+                    }
+                  }}
+                  style={{ border: '1px solid black' }}
+                />
+              </Col>
+              <Col span={24}>
+                {evaluatedAnswer && (
+                  evaluatedAnswer.result[ldx] === 1 ? (
+                    <Row style={{ paddingBottom: '20px' }}>
+                      <Col span={24}>
+                        <CheckCircleFilled style={{ fontSize: '20px', color: 'green' }} />
+                        <Paragraph>{`One of the correct Node ID: ${evaluatedAnswer.orderList[ldx]}`}</Paragraph>
+                      </Col>
+                    </Row>
+                  ) :
+                    (
+                      <Row style={{ paddingBottom: '20px' }}>
+                        <Col span={24}>
+                          <CloseCircleFilled style={{ fontSize: '20px', color: 'red' }} />
+                          <Paragraph>{evaluatedAnswer.result[ldx] === 0 ? 'Wrong ID' : (evaluatedAnswer.result[ldx] === -1 ? 'No appropriate parent found' : 'ID Already used')}</Paragraph>
+                          <Paragraph>{`One of the correct Node ID: ${evaluatedAnswer.orderList[ldx]}`}</Paragraph>
+                        </Col>
+                      </Row>
+                    )
+                )}
+              </Col>
             </Col>
           </Row>
         ))}
       </Col>
-      <Col xs={{ span: 24 }} xl={{ span: 12 }}>
-        <DagreGraph gameData={gameData} evaluatedAnswer={evaluatedAnswer} />
-        <CustomButton onClick={props.submit}>Check Answer</CustomButton>
+      <Col xs={{ span: 24 }} xl={{ span: 11 }}>
+        <Affix offsetTop={150}>
+          <DagreGraph gameData={gameData} evaluatedAnswer={evaluatedAnswer} />
+          <CustomButton disableOnClick onClick={props.submit}>Check Answer</CustomButton>
+          {evaluatedAnswer && (
+            <Row style={{ paddingTop: '10px' }}>
+              <Title level={3}>{"Score : " + Math.round(evaluatedAnswer.score * 100) + "%"}</Title>
+            </Row>
+          )}
+        </Affix>
       </Col>
     </Row>
   );
