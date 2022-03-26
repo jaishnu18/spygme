@@ -75,7 +75,7 @@ function DagreGraph(props) {
       <Col xl={{ span: 10 }} style={{ fontFamily: 'montserrat' }}>
         <H1 style={{ fontWeight: 700 }}>GRAPH</H1>
       </Col>
-      {/* <Col
+      <Col
         xl={{ span: 10 }}
         style={{
           display: 'flex',
@@ -87,12 +87,12 @@ function DagreGraph(props) {
         <CustomButton
           onClick={() => {
             myCyRef.reset();
-            myCyRef.fit(padding=30);
+            myCyRef.fit();
           }}
         >
           Reset Layout
         </CustomButton>
-      </Col> */}
+      </Col>
       {graphData && gameData && (
         <Col span={24}>
           <CytoscapeComponent
