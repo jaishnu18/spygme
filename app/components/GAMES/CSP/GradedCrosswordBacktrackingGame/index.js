@@ -58,7 +58,7 @@ function GradedCrosswordBacktrackingGame(props) {
           {...props}
         />
       </Col>
-      <Col xs={{ span: 24 }} xl={{ span: 10 }}>
+      <Col xs={{ span: 24 }} xl={{ span: 20 }}>
         <Title level={3}>Match crossword states with node IDs in Backtracking tree</Title>
         <Form name={`Form-${props.currentLevel}`}>
           {gameData[currentLevel].gridStateList.map((grid, ldx) => (
@@ -111,7 +111,6 @@ function GradedCrosswordBacktrackingGame(props) {
                           v[currentLevel][ldx] = -1;
                           props.setValue(v);
                         }
-                        console.log(props.value)
                       }}
                       style={{ border: '1px solid black' }}
                     />
@@ -119,11 +118,11 @@ function GradedCrosswordBacktrackingGame(props) {
                 </Col>
                 <Col span={24}>
                   {evaluatedAnswer && (
-                    evaluatedAnswer.result[ldx] === 1 ? (
+                    evaluatedAnswer[currentLevel].result[ldx] === 1 ? (
                       <Row style={{ paddingBottom: '20px' }}>
                         <Col span={24}>
                           <CheckCircleFilled style={{ fontSize: '20px', color: 'green' }} />
-                          <Paragraph>{`One of the correct Node ID: ${evaluatedAnswer.orderList[ldx]}`}</Paragraph>
+                          <Paragraph>{`One of the correct Node ID: ${evaluatedAnswer[currentLevel].orderList[ldx]}`}</Paragraph>
                         </Col>
                       </Row>
                     ) :
@@ -131,8 +130,8 @@ function GradedCrosswordBacktrackingGame(props) {
                         <Row style={{ paddingBottom: '20px' }}>
                           <Col span={24}>
                             <CloseCircleFilled style={{ fontSize: '20px', color: 'red' }} />
-                            <Paragraph>{evaluatedAnswer.result[ldx] === 0 ? 'Wrong ID' : (evaluatedAnswer.result[ldx] === -1 ? 'No appropriate parent found' : 'ID Already used')}</Paragraph>
-                            <Paragraph>{`One of the correct Node ID: ${evaluatedAnswer.orderList[ldx]}`}</Paragraph>
+                            <Paragraph>{evaluatedAnswer[currentLevel].result[ldx] === 0 ? 'Wrong ID' : (evaluatedAnswer[currentLevel].result[ldx] === -1 ? 'No appropriate parent found' : 'ID Already used')}</Paragraph>
+                            <Paragraph>{`One of the correct Node ID: ${evaluatedAnswer[currentLevel].orderList[ldx]}`}</Paragraph>
                           </Col>
                         </Row>
                       )
@@ -143,15 +142,52 @@ function GradedCrosswordBacktrackingGame(props) {
           ))}
           <Col xs={{ span: 24 }} xl={{ span: 8 }}>
             <Affix offsetTop={150}>
-              <DagreGraph gameData={gameData[currentLevel]} evaluatedAnswer={evaluatedAnswer} />
-              {evaluatedAnswer && (
-                <Row style={{ paddingTop: '10px' }}>
-                  <Title level={3}>{"Score : " + Math.round(evaluatedAnswer.score * 100) + "%"}</Title>
-                </Row>
-              )}
+              <Form.Item name={`Graph-${currentLevel}`}>
+                <DagreGraph gameData={gameData[currentLevel]} />
+              </Form.Item>
             </Affix>
+            {evaluatedAnswer && (
+              <Row style={{ paddingTop: '40px' }}>
+                <Col span={22}>
+                  <CustomCard title="Summary Report">
+                    <Col xl={{ span: 23 }} xs={{ span: 24 }}>
+                      <Descriptions layout="horizontal" bordered>
+                        <Descriptions.Item label="Score" span={24}>
+                          <Col span={24}>
+                            {Math.round(
+                              evaluatedAnswer[props.maxLevel].score * 100,
+                            ) + '%'}
+                          </Col>
+                        </Descriptions.Item>
+                        <Descriptions.Item label="Attempted question" span={24}>
+                          <Col span={24}>
+                            {evaluatedAnswer[props.maxLevel].attempted}
+                          </Col>
+                        </Descriptions.Item>
+                        <Descriptions.Item label="Not attempted question" span={24}>
+                          <Col span={24}>
+                            {evaluatedAnswer[props.maxLevel].notAttempted}
+                          </Col>
+                        </Descriptions.Item>
+                        <Descriptions.Item label="Correctly Answered" span={24}>
+                          <Col span={24}>
+                            {evaluatedAnswer[props.maxLevel].correctlyAnswered}
+                          </Col>
+                        </Descriptions.Item>
+                        <Descriptions.Item label="Wrong Answered" span={24}>
+                          <Col span={24}>
+                            {evaluatedAnswer[props.maxLevel].wrongAnswered}
+                          </Col>
+                        </Descriptions.Item>
+                      </Descriptions>
+                    </Col>
+                  </CustomCard>
+                </Col>
+              </Row>
+            )}
           </Col>
         </Form>
+
       </Col>
     </Row>
   )
