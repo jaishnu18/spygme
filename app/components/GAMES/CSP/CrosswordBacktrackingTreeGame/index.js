@@ -24,7 +24,11 @@ import Graph from 'components/Graph';
 import DagreGraph from 'components/DagreGraph';
 import Affix from 'antd/lib/affix';
 
-const CrosswordBlock = styled.div`
+export const CrosswordBlock = styled.div`
+  display: flex;
+  justify-content: center !important;
+  align-content: center;
+
   @media (max-width: 500px) {
     width: 10vw !important;
     height: 10vw !important;
@@ -65,15 +69,12 @@ function CrosswordBacktrackingTreeGame(props) {
                         <CrosswordBlock
                           style={{
                             border: idx !== 0 && jdx !== 0 && '1px solid grey',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
                             backgroundColor:
                               idx === 0 || jdx === 0
                                 ? 'transparent'
                                 : col === 35
-                                  ? 'black'
-                                  : 'white',
+                                ? 'black'
+                                : 'white',
                           }}
                         >
                           {col !== 35 && col !== 46 && (
@@ -104,25 +105,37 @@ function CrosswordBacktrackingTreeGame(props) {
                 />
               </Col>
               <Col span={24}>
-                {evaluatedAnswer && (
-                  evaluatedAnswer.result[ldx] === 1 ? (
+                {evaluatedAnswer &&
+                  (evaluatedAnswer.result[ldx] === 1 ? (
                     <Row style={{ paddingBottom: '20px' }}>
                       <Col span={24}>
-                        <CheckCircleFilled style={{ fontSize: '20px', color: 'green' }} />
-                        <Paragraph>{`One of the correct Node ID: ${evaluatedAnswer.orderList[ldx]}`}</Paragraph>
+                        <CheckCircleFilled
+                          style={{ fontSize: '20px', color: 'green' }}
+                        />
+                        <Paragraph>{`One of the correct Node ID: ${
+                          evaluatedAnswer.orderList[ldx]
+                        }`}</Paragraph>
                       </Col>
                     </Row>
-                  ) :
-                    (
-                      <Row style={{ paddingBottom: '20px' }}>
-                        <Col span={24}>
-                          <CloseCircleFilled style={{ fontSize: '20px', color: 'red' }} />
-                          <Paragraph>{evaluatedAnswer.result[ldx] === 0 ? 'Wrong ID' : (evaluatedAnswer.result[ldx] === -1 ? 'No appropriate parent found' : 'ID Already used')}</Paragraph>
-                          <Paragraph>{`One of the correct Node ID: ${evaluatedAnswer.orderList[ldx]}`}</Paragraph>
-                        </Col>
-                      </Row>
-                    )
-                )}
+                  ) : (
+                    <Row style={{ paddingBottom: '20px' }}>
+                      <Col span={24}>
+                        <CloseCircleFilled
+                          style={{ fontSize: '20px', color: 'red' }}
+                        />
+                        <Paragraph>
+                          {evaluatedAnswer.result[ldx] === 0
+                            ? 'Wrong ID'
+                            : evaluatedAnswer.result[ldx] === -1
+                            ? 'No appropriate parent found'
+                            : 'ID Already used'}
+                        </Paragraph>
+                        <Paragraph>{`One of the correct Node ID: ${
+                          evaluatedAnswer.orderList[ldx]
+                        }`}</Paragraph>
+                      </Col>
+                    </Row>
+                  ))}
               </Col>
             </Col>
           </Row>
@@ -130,7 +143,9 @@ function CrosswordBacktrackingTreeGame(props) {
       </Col>
       <Col xs={{ span: 24 }} xl={{ span: 3 }} style={{ paddingTop: '50px' }}>
         <Affix offsetTop={150}>
-          <CustomButton disableOnClick onClick={props.submit}>Check Answer</CustomButton>
+          <CustomButton disableOnClick onClick={props.submit}>
+            Check Answer
+          </CustomButton>
         </Affix>
       </Col>
       <Col xs={{ span: 24 }} xl={{ span: 11 }}>
@@ -138,7 +153,9 @@ function CrosswordBacktrackingTreeGame(props) {
           <DagreGraph gameData={gameData} evaluatedAnswer={evaluatedAnswer} />
           {evaluatedAnswer && (
             <Row style={{ paddingTop: '10px' }}>
-              <Title level={3}>{"Score : " + Math.round(evaluatedAnswer.score * 100) + "%"}</Title>
+              <Title level={3}>
+                {'Score : ' + Math.round(evaluatedAnswer.score * 100) + '%'}
+              </Title>
             </Row>
           )}
         </Affix>
