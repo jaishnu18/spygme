@@ -50,6 +50,7 @@ import CrosswordBacktrackingTreeGame from '../GAMES/CSP/CrosswordBacktrackingTre
 import RevisitQuestionPage from '../RevisitQuestionPage';
 import EvaluateAllNodes from '../GAMES/PropositionalLogic/EvaluateAllNodesGame';
 import GradedEvaluateAllNodesGame from '../GAMES/PropositionalLogic/GradedEvaluateAllNodesGame';
+import GradedCrosswordBacktrackingGame from '../GAMES/CSP/GradedCrosswordBacktrackingGame';
 
 function Routes(props) {
   if (!props.AuthData.isLoggedIn) {
@@ -279,6 +280,14 @@ function Routes(props) {
         path="/graded-quiz/arc-consistency/:topicId/:conceptId/:gameId"
         render={({ match }) => (
           <GradedArcConsistency gameId={match.params.gameId} />
+        )}
+      />
+
+      <Route
+        exact
+        path="/graded-quiz/crossword-backtracking-tree/:topicId/:conceptId/:gameId"
+        render={({ match }) => (
+          <GradedCrosswordBacktrackingGame gameId={match.params.gameId} />
         )}
       />
 

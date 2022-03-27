@@ -63,7 +63,6 @@ function GradedMatchExpressionGame(props) {
                           if (e !== null) resArray[currentLevel][idx] = e;
                           else resArray[currentLevel][idx] = -1;
                           props.setValue(resArray);
-                          console.log(props.value);
                         }}
                       />
                     </Form.Item>

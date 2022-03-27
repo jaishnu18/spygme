@@ -44,7 +44,7 @@ function CrosswordBacktrackingTreeGame(props) {
   const { evaluatedAnswer } = props;
   return (
     <Row>
-      <Col xs={{ span: 24 }} xl={{ span: 13 }}>
+      <Col xs={{ span: 24 }} xl={{ span: 10 }}>
         <Row style={{ padding: '30px' }} span={24} offset={1}>
           <Title level={3}>
             Match crossword states with node IDs in Backtracking tree
@@ -128,10 +128,14 @@ function CrosswordBacktrackingTreeGame(props) {
           </Row>
         ))}
       </Col>
+      <Col xs={{ span: 24 }} xl={{ span: 3 }} style={{ paddingTop: '50px' }}>
+        <Affix offsetTop={150}>
+          <CustomButton disableOnClick onClick={props.submit}>Check Answer</CustomButton>
+        </Affix>
+      </Col>
       <Col xs={{ span: 24 }} xl={{ span: 11 }}>
         <Affix offsetTop={150}>
           <DagreGraph gameData={gameData} evaluatedAnswer={evaluatedAnswer} />
-          <CustomButton disableOnClick onClick={props.submit}>Check Answer</CustomButton>
           {evaluatedAnswer && (
             <Row style={{ paddingTop: '10px' }}>
               <Title level={3}>{"Score : " + Math.round(evaluatedAnswer.score * 100) + "%"}</Title>
