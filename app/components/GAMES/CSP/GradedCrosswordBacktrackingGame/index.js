@@ -42,14 +42,14 @@ function GradedCrosswordBacktrackingGame(props) {
           {...props}
         />
       </Col>
-      <Col xs={{ span: 24 }} xl={{ span: 12 }}>
+      <Col xs={{ span: 24 }} xl={{ span: 9 }}>
         <Title level={3}>
           Match crossword states with node IDs in Backtracking tree
         </Title>
         <Form name={`Form-${props.currentLevel}`}>
           {gameData[currentLevel].gridStateList.map((grid, ldx) => (
-            <Row style={{ display: 'flex', alignItems: 'center' }}>
-              <Col span={14}>
+            <Row style={{ display: 'flex', alignItems: 'center', border: '1px solid black', margin: '5px', padding: '5px' }}>
+              <Col span={13}>
                 <Row style={{}}>
                   {grid.map((row, idx) => (
                     <Row
@@ -67,8 +67,8 @@ function GradedCrosswordBacktrackingGame(props) {
                                 idx === 0 || jdx === 0
                                   ? 'transparent'
                                   : col === 35
-                                  ? 'black'
-                                  : 'white',
+                                    ? 'black'
+                                    : 'white',
                             }}
                           >
                             {col !== 35 && col !== 46 && (
@@ -81,7 +81,7 @@ function GradedCrosswordBacktrackingGame(props) {
                   ))}
                 </Row>
               </Col>
-              <Col span={7}>
+              <Col span={11}>
                 <Col span={24}>
                   <Form.Item name={`Input-${currentLevel}-${ldx}`}>
                     <InputNumber
@@ -108,9 +108,8 @@ function GradedCrosswordBacktrackingGame(props) {
                           <CheckCircleFilled
                             style={{ fontSize: '20px', color: 'green' }}
                           />
-                          <Paragraph>{`One of the correct Node ID: ${
-                            evaluatedAnswer[currentLevel].orderList[ldx]
-                          }`}</Paragraph>
+                          <Paragraph>{`One of the correct Node ID: ${evaluatedAnswer[currentLevel].orderList[ldx]
+                            }`}</Paragraph>
                         </Col>
                       </Row>
                     ) : (
@@ -123,12 +122,11 @@ function GradedCrosswordBacktrackingGame(props) {
                             {evaluatedAnswer[currentLevel].result[ldx] === 0
                               ? 'Wrong ID'
                               : evaluatedAnswer[currentLevel].result[ldx] === -1
-                              ? 'No appropriate parent found'
-                              : 'ID Already used'}
+                                ? 'No appropriate parent found'
+                                : 'ID Already used'}
                           </Paragraph>
-                          <Paragraph>{`One of the correct Node ID: ${
-                            evaluatedAnswer[currentLevel].orderList[ldx]
-                          }`}</Paragraph>
+                          <Paragraph>{`One of the correct Node ID: ${evaluatedAnswer[currentLevel].orderList[ldx]
+                            }`}</Paragraph>
                         </Col>
                       </Row>
                     ))}
@@ -138,12 +136,20 @@ function GradedCrosswordBacktrackingGame(props) {
           ))}
         </Form>
       </Col>
-      <Col xs={{ span: 24 }} xl={{ span: 8 }}>
-        <Affix offsetTop={150}>
-          <Form.Item name={`Graph-${currentLevel}`}>
-            <DagreGraph gameData={gameData[currentLevel]} />
-          </Form.Item>
-        </Affix>
+      <Col xs={{ span: 24 }} xl={{ span: 11 }}>
+        {evaluatedAnswer ?
+          (
+            <Form.Item name={`Graph-after-${currentLevel}`}>
+              <DagreGraph gameData={gameData[currentLevel]} />
+            </Form.Item>
+          ) : (
+            < Affix offsetTop={150}>
+              <Form.Item name={`Graph-${currentLevel}`}>
+                <DagreGraph gameData={gameData[currentLevel]} />
+              </Form.Item>
+            </Affix>
+          )
+        }
         {evaluatedAnswer && (
           <Row style={{ paddingTop: '40px' }}>
             <Col span={22}>
@@ -184,7 +190,7 @@ function GradedCrosswordBacktrackingGame(props) {
           </Row>
         )}
       </Col>
-    </Row>
+    </Row >
   );
 }
 

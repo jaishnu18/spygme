@@ -74,7 +74,7 @@ function GradedMatchExpressionGame(props) {
                   (evaluatedAnswer[currentLevel].correctResponse.includes(
                     idx,
                   ) ? (
-                    <Row style={{paddingBottom: '20px' }}>
+                    <Row style={{ paddingBottom: '20px' }}>
                       <Col span={24}>
                         <CheckCircleFilled
                           style={{ fontSize: '20px', color: 'green' }}
@@ -82,7 +82,7 @@ function GradedMatchExpressionGame(props) {
                       </Col>
                     </Row>
                   ) : (
-                    <Row style={{paddingBottom: '20px' }}>
+                    <Row style={{ paddingBottom: '20px' }}>
                       <Col span={24} style={{ display: 'flex' }}>
                         <CloseCircleFilled
                           style={{ fontSize: '20px', color: 'red' }}
@@ -90,7 +90,7 @@ function GradedMatchExpressionGame(props) {
                         <Paragraph style={{ padding: '10px' }}>
                           {'Correct Node ID : ' +
                             evaluatedAnswer[currentLevel].wrongResponse[
-                              gameData[currentLevel].ptr++
+                            gameData[currentLevel].ptr++
                             ][1]}
                         </Paragraph>
                       </Col>
