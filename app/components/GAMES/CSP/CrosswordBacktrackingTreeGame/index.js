@@ -55,9 +55,9 @@ function CrosswordBacktrackingTreeGame(props) {
           </Title>
         </Row>
         {gameData.gridStateList.map((grid, ldx) => (
-          <Row style={{ display: 'flex', alignItems: 'center' }}>
+          <Row style={{ display: 'flex', alignItems: 'center', border: '1px solid black', margin: '5px', padding: '5px' }}>
             <Col span={14}>
-              <Row style={{}}>
+              <Row>
                 {grid.map((row, idx) => (
                   <Row
                     justify="center"
@@ -73,8 +73,8 @@ function CrosswordBacktrackingTreeGame(props) {
                               idx === 0 || jdx === 0
                                 ? 'transparent'
                                 : col === 35
-                                ? 'black'
-                                : 'white',
+                                  ? 'black'
+                                  : 'white',
                           }}
                         >
                           {col !== 35 && col !== 46 && (
@@ -87,7 +87,7 @@ function CrosswordBacktrackingTreeGame(props) {
                 ))}
               </Row>
             </Col>
-            <Col span={7}>
+            <Col span={10}>
               <Col span={24}>
                 <InputNumber
                   min="0"
@@ -112,9 +112,8 @@ function CrosswordBacktrackingTreeGame(props) {
                         <CheckCircleFilled
                           style={{ fontSize: '20px', color: 'green' }}
                         />
-                        <Paragraph>{`One of the correct Node ID: ${
-                          evaluatedAnswer.orderList[ldx]
-                        }`}</Paragraph>
+                        <Paragraph>{`One of the correct Node ID: ${evaluatedAnswer.orderList[ldx]
+                          }`}</Paragraph>
                       </Col>
                     </Row>
                   ) : (
@@ -127,12 +126,11 @@ function CrosswordBacktrackingTreeGame(props) {
                           {evaluatedAnswer.result[ldx] === 0
                             ? 'Wrong ID'
                             : evaluatedAnswer.result[ldx] === -1
-                            ? 'No appropriate parent found'
-                            : 'ID Already used'}
+                              ? 'No appropriate parent found'
+                              : 'ID Already used'}
                         </Paragraph>
-                        <Paragraph>{`One of the correct Node ID: ${
-                          evaluatedAnswer.orderList[ldx]
-                        }`}</Paragraph>
+                        <Paragraph>{`One of the correct Node ID: ${evaluatedAnswer.orderList[ldx]
+                          }`}</Paragraph>
                       </Col>
                     </Row>
                   ))}
@@ -149,16 +147,22 @@ function CrosswordBacktrackingTreeGame(props) {
         </Affix>
       </Col>
       <Col xs={{ span: 24 }} xl={{ span: 11 }}>
-        <Affix offsetTop={150}>
-          <DagreGraph gameData={gameData} evaluatedAnswer={evaluatedAnswer} />
-          {evaluatedAnswer && (
+        {evaluatedAnswer ? (
+          <div>
+            <DagreGraph gameData={gameData} evaluatedAnswer={evaluatedAnswer} />
+
             <Row style={{ paddingTop: '10px' }}>
               <Title level={3}>
                 {'Score : ' + Math.round(evaluatedAnswer.score * 100) + '%'}
               </Title>
             </Row>
-          )}
-        </Affix>
+          </div>
+
+        ) : (
+          <Affix offsetTop={150}>
+            <DagreGraph gameData={gameData} evaluatedAnswer={evaluatedAnswer} />
+          </Affix>
+        )}
       </Col>
     </Row>
   );

@@ -37,7 +37,7 @@ function ReadingMaterialComponent(props) {
                 contentArr.map((key, idx) => (
                   key.endsWith('.png') ?
                     (
-                      <Image preview={false} src={require('images/' + key)} style={{ height: '128px' }} />
+                      <Image preview={true} src={require('images/' + key)} style={{ height: '128px' }} />
                     ) : (
 
                       key.startsWith('Answer:') ?
@@ -49,7 +49,7 @@ function ReadingMaterialComponent(props) {
                           </Panel>
                         </Collapse>
                         :
-                        <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'inherit' }}>
+                        <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'inherit', textAlign: 'justify' }}>
                           {parse(key.replace(/<new_line>/g, '\n'))}
                         </pre>
 
