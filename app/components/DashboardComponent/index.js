@@ -38,7 +38,7 @@ const StyledDiv = styled.div`
   }
 `;
 
-const columns = [
+const columnsStudent = [
   {
     title: 'Rank',
     dataIndex: 'rank',
@@ -48,6 +48,62 @@ const columns = [
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
+  },
+  {
+    title: 'School',
+    dataIndex: 'organisation',
+    key: 'organisation',
+  },
+  {
+    title: 'Class',
+    dataIndex: 'class',
+    key: 'class',
+  },
+  {
+    title: 'Proficiency (%)',
+    dataIndex: 'overall_proficiency',
+    key: 'overall_proficiency',
+  },
+];
+
+const columnsTeacher = [
+  {
+    title: 'Rank',
+    dataIndex: 'rank',
+    key: 'rank',
+  },
+  {
+    title: 'Name',
+    dataIndex: 'name',
+    key: 'name',
+  },
+  {
+    title: 'School',
+    dataIndex: 'organisation',
+    key: 'organisation',
+  },
+  {
+    title: 'Proficiency (%)',
+    dataIndex: 'overall_proficiency',
+    key: 'overall_proficiency',
+  },
+];
+
+const columnsOthers = [
+  {
+    title: 'Rank',
+    dataIndex: 'rank',
+    key: 'rank',
+  },
+  {
+    title: 'Name',
+    dataIndex: 'name',
+    key: 'name',
+  },
+  {
+    title: 'Organisation',
+    dataIndex: 'organisation',
+    key: 'organisation',
   },
   {
     title: 'Proficiency (%)',
@@ -128,7 +184,7 @@ function DashboardComponent(props) {
             </StyledDiv>
           )}
 
-          <StyledDiv>
+          {/* <StyledDiv>
             <Title level={2} style={{ marginTop: '10px', marginBottom: '0' }}>
               {getDayName(date.getDay())}, {month[date.getMonth()]}{' '}
               {date.getDate()}
@@ -136,10 +192,10 @@ function DashboardComponent(props) {
             <Title level={1} style={{ marginTop: '10px', marginBottom: '0' }}>
               Hello! {props.username}
             </Title>
-          </StyledDiv>
+          </StyledDiv> */}
         </Col>
 
-        <Col
+        {/* <Col
           xs={{ span: 24 }}
           xl={{ span: 5, offset: 3 }}
           style={{
@@ -159,7 +215,7 @@ function DashboardComponent(props) {
             }}
             preview={false}
           />
-        </Col>
+        </Col> */}
       </Row>
       <Row style={{ paddingBottom: '20px' }}>
         <Col span={23} offset={1}>
@@ -171,14 +227,14 @@ function DashboardComponent(props) {
         </Col>
       </Row>
       <Row>
-        <Col xs={{ span: 22 }} xl={{ span: 4 }} offset={1}>
+        <Col xs={{ span: 24 }} xl={{ span: 4 }} offset={1}>
           <DescriptionCard
             title="Overall Progress"
             progress={Math.round(dashboard.overallProgress * 100)}
             suggestionText="Attempt new items to increase progress"
           />
         </Col>
-        <Col xs={{ span: 22 }} xl={{ span: 4 }} offset={1}>
+        <Col xs={{ span: 24 }} xl={{ span: 4 }}>
           <DescriptionCard
             title="Overall Proficiency"
             progress={Math.round(dashboard.overallProficiency * 100)}
@@ -186,11 +242,11 @@ function DashboardComponent(props) {
             suggestionText="Perform better at graded games to improve"
           />
         </Col>
-        <Col xs={{ span: 22 }} xl={{ span: 12 }} offset={1}>
+        <Col xs={{ span: 24 }} xl={{ span: 13 }} offset={1}>
           <CustomCard title="Leaderboard">
             <Table
               dataSource={dashboard.allStudents}
-              columns={columns}
+              columns={dashboard.allStudents[0].role === 'Student' ? columnsStudent : (dashboard.allStudents[0].role === 'Teacher' ? columnsTeacher : columnsOthers)}
               pagination={{ pageSize: 3 }}
             />
           </CustomCard>
