@@ -44,7 +44,14 @@ export function ConceptMaterialPage(props) {
         <title>ConceptMaterialPage</title>
         <meta name="description" content="Description of ConceptMaterialPage" />
       </Helmet>
-      <ConceptMaterialComponent readingMaterials={readingMaterials} games={games} parentConcept={conceptId} parentTopic={topicId} setModalVisiblity={setModalVisiblity} modalVisible={modalVisible}/>
+      <ConceptMaterialComponent
+        readingMaterials={readingMaterials}
+        games={games}
+        parentConcept={conceptId}
+        parentTopic={topicId}
+        setModalVisiblity={setModalVisiblity}
+        modalVisible={modalVisible}
+      />
     </div>
   );
 }

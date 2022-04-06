@@ -13,14 +13,21 @@ import Col from 'antd/lib/col';
 import Typography from 'antd/lib/typography';
 import Paragraph from 'antd/lib/typography/Paragraph';
 import Progress from 'antd/lib/progress';
+import Button from 'antd/lib/button';
 import Image from 'antd/lib/image';
 import Tooltip from 'antd/lib/tooltip';
+import history from 'utils/history';
+import { Link } from 'react-router-dom';
 
 const { Title } = Typography;
 
 function DescriptionCard(props) {
   return (
-    <CustomCard title={props.title} hoverable={props.hoverable} color={props.color ? props.color : 'white'}>
+    <CustomCard
+      title={props.title}
+      hoverable={props.hoverable}
+      color={props.color ? props.color : 'white'}
+    >
       <Row>
         {props.isReadingMaterial ? (
           props.description.map((key, idx) => (
@@ -56,12 +63,43 @@ function DescriptionCard(props) {
       <Row>
         {props.practiceGame ? (
           <div>
-            <Paragraph>{'Your highest scores:'}</Paragraph>
-            <Paragraph>
-              {props.suggestionText.map(
-                (key, idx) => `Level ${idx + 1}: ${key}%, `,
-              )}
-            </Paragraph>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                marginTop: '16px',
+              }}
+            >
+              <Paragraph
+                style={{
+                  margin: '0',
+                  fontWeight: 600,
+                }}
+              >
+                Play Level:
+              </Paragraph>
+              {[...Array(props.levels)].map((x, i) => (
+                <Button
+                  key={`${i + 1}`}
+                  onClick={() => {
+                    window.location.href = `${props.link}${props.parentTopic}/${
+                      props.parentConcept
+                    }/${props.id}/${i + 1}`;
+                  }}
+                  style={{ marginLeft: '10px' }}
+                >
+                  {i + 1}
+                </Button>
+              ))}
+            </div>
+            <div style={{ display: 'flex', marginTop: '16px' }}>
+              <Paragraph>Your highest scores:</Paragraph>
+              <Paragraph style={{ marginLeft: '8px' }}>
+                {props.suggestionText.map(
+                  (key, idx) => `Level ${idx + 1}: ${key}%, `,
+                )}
+              </Paragraph>
+            </div>
           </div>
         ) : (
           <Paragraph>{props.suggestionText}</Paragraph>

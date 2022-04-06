@@ -23,6 +23,8 @@ function ConceptMaterialComponent(props) {
   const { parentConcept } = props;
   const { parentTopic } = props;
 
+  console.log(games);
+
   return (
     <div>
       {parentTopic && (
@@ -101,22 +103,27 @@ function ConceptMaterialComponent(props) {
             games.length > 0 ? (
               games.map((key, idx) => (
                 <Col xs={{ span: 24 }} xl={{ span: 8 }}>
-                  <Link
+                  {/* <Link
                     to={`${key.link}${parentTopic}/${parentConcept}/${
                       key.id
                     }/1`}
                     onClick={() => {
                       this.forceUpdate();
                     }}
-                  >
-                    <DescriptionCard
-                      title={`Practice Game : ${idx + 1}`}
-                      description={key.name}
-                      progress={Math.round(key.progress * 100)}
-                      suggestionText={key.maxScore}
-                      practiceGame
-                    />
-                  </Link>
+                  > */}
+                  <DescriptionCard
+                    title={`Practice Game : ${idx + 1}`}
+                    description={key.name}
+                    progress={Math.round(key.progress * 100)}
+                    suggestionText={key.maxScore}
+                    practiceGame
+                    link={key.link}
+                    parentTopic={parentTopic}
+                    parentConcept={parentConcept}
+                    id={key.id}
+                    levels={key.levels}
+                  />
+                  {/* </Link> */}
                 </Col>
               ))
             ) : (
