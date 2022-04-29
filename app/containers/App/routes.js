@@ -36,7 +36,8 @@ import GradedNodeConsistency from 'containers/GAMES/CSP/GradedNodeConsistency';
 import GradedArcConsistency from 'containers/GAMES/CSP/GradedArcConsistency';
 import AboutPage from 'containers/AboutPage';
 import TestNotAllowedPage from 'containers/TestNotAllowedPage';
-
+import DiscussPage from '../DISCUSS/DiscussPage';
+import DiscussNewThreadPage from '../DISCUSS/DiscussNewThreadPage';
 import ForgotPasswordPage from 'containers/ForgotPasswordPage';
 import ResetPasswordPage from 'containers/ResetPasswordPage';
 import GradedWriteExpressionGame from '../GAMES/PropositionalLogic/GradedWriteExpressionGame';
@@ -107,6 +108,8 @@ function Routes(props) {
       <Route exact path="/home" component={prop => <HomePage {...prop} />} />
       <Route exact path="/topics" component={TopicListPage} />
       <Route exact path="/testnotallowed" component={TestNotAllowedPage} />
+      <Route exact path="/discuss" component={DiscussPage} />
+      <Route exact path="/discuss/new-thread" component={DiscussNewThreadPage} />
 
       <Route
         exact
