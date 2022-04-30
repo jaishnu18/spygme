@@ -28,8 +28,7 @@ export function DiscussNewThreadPage(props) {
   useEffect(()=>{
     if(props.state.threadDetails)
     {
-      // console.log(props.threadDetails)
-      window.location.href = `/discuss/${props.state.threadDetails.newThread}`;
+      window.location.href = `/discuss/view-thread/${props.state.threadDetails.newThread}`;
     }
   },[props.state.threadDetails])
 

@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -18,33 +18,39 @@ import reducer from './reducer';
 import saga from './saga';
 
 import DiscussComponent from '../../../components/DISCUSS/DiscussComponent';
-
-export function DiscussPage() {
+import {
+  getAllThreadsStart,
+} from './actions';
+export function DiscussPage(props) {
   useInjectReducer({ key: 'discussPage', reducer });
   useInjectSaga({ key: 'discussPage', saga });
 
+  useEffect(()=>{
+    props.getAllThreads();
+  },[])
   return (
     <div>
       <Helmet>
         <title>DiscussPage</title>
         <meta name="description" content="Description of DiscussPage" />
       </Helmet>
-      <DiscussComponent/>
+      <DiscussComponent threads={props.state.threadDetails}/>
     </div>
   );
 }
 
 DiscussPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  state: PropTypes.object,
+  getAllThreads: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
-  discussPage: makeSelectDiscussPage(),
+  state: makeSelectDiscussPage(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    getAllThreads: response => dispatch(getAllThreadsStart(response)),
   };
 }
 
