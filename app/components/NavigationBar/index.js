@@ -12,6 +12,10 @@ import Col from 'antd/lib/col';
 import { Link } from 'react-router-dom';
 import CustomButton from 'components/atoms/CustomButton';
 import ArrowLeftOutlined from '@ant-design/icons/ArrowLeftOutlined';
+import LeftOutlined from '@ant-design/icons/LeftOutlined';
+import RightOutlined from '@ant-design/icons/RightOutlined';
+import MessageOutlined from '@ant-design/icons/MessageOutlined';
+import ExclamationCircleOutlined from '@ant-design/icons/ExclamationOutlined';
 import Affix from 'antd/lib/affix';
 import CheckCircleFilled from '@ant-design/icons/CheckCircleFilled';
 import Tooltip from 'antd/lib/tooltip';
@@ -19,6 +23,7 @@ import Modal from 'antd/lib/modal';
 import Form from 'antd/lib/form';
 import Checkbox from 'antd/lib/checkbox/Checkbox';
 import Button from 'antd/lib/button';
+import DiscussNewThreadComponent from '../DISCUSS/DiscussNewThreadComponent';
 import { evaluateAnswer } from '../../containers/GAMES/PropositionalLogic/ExpressionEvaluationGame/saga';
 
 const errors = [
@@ -32,6 +37,7 @@ function NavigationBar(props) {
   const [isExitModalVisible, setIsExitModalVisible] = useState(false);
   const [testSubmitted, setIsTestSubmiited] = useState(false);
   const [reportModalVisible, setReportModalVisible] = useState(false);
+  const [newThreadVisible, setNewThreadVisible] = useState(false);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -69,10 +75,10 @@ function NavigationBar(props) {
             xl={{ span: 10 }}
             style={{ display: 'flex', alignItems: 'center' }}
           >
-            <CustomButton onClick={props.backToMaterials}>
+            <Button onClick={props.backToMaterials} shape='round' type='primary'>
               <ArrowLeftOutlined />
               {props.prevPageText}
-            </CustomButton>
+            </Button>
             {props.read ? (
               <Tooltip title="Marked as read">
                 <CheckCircleFilled
@@ -80,39 +86,64 @@ function NavigationBar(props) {
                 />
               </Tooltip>
             ) : (
-              <CustomButton onClick={props.markAsRead}>
+              <Button onClick={props.markAsRead} shape='round' type='primary'>
                 Mark as Read
-              </CustomButton>
+              </Button>
             )}
           </Col>
         ) : (
           props.prevPageLink && (
             <Col
               xs={{ span: 24 }}
-              xl={{ span: 10 }}
+              xl={{ span: 18 }}
               style={{ display: 'flex', alignItems: 'center' }}
             >
               <Link to={props.prevPageLink}>
-                <CustomButton onClick={() => {}}>
+                <Button onClick={() => { }} shape='round' type='primary'>
                   <ArrowLeftOutlined />
                   {props.prevPageText}
-                </CustomButton>
+                </Button>
               </Link>
             </Col>
           )
         )}
 
+        {(props.game || props.readingMaterial) && (
+          <Col xs={{ span: 24 }} xl={{ span: 1 }}>
+            <Button
+              disabled={props.game ? props.evaluatedAnswer === undefined : false}
+              shape='circle'
+              type='primary'
+              onClick={() => {
+                setNewThreadVisible(true);
+              }}
+              icon={<MessageOutlined />} />
+          </Col>
+        )}
+        <Modal
+          title="New Thread"
+          visible={newThreadVisible}
+          onCancel={() => {
+            setNewThreadVisible(false);
+          }}
+          onOk={() => {
+            setNewThreadVisible(false);
+          }}
+          footer={null}
+        >
+          <DiscussNewThreadComponent />
+        </Modal>
+
         {props.game ? (
-          <Col xs={{ span: 24 }} xl={{ span: 4, offset: 2 }}>
-            <CustomButton
+          <Col xs={{ span: 24 }} xl={{ span: 1 }}>
+            <Button
               type="danger"
               disabled={props.evaluatedAnswer === undefined}
               onClick={() => {
                 setReportModalVisible(true);
               }}
-            >
-              {'Report error'}
-            </CustomButton>
+              shape='circle'
+              icon={<ExclamationCircleOutlined />} />
           </Col>
         ) : null}
         <Modal
@@ -141,7 +172,7 @@ function NavigationBar(props) {
               </Form.Item>
             ))}
             <Form.Item>
-              <Button type="primary" htmlType="submit" onClick={() => {}}>
+              <Button type="primary" htmlType="submit" onClick={() => { }}>
                 Submit
               </Button>
             </Form.Item>
@@ -149,28 +180,28 @@ function NavigationBar(props) {
         </Modal>
 
         {props.game ? (
-          <Col xs={{ span: 24 }} xl={{ span: 4 }}>
-            <CustomButton
+          <Col xs={{ span: 24 }} xl={{ span: 1 }}>
+            <Button
               disabled={props.level === '1'}
               onClick={() => {
                 window.location.href = props.prevLevelLink;
               }}
-            >
-              {'< Prev Level'}
-            </CustomButton>
+              shape='circle'
+              type='primary'
+              icon={<LeftOutlined />} />
           </Col>
         ) : null}
 
         {props.game ? (
-          <Col xs={{ span: 24 }} xl={{ span: 4 }}>
-            <CustomButton
+          <Col xs={{ span: 24 }} xl={{ span: 1 }}>
+            <Button
               disabled={props.level === props.maxLevel.toString()}
               onClick={() => {
                 window.location.href = props.nextLevelLink;
               }}
-            >
-              {'Next level >'}
-            </CustomButton>
+              shape='circle'
+              type='primary'
+              icon={<RightOutlined />} />
           </Col>
         ) : null}
 

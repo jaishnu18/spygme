@@ -18,7 +18,7 @@ import CustomCard from 'components/CustomCard';
 function DiscussNewThreadComponent(props) {
   return (
     <Row justify="center" style={{ padding: '10px', width: '100%' }}>
-      <Col xs={{ span: 20 }} xl={{ span: 13 }}>
+      <Col span={24}>
         <CustomCard width="100%">
           <Form name="NewThreadForm" onFinish={props.submit}>
             <div>
@@ -45,7 +45,7 @@ function DiscussNewThreadComponent(props) {
                 ]}
               >
                 <Input.TextArea
-                  placeholder="content of the thread"
+                  placeholder="details of the thread"
                   rows={6}
                   showCount
                   maxLength="2000"

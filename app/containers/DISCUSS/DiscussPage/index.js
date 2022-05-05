@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -25,16 +25,37 @@ export function DiscussPage(props) {
   useInjectReducer({ key: 'discussPage', reducer });
   useInjectSaga({ key: 'discussPage', saga });
 
-  useEffect(()=>{
+  const [searchText, setSearchText] = useState("");
+  const [filter, setFilter] = useState("");
+
+  const onSearch = value => {
+    setSearchText(value);
+  };
+
+  const onFilter = value => {
+    if (value === undefined)
+      value = "";
+    setFilter(value);
+  }
+
+  useEffect(() => {
     props.getAllThreads();
-  },[])
+  }, [])
   return (
     <div>
       <Helmet>
         <title>DiscussPage</title>
         <meta name="description" content="Description of DiscussPage" />
       </Helmet>
-      <DiscussComponent threads={props.state.threadDetails}/>
+      {props.state.threadDetails && props.state.threadDetails.allThreads && props.state.threadDetails.allConcepts &&
+        <DiscussComponent
+          threads={props.state.threadDetails.allThreads}
+          concepts={props.state.threadDetails.allConcepts}
+          onSearch={onSearch}
+          onFilter={onFilter}
+          searchText={searchText}
+          filter={filter} />
+      }
     </div>
   );
 }

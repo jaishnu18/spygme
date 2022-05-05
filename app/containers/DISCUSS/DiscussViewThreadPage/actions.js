@@ -12,6 +12,9 @@ import {
   POST_COMMENT_START,
   POST_COMMENT_SUCCESS,
   POST_COMMENT_FAILURE, 
+  VOTE_THREAD_START,
+  VOTE_THREAD_SUCCESS,
+  VOTE_THREAD_FAILURE,
 } from './constants';
 
 export function defaultAction() {
@@ -53,6 +56,24 @@ export function postCommentSuccess(payload) {
 export function postCommentFailure(err) {
   return {
     type: POST_COMMENT_FAILURE,
+    payload: err,
+  };
+}
+export function voteThreadStart(payload) {
+  return {
+    type: VOTE_THREAD_START,
+    payload,
+  };
+}
+export function voteThreadSuccess(payload) {
+  return {
+    type: VOTE_THREAD_SUCCESS,
+    payload,
+  };
+}
+export function voteThreadFailure(err) {
+  return {
+    type: VOTE_THREAD_FAILURE,
     payload: err,
   };
 }

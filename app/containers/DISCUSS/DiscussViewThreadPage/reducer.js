@@ -12,6 +12,9 @@ import {
   POST_COMMENT_START,
   POST_COMMENT_SUCCESS,
   POST_COMMENT_FAILURE,
+  VOTE_THREAD_START,
+  VOTE_THREAD_SUCCESS,
+  VOTE_THREAD_FAILURE,
 } from './constants';
 
 export const initialState = {
@@ -19,6 +22,8 @@ export const initialState = {
   threadDetails: undefined,
   isCommentLoading: false,
   commentDetails: undefined,
+  isVoteLoading: false,
+  voteDetails: undefined,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -48,6 +53,17 @@ const discussViewThreadPageReducer = (state = initialState, action) =>
       case POST_COMMENT_FAILURE:
         draft.isCommentLoading = false;
         draft.commentDetails = action.payload;
+        break;
+      case VOTE_THREAD_START:
+        draft.voteThreadLoading = true;
+        break;
+      case VOTE_THREAD_SUCCESS:
+        draft.voteThreadLoading = false;
+        draft.voteDetails = action.payload;
+        break;
+      case VOTE_THREAD_FAILURE:
+        draft.voteThreadLoading = false;
+        draft.voteDetails = action.payload;
         break;
     }
   });
