@@ -17,19 +17,22 @@ import Title from 'antd/lib/typography/Title';
 import LikeOutlined from '@ant-design/icons/LikeOutlined';
 import Paragraph from 'antd/lib/typography/Paragraph';
 import Search from 'antd/lib/input/Search';
+import Tag from 'antd/lib/tag';
 import Select from 'antd/lib/select';
 const { Option } = Select;
 
 function DiscussComponent(props) {
   const { threads } = props;
   const { concepts } = props;
+  const parse = require('html-react-parser');
+
   return (
     <div>
       <Row style={{ padding: '20px', justifyContent: 'center' }}>
         <Col xl={{ span: 6 }} xs={{ span: 24 }}>
-          <Search placeholder="input search text" allowClear onSearch={props.onSearch} />
+          <Search placeholder="Enter search text" allowClear onSearch={props.onSearch} />
         </Col>
-        <Col span={4}>
+        <Col xl={{ span: 4 }} xs={{ span: 12 }}>
           <Select
             showSearch
             placeholder="Filter by tag"
@@ -37,16 +40,13 @@ function DiscussComponent(props) {
             onChange={props.onFilter}
             style={{ width: '100%' }}
             allowClear
-          // filterOption={(input, option) =>
-          //   option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-          // }
           >
             {concepts.map((key, idx) => (
               <Option value={key.name}>{key.name}</Option>
             ))}
           </Select>
         </Col>
-        <Col span={2} xl={{ offset: 1 }}>
+        <Col span={2} offset={1}>
           <Link to='/discuss/new-thread'>
             <Button shape='round' type='primary'>New Thread</Button>
           </Link>
@@ -56,7 +56,7 @@ function DiscussComponent(props) {
         <Col span={24} >
           {threads && (
             threads.map((key, idx) => (
-              (props.searchText === "" || key.title.includes(props.searchText) || key.content.includes(props.searchText))
+              (props.searchText === "" || key.title.toLowerCase().includes(props.searchText.toLowerCase()) || key.content.toLowerCase().includes(props.searchText.toLowerCase(0)))
               &&
               (props.filter == "" || key.tags.includes(props.filter))
               &&
@@ -69,9 +69,14 @@ function DiscussComponent(props) {
                       title={key.title}
                     >
                       <Row>
-                        <Paragraph ellipsis>
-                          {key.content}
-                        </Paragraph>
+                        <Tag>
+                          {key.tags}
+                        </Tag>
+                      </Row>
+                      <Row>
+                        <div style={{height:'20px', overflow:'hidden'}}>
+                          {parse(key.content)}
+                        </div>
                       </Row>
                       <Row style={{ fontSize: '10px' }}>
                         Author: {key.author}

@@ -16,16 +16,21 @@ import LikeOutlined from '@ant-design/icons/LikeOutlined';
 import LikeFilled from '@ant-design/icons/LikeFilled';
 import LeftCircleOutlined from '@ant-design/icons/ArrowLeftOutlined';
 import Input from 'antd/lib/input';
+import Tag from 'antd/lib/tag';
 import Form from 'antd/lib/form';
 import { Link } from 'react-router-dom';
 
 function DiscussViewThreadComponent(props) {
   const { threadDetails } = props;
+  const parse = require('html-react-parser');
+
   return (
     <div style={{ padding: '20px' }}>
       <Row>
         <Link to='/discuss'>
-          <Button shape='circle' icon={<LeftCircleOutlined />} type='primary' />
+          <Button shape='round' icon={<LeftCircleOutlined />} type='primary' >
+            Back to discuss
+          </Button>
         </Link>
       </Row>
       <Row >
@@ -34,9 +39,14 @@ function DiscussViewThreadComponent(props) {
             title={threadDetails.threadDetails.title}
           >
             <Row>
-              <Paragraph>
-                {threadDetails.threadDetails.content}
-              </Paragraph>
+              <Tag>
+                {threadDetails.threadDetails.tags}
+              </Tag>
+            </Row>
+            <Row>
+              <div>
+                {parse(threadDetails.threadDetails.content)}
+              </div>
             </Row>
             <Row style={{ fontSize: '10px' }}>
               Author: {threadDetails.threadDetails.author}

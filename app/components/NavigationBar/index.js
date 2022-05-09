@@ -131,6 +131,7 @@ function NavigationBar(props) {
           }}
           footer={null}
         >
+          {/* <iframe src="/discuss/new-thread" style={{ width: '100%' }} /> */}
           <DiscussNewThreadComponent />
         </Modal>
 
