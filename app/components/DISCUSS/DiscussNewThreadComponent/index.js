@@ -20,6 +20,7 @@ const { Option } = Select;
 
 function DiscussNewThreadComponent(props) {
   const { concepts } = props;
+  console.log(concepts);
 
   return (
     <Row justify="center" style={{ padding: '10px', width: '100%' }}>
@@ -57,9 +58,10 @@ function DiscussNewThreadComponent(props) {
                   style={{ width: '100%' }}
                   allowClear
                 >
-                  {concepts && concepts.map((key, idx) => (
-                    <Option value={key.name}>{key.name}</Option>
-                  ))}
+                  {concepts &&
+                    concepts.map((key, idx) => (
+                      <Option value={key.name}>{key.name}</Option>
+                    ))}
                 </Select>
               </Form.Item>
               <Form.Item
@@ -73,7 +75,7 @@ function DiscussNewThreadComponent(props) {
                 ]}
               >
                 <Editor
-                  placeholder='Enter the details of the thread'
+                  placeholder="Enter the details of the thread"
                   editorState={props.editorState}
                   wrapperClassName="wrapper-class"
                   editorClassName="editor-class"
@@ -95,7 +97,7 @@ function DiscussNewThreadComponent(props) {
         </CustomCard>
       </Col>
     </Row>
-  )
+  );
 }
 
 DiscussNewThreadComponent.propTypes = {};

@@ -23,6 +23,7 @@ import Modal from 'antd/lib/modal';
 import Form from 'antd/lib/form';
 import Checkbox from 'antd/lib/checkbox/Checkbox';
 import Button from 'antd/lib/button';
+import api from 'api';
 import DiscussNewThreadComponent from '../DISCUSS/DiscussNewThreadComponent';
 import { evaluateAnswer } from '../../containers/GAMES/PropositionalLogic/ExpressionEvaluationGame/saga';
 
@@ -33,11 +34,24 @@ const errors = [
 ];
 
 function NavigationBar(props) {
+  useState(async () => {
+    const R = await api.get('/discuss/get-concepts', {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: localStorage.getItem('_UFT_'),
+      },
+      withCredentials: true,
+    });
+    setConceptsArray(R.data.data);
+  }, []);
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isExitModalVisible, setIsExitModalVisible] = useState(false);
   const [testSubmitted, setIsTestSubmiited] = useState(false);
   const [reportModalVisible, setReportModalVisible] = useState(false);
   const [newThreadVisible, setNewThreadVisible] = useState(false);
+  const [conceptsArray, setConceptsArray] = useState(undefined);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -75,7 +89,11 @@ function NavigationBar(props) {
             xl={{ span: 10 }}
             style={{ display: 'flex', alignItems: 'center' }}
           >
-            <Button onClick={props.backToMaterials} shape='round' type='primary'>
+            <Button
+              onClick={props.backToMaterials}
+              shape="round"
+              type="primary"
+            >
               <ArrowLeftOutlined />
               {props.prevPageText}
             </Button>
@@ -86,7 +104,7 @@ function NavigationBar(props) {
                 />
               </Tooltip>
             ) : (
-              <Button onClick={props.markAsRead} shape='round' type='primary'>
+              <Button onClick={props.markAsRead} shape="round" type="primary">
                 Mark as Read
               </Button>
             )}
@@ -99,7 +117,7 @@ function NavigationBar(props) {
               style={{ display: 'flex', alignItems: 'center' }}
             >
               <Link to={props.prevPageLink}>
-                <Button onClick={() => { }} shape='round' type='primary'>
+                <Button onClick={() => {}} shape="round" type="primary">
                   <ArrowLeftOutlined />
                   {props.prevPageText}
                 </Button>
@@ -111,13 +129,16 @@ function NavigationBar(props) {
         {(props.game || props.readingMaterial) && (
           <Col xs={{ span: 24 }} xl={{ span: 1 }}>
             <Button
-              disabled={props.game ? props.evaluatedAnswer === undefined : false}
-              shape='circle'
-              type='primary'
+              disabled={
+                props.game ? props.evaluatedAnswer === undefined : false
+              }
+              shape="circle"
+              type="primary"
               onClick={() => {
                 setNewThreadVisible(true);
               }}
-              icon={<MessageOutlined />} />
+              icon={<MessageOutlined />}
+            />
           </Col>
         )}
         <Modal
@@ -132,7 +153,9 @@ function NavigationBar(props) {
           footer={null}
         >
           {/* <iframe src="/discuss/new-thread" style={{ width: '100%' }} /> */}
-          <DiscussNewThreadComponent />
+          {conceptsArray && (
+            <DiscussNewThreadComponent concepts={conceptsArray} />
+          )}
         </Modal>
 
         {props.game ? (
@@ -143,8 +166,9 @@ function NavigationBar(props) {
               onClick={() => {
                 setReportModalVisible(true);
               }}
-              shape='circle'
-              icon={<ExclamationCircleOutlined />} />
+              shape="circle"
+              icon={<ExclamationCircleOutlined />}
+            />
           </Col>
         ) : null}
         <Modal
@@ -173,7 +197,7 @@ function NavigationBar(props) {
               </Form.Item>
             ))}
             <Form.Item>
-              <Button type="primary" htmlType="submit" onClick={() => { }}>
+              <Button type="primary" htmlType="submit" onClick={() => {}}>
                 Submit
               </Button>
             </Form.Item>
@@ -187,9 +211,10 @@ function NavigationBar(props) {
               onClick={() => {
                 window.location.href = props.prevLevelLink;
               }}
-              shape='circle'
-              type='primary'
-              icon={<LeftOutlined />} />
+              shape="circle"
+              type="primary"
+              icon={<LeftOutlined />}
+            />
           </Col>
         ) : null}
 
@@ -200,9 +225,10 @@ function NavigationBar(props) {
               onClick={() => {
                 window.location.href = props.nextLevelLink;
               }}
-              shape='circle'
-              type='primary'
-              icon={<RightOutlined />} />
+              shape="circle"
+              type="primary"
+              icon={<RightOutlined />}
+            />
           </Col>
         ) : null}
 
