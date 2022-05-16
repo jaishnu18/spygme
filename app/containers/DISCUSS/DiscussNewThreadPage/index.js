@@ -34,7 +34,9 @@ export function DiscussNewThreadPage(props) {
   };
 
   useEffect(() => {
-    props.getConcepts();
+    const response={};
+    response.conceptId=-1;
+    props.getConcepts(response);
   }, [])
 
   useEffect(() => {

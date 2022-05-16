@@ -26,6 +26,9 @@ import Button from 'antd/lib/button';
 import api from 'api';
 import DiscussNewThreadComponent from '../DISCUSS/DiscussNewThreadComponent';
 import { evaluateAnswer } from '../../containers/GAMES/PropositionalLogic/ExpressionEvaluationGame/saga';
+import draftToHtml from 'draftjs-to-html';
+import { EditorState, convertFromRaw, convertToRaw } from 'draft-js';
+import message from 'antd/lib/message';
 
 const errors = [
   'Question was wrong',
@@ -34,17 +37,43 @@ const errors = [
 ];
 
 function NavigationBar(props) {
+
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const onEditorStateChange = editorState => {
+    setEditorState(editorState);
+  };
+  async function newThreadPost(values) {
+    values.tags = new Array(1).fill(values.tags);
+    values.content = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+    const response = await api.post(
+      '/discuss/post-thread',
+      values,
+      {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: localStorage.getItem('_UFT_'),
+        },
+        withCredentials: true,
+      });
+    setNewThreadVisible(false);
+    message.success("Thread posted");
+  };
   useState(async () => {
-    const R = await api.get('/discuss/get-concepts', {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: localStorage.getItem('_UFT_'),
-      },
-      withCredentials: true,
-    });
+    const R = await api.post(
+      '/discuss/get-concepts',
+      { conceptId: parseInt(window.location.pathname.split('/')[3]) },
+      {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: localStorage.getItem('_UFT_'),
+        },
+        withCredentials: true,
+      });
     setConceptsArray(R.data.data);
   }, []);
+  // console.log(window.location.pathname.split('/')[3]);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isExitModalVisible, setIsExitModalVisible] = useState(false);
@@ -91,12 +120,9 @@ function NavigationBar(props) {
           >
             <Button
               onClick={props.backToMaterials}
-              shape="round"
+              shape="circle"
               type="primary"
-            >
-              <ArrowLeftOutlined />
-              {props.prevPageText}
-            </Button>
+              icon={<ArrowLeftOutlined />} />
             {props.read ? (
               <Tooltip title="Marked as read">
                 <CheckCircleFilled
@@ -113,13 +139,12 @@ function NavigationBar(props) {
           props.prevPageLink && (
             <Col
               xs={{ span: 24 }}
-              xl={{ span: 18 }}
+              xl={{ span: 10 }}
               style={{ display: 'flex', alignItems: 'center' }}
             >
               <Link to={props.prevPageLink}>
-                <Button onClick={() => {}} shape="round" type="primary">
-                  <ArrowLeftOutlined />
-                  {props.prevPageText}
+                <Button onClick={() => { }} shape="circle" type="primary" icon={<ArrowLeftOutlined />}>
+                  {/* {props.prevPageText} */}
                 </Button>
               </Link>
             </Col>
@@ -152,9 +177,13 @@ function NavigationBar(props) {
           }}
           footer={null}
         >
-          {/* <iframe src="/discuss/new-thread" style={{ width: '100%' }} /> */}
           {conceptsArray && (
-            <DiscussNewThreadComponent concepts={conceptsArray} />
+            <DiscussNewThreadComponent
+              submit={newThreadPost}
+              concepts={conceptsArray}
+              editorState={editorState}
+              onEditorStateChange={onEditorStateChange}
+              defaultTitle={"Doubt in " + (props.readingMaterial ? "reading material " : "practice game ") + window.location.href} />
           )}
         </Modal>
 
@@ -197,7 +226,7 @@ function NavigationBar(props) {
               </Form.Item>
             ))}
             <Form.Item>
-              <Button type="primary" htmlType="submit" onClick={() => {}}>
+              <Button type="primary" htmlType="submit" onClick={() => { }}>
                 Submit
               </Button>
             </Form.Item>
@@ -219,16 +248,18 @@ function NavigationBar(props) {
         ) : null}
 
         {props.game ? (
-          <Col xs={{ span: 24 }} xl={{ span: 1 }}>
+          <Col xs={{ span: 24 }} xl={{ span: 3 }}>
             <Button
               disabled={props.level === props.maxLevel.toString()}
               onClick={() => {
                 window.location.href = props.nextLevelLink;
               }}
-              shape="circle"
+              shape={props.evaluatedAnswer ? "round" : "circle"}
               type="primary"
               icon={<RightOutlined />}
-            />
+            >
+              {props.evaluatedAnswer && "Go to next item"}
+            </Button>
           </Col>
         ) : null}
 

@@ -14,8 +14,9 @@ import { GET_CONCEPTS_START, POST_NEW_THREAD_START } from './constants';
 // Individual exports for testing
 export function* getConcepts(action) {
   try {
-    const response = yield api.get(
+    const response = yield api.post(
       `/discuss/get-concepts`,
+      action.payload,
       { headers: { Authorization: localStorage._UFT_ } },
     );
     yield put(getConceptsSuccess(response.data.data));

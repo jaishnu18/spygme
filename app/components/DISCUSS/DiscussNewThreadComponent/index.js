@@ -20,7 +20,6 @@ const { Option } = Select;
 
 function DiscussNewThreadComponent(props) {
   const { concepts } = props;
-  console.log(concepts);
 
   return (
     <Row justify="center" style={{ padding: '10px', width: '100%' }}>
@@ -31,6 +30,7 @@ function DiscussNewThreadComponent(props) {
               <Form.Item
                 label="Title"
                 name="title"
+                initialValue={props.defaultTitle}
                 rules={[
                   {
                     required: true,
@@ -40,30 +40,34 @@ function DiscussNewThreadComponent(props) {
               >
                 <Input placeholder="title of the thread" />
               </Form.Item>
-              <Form.Item
-                label="Tag:"
-                name="tags"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your Response!',
-                  },
-                ]}
-              >
-                <Select
-                  showSearch
-                  placeholder="Filter by tag"
-                  optionFilterProp="children"
-                  onChange={props.onFilter}
-                  style={{ width: '100%' }}
-                  allowClear
+              {concepts &&
+                <Form.Item
+                  label="Tag:"
+                  name="tags"
+                  initialValue={concepts.length == 1 ? concepts[0].name : null}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your Response!',
+                    },
+                  ]}
                 >
-                  {concepts &&
-                    concepts.map((key, idx) => (
+                  <Select
+                    showSearch
+                    placeholder="choose concept tag"
+                    optionFilterProp="children"
+                    onChange={props.onFilter}
+                    style={{ width: '100%' }}
+                    allowClear
+
+                  >
+                    {concepts.map((key, idx) => (
                       <Option value={key.name}>{key.name}</Option>
                     ))}
-                </Select>
-              </Form.Item>
+                  </Select>
+
+                </Form.Item>
+              }
               <Form.Item
                 label="Content:"
                 name="content"

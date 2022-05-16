@@ -22,7 +22,7 @@ import saga from './saga';
 // antd imports
 import Section from '../../components/Section';
 import DashboardComponent from '../../components/DashboardComponent';
-import { getDashboardStart } from './actions';
+import { getDashboardStart, getRecommendedConceptStart } from './actions';
 import { useAuth } from '../App/AuthContext';
 
 export function DashboardPage(props) {
@@ -31,9 +31,11 @@ export function DashboardPage(props) {
 
   useEffect(() => {
     props.getDashboard();
+    props.getRecommendedConcept();
   }, []);
 
   const { dashboard } = props.dashboardPage;
+  const { recommendedConcept } = props.dashboardPage;
   const authData = useAuth();
   return (
     <div>
@@ -42,7 +44,7 @@ export function DashboardPage(props) {
         <meta name="description" content="Description of DashboardPage" />
       </Helmet>
       {dashboard && (
-        <DashboardComponent dashboard={dashboard} username={authData.name} />
+        <DashboardComponent dashboard={dashboard} recommendedConcept={recommendedConcept} username={authData.name} />
       )
       }
     </div>
@@ -52,6 +54,7 @@ export function DashboardPage(props) {
 DashboardPage.propTypes = {
   dashboardPage: PropTypes.object.isRequired,
   getDashboard: PropTypes.func,
+  getRecommendedConcept: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -61,6 +64,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     getDashboard: () => dispatch(getDashboardStart()),
+    getRecommendedConcept: () => dispatch(getRecommendedConceptStart()),
   };
 }
 

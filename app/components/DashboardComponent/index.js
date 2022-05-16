@@ -163,6 +163,8 @@ const StyledCol = styled(Col)`
 
 function DashboardComponent(props) {
   const { dashboard } = props;
+  const { recommendedConcept } = props;
+  console.log(props);
 
   const [date, setDate] = useState(new Date());
 
@@ -232,6 +234,7 @@ function DashboardComponent(props) {
                 />
               </StyledCol>
             )}
+
           </Space>
         </Col>
         <Col
@@ -270,6 +273,17 @@ function DashboardComponent(props) {
                 </Title>
               </Link>
             </StyledDiv>
+            {recommendedConcept && (
+              <StyledCol span={24}>
+                <Link to={`concept/${recommendedConcept.parentTopic}/${recommendedConcept.id}`}>
+                  <DescriptionCard
+                    title="Recommended concept for you"
+                    description={recommendedConcept.name}
+                    progress={Math.round(recommendedConcept.progress * 100)}
+                  />
+                </Link>
+              </StyledCol>
+            )}
           </Space>
         </Col>
         <Col
