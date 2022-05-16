@@ -18,14 +18,16 @@ import Typewriter from 'typewriter-effect';
 import Typography from 'antd/lib/typography';
 import CustomCard from 'components/CustomCard';
 import Button from 'antd/lib/button';
+import Space from 'antd/lib/space';
 import { Link } from 'react-router-dom';
 import Table from 'antd/lib/table';
 import Progress from 'antd/lib/progress';
+import ListDisplay from '../ListDisplay';
+import AI from 'images/AI.jpg';
 
 const { Title } = Typography;
 
-const StyledDiv = styled.div`
-  margin: 20px;
+export const StyledDiv = styled.div`
   padding: 24px;
   display: flex;
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
@@ -134,6 +136,9 @@ const getDayName = day => {
 
     case 6:
       return 'Saturday';
+
+    default:
+      break;
   }
 };
 
@@ -152,8 +157,14 @@ const month = [
   'December',
 ];
 
+const StyledCol = styled(Col)`
+  height: max-content !important;
+`;
+
 function DashboardComponent(props) {
   const { dashboard } = props;
+  const { recommendedConcept } = props;
+  console.log(props);
 
   const [date, setDate] = useState(new Date());
 
@@ -163,39 +174,129 @@ function DashboardComponent(props) {
 
   return (
     <div>
-      <Row style={{ paddingTop: '20px', paddingBottom: '20px' }}>
-        <Col xs={{ span: 24 }} xl={{ span: 12, offset: 1 }}>
-          {!dashboard.isProfileCompleted && (
-            <StyledDiv>
-              <Progress
-                strokeColor={{
-                  from: '#108ee9',
-                  to: '#87d068',
-                }}
-                percent={parseFloat(dashboard.percentageProfileCompleted) * 100}
-                status="active"
-              />
-              <Title level={3} style={{ marginTop: '10px', marginBottom: '0' }}>
-                {' '}
-                You have completed{' '}
-                {parseFloat(dashboard.percentageProfileCompleted) * 100}% of the
-                profile. <Link to="/my/profile">Complete Your Profile</Link>
-              </Title>
-            </StyledDiv>
-          )}
+      <Row justify="center">
+        <Col
+          xs={{ span: 23 }}
+          xl={{ span: 10 }}
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            borderRight: '2px solid black',
+            minHeight: 'calc(100vh - 70px)',
+          }}
+        >
+          <Space
+            direction="vertical"
+            size="middle"
+            style={{ display: 'flex', width: '100%', padding: '20px' }}
+          >
+            {!dashboard.isProfileCompleted && (
+              <div>
+                <StyledDiv>
+                  <Title
+                    level={3}
+                    style={{ marginTop: '10px', marginBottom: '0' }}
+                  >
+                    {getDayName(date.getDay())}, {month[date.getMonth()]}{' '}
+                    {date.getDate()}
+                  </Title>
+                  <Title
+                    level={2}
+                    style={{ marginTop: '10px', marginBottom: '12px' }}
+                  >
+                    Hello! {props.username}
+                  </Title>
+                  <Progress
+                    strokeColor={{
+                      from: '#108ee9',
+                      to: '#87d068',
+                    }}
+                    percent={
+                      parseFloat(dashboard.percentageProfileCompleted) * 100
+                    }
+                    status="active"
+                  />
+                  <Title
+                    level={3}
+                    style={{ marginTop: '10px', marginBottom: '0' }}
+                  >
+                    <Link to="/my/profile">Complete Your Profile</Link>
+                  </Title>
+                </StyledDiv>
+              </div>
+            )}
 
-          {/* <StyledDiv>
-            <Title level={2} style={{ marginTop: '10px', marginBottom: '0' }}>
-              {getDayName(date.getDay())}, {month[date.getMonth()]}{' '}
-              {date.getDate()}
-            </Title>
-            <Title level={1} style={{ marginTop: '10px', marginBottom: '0' }}>
-              Hello! {props.username}
-            </Title>
-          </StyledDiv> */}
+            {dashboard.gameplaySuggestions && (
+              <StyledCol span={24}>
+                <ListDisplay
+                  title="Continue Playing"
+                  gameplaySuggestion={dashboard.gameplaySuggestions}
+                />
+              </StyledCol>
+            )}
+
+          </Space>
         </Col>
+        <Col
+          xs={{ span: 24 }}
+          xl={{ span: 7 }}
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <Space
+            direction="vertical"
+            size="middle"
+            style={{ display: 'flex', width: '100%', padding: '20px' }}
+          >
+            <StyledDiv>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <img
+                  src={AI}
+                  alt="ai"
+                  style={{ height: '50%', width: '50%' }}
+                />
+              </div>
+              <Title
+                style={{ marginTop: '30px', fontSize: '14px', fontWeight: 500 }}
+              >
+                “Artificial intelligence will reach human levels by around 2029.
+                Follow that out further to, say, 2045, and we will have
+                multiplied the intelligence – the human biological machine
+                intelligence of our civilization – a billion-fold.” -{' '}
+                <strong>Ray Kurzweil</strong>
+              </Title>
+              <Link to="/topics" style={{ textAlign: 'right' }}>
+                <Title level={4} style={{ marginTop: '0' }}>
+                  Learn AI
+                </Title>
+              </Link>
+            </StyledDiv>
+            {recommendedConcept && (
+              <StyledCol span={24}>
+                <Link to={`concept/${recommendedConcept.parentTopic}/${recommendedConcept.id}`}>
+                  <DescriptionCard
+                    title="Recommended concept for you"
+                    description={recommendedConcept.name}
+                    progress={Math.round(recommendedConcept.progress * 100)}
+                  />
+                </Link>
+              </StyledCol>
+            )}
+          </Space>
+        </Col>
+        <Col
+          xs={{ span: 24 }}
+          xl={{ span: 7 }}
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        />
+      </Row>
 
-        {/* <Col
+      {/* <Col
           xs={{ span: 24 }}
           xl={{ span: 5, offset: 3 }}
           style={{
@@ -216,8 +317,7 @@ function DashboardComponent(props) {
             preview={false}
           />
         </Col> */}
-      </Row>
-      <Row style={{ paddingBottom: '20px' }}>
+      {/* <Row style={{ paddingBottom: '20px' }}>
         <Col span={23} offset={1}>
           <Link to="/topics">
             <Button shape="round" type="primary">
@@ -246,12 +346,18 @@ function DashboardComponent(props) {
           <CustomCard title="Leaderboard">
             <Table
               dataSource={dashboard.allStudents}
-              columns={dashboard.allStudents[0].role === 'Student' ? columnsStudent : (dashboard.allStudents[0].role === 'Teacher' ? columnsTeacher : columnsOthers)}
+              columns={
+                dashboard.allStudents[0].role === 'Student'
+                  ? columnsStudent
+                  : dashboard.allStudents[0].role === 'Teacher'
+                  ? columnsTeacher
+                  : columnsOthers
+              }
               pagination={{ pageSize: 3 }}
             />
           </CustomCard>
         </Col>
-      </Row>
+      </Row> */}
     </div>
   );
 }

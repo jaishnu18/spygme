@@ -31,7 +31,6 @@ export function* getArcConsistency(action) {
 
 export function* evaluateAnswer(action) {
   try {
-    console.log(action.payload);
     const studentResponse = action.payload;
     const response = yield api.post(
       `/game/arc-consistency/question/validate`,

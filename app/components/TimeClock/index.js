@@ -17,9 +17,9 @@ const StyledTimer = styled(Timer)`
   // display: flex !important;
   // align-items: center !important;
 
-  span {
-    font-size: 30px !important;
-  }
+  // span {
+  //   font-size: 15px !important;
+  // }
 `;
 
 function TimeClock(props) {
