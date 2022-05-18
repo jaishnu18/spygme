@@ -42,6 +42,7 @@ function NavigationBar(props) {
   const onEditorStateChange = editorState => {
     setEditorState(editorState);
   };
+
   async function newThreadPost(values) {
     values.tags = new Array(1).fill(values.tags);
     values.content = draftToHtml(convertToRaw(editorState.getCurrentContent()));
@@ -59,6 +60,31 @@ function NavigationBar(props) {
     setNewThreadVisible(false);
     message.success("Thread posted");
   };
+
+  async function nextItem() {
+    const url = window.location.pathname;
+    const data = url.split('/');
+    const item = {};
+    item.type = 'P';
+    item.topicId = parseInt(data[2]);
+    item.conceptId = parseInt(data[3]);
+    item.itemId = parseInt(data[4]);
+    item.level = parseInt(data[5]);
+    const response = await api.post(
+      '/get-dashboard/next-item',
+      item,
+      {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: localStorage.getItem('_UFT_'),
+        },
+        withCredentials: true,
+      });
+
+    window.location.href = response.data.data.url;
+  }
+
   useState(async () => {
     const R = await api.post(
       '/discuss/get-concepts',
@@ -250,9 +276,9 @@ function NavigationBar(props) {
         {props.game ? (
           <Col xs={{ span: 24 }} xl={{ span: 3 }}>
             <Button
-              disabled={props.level === props.maxLevel.toString()}
+              // disabled={props.level === props.maxLevel.toString()}
               onClick={() => {
-                window.location.href = props.nextLevelLink;
+                nextItem();
               }}
               shape={props.evaluatedAnswer ? "round" : "circle"}
               type="primary"

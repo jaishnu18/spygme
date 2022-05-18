@@ -12,6 +12,9 @@ import {
   MARK_READ_SUCCESS,
   MARK_READ_FAILURE,
   MARK_READ_START,
+  NEXT_ITEM_SUCCESS,
+  NEXT_ITEM_FAILURE,
+  NEXT_ITEM_START,
   RECORD_TIME_SUCCESS,
   RECORD_TIME_START,
   RECORD_TIME_FAILURE
@@ -23,7 +26,9 @@ export const initialState = {
   readingMaterialContent: undefined,
   isResponseLoading: false,
   isTimeRecording: false,
-  timeRecorded: undefined
+  timeRecorded: undefined,
+  isNextItemLoading: false,
+  nextItem: undefined
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -51,6 +56,18 @@ const readingMaterialPageReducer = (state = initialState, action) =>
         break;
       case MARK_READ_FAILURE:
         draft.isResponseLoading = false;
+        break;
+
+      case NEXT_ITEM_START:
+        draft.isNextItemLoading = true;
+        break;
+      case NEXT_ITEM_SUCCESS:
+        draft.isNextItemLoading = false;
+        draft.nextItem = action.payload;
+        break;
+      case NEXT_ITEM_FAILURE:
+        draft.isNextItemLoading = false;
+        draft.nextItem = action.payload;
         break;
 
       case RECORD_TIME_START:

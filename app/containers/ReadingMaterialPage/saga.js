@@ -8,11 +8,13 @@ import {
   getReadingMaterialSuccess,
   markAsReadFailure,
   markAsReadSuccess,
+  nextItemFailure,
+  nextItemSuccess,
   recordTimeSuccess,
   recordTimeFailure
 } from './actions';
 
-import { GET_RM_START, MARK_READ_START, RECORD_TIME_START} from './constants';
+import { GET_RM_START, MARK_READ_START, RECORD_TIME_START, NEXT_ITEM_START } from './constants';
 
 export function* getRMContent(action) {
   try {
@@ -44,6 +46,24 @@ export function* markAsRead(action) {
     yield put(markAsReadFailure(err.data.message));
   }
 }
+
+export function* getNextItem(action) {
+  try {
+    const studentResponse = action.payload;
+    const { rmId } = studentResponse;
+    const response = yield api.post(
+      `/get-dashboard/next-item/`,
+      studentResponse,
+      { headers: { Authorization: localStorage._UFT_ } },
+    );
+    console.log(response);
+    yield put(nextItemSuccess(response.data.data));
+  } catch (err) {
+    console.log(err);
+    yield put(nextItemFailure(err.data.message));
+  }
+}
+
 export function* recordTime(action) {
   try {
     const studentResponse = action.payload;
@@ -66,6 +86,7 @@ export default function* readingMaterialPageSaga() {
   yield all([
     takeLatest(GET_RM_START, getRMContent),
     takeLatest(MARK_READ_START, markAsRead),
+    takeLatest(NEXT_ITEM_START, getNextItem),
     takeLatest(RECORD_TIME_START, recordTime)
   ]);
 }
