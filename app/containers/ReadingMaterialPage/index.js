@@ -22,6 +22,7 @@ import {
   getReadingMaterialStart,
   recordTimeStart,
   markAsReadStart,
+  nextItemStart,
 } from './actions';
 import NavigationBar from '../../components/NavigationBar';
 
@@ -30,6 +31,7 @@ export function ReadingMaterialPage(props) {
   useInjectSaga({ key: 'readingMaterialPage', saga });
 
   const [startTime, setStartTime] = useState(0);
+  const [goBack, setGoBack] = useState(false);
 
   const { rmId } = props;
   const { conceptId } = props;
@@ -43,7 +45,13 @@ export function ReadingMaterialPage(props) {
 
   useEffect(() => {
     if (timeRecorded) {
-      window.location.href = `/concept/${topicId}/${conceptId}`;
+      if (goBack)
+        window.location.href = `/concept/${topicId}/${conceptId}`;
+    }
+  }, [props.readingMaterialPage]);
+  useEffect(() => {
+    if (nextItem) {
+      window.location.href = nextItem.url;
     }
   }, [props.readingMaterialPage]);
 
@@ -55,15 +63,23 @@ export function ReadingMaterialPage(props) {
     response.timestamp = timestamp;
     response.rmId = rmId;
     response.timeSpent = secs;
+    setGoBack(true);
     props.recordTime(response);
   };
   const { timeRecorded } = props.readingMaterialPage;
+  const { nextItem } = props.readingMaterialPage;
 
   const markAsRead = () => {
     const response = {};
     response.rmId = rmId;
     props.markAsRead(response);
     readingMaterialContent.read = true;
+
+    response.conceptId = conceptId;
+    response.topicId = topicId;
+    response.itemId = rmId;
+    response.type = 'R';
+    props.getnextItem(response);
   };
 
   return (
@@ -94,6 +110,7 @@ ReadingMaterialPage.propTypes = {
   readingMaterialPage: PropTypes.object,
   getReadingMaterialContent: PropTypes.func,
   markAsRead: PropTypes.func,
+  getnextItem: PropTypes.func,
   recordTime: PropTypes.func,
 };
 
@@ -105,6 +122,7 @@ function mapDispatchToProps(dispatch) {
   return {
     getReadingMaterialContent: payload =>
       dispatch(getReadingMaterialStart(payload)),
+    getnextItem: response => dispatch(nextItemStart(response)),
     markAsRead: response => dispatch(markAsReadStart(response)),
     recordTime: response => dispatch(recordTimeStart(response)),
   };

@@ -13,6 +13,9 @@ import {
   MARK_READ_START,
   MARK_READ_FAILURE,
   MARK_READ_SUCCESS,
+  NEXT_ITEM_START,
+  NEXT_ITEM_FAILURE,
+  NEXT_ITEM_SUCCESS,
   RECORD_TIME_FAILURE,
   RECORD_TIME_START,
   RECORD_TIME_SUCCESS
@@ -61,6 +64,26 @@ export function markAsReadFailure(err) {
     payload: err,
   };
 }
+
+export function nextItemStart(payload) {
+  return {
+    type: NEXT_ITEM_START,
+    payload,
+  };
+}
+export function nextItemSuccess(payload) {
+  return {
+    type: NEXT_ITEM_SUCCESS,
+    payload,
+  };
+}
+export function nextItemFailure(err) {
+  return {
+    type: NEXT_ITEM_FAILURE,
+    payload: err,
+  };
+}
+
 export function recordTimeStart(payload) {
   return {
     type: RECORD_TIME_START,
