@@ -22,6 +22,7 @@ function CustomCard(props) {
         borderRadius: props.borderRadius || 'auto',
         minWidth: '100%',
         justifyContent: props.justifyContent || null,
+        height: props.height,
       }}
     >
       {props.children}

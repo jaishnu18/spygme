@@ -46,6 +46,7 @@ const customIcons = {
 
 const { Header } = Layout;
 const StyledMenu = styled(Menu)`
+  background-color: #eaeaea;
   svg {
     font-size: 20px !important;
     font-weight: 700 !important;
@@ -90,7 +91,7 @@ function NavBar(props) {
         <React.Fragment>
           <Header
             style={{
-              backgroundColor: 'white',
+              backgroundColor: '#EAEAEA',
               position: 'fixed',
               width: '100vw',
               paddingRight: 0,
@@ -156,7 +157,13 @@ function NavBar(props) {
                       >
                         Profile
                       </Menu.Item>
-                      <Menu.Item key="4" onClick={showLogoutModal}>
+                      <Menu.Item
+                        key="4"
+                        onClick={() => history.push('/my/stats')}
+                      >
+                        Stats
+                      </Menu.Item>
+                      <Menu.Item key="5" onClick={showLogoutModal}>
                         Logout
                       </Menu.Item>
                     </StyledMenu>

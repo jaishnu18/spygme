@@ -28,7 +28,7 @@ export function ConceptListPage(props) {
   console.log(props);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
     props.getTopicData({ topicId: parseInt(topicId) });
     props.getConcepts({ topicId: parseInt(topicId) });
 

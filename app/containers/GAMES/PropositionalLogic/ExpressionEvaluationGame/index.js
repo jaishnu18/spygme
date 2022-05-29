@@ -34,6 +34,8 @@ import {
   evaluateExpressionStart,
   putFeedbackStart,
 } from './actions';
+import Title from 'antd/lib/typography/Title';
+import { message } from 'antd';
 
 export function ExpressionEvaluationGame(props) {
   useInjectReducer({ key: 'expressionEvaluationGame', reducer });
@@ -49,35 +51,8 @@ export function ExpressionEvaluationGame(props) {
   }, [props.level]);
 
   useEffect(() => {
-    if (evaluatedAnswer && !alreadyFeedback) {
-      setAlreadyFeedback(true);
-      const practiceGamesFeedback = (
-        <PracticeGamesFeedback saveFeedback={props.saveFeedback} />
-      );
-      const args = {
-        message: 'Feedback',
-        description: practiceGamesFeedback,
-        duration: 0,
-        key: 'feedback',
-      };
-      notification.open(args);
-      if (evaluatedAnswer.score !== 1) {
-        const practiceGamesFeedback = (
-          <PracticeGamesFeedback
-            whatWentWrong
-            saveFeedback={props.saveFeedback}
-          />
-        );
-        const args = {
-          message: 'Why you made mistake?',
-          description: practiceGamesFeedback,
-          duration: 0,
-          placement: 'topLeft',
-          key: 'www',
-        };
-        notification.open(args);
-      }
-    }
+    if (evaluatedAnswer && !alreadyFeedback)
+      message.success('Please give us your valuable feedback below!', 3000);
   }, [props.expressionEvaluationGame]);
 
   const { gameData } = props.expressionEvaluationGame;
@@ -134,7 +109,10 @@ export function ExpressionEvaluationGame(props) {
 
           <Row style={{ width: '100%' }}>
             <Col>
-              <GameDescription gameData={gameData} evaluatedAnswer={evaluatedAnswer} />
+              <GameDescription
+                gameData={gameData}
+                evaluatedAnswer={evaluatedAnswer}
+              />
             </Col>
           </Row>
           <GameComponent
@@ -146,6 +124,24 @@ export function ExpressionEvaluationGame(props) {
             submit={submit}
             setValue={setValue}
           />
+          <Title level={3} style={{ textAlign: 'center', marginTop: '20px' }}>
+            Give your feedback!
+          </Title>
+          <div
+            style={{
+              display: 'flex',
+              width: '100vw',
+              justifyContent: 'center',
+              alignItems: 'center',
+              padding: '40px',
+            }}
+          >
+            <PracticeGamesFeedback
+              whatWentWrong
+              saveFeedback={props.saveFeedback}
+              style={{ marginLeft: 'auto' }}
+            />
+          </div>
         </>
       )}
     </div>

@@ -18,6 +18,7 @@ import CustomButton from 'components/atoms/CustomButton';
 import Checkbox from 'antd/lib/checkbox/Checkbox';
 import Button from 'antd/lib/button';
 import Collapse from 'antd/lib/collapse';
+import Title from 'antd/lib/typography/Title';
 const { Panel } = Collapse;
 const errors = [
   'Silly mistake',
@@ -39,59 +40,80 @@ function PracticeGamesFeedback(props) {
   // props.array
   // props.setArray
 
-  return props.whatWentWrong ? (
-    <Collapse>
-      <Panel header="Give your opinion">
-        <Form
-          name="whatWentWrong"
-          onFinish={values => {
-            const response = {};
-            response.whatwentwrong = JSON.stringify(values);
-            props.saveFeedback(response);
-            notification.close('www');
-          }}
-        >
-          {errors.map((key, idx) => (
-            <Form.Item name={key} valuePropName="checked">
-              <Checkbox checked={false}>{key}</Checkbox>
-            </Form.Item>
-          ))}
-          <Form.Item>
-            <Button type="primary" htmlType="submit" onClick={() => {}}>
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>
-      </Panel>
-    </Collapse>
-  ) : (
-    <Collapse>
-      <Panel header="Give your opinion">
-        <Form
-          name="feedback"
-          onFinish={values => {
-            const response = {};
-            response.feedback = JSON.stringify(values);
-            props.saveFeedback(response);
-            notification.close('feedback');
-          }}
-        >
-          {questions.map((key, idx) => (
-            <div>
-              <Paragraph>{`${idx + 1}. ${key}`}</Paragraph>
-              <Form.Item name={key}>
-                <Rate />
-              </Form.Item>
+  return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <Row style={{ width: '80%', height: '80%' }}>
+        {props.whatWentWrong && (
+          <Col span={12}>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                margin: '10px',
+              }}
+            >
+              <Title level={4}>Give your opinion</Title>
+              <Form
+                name="whatWentWrong"
+                onFinish={values => {
+                  const response = {};
+                  response.whatwentwrong = JSON.stringify(values);
+                  props.saveFeedback(response);
+                  notification.close('www');
+                }}
+              >
+                {errors.map((key, idx) => (
+                  <Form.Item name={key} valuePropName="checked">
+                    <Checkbox checked={false}>{key}</Checkbox>
+                  </Form.Item>
+                ))}
+                <Form.Item>
+                  <Button type="primary" htmlType="submit" onClick={() => {}}>
+                    Submit
+                  </Button>
+                </Form.Item>
+              </Form>
             </div>
-          ))}
-          <Form.Item>
-            <Button type="primary" htmlType="submit" onClick={() => {}}>
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>
-      </Panel>
-    </Collapse>
+          </Col>
+        )}
+        <Col span={12}>
+          <div
+            style={{ display: 'flex', flexDirection: 'column', margin: '10px' }}
+          >
+            <Title level={4}>What whent wrong?</Title>
+            <Form
+              name="feedback"
+              onFinish={values => {
+                const response = {};
+                response.feedback = JSON.stringify(values);
+                props.saveFeedback(response);
+                notification.close('feedback');
+              }}
+            >
+              {questions.map((key, idx) => (
+                <div>
+                  <Paragraph>{`${idx + 1}. ${key}`}</Paragraph>
+                  <Form.Item name={key}>
+                    <Rate />
+                  </Form.Item>
+                </div>
+              ))}
+              <Form.Item>
+                <Button type="primary" htmlType="submit" onClick={() => {}}>
+                  Submit
+                </Button>
+              </Form.Item>
+            </Form>
+          </div>
+        </Col>
+      </Row>
+    </div>
   );
 }
 

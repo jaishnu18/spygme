@@ -51,6 +51,7 @@ import RevisitQuestionPage from '../RevisitQuestionPage';
 import EvaluateAllNodes from '../GAMES/PropositionalLogic/EvaluateAllNodesGame';
 import GradedEvaluateAllNodesGame from '../GAMES/PropositionalLogic/GradedEvaluateAllNodesGame';
 import GradedCrosswordBacktrackingGame from '../GAMES/CSP/GradedCrosswordBacktrackingGame';
+import StatisticsPage from '../StatisticsPage';
 
 function Routes(props) {
   if (!props.AuthData.isLoggedIn) {
@@ -387,6 +388,7 @@ function Routes(props) {
 
       */}
       <Route exact path="/my/profile" component={MyProfilePage} />
+      <Route exact path="/my/stats" component={StatisticsPage} />
       <Route exact path="/*" render={() => <NotFoundPage />} />
     </Switch>
   );
