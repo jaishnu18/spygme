@@ -162,6 +162,8 @@ const StyledCol = styled(Col)`
 
 function DashboardComponent(props) {
   const { dashboard } = props;
+  const { recommendedConcept } = props;
+  console.log(props);
 
   const [date, setDate] = useState(new Date());
 

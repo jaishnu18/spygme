@@ -150,18 +150,18 @@ function NavBar(props) {
                       >
                         Learn
                       </Menu.Item>
-
                       <Menu.Item
                         key="3"
+                        onClick={() => history.push('/discuss')}
+                      >
+                        Discuss
+                      </Menu.Item>
+
+                      <Menu.Item
+                        key="4"
                         onClick={() => history.push('/my/profile')}
                       >
                         Profile
-                      </Menu.Item>
-                      <Menu.Item
-                        key="4"
-                        onClick={() => history.push('/my/stats')}
-                      >
-                        Stats
                       </Menu.Item>
                       <Menu.Item key="5" onClick={showLogoutModal}>
                         Logout
