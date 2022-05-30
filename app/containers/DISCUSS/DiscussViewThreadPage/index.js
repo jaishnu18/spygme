@@ -22,6 +22,8 @@ import {
   voteThreadStart
 } from './actions';
 import DiscussViewThreadComponent from '../../../components/DISCUSS/DiscussViewThreadComponent';
+import draftToHtml from 'draftjs-to-html';
+import { EditorState, convertFromRaw, convertToRaw } from 'draft-js';
 
 export function DiscussViewThreadPage(props) {
   useInjectReducer({ key: 'discussViewThreadPage', reducer });
@@ -35,6 +37,11 @@ export function DiscussViewThreadPage(props) {
 
   const { threadId } = props;
   const { threadDetails } = props.state;
+
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const onEditorStateChange = editorState => {
+    setEditorState(editorState);
+  };
 
   useEffect(() => {
     props.viewThread(threadId);
@@ -72,6 +79,7 @@ export function DiscussViewThreadPage(props) {
 
   const submit = values => {
     const response = values;
+    values.comment = draftToHtml(convertToRaw(editorState.getCurrentContent()));
     response.threadId = threadId;
     props.postComment(values);
   };
@@ -87,6 +95,8 @@ export function DiscussViewThreadPage(props) {
       </Helmet>
       {threadDetails &&
         <DiscussViewThreadComponent
+          editorState={editorState}
+          onEditorStateChange={onEditorStateChange}
           threadDetails={threadDetails}
           thread_user_upvoted={thread_user_upvoted}
           set_thread_user_upvoted={set_thread_user_upvoted}

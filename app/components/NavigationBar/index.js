@@ -17,7 +17,7 @@ import RightOutlined from '@ant-design/icons/RightOutlined';
 import MessageOutlined from '@ant-design/icons/MessageOutlined';
 import ExclamationCircleOutlined from '@ant-design/icons/ExclamationOutlined';
 import Affix from 'antd/lib/affix';
-import CheckCircleFilled from '@ant-design/icons/CheckCircleFilled';
+import CheckOutlined from '@ant-design/icons/CheckOutlined';
 import Tooltip from 'antd/lib/tooltip';
 import Modal from 'antd/lib/modal';
 import Form from 'antd/lib/form';
@@ -27,7 +27,7 @@ import api from 'api';
 import DiscussNewThreadComponent from '../DISCUSS/DiscussNewThreadComponent';
 import { evaluateAnswer } from '../../containers/GAMES/PropositionalLogic/ExpressionEvaluationGame/saga';
 import draftToHtml from 'draftjs-to-html';
-import { EditorState, convertFromRaw, convertToRaw } from 'draft-js';
+import { EditorState, convertFromRaw, convertToRaw, Editor, ContentState, convertFromHTML } from 'draft-js';
 import message from 'antd/lib/message';
 
 const errors = [
@@ -149,17 +149,6 @@ function NavigationBar(props) {
               shape="circle"
               type="primary"
               icon={<ArrowLeftOutlined />} />
-            {props.read ? (
-              <Tooltip title="Marked as read">
-                <CheckCircleFilled
-                  style={{ fontSize: '30px', color: 'green' }}
-                />
-              </Tooltip>
-            ) : (
-              <Button onClick={props.markAsRead} shape="round" type="primary">
-                Mark as Read
-              </Button>
-            )}
           </Col>
         ) : (
           props.prevPageLink && (
@@ -186,12 +175,27 @@ function NavigationBar(props) {
               shape="circle"
               type="primary"
               onClick={() => {
+                setEditorState(EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(`<p>Description of doubt here</p><a href=${window.location.href}>Link to item</a>`)))); 
                 setNewThreadVisible(true);
               }}
               icon={<MessageOutlined />}
             />
           </Col>
         )}
+        {props.readingMaterial &&
+          <Col
+            xs={{ span: 24 }}
+            xl={{ span: 1 }}
+            style={{ display: 'flex', alignItems: 'center' }}
+          >
+
+            <Button onClick={props.markAsRead} shape="round" type="primary"
+              icon={props.read ? <RightOutlined /> : <CheckOutlined />}>
+              {props.read ? "Go to next item" : "Mark as Read"}
+            </Button>
+
+          </Col>
+        }
         <Modal
           title="New Thread"
           visible={newThreadVisible}
@@ -209,7 +213,7 @@ function NavigationBar(props) {
               concepts={conceptsArray}
               editorState={editorState}
               onEditorStateChange={onEditorStateChange}
-              defaultTitle={"Doubt in " + (props.readingMaterial ? "reading material " : "practice game ") + window.location.href} />
+              defaultTitle={"Doubt in " + (props.readingMaterial ? "reading material " : "practice game ")}/>
           )}
         </Modal>
 
