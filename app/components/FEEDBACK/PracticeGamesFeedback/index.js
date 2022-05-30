@@ -58,13 +58,15 @@ function PracticeGamesFeedback(props) {
                 margin: '10px',
               }}
             >
-              <Title level={4}>Give your opinion</Title>
+              <Title level={4} style={{ color: 'red', margin: 0 }}>
+                What Went Wrong?
+              </Title>
               <Form
                 name="whatWentWrong"
                 onFinish={values => {
                   const response = {};
                   response.whatwentwrong = JSON.stringify(values);
-                  props.saveFeedback(response);
+                  props.saveWWW(response);
                   notification.close('www');
                 }}
               >
@@ -82,11 +84,13 @@ function PracticeGamesFeedback(props) {
             </div>
           </Col>
         )}
-        <Col span={12}>
+        <Col span={props.whatWentWrong ? 12 : 24}>
           <div
             style={{ display: 'flex', flexDirection: 'column', margin: '10px' }}
           >
-            <Title level={4}>What whent wrong?</Title>
+            <Title level={4} style={{ color: 'blue' }}>
+              Give your opinion!
+            </Title>
             <Form
               name="feedback"
               onFinish={values => {

@@ -163,7 +163,13 @@ function NavBar(props) {
                       >
                         Profile
                       </Menu.Item>
-                      <Menu.Item key="5" onClick={showLogoutModal}>
+                      <Menu.Item
+                        key="5"
+                        onClick={() => history.push('/my/stats')}
+                      >
+                        Leaderboard
+                      </Menu.Item>
+                      <Menu.Item key="6" onClick={showLogoutModal}>
                         Logout
                       </Menu.Item>
                     </StyledMenu>

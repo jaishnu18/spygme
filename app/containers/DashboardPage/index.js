@@ -59,7 +59,6 @@ export function DashboardPage(props) {
   }, []);
 
   const { dashboard } = props.dashboardPage;
-  const { recommendedConcept } = props.dashboardPage;
   const authData = useAuth();
   return (
     <div>

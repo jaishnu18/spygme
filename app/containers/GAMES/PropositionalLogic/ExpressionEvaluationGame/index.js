@@ -52,7 +52,7 @@ export function ExpressionEvaluationGame(props) {
 
   useEffect(() => {
     if (evaluatedAnswer && !alreadyFeedback)
-      message.success('Please give us your valuable feedback below!', 3000);
+      message.success('Please give us your valuable feedback below!', 3);
   }, [props.expressionEvaluationGame]);
 
   const { gameData } = props.expressionEvaluationGame;
@@ -124,24 +124,36 @@ export function ExpressionEvaluationGame(props) {
             submit={submit}
             setValue={setValue}
           />
-          <Title level={3} style={{ textAlign: 'center', marginTop: '20px' }}>
-            Give your feedback!
-          </Title>
-          <div
-            style={{
-              display: 'flex',
-              width: '100vw',
-              justifyContent: 'center',
-              alignItems: 'center',
-              padding: '40px',
-            }}
-          >
-            <PracticeGamesFeedback
-              whatWentWrong
-              saveFeedback={props.saveFeedback}
-              style={{ marginLeft: 'auto' }}
-            />
-          </div>
+
+          {evaluatedAnswer && (
+            <>
+              <Title
+                level={3}
+                style={{
+                  textAlign: 'center',
+                  marginTop: '40px',
+                  marginBottom: 0,
+                }}
+              >
+                FEEDBACK
+              </Title>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  padding: '40px',
+                }}
+              >
+                <PracticeGamesFeedback
+                  whatWentWrong={evaluatedAnswer.score < 1}
+                  saveFeedback={submitFeedback}
+                  saveWWW={submitWWW}
+                  style={{ marginLeft: 'auto' }}
+                />
+              </div>
+            </>
+          )}
         </>
       )}
     </div>
