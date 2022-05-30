@@ -21,6 +21,7 @@ import Section from 'components/Section';
 import H4 from 'components/atoms/H4';
 import { GoogleLogin } from 'react-google-login';
 import { SHADOW1, GOOGLE_CLIENT_ID } from 'utils/constants';
+import AuthImage from 'images/auth.jpg';
 import PropTypes from 'prop-types';
 import CustomCard from 'components/CustomCard';
 import GoogleOutlined from '@ant-design/icons/GoogleOutlined';
@@ -54,262 +55,293 @@ function GoogleButton(props) {
 
 function AuthForm(props) {
   return (
-    <Section height="calc(100vh - 80px)">
-      <Row style={{ justifyContent: 'center' }}>
-        <Col
-          xs={{ span: 24 }}
-          sm={{ span: 24 }}
-          md={{ span: 12 }}
-          xl={{ span: 11 }}
-        >
-          <CustomCard shadow={SHADOW1} borderRadius="8px">
-            <Title level={4}>SIGN IN TO YOUR ACCOUNT</Title>
-
-            {props.errorMessages ? (
-              props.errorMessages.map(errorMessage => (
-                <Alert
-                  style={{ marginTop: '10px' }}
-                  message={JSON.stringify(errorMessage).substring(
-                    1,
-                    JSON.stringify(errorMessage).length - 1,
-                  )}
-                  type="error"
-                  showIcon
-                />
-              ))
-            ) : (
-              <span />
-            )}
-
-            <Tabs
-              defaultActiveKey="2"
-              style={{ marginTop: '10px', fontWeight: 500 }}
-              onChange={() => {
-                props.resetErrorMessages();
+    <Row
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 'calc(100vh - 80px)',
+      }}
+    >
+      <Col xs={{ span: 0 }} sm={{ span: 0 }} md={{ span: 0 }} xl={{ span: 0 }}>
+        <img
+          src={AuthImage}
+          alt="done"
+          style={{ width: '100%', height: '100%' }}
+        />
+      </Col>
+      <Col
+        xs={{ span: 24 }}
+        sm={{ span: 24 }}
+        md={{ span: 12 }}
+        xl={{ span: 13 }}
+        style={{ display: 'flex' }}
+      >
+        <Row style={{ width: '100%' }}>
+          <Col span={12}>
+            <img
+              src={AuthImage}
+              alt="done"
+              // style={{ width: '100%', height: 'max-content' }}
+              style={{
+                width: '100%',
               }}
-            >
-              <TabPane tab="New User" key="1">
-                <Radio.Group buttonStyle="solid" defaultValue={props.userRole}>
-                  <Radio.Button
-                    onClick={() => props.setUserRole('Student')}
-                    value="Student"
-                  >
-                    Student
-                  </Radio.Button>
-                  <Radio.Button
-                    onClick={() => props.setUserRole('Teacher')}
-                    value="Teacher"
-                  >
-                    Teacher
-                  </Radio.Button>
-                  <Radio.Button
-                    onClick={() => props.setUserRole('Others')}
-                    value="Others"
-                  >
-                    Others
-                  </Radio.Button>
-                </Radio.Group>
-                <Form
-                  name="basic"
-                  style={{ marginTop: '20px' }}
-                  labelCol={{ span: 6 }}
-                  wrapperCol={{ span: 16 }}
-                  initialValues={{ remember: true }}
-                  onFinish={props.handleSignUp}
-                  onFinishFailed={props.handleError}
-                  autoComplete="off"
-                >
-                  <Form.Item
-                    label="Name"
-                    name="name"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please input your Name!',
-                      },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
+            />
+          </Col>
+          <Col span={12}>
+            <CustomCard shadow={SHADOW1} borderRadius="8px">
+              <Title level={4}>SIGN IN TO YOUR ACCOUNT</Title>
 
-                  <Form.Item
-                    label="Email Id"
-                    name="email"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please input your Email Address!',
-                      },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
+              {props.errorMessages ? (
+                props.errorMessages.map(errorMessage => (
+                  <Alert
+                    style={{ marginTop: '10px' }}
+                    message={JSON.stringify(errorMessage).substring(
+                      1,
+                      JSON.stringify(errorMessage).length - 1,
+                    )}
+                    type="error"
+                    showIcon
+                  />
+                ))
+              ) : (
+                <span />
+              )}
 
-                  {props.userRole === 'Student' && (
+              <Tabs
+                defaultActiveKey="2"
+                style={{ marginTop: '10px', fontWeight: 500 }}
+                onChange={() => {
+                  props.resetErrorMessages();
+                }}
+              >
+                <TabPane tab="New User" key="1">
+                  <Radio.Group
+                    buttonStyle="solid"
+                    defaultValue={props.userRole}
+                  >
+                    <Radio.Button
+                      onClick={() => props.setUserRole('Student')}
+                      value="Student"
+                    >
+                      Student
+                    </Radio.Button>
+                    <Radio.Button
+                      onClick={() => props.setUserRole('Teacher')}
+                      value="Teacher"
+                    >
+                      Teacher
+                    </Radio.Button>
+                    <Radio.Button
+                      onClick={() => props.setUserRole('Others')}
+                      value="Others"
+                    >
+                      Others
+                    </Radio.Button>
+                  </Radio.Group>
+                  <Form
+                    name="basic"
+                    style={{ marginTop: '20px' }}
+                    labelCol={{ span: 6 }}
+                    wrapperCol={{ span: 16 }}
+                    initialValues={{ remember: true }}
+                    onFinish={props.handleSignUp}
+                    onFinishFailed={props.handleError}
+                    autoComplete="off"
+                  >
                     <Form.Item
-                      label="Class"
-                      name="_class"
+                      label="Name"
+                      name="name"
                       rules={[
                         {
                           required: true,
-                          message: 'Please input your class!',
+                          message: 'Please input your Name!',
                         },
                       ]}
                     >
-                      <InputNumber max="12" min='4' />
-
+                      <Input />
                     </Form.Item>
-                  )}
 
-                  <Form.Item
-                    label={
-                      props.userRole === 'Others'
-                        ? 'Organisation'
-                        : 'School/Institution'
-                    }
-                    name="organisation"
-                    rules={[
-                      {
-                        required: true,
-                        message:
-                          'Please input your School/Institution/Organisation!',
-                      },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-
-                  <Form.Item
-                    extra="Password length must be atleast 6 characters"
-                    label="Password"
-                    name="password"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please input your password!',
-                      },
-                    ]}
-                  >
-                    <Input.Password />
-                  </Form.Item>
-
-                  <Form.Item
-                    label="Confirm Password"
-                    name="confirm_password"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please confirm your password!',
-                      },
-                    ]}
-                  >
-                    <Input.Password />
-                  </Form.Item>
-
-                  <Form.Item wrapperCol={{ span: 24 }}>
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                      <Button
-                        type="primary"
-                        htmlType="submit"
-                        style={{ width: '30%', fontWeight: 500 }}
-                      >
-                        Sign Up
-                      </Button>
-                    </div>
-                  </Form.Item>
-                </Form>
-
-                <Divider>or</Divider>
-                <div style={{ textAlign: 'center' }}>
-                  <GoogleButton
-                    text="Sign In with Google"
-                    onSuccess={props.googleSignIn}
-                  />
-                </div>
-              </TabPane>
-              <TabPane tab="Existing User" key="2">
-                <Form
-                  name="basic"
-                  style={{ marginTop: '20px' }}
-                  labelCol={{ span: 5 }}
-                  wrapperCol={{ span: 16 }}
-                  initialValues={{ remember: true }}
-                  onFinish={props.handleSignIn}
-                  onFinishFailed={props.handleError}
-                  autoComplete="off"
-                >
-                  <Form.Item
-                    label="Email Id"
-                    name="email"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please input your Email Address!',
-                      },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-
-                  <Form.Item
-                    label="Password"
-                    name="password"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please input your password!',
-                      },
-                    ]}
-                  >
-                    <Input.Password />
-                  </Form.Item>
-
-                  <Form.Item wrapperCol={{ span: 24 }}>
-                    <div
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                      }}
+                    <Form.Item
+                      label="Email Id"
+                      name="email"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please input your Email Address!',
+                        },
+                      ]}
                     >
-                      <Button
-                        type="primary"
-                        htmlType="submit"
-                        style={{ width: '30%', fontWeight: 500 }}
-                      >
-                        Sign In
-                      </Button>
-                      <Button
-                        type="danger"
-                        onClick={() => {
-                          history.push('/forgot-password');
-                        }}
-                        style={{
-                          width: '45%',
-                          marginTop: '12px',
-                          fontWeight: 500,
-                        }}
-                      >
-                        Forgot Password?
-                      </Button>
-                    </div>
-                  </Form.Item>
-                </Form>
-                <Divider>or</Divider>
+                      <Input />
+                    </Form.Item>
 
-                <div style={{ textAlign: 'center' }}>
-                  <GoogleButton
-                    text="Sign In with Google"
-                    onSuccess={props.googleSignIn}
-                  />
-                </div>
-                <div style={{ marginTop: '12px', textAlign: 'center' }} />
-              </TabPane>
-            </Tabs>
-          </CustomCard>
-        </Col>
-      </Row>
-    </Section>
+                    {props.userRole === 'Student' && (
+                      <Form.Item
+                        label="Class"
+                        name="_class"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please input your class!',
+                          },
+                        ]}
+                      >
+                        <InputNumber max="12" min="4" />
+                      </Form.Item>
+                    )}
+
+                    <Form.Item
+                      label={
+                        props.userRole === 'Others'
+                          ? 'Organisation'
+                          : 'School/Institution'
+                      }
+                      name="organisation"
+                      rules={[
+                        {
+                          required: true,
+                          message:
+                            'Please input your School/Institution/Organisation!',
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+
+                    <Form.Item
+                      extra="Password length must be atleast 6 characters"
+                      label="Password"
+                      name="password"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please input your password!',
+                        },
+                      ]}
+                    >
+                      <Input.Password />
+                    </Form.Item>
+
+                    <Form.Item
+                      label="Confirm Password"
+                      name="confirm_password"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please confirm your password!',
+                        },
+                      ]}
+                    >
+                      <Input.Password />
+                    </Form.Item>
+
+                    <Form.Item wrapperCol={{ span: 24 }}>
+                      <div
+                        style={{ display: 'flex', justifyContent: 'center' }}
+                      >
+                        <Button
+                          type="primary"
+                          htmlType="submit"
+                          style={{ width: '30%', fontWeight: 500 }}
+                        >
+                          Sign Up
+                        </Button>
+                      </div>
+                    </Form.Item>
+                  </Form>
+
+                  <Divider>or</Divider>
+                  <div style={{ textAlign: 'center' }}>
+                    <GoogleButton
+                      text="Sign In with Google"
+                      onSuccess={props.googleSignIn}
+                    />
+                  </div>
+                </TabPane>
+                <TabPane tab="Existing User" key="2">
+                  <Form
+                    name="basic"
+                    style={{ marginTop: '20px' }}
+                    labelCol={{ span: 5 }}
+                    wrapperCol={{ span: 16 }}
+                    initialValues={{ remember: true }}
+                    onFinish={props.handleSignIn}
+                    onFinishFailed={props.handleError}
+                    autoComplete="off"
+                  >
+                    <Form.Item
+                      label="Email Id"
+                      name="email"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please input your Email Address!',
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+
+                    <Form.Item
+                      label="Password"
+                      name="password"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please input your password!',
+                        },
+                      ]}
+                    >
+                      <Input.Password />
+                    </Form.Item>
+
+                    <Form.Item wrapperCol={{ span: 24 }}>
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <Button
+                          type="primary"
+                          htmlType="submit"
+                          style={{ width: '30%', fontWeight: 500 }}
+                        >
+                          Sign In
+                        </Button>
+                        <Button
+                          type="danger"
+                          onClick={() => {
+                            history.push('/forgot-password');
+                          }}
+                          style={{
+                            width: '45%',
+                            marginTop: '12px',
+                            fontWeight: 500,
+                          }}
+                        >
+                          Forgot Password?
+                        </Button>
+                      </div>
+                    </Form.Item>
+                  </Form>
+                  <Divider>or</Divider>
+
+                  <div style={{ textAlign: 'center' }}>
+                    <GoogleButton
+                      text="Sign In with Google"
+                      onSuccess={props.googleSignIn}
+                    />
+                  </div>
+                  <div style={{ marginTop: '12px', textAlign: 'center' }} />
+                </TabPane>
+              </Tabs>
+            </CustomCard>
+          </Col>
+        </Row>
+      </Col>
+    </Row>
   );
 }
 

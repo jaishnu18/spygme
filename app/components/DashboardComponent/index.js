@@ -10,31 +10,30 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
-import CustomButton from 'components/atoms/CustomButton';
-import DescriptionCard from 'components/DescriptionCard';
-import Image from 'antd/lib/image';
-import RobotHello from 'images/Robot-hello.png';
-import Typewriter from 'typewriter-effect';
 import Typography from 'antd/lib/typography';
-import CustomCard from 'components/CustomCard';
-import Button from 'antd/lib/button';
 import Space from 'antd/lib/space';
 import { Link } from 'react-router-dom';
-import Table from 'antd/lib/table';
 import Progress from 'antd/lib/progress';
-import ListDisplay from '../ListDisplay';
 import AI from 'images/AI.jpg';
+import WhatsNew from 'images/whats-new.png';
+import Streak from 'images/streak.jpg';
+import CSP from 'images/csp.png';
+import Read from 'images/read.png';
+import ContinuePlaying from 'images/continue.png';
+import Card from 'antd/lib/card';
+import ListDisplay from '../ListDisplay';
+import ListComponent from './ListComponent';
 
 const { Title } = Typography;
 
 export const StyledDiv = styled.div`
   padding: 24px;
   display: flex;
-  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
-    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  background-color: #eaeaea;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  border-radius: 16px;
   flex-direction: column;
-
-  .ant-progress-text {
+  justify-content: ${props => props.justifyContent || 'left'} .ant-progress-text {
     font-size: 14px !important;
     font-weight: 700 !important;
   }
@@ -174,20 +173,20 @@ function DashboardComponent(props) {
 
   return (
     <div>
-      <Row justify="center">
+      <Row justify="center" style={{ backgroundColor: '#A0C2F5' }}>
         <Col
           xs={{ span: 23 }}
           xl={{ span: 10 }}
           style={{
             display: 'flex',
             justifyContent: 'center',
-            borderRight: '2px solid black',
+            borderRight: '2px solid #eaeaea',
             minHeight: 'calc(100vh - 70px)',
           }}
         >
           <Space
             direction="vertical"
-            size="middle"
+            size="large"
             style={{ display: 'flex', width: '100%', padding: '20px' }}
           >
             {!dashboard.isProfileCompleted && (
@@ -226,15 +225,61 @@ function DashboardComponent(props) {
               </div>
             )}
 
-            {dashboard.gameplaySuggestions && (
-              <StyledCol span={24}>
-                <ListDisplay
-                  title="Continue Playing"
-                  gameplaySuggestion={dashboard.gameplaySuggestions}
-                />
-              </StyledCol>
-            )}
+            <StyledCol span={24}>
+              <StyledDiv>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    marginBottom: '20px',
+                  }}
+                >
+                  <img
+                    alt="example"
+                    src={WhatsNew}
+                    style={{ width: '50px', height: '50px' }}
+                  />
+                  <Title
+                    level={3}
+                    style={{
+                      color: 'darkblue',
+                      margin: '0px 0px 0px 8px',
+                    }}
+                  >
+                    Latest
+                  </Title>
+                </div>
+                <div
+                  style={{ borderLeft: '3px solid purple', marginTop: '8px' }}
+                >
+                  <Title
+                    level={4}
+                    style={{
+                      margin: '0 0 0 8px',
+                      fontWeight: 500,
+                      fontSize: '18px',
+                    }}
+                  >
+                    We have updated our Dashboard.
+                  </Title>
+                </div>
 
+                <div
+                  style={{ borderLeft: '3px solid purple', marginTop: '8px' }}
+                >
+                  <Title
+                    level={4}
+                    style={{
+                      margin: '0 0 0 8px',
+                      fontWeight: 500,
+                      fontSize: '18px',
+                    }}
+                  >
+                    New concepts and games coming soon!
+                  </Title>
+                </div>
+              </StyledDiv>
+            </StyledCol>
           </Space>
         </Col>
         <Col
@@ -243,11 +288,12 @@ function DashboardComponent(props) {
           style={{
             display: 'flex',
             justifyContent: 'center',
+            paddingTop: '12px',
           }}
         >
           <Space
             direction="vertical"
-            size="middle"
+            size={30}
             style={{ display: 'flex', width: '100%', padding: '20px' }}
           >
             <StyledDiv>
@@ -268,22 +314,53 @@ function DashboardComponent(props) {
                 <strong>Ray Kurzweil</strong>
               </Title>
               <Link to="/topics" style={{ textAlign: 'right' }}>
-                <Title level={4} style={{ marginTop: '0' }}>
+                <Title level={4} style={{ marginTop: '0', color: 'darkblue' }}>
                   Learn AI
                 </Title>
               </Link>
             </StyledDiv>
-            {recommendedConcept && (
-              <StyledCol span={24}>
-                <Link to={`concept/${recommendedConcept.parentTopic}/${recommendedConcept.id}`}>
-                  <DescriptionCard
-                    title="Recommended concept for you"
-                    description={recommendedConcept.name}
-                    progress={Math.round(recommendedConcept.progress * 100)}
-                  />
-                </Link>
-              </StyledCol>
-            )}
+            <StyledDiv>
+              <Title level={3} style={{ textAlign: 'center', color: 'red' }}>
+                STREAK BUILDER
+              </Title>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  marginBottom: '20px',
+                }}
+              >
+                <img
+                  src={Streak}
+                  alt="ai"
+                  style={{ height: '20%', width: '20%' }}
+                />
+              </div>
+              <Row>
+                <Col
+                  span={12}
+                  style={{ display: 'flex', flexDirection: 'column' }}
+                >
+                  <Title level={4} style={{ textAlign: 'center', margin: 0 }}>
+                    Current Streak
+                  </Title>
+                  <Title level={2} style={{ textAlign: 'center', margin: 0 }}>
+                    {dashboard.currentStreak}
+                  </Title>
+                </Col>
+                <Col
+                  span={12}
+                  style={{ display: 'flex', flexDirection: 'column' }}
+                >
+                  <Title level={4} style={{ textAlign: 'center', margin: 0 }}>
+                    Highest Streak
+                  </Title>
+                  <Title level={2} style={{ textAlign: 'center', margin: 0 }}>
+                    {dashboard.highestStreak}
+                  </Title>
+                </Col>
+              </Row>
+            </StyledDiv>
           </Space>
         </Col>
         <Col
@@ -293,71 +370,115 @@ function DashboardComponent(props) {
             display: 'flex',
             justifyContent: 'center',
           }}
-        />
-      </Row>
-
-      {/* <Col
-          xs={{ span: 24 }}
-          xl={{ span: 5, offset: 3 }}
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-          }}
         >
-          <Image
-            src={RobotHello}
-            style={{
-              height: '90%',
-              width: '100%',
-              objectFit: 'cover',
-              boxShadow:
-                'rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset',
-              padding: '40px',
-            }}
-            preview={false}
-          />
-        </Col> */}
-      {/* <Row style={{ paddingBottom: '20px' }}>
-        <Col span={23} offset={1}>
-          <Link to="/topics">
-            <Button shape="round" type="primary">
-              Start Learning
-            </Button>
-          </Link>
+          <Space
+            direction="vertical"
+            size={30}
+            style={{ display: 'flex', width: '100%', padding: '20px' }}
+          >
+            <StyledDiv>
+              <Link
+                to={`/concept/${props.recommendedConcept.parentTopic}/${
+                  props.recommendedConcept.id
+                }`}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <img
+                    alt="example"
+                    src={Read}
+                    style={{ width: '50px', height: '50px' }}
+                  />
+                  <Title
+                    level={3}
+                    style={{
+                      color: 'darkblue',
+                      textAlign: 'center',
+                      margin: '0px 0px 0px 8px',
+                    }}
+                  >
+                    Recommended Concept for you!
+                  </Title>
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    marginTop: '12px',
+                  }}
+                >
+                  <Card
+                    hoverable
+                    style={{ width: '90%' }}
+                    cover={
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          padding: '20px',
+                        }}
+                      >
+                        <img
+                          alt="example"
+                          src={CSP}
+                          style={{ width: '200px', height: '200px' }}
+                        />
+                      </div>
+                    }
+                  >
+                    <Title
+                      level={4}
+                      style={{ color: 'brown', textAlign: 'center' }}
+                    >
+                      {props.recommendedConcept.name}
+                    </Title>
+                  </Card>
+                </div>
+              </Link>
+            </StyledDiv>
+            {props.nextItem && (
+              <StyledDiv>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      marginBottom: '20px',
+                    }}
+                  >
+                    <img
+                      alt="example"
+                      src={ContinuePlaying}
+                      style={{ width: '50px', height: '50px' }}
+                    />
+                    <Title
+                      level={3}
+                      style={{
+                        color: 'darkblue',
+                        margin: '0px 0px 0px 8px',
+                      }}
+                    >
+                      Pick up from where you left!
+                    </Title>
+                  </div>
+                  <ListComponent url={props.nextItem.url} />
+                </div>
+              </StyledDiv>
+            )}
+          </Space>
         </Col>
       </Row>
-      <Row>
-        <Col xs={{ span: 24 }} xl={{ span: 4 }} offset={1}>
-          <DescriptionCard
-            title="Overall Progress"
-            progress={Math.round(dashboard.overallProgress * 100)}
-            suggestionText="Attempt new items to increase progress"
-          />
-        </Col>
-        <Col xs={{ span: 24 }} xl={{ span: 4 }}>
-          <DescriptionCard
-            title="Overall Proficiency"
-            progress={Math.round(dashboard.overallProficiency * 100)}
-            customProgressText="Your Proficiency"
-            suggestionText="Perform better at graded games to improve"
-          />
-        </Col>
-        <Col xs={{ span: 24 }} xl={{ span: 13 }} offset={1}>
-          <CustomCard title="Leaderboard">
-            <Table
-              dataSource={dashboard.allStudents}
-              columns={
-                dashboard.allStudents[0].role === 'Student'
-                  ? columnsStudent
-                  : dashboard.allStudents[0].role === 'Teacher'
-                  ? columnsTeacher
-                  : columnsOthers
-              }
-              pagination={{ pageSize: 3 }}
-            />
-          </CustomCard>
-        </Col>
-      </Row> */}
     </div>
   );
 }

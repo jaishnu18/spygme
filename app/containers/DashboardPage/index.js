@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -15,6 +15,7 @@ import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
+import api from 'api';
 import makeSelectDashboardPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -29,13 +30,35 @@ export function DashboardPage(props) {
   useInjectReducer({ key: 'dashboardPage', reducer });
   useInjectSaga({ key: 'dashboardPage', saga });
 
+  const [recommendedConcept, setRecommendedConcept] = useState(undefined);
+  const [nextItem, setNextItem] = useState(undefined);
+
   useEffect(() => {
     props.getDashboard();
-    props.getRecommendedConcept();
+
+    const res1 = async () => {
+      const R = await api.get('/get-dashboard/reco-concept', {
+        headers: { Authorization: localStorage._UFT_ },
+      });
+      setRecommendedConcept(R.data.data);
+    };
+    res1();
+
+    const res2 = async () => {
+      const R = await api.post(
+        '/get-dashboard/next-item',
+        {},
+        {
+          headers: { Authorization: localStorage._UFT_ },
+        },
+      );
+      setNextItem(R.data.data);
+      console.log(R.data.data);
+    };
+    res2();
   }, []);
 
   const { dashboard } = props.dashboardPage;
-  const { recommendedConcept } = props.dashboardPage;
   const authData = useAuth();
   return (
     <div>
@@ -43,10 +66,14 @@ export function DashboardPage(props) {
         <title>DashboardPage</title>
         <meta name="description" content="Description of DashboardPage" />
       </Helmet>
-      {dashboard && (
-        <DashboardComponent dashboard={dashboard} recommendedConcept={recommendedConcept} username={authData.name} />
-      )
-      }
+      {dashboard && recommendedConcept && (
+        <DashboardComponent
+          recommendedConcept={recommendedConcept}
+          dashboard={dashboard}
+          username={authData.name}
+          nextItem={nextItem}
+        />
+      )}
     </div>
   );
 }
