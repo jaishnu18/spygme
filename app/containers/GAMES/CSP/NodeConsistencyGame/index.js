@@ -30,6 +30,9 @@ import {
 } from './actions';
 import PracticeGamesFeedback from '../../../../components/FEEDBACK/PracticeGamesFeedback';
 
+import message from 'antd/lib/message';
+import Title from 'antd/lib/typography/Title';
+
 export function NodeConsistencyGame(props) {
   useInjectReducer({ key: 'nodeConsistencyGame', reducer });
   useInjectSaga({ key: 'nodeConsistencyGame', saga });
@@ -43,32 +46,7 @@ export function NodeConsistencyGame(props) {
   const { conceptId } = props;
   const { topicId } = props;
 
-  useEffect(() => {
-    if (evaluatedAnswer && !alreadyFeedback) {
-      setAlreadyFeedback(true);
-      const practiceGamesFeedback = (
-        <PracticeGamesFeedback saveFeedback={props.saveFeedback} />
-      );
-      const args = {
-        message: 'Feedback',
-        description: practiceGamesFeedback,
-        duration: 0, key:'feedback',
-      };
-      notification.open(args);
-      if (evaluatedAnswer.score !== 1) {
-        const practiceGamesFeedback = (
-          <PracticeGamesFeedback whatWentWrong saveFeedback={props.saveFeedback} />
-        );
-        const args = {
-          message: 'Why you made mistake?',
-          description: practiceGamesFeedback,
-          duration: 0,
-          placement: 'topLeft', key:'www'
-        };
-        notification.open(args);
-      }
-    }
-  }, [props.state]);
+  useEffect(() => {}, [props.state]);
 
   useEffect(() => {
     props.getGameData(level);
@@ -77,8 +55,8 @@ export function NodeConsistencyGame(props) {
 
   useEffect(() => {
     if (props.state.gameData) {
-      const nodesLen = props.state.gameData.nodes.length,
-        bagSize = props.state.gameData.shuffled_bag.length;
+      const nodesLen = props.state.gameData.nodes.length;
+      const bagSize = props.state.gameData.shuffled_bag.length;
       const newArr = new Array(nodesLen);
       for (let i = 0; i < nodesLen; i += 1)
         newArr[i] = new Array(bagSize).fill(true);
@@ -135,7 +113,10 @@ export function NodeConsistencyGame(props) {
 
           <Row style={{ width: '100%' }}>
             <Col>
-              <GameDescription gameData={gameData} evaluatedAnswer={evaluatedAnswer} />
+              <GameDescription
+                gameData={gameData}
+                evaluatedAnswer={evaluatedAnswer}
+              />
             </Col>
           </Row>
           <GameComponent
@@ -146,6 +127,35 @@ export function NodeConsistencyGame(props) {
             setValue={setValue}
             value={value}
           />
+          {evaluatedAnswer && (
+            <>
+              <Title
+                level={3}
+                style={{
+                  textAlign: 'center',
+                  marginTop: '40px',
+                  marginBottom: 0,
+                }}
+              >
+                FEEDBACK
+              </Title>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  padding: '40px',
+                }}
+              >
+                <PracticeGamesFeedback
+                  whatWentWrong={evaluatedAnswer.score < 1}
+                  saveFeedback={submitFeedback}
+                  saveWWW={submitWWW}
+                  style={{ marginLeft: 'auto' }}
+                />
+              </div>
+            </>
+          )}
         </>
       )}
     </div>

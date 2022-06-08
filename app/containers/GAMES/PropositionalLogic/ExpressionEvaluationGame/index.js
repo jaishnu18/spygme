@@ -35,7 +35,7 @@ import {
   putFeedbackStart,
 } from './actions';
 import Title from 'antd/lib/typography/Title';
-import { message } from 'antd';
+import message from 'antd/lib/message';
 
 export function ExpressionEvaluationGame(props) {
   useInjectReducer({ key: 'expressionEvaluationGame', reducer });

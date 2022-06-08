@@ -34,6 +34,9 @@ import {
   changeResponse,
 } from './actions';
 
+import Title from 'antd/lib/typography/Title';
+import message from 'antd/lib/message';
+
 export function MatchExpressionGame(props) {
   useInjectReducer({ key: 'matchExpressionGame', reducer });
   useInjectSaga({ key: 'matchExpressionGame', saga });
@@ -48,28 +51,8 @@ export function MatchExpressionGame(props) {
   }, [props.level]);
 
   useEffect(() => {
-    if (evaluatedAnswer && !alreadyFeedback) {
-      setAlreadyFeedback(true);
-      const practiceGamesFeedback = <PracticeGamesFeedback saveFeedback={props.saveFeedback} />
-      const args = {
-        message: 'Feedback',
-        description:
-          practiceGamesFeedback,
-        duration: 0, key: 'feedback',
-      };
-      notification.open(args);
-      if (evaluatedAnswer.score !== 1) {
-        const practiceGamesFeedback = <PracticeGamesFeedback whatWentWrong saveFeedback={props.saveFeedback} />
-        const args = {
-          message: 'Why you made mistake?',
-          description:
-            practiceGamesFeedback,
-          duration: 0,
-          placement: 'topLeft', key: 'www'
-        };
-        notification.open(args);
-      }
-    }
+    if (evaluatedAnswer && !alreadyFeedback)
+      message.success('Please give us your valuable feedback below!', 3);
   }, [props.matchExpressionGame]);
 
   const { gameData } = props.matchExpressionGame;
@@ -79,7 +62,7 @@ export function MatchExpressionGame(props) {
   const { topicId } = props;
 
   const submitWWW = values => {
-    console.log("DSF");
+    console.log('DSF');
     const response = {};
     response.whatwentwrong = JSON.stringify(values);
     props.saveFeedback(response);
@@ -89,7 +72,7 @@ export function MatchExpressionGame(props) {
     const response = {};
     response.feedback = JSON.stringify(values);
     props.saveFeedback(response);
-  }
+  };
 
   const submit = () => {
     const secs = end(startTime);
@@ -129,7 +112,10 @@ export function MatchExpressionGame(props) {
 
           <Row style={{ width: '100%' }}>
             <Col>
-              <GameDescription gameData={gameData} evaluatedAnswer={evaluatedAnswer} />
+              <GameDescription
+                gameData={gameData}
+                evaluatedAnswer={evaluatedAnswer}
+              />
             </Col>
           </Row>
           <GameComponent
@@ -140,6 +126,36 @@ export function MatchExpressionGame(props) {
             value={arr}
             changeResponse={changeResponseFunction}
           />
+
+          {evaluatedAnswer && (
+            <>
+              <Title
+                level={3}
+                style={{
+                  textAlign: 'center',
+                  marginTop: '40px',
+                  marginBottom: 0,
+                }}
+              >
+                FEEDBACK
+              </Title>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  padding: '40px',
+                }}
+              >
+                <PracticeGamesFeedback
+                  whatWentWrong={evaluatedAnswer.score < 1}
+                  saveFeedback={submitFeedback}
+                  saveWWW={submitWWW}
+                  style={{ marginLeft: 'auto' }}
+                />
+              </div>
+            </>
+          )}
         </>
       )}
     </div>
