@@ -472,7 +472,7 @@ function DashboardComponent(props) {
                       Pick up from where you left!
                     </Title>
                   </div>
-                  <ListComponent url={props.nextItem.url} />
+                  <ListComponent url={props.nextItem.url} name={props.nextItem.name} />
                 </div>
               </StyledDiv>
             )}
