@@ -19,6 +19,8 @@ import Input from 'antd/lib/input';
 import Tag from 'antd/lib/tag';
 import Form from 'antd/lib/form';
 import { Link } from 'react-router-dom';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { Editor } from 'react-draft-wysiwyg';
 
 function DiscussViewThreadComponent(props) {
   const { threadDetails } = props;
@@ -28,9 +30,7 @@ function DiscussViewThreadComponent(props) {
     <div style={{ padding: '20px' }}>
       <Row>
         <Link to='/discuss'>
-          <Button shape='round' icon={<LeftCircleOutlined />} type='primary' >
-            Back to discuss
-          </Button>
+          <Button shape='circle' icon={<LeftCircleOutlined />} type='primary' />
         </Link>
       </Row>
       <Row >
@@ -51,7 +51,7 @@ function DiscussViewThreadComponent(props) {
             <Row style={{ fontSize: '10px' }}>
               Author: {threadDetails.threadDetails.author}
             </Row>
-            <Row style={{ fontSize: '10px' }}>
+            <Row style={{ fontSize: '10px' }} >
               Created at: {(new Date(threadDetails.threadDetails.created_at)).toLocaleString()}
             </Row>
             <Row>
@@ -86,11 +86,13 @@ function DiscussViewThreadComponent(props) {
                 },
               ]}
             >
-              <Input.TextArea
-                placeholder="your comment"
-                rows={2}
-                showCount
-                maxLength="500"
+              <Editor
+                placeholder="Enter your comment"
+                editorState={props.editorState}
+                wrapperClassName="wrapper-class"
+                editorClassName="editor-class"
+                toolbarClassName="toolbar-class"
+                onEditorStateChange={props.onEditorStateChange}
               />
             </Form.Item>
             <Button type="primary" htmlType="submit">
@@ -102,10 +104,13 @@ function DiscussViewThreadComponent(props) {
       {
         threadDetails.comments.map((key, idx) => (
           <Row style={{ padding: '10px', margin: '10px', border: '1px solid black', backgroundColor: 'white' }}>
-            <Col span={24}>
-              {key.author}: {key.content}
+            <Col style={{ justifyContent: 'center' }} xs={{ span: 24 }} xl={{ span: 3 }}>
+              {key.author}
             </Col>
-            <Col span={24}>
+            <Col span={20}>
+              {parse(key.content)}
+            </Col>
+            <Col span={24} style={{ fontSize: '10px' }}>
               Created at: {(new Date(key.created_at)).toLocaleString()}
             </Col>
             {props.comment_upvote && props.comment_user_upvoted &&
