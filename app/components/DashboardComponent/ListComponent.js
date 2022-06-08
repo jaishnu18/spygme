@@ -24,7 +24,7 @@ function ListComponent(props) {
       }}
     >
       <Title level={3} style={{ margin: 0 }}>
-        Game X
+        {props.name}
       </Title>
       <CustomButton
         style={{
@@ -37,7 +37,7 @@ function ListComponent(props) {
           window.location.href = props.url;
         }}
       >
-        Play Now
+        Let's go
       </CustomButton>
     </div>
   );
