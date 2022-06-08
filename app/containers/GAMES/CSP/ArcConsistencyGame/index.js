@@ -18,11 +18,13 @@ import GameComponent from 'components/GAMES/CSP/ArcConsistencyGame';
 import moment from 'moment';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
+import { start, end } from 'utils/timerFunctions';
+import notification from 'antd/lib/notification';
+import message from 'antd/lib/message';
+import Title from 'antd/lib/typography/Title';
 import makeSelectArcConsistencyGame from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import { start, end } from 'utils/timerFunctions';
-import notification from 'antd/lib/notification';
 import {
   getGamesDataStart,
   evaluateResponseStart,
@@ -44,35 +46,8 @@ export function ArcConsistencyGame(props) {
   const { topicId } = props;
 
   useEffect(() => {
-    if (evaluatedAnswer && !alreadyFeedback) {
-      setAlreadyFeedback(true);
-      const practiceGamesFeedback = (
-        <PracticeGamesFeedback saveFeedback={props.saveFeedback} />
-      );
-      const args = {
-        message: 'Feedback',
-        description: practiceGamesFeedback,
-        duration: 0,
-        key: 'feedback',
-      };
-      notification.open(args);
-      if (evaluatedAnswer.score !== 1) {
-        const practiceGamesFeedback = (
-          <PracticeGamesFeedback
-            whatWentWrong
-            saveFeedback={props.saveFeedback}
-          />
-        );
-        const args = {
-          message: 'Why you made mistake?',
-          description: practiceGamesFeedback,
-          duration: 0,
-          placement: 'topLeft',
-          key: 'www',
-        };
-        notification.open(args);
-      }
-    }
+    if (evaluatedAnswer && !alreadyFeedback)
+      message.success('Please give us your valuable feedback below!', 3);
   }, [props.state]);
 
   useEffect(() => {
@@ -106,6 +81,19 @@ export function ArcConsistencyGame(props) {
     response.studentResponse = gameData;
     props.checkStudentResponse(response);
   };
+
+  const submitWWW = values => {
+    const response = {};
+    response.whatwentwrong = JSON.stringify(values);
+    props.saveFeedback(response);
+  };
+
+  const submitFeedback = values => {
+    const response = {};
+    response.feedback = JSON.stringify(values);
+    props.saveFeedback(response);
+  };
+
   return (
     <div>
       <Helmet>
@@ -141,6 +129,35 @@ export function ArcConsistencyGame(props) {
             setValue={setValue}
             value={value}
           />
+          {evaluatedAnswer && (
+            <>
+              <Title
+                level={3}
+                style={{
+                  textAlign: 'center',
+                  marginTop: '40px',
+                  marginBottom: 0,
+                }}
+              >
+                FEEDBACK
+              </Title>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  padding: '40px',
+                }}
+              >
+                <PracticeGamesFeedback
+                  whatWentWrong={evaluatedAnswer.score < 1}
+                  saveFeedback={submitFeedback}
+                  saveWWW={submitWWW}
+                  style={{ marginLeft: 'auto' }}
+                />
+              </div>
+            </>
+          )}
         </>
       )}
     </div>

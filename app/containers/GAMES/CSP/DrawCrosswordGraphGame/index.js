@@ -36,6 +36,9 @@ import {
 } from './actions';
 import PracticeGamesFeedback from '../../../../components/FEEDBACK/PracticeGamesFeedback';
 
+import Title from 'antd/lib/typography/Title';
+import message from 'antd/lib/message';
+
 export function DrawCrosswordGraphGame(props) {
   useInjectReducer({ key: 'drawCrosswordGraphGame', reducer });
   useInjectSaga({ key: 'drawCrosswordGraphGame', saga });
@@ -52,35 +55,8 @@ export function DrawCrosswordGraphGame(props) {
   const { topicId } = props;
 
   useEffect(() => {
-    if (evaluatedAnswer && !alreadyFeedback) {
-      setAlreadyFeedback(true);
-      const practiceGamesFeedback = (
-        <PracticeGamesFeedback saveFeedback={props.saveFeedback} />
-      );
-      const args = {
-        message: 'Feedback',
-        description: practiceGamesFeedback,
-        duration: 0,
-        key: 'feedback',
-      };
-      notification.open(args);
-      if (evaluatedAnswer.score !== 1) {
-        const practiceGamesFeedback = (
-          <PracticeGamesFeedback
-            whatWentWrong
-            saveFeedback={props.saveFeedback}
-          />
-        );
-        const args = {
-          message: 'Why you made mistake?',
-          description: practiceGamesFeedback,
-          duration: 0,
-          placement: 'topLeft',
-          key: 'www',
-        };
-        notification.open(args);
-      }
-    }
+    if (evaluatedAnswer && !alreadyFeedback)
+      message.success('Please give us your valuable feedback below!', 3);
   }, [props.state]);
 
   useEffect(() => {
@@ -196,6 +172,19 @@ export function DrawCrosswordGraphGame(props) {
     props.checkStudentResponse(response);
   };
 
+  const submitWWW = values => {
+    console.log('DSF');
+    const response = {};
+    response.whatwentwrong = JSON.stringify(values);
+    props.saveFeedback(response);
+  };
+
+  const submitFeedback = values => {
+    const response = {};
+    response.feedback = JSON.stringify(values);
+    props.saveFeedback(response);
+  };
+
   return (
     <div>
       <Helmet>
@@ -238,6 +227,35 @@ export function DrawCrosswordGraphGame(props) {
             AcrossNodes={AcrossNodes}
             DownNodes={DownNodes}
           />
+          {evaluatedAnswer && (
+            <>
+              <Title
+                level={3}
+                style={{
+                  textAlign: 'center',
+                  marginTop: '40px',
+                  marginBottom: 0,
+                }}
+              >
+                FEEDBACK
+              </Title>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  padding: '40px',
+                }}
+              >
+                <PracticeGamesFeedback
+                  whatWentWrong={evaluatedAnswer.score < 1}
+                  saveFeedback={submitFeedback}
+                  saveWWW={submitWWW}
+                  style={{ marginLeft: 'auto' }}
+                />
+              </div>
+            </>
+          )}
         </>
       )}
     </div>

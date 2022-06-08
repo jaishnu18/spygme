@@ -26,8 +26,9 @@ import GameComponent from 'components/GAMES/PropositionalLogic/WriteExpressionGa
 import makeSelectWriteExpressionGame from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import notification from 'antd/lib/notification';
 import PracticeGamesFeedback from '../../../../components/FEEDBACK/PracticeGamesFeedback';
+import Title from 'antd/lib/typography/Title';
+import message from 'antd/lib/message';
 
 import {
   getGraphStart,
@@ -49,28 +50,12 @@ export function WriteExpressionGame(props) {
   }, [props.level]);
 
   useEffect(() => {
-    if (evaluatedAnswer && evaluatedAnswer.syntax_error === 'No syntax error' && !alreadyFeedback) {
-      setAlreadyFeedback(true);
-      const practiceGamesFeedback = <PracticeGamesFeedback saveFeedback={props.saveFeedback} />
-      const args = {
-        message: 'Feedback',
-        description:
-          practiceGamesFeedback,
-        duration: 0, key: 'feedback',
-      };
-      notification.open(args);
-      if (evaluatedAnswer.score !== 1) {
-        const practiceGamesFeedback = <PracticeGamesFeedback whatWentWrong saveFeedback={props.saveFeedback} />
-        const args = {
-          message: 'Why you made mistake?',
-          description:
-            practiceGamesFeedback,
-          duration: 0,
-          placement: 'topLeft', key: 'www'
-        };
-        notification.open(args);
-      }
-    }
+    if (
+      evaluatedAnswer &&
+      evaluatedAnswer.syntax_error === 'No syntax error' &&
+      !alreadyFeedback
+    )
+      message.success('Please give us your valuable feedback below!', 3);
   }, [props.writeExpressionGame]);
 
   const { gameData } = props.writeExpressionGame;
@@ -88,7 +73,7 @@ export function WriteExpressionGame(props) {
     const response = {};
     response.feedback = JSON.stringify(values);
     props.saveFeedback(response);
-  }
+  };
 
   const submit = () => {
     const secs = end(startTime);
@@ -106,10 +91,7 @@ export function WriteExpressionGame(props) {
     <div>
       <Helmet>
         <title>Write Expression Game</title>
-        <meta
-          name="description"
-          content="Description of WriteExpressionGame"
-        />
+        <meta name="description" content="Description of WriteExpressionGame" />
       </Helmet>
 
       {gameData && (
@@ -128,7 +110,10 @@ export function WriteExpressionGame(props) {
 
           <Row style={{ width: '100%' }}>
             <Col>
-              <GameDescription gameData={gameData} evaluatedAnswer={evaluatedAnswer} />
+              <GameDescription
+                gameData={gameData}
+                evaluatedAnswer={evaluatedAnswer}
+              />
             </Col>
           </Row>
           <GameComponent
@@ -140,6 +125,36 @@ export function WriteExpressionGame(props) {
             submit={submit}
             setValue={setValue}
           />
+
+          {evaluatedAnswer && (
+            <>
+              <Title
+                level={3}
+                style={{
+                  textAlign: 'center',
+                  marginTop: '40px',
+                  marginBottom: 0,
+                }}
+              >
+                FEEDBACK
+              </Title>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  padding: '40px',
+                }}
+              >
+                <PracticeGamesFeedback
+                  whatWentWrong={evaluatedAnswer.score < 1}
+                  saveFeedback={submitFeedback}
+                  saveWWW={submitWWW}
+                  style={{ marginLeft: 'auto' }}
+                />
+              </div>
+            </>
+          )}
         </>
       )}
     </div>

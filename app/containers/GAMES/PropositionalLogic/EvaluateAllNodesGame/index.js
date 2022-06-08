@@ -13,17 +13,16 @@ import { compose } from 'redux';
 import { start, end } from 'utils/timerFunctions';
 import moment from 'moment';
 import GameBar from 'components/GameBar';
-import PracticeGamesFeedback from '../../../../components/FEEDBACK/PracticeGamesFeedback';
 import GameComponent from 'components/GAMES/PropositionalLogic/EvaluateAllNodesGame';
 import GameDescription from 'components/GameDescription';
-import notification from 'antd/lib/notification';
-
 
 import Col from 'antd/lib/col';
 import Row from 'antd/lib/row';
+import Title from 'antd/lib/typography/Title';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
+import PracticeGamesFeedback from '../../../../components/FEEDBACK/PracticeGamesFeedback';
 import makeSelectEvaluateAllNodesGame from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -31,8 +30,10 @@ import {
   getExpressionStart,
   evaluateExpressionStart,
   putFeedbackStart,
-  changeResponse
+  changeResponse,
 } from './actions';
+
+import message from 'antd/lib/message';
 
 export function EvaluateAllNodesGame(props) {
   useInjectReducer({ key: 'evaluateAllNodesGame', reducer });
@@ -49,35 +50,8 @@ export function EvaluateAllNodesGame(props) {
 
   useEffect(() => {
     setValue(new Array(props.state.num_nodes).fill(-1));
-    if (evaluatedAnswer && !alreadyFeedback) {
-      setAlreadyFeedback(true);
-      const practiceGamesFeedback = (
-        <PracticeGamesFeedback saveFeedback={props.saveFeedback} />
-      );
-      const args = {
-        message: 'Feedback',
-        description: practiceGamesFeedback,
-        duration: 0,
-        key: 'feedback',
-      };
-      notification.open(args);
-      if (evaluatedAnswer.score !== 1) {
-        const practiceGamesFeedback = (
-          <PracticeGamesFeedback
-            whatWentWrong
-            saveFeedback={props.saveFeedback}
-          />
-        );
-        const args = {
-          message: 'Why you made mistake?',
-          description: practiceGamesFeedback,
-          duration: 0,
-          placement: 'topLeft',
-          key: 'www',
-        };
-        notification.open(args);
-      }
-    }
+    if (evaluatedAnswer && !alreadyFeedback)
+      message.success('Please give us your valuable feedback below!', 3);
   }, [props.state]);
 
   const { gameData } = props.state;
@@ -138,7 +112,10 @@ export function EvaluateAllNodesGame(props) {
 
           <Row style={{ width: '100%' }}>
             <Col>
-              <GameDescription gameData={gameData} evaluatedAnswer={evaluatedAnswer} />
+              <GameDescription
+                gameData={gameData}
+                evaluatedAnswer={evaluatedAnswer}
+              />
             </Col>
           </Row>
           <GameComponent
@@ -149,6 +126,35 @@ export function EvaluateAllNodesGame(props) {
             value={arr}
             changeResponse={changeResponseFunction}
           />
+          {evaluatedAnswer && (
+            <>
+              <Title
+                level={3}
+                style={{
+                  textAlign: 'center',
+                  marginTop: '40px',
+                  marginBottom: 0,
+                }}
+              >
+                FEEDBACK
+              </Title>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  padding: '40px',
+                }}
+              >
+                <PracticeGamesFeedback
+                  whatWentWrong={evaluatedAnswer.score < 1}
+                  saveFeedback={submitFeedback}
+                  saveWWW={submitWWW}
+                  style={{ marginLeft: 'auto' }}
+                />
+              </div>
+            </>
+          )}
         </>
       )}
     </div>
@@ -170,7 +176,8 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     getGameData: token => dispatch(getExpressionStart(token)),
-    checkStudentResponse: response => dispatch(evaluateExpressionStart(response)),
+    checkStudentResponse: response =>
+      dispatch(evaluateExpressionStart(response)),
     saveFeedback: feedback => dispatch(putFeedbackStart(feedback)),
     changeResponseArray: response => dispatch(changeResponse(response)),
   };
