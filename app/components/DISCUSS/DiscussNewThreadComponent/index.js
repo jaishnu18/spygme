@@ -15,36 +15,33 @@ import Form from 'antd/lib/form';
 import CustomCard from 'components/CustomCard';
 import Select from 'antd/lib/select';
 import { Editor } from 'react-draft-wysiwyg';
+import LeftCircleOutlined from '@ant-design/icons/ArrowLeftOutlined';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { Link } from 'react-router-dom';
 const { Option } = Select;
 
 function DiscussNewThreadComponent(props) {
   const { concepts } = props;
 
   return (
-    <Row justify="center" style={{ padding: '10px', width: '100%' }}>
-      <Col span={24}>
-        <CustomCard width="100%">
-          <Form name="NewThreadForm" onFinish={props.submit}>
-            <div>
-              <Form.Item
-                label="Title"
-                name="title"
-                initialValue={props.defaultTitle}
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your Response!',
-                  },
-                ]}
-              >
-                <Input placeholder="title of the thread" />
-              </Form.Item>
-              {concepts &&
+    <div style={{ padding: '20px' }}>
+      {concepts.length !== 1 &&
+        < Row >
+          <Col span={24}>
+            <Link to='/discuss'>
+              <Button shape='circle' icon={<LeftCircleOutlined />} type='primary' />
+            </Link></Col>
+        </Row>
+      }
+      <Row justify="center" style={{ padding: '10px', width: '100%' }}>
+        <Col span={24}>
+          <CustomCard width="100%">
+            <Form name="NewThreadForm" onFinish={props.submit}>
+              <div>
                 <Form.Item
-                  label="Tag:"
-                  name="tags"
-                  initialValue={concepts.length == 1 ? concepts[0].name : null}
+                  label="Title"
+                  name="title"
+                  initialValue={props.defaultTitle}
                   rules={[
                     {
                       required: true,
@@ -52,55 +49,70 @@ function DiscussNewThreadComponent(props) {
                     },
                   ]}
                 >
-                  <Select
-                    showSearch
-                    placeholder="choose concept tag"
-                    optionFilterProp="children"
-                    onChange={props.onFilter}
-                    style={{ width: '100%' }}
-                    allowClear
-
-                  >
-                    {concepts.map((key, idx) => (
-                      <Option value={key.name}>{key.name}</Option>
-                    ))}
-                  </Select>
-
+                  <Input placeholder="title of the thread" />
                 </Form.Item>
-              }
-              <Form.Item
-                label="Content:"
-                name="content"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your Response!',
-                  },
-                ]}
-              >
-                <Editor
-                  placeholder="Enter the details of the thread"
-                  editorState={props.editorState}
-                  wrapperClassName="wrapper-class"
-                  editorClassName="editor-class"
-                  toolbarClassName="toolbar-class"
-                  onEditorStateChange={props.onEditorStateChange}
-                />
-                {/* <Input.TextArea
+                {concepts &&
+                  <Form.Item
+                    label="Tag:"
+                    name="tags"
+                    initialValue={concepts.length == 1 ? concepts[0].name : null}
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please input your Response!',
+                      },
+                    ]}
+                  >
+                    <Select
+                      showSearch
+                      placeholder="choose concept tag"
+                      optionFilterProp="children"
+                      onChange={props.onFilter}
+                      style={{ width: '100%' }}
+                      allowClear
+
+                    >
+                      {concepts.map((key, idx) => (
+                        <Option value={key.name}>{key.name}</Option>
+                      ))}
+                    </Select>
+
+                  </Form.Item>
+                }
+                <Form.Item
+                  label="Content:"
+                  name="content"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your Response!',
+                    },
+                  ]}
+                >
+                  <Editor
+                    placeholder="Enter the details of the thread"
+                    editorState={props.editorState}
+                    wrapperClassName="wrapper-class"
+                    editorClassName="editor-class"
+                    toolbarClassName="toolbar-class"
+                    onEditorStateChange={props.onEditorStateChange}
+                  />
+                  {/* <Input.TextArea
                   placeholder="details of the thread"
                   rows={6}
                   showCount
                   maxLength="2000"
                 /> */}
-              </Form.Item>
-              <Button type="primary" htmlType="submit">
-                Post
-              </Button>
-            </div>
-          </Form>
-        </CustomCard>
-      </Col>
-    </Row>
+                </Form.Item>
+                <Button type="primary" htmlType="submit">
+                  Post
+                </Button>
+              </div>
+            </Form>
+          </CustomCard>
+        </Col>
+      </Row>
+    </div >
   );
 }
 
