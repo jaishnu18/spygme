@@ -5,7 +5,7 @@
  */
 
 {{#if memo}}
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 {{else}}
 import React from 'react';
 {{/if}}
@@ -37,12 +37,24 @@ import saga from './saga';
 import messages from './messages';
 {{/if}}
 
+import {
+  getGameDataStart,
+  evaluateResponseStart,
+  putFeedbackStart,
+} from './actions';
+
 export function {{ properCase name }}() {
   {{#if wantActionsAndReducer}}
   useInjectReducer({ key: '{{ camelCase name }}', reducer });
   {{/if}}
   {{#if wantSaga}}
   useInjectSaga({ key: '{{ camelCase name }}', saga });
+  {{/if}}
+
+  {{#if useEffect}}
+  useEffect(() => {
+
+  }, []);
   {{/if}}
 
   return (
@@ -61,18 +73,22 @@ export function {{ properCase name }}() {
 }
 
 {{ properCase name }}.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  getGameData: PropTypes.func.isRequired,
+  evaluateResponse: PropTypes.func.isRequired,
+  putFeedback: PropTypes.func.isRequired,
 };
 
 {{#if wantActionsAndReducer}}
 const mapStateToProps = createStructuredSelector({
-  {{ camelCase name }}: makeSelect{{properCase name}}(),
+  state: makeSelect{{properCase name}}(),
 });
 {{/if}}
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    getGameData: payload => dispatch(getGameDataStart(payload)),
+    evaluateResponse: payload => dispatch(evaluateResponseStart(payload)),
+    putFeedback: payload => dispatch(putFeedbackStart(payload)),
   };
 }
 

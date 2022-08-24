@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 /**
  * Container Generator
  */
@@ -58,6 +59,30 @@ module.exports = {
       name: 'wantLoadable',
       default: true,
       message: 'Do you want to load resources asynchronously?',
+    },
+    {
+      type: 'input',
+      name: 'constants',
+      message: 'Enter the constants separated by commas ',
+      filter: value => {
+        const array = value.split(',');
+        return array;
+      }
+    },
+    {
+      type: 'input',
+      name: 'reducers',
+      message: 'Enter the reducers initial states separated by commas ',
+      filter: value => {
+        const array = value.split(',');
+        return array;
+      }
+    },
+    {
+      type: 'confirm',
+      name: 'useEffect',
+      message: 'Do you need page rendered useEffect hook',
+      default: true,
     },
   ],
   actions: data => {
