@@ -19,12 +19,14 @@ import history from 'utils/history';
 import makeSelectAuth from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+import api from 'api';
 
 export function Auth(props) {
   useInjectReducer({ key: 'auth', reducer });
   useInjectSaga({ key: 'auth', saga });
 
   const [userRole, setUserRole] = useState('Student');
+  const [schoolList, setSchoolList] = useState(undefined);
 
   // useEffect(() => {
   //   if(props.isSignedUp) {
@@ -48,7 +50,14 @@ export function Auth(props) {
     props.signup(values);
   };
 
-  const handleError = errorInfo => {};
+  async function getSchoolList() {
+    const R = await api.get(
+      '/auth/get-schools',
+    );
+    setSchoolList(R.data.data);
+  }
+  
+  const handleError = errorInfo => { };
 
   return (
     <div>
@@ -66,6 +75,8 @@ export function Auth(props) {
           userRole={userRole}
           setUserRole={setUserRole}
           resetErrorMessages={props.resetErrorMessages}
+          getSchoolList={getSchoolList}
+          schoolList={schoolList}
         />
       </Spin>
     </div>

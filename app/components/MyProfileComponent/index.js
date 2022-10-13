@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
 import Button from 'antd/lib/button';
@@ -17,10 +17,14 @@ import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 import CustomCard from 'components/CustomCard';
 import { SHADOW1 } from 'utils/constants';
+import Select from 'antd/lib/select';
+const { Option } = Select;
 
 function MyProfileComponent(props) {
   const { profile } = props;
-
+  const { schoolList } = props;
+  const [filteredSchoolList, setFilteredSchoolList] = useState(new Array(0));
+  const [getSchoolStarted, setGetSchoolStarted] = useState(false);
   return profile ? (
     <Row gutter={[32, 0]}>
       <Col
@@ -70,8 +74,50 @@ function MyProfileComponent(props) {
                     <InputNumber min="4" max="12" />
                   </Form.Item>
                 )}
-                <Form.Item label="School/Institution" name="school">
-                  <Input />
+                {(profile.role && profile.role !== 'Others') &&
+                  <Form.Item
+                    label={
+                      'Pincode'
+                    }
+                    name="pincode"
+                  >
+                    <InputNumber max={999999} onChange={(value) => {
+                      let filteredList = [];
+                      if (!schoolList && !getSchoolStarted) {
+                        props.getSchoolList();
+                        setGetSchoolStarted(true);
+                      }
+                      if (value >= 100000) {
+                        for (let i = 0; i < schoolList.length; i++) {
+                          if (schoolList[i].pin_code == value) {
+                            filteredList.push(schoolList[i]);
+                          }
+                        }
+                      }
+                      setFilteredSchoolList(filteredList);
+                    }} />
+                  </Form.Item>
+                }
+                <Form.Item
+                  label={
+                    props.userRole === 'Others'
+                      ? 'Organisation'
+                      : 'School/Institution'
+                  }
+                  name="school"
+                >
+                  <Select
+                    showSearch
+                    optionFilterProp="children"
+                    onChange={props.onFilter}
+                    style={{ width: '100%' }}
+                    allowClear >
+                    {
+                      filteredSchoolList.map((key, idx) => (
+                        <Option value={`${key.id}-${key.name}`}>{key.name}</Option>
+                      ))
+                    }
+                  </Select>
                 </Form.Item>
                 {!profile.role && (
                   <Form.Item

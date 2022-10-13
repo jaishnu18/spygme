@@ -55,6 +55,7 @@ import GradedEvaluateAllNodesGame from '../GAMES/PropositionalLogic/GradedEvalua
 import GradedCrosswordBacktrackingGame from '../GAMES/CSP/GradedCrosswordBacktrackingGame';
 import StatisticsPage from '../StatisticsPage';
 import PlugNPlayPage from '../PLUGNPLAY/PlugNPlayPage';
+import TeachersDashboardPage from '../TeachersDashboardPage';
 
 function Routes(props) {
   if (!props.AuthData.isLoggedIn) {
@@ -107,6 +108,7 @@ function Routes(props) {
       <Route exact path="/about" component={AboutPage} />
 
       <Route path="/dashboard" component={DashboardPage} />
+      <Route path="/teachers-dashboard" component={TeachersDashboardPage} />
 
       <Route exact path="/home" component={prop => <HomePage {...prop} />} />
       <Route exact path="/plug-n-play" component={PlugNPlayPage} />
