@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /**
  *
  * CrosswordBacktrackingTreeGame
@@ -23,6 +24,18 @@ import CustomButton from 'components/atoms/CustomButton';
 import Graph from 'components/Graph';
 import DagreGraph from 'components/DagreGraph';
 import Affix from 'antd/lib/affix';
+import H1 from 'components/atoms/H1';
+import P from 'components/atoms/P';
+import Icons from 'components/IconBox';
+import WrongIcon from 'images/Wrong.jpg';
+import RightIcon from 'images/Right.jpg';
+import GameDescription from 'components/GameDescription';
+import TimeClock from 'components/TimeClock';
+
+import PracticeGamesFeedback from 'components/FEEDBACK/PracticeGamesFeedback';
+import PracticeGameStats from '../../../PracticeGameStats';
+
+import useMediaQuery from '../../../../utils/useMediaQuery';
 
 export const CrosswordBlock = styled.div`
   display: flex;
@@ -46,18 +59,100 @@ export const CrosswordBlock = styled.div`
 function CrosswordBacktrackingTreeGame(props) {
   const { gameData } = props;
   const { evaluatedAnswer } = props;
+  const isDesktop = useMediaQuery('(min-width: 960px)');
+
+  const FeedBack = __evaluatedAnswer =>
+    __evaluatedAnswer && (
+      <>
+        <H1
+          // level={3}
+          fontWeight="700"
+          textAlign="center"
+          style={{ margin: '40px 0' }}
+        >
+          FEEDBACK
+        </H1>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: isDesktop && '40px',
+          }}
+        >
+          <PracticeGamesFeedback
+            whatWentWrong={__evaluatedAnswer.score < 1}
+            saveFeedback={props.submitFeedback}
+            saveWWW={props.submitWWW}
+            style={{ marginLeft: 'auto' }}
+          />
+        </div>
+      </>
+    );
+
   return (
     <Row>
       <Col xs={{ span: 24 }} xl={{ span: 10 }}>
-        <Row style={{ padding: '30px' }} span={24} offset={1}>
-          <Title level={3}>
-            Match crossword states with node IDs in Backtracking tree
-          </Title>
+        <div style={{ padding: isDesktop ? '0 40px' : '0px' }}>
+          {isDesktop ? (
+            <Affix offsetTop={50}>
+              <DagreGraph
+                gameData={gameData}
+                evaluatedAnswer={evaluatedAnswer}
+              />
+            </Affix>
+          ) : (
+            <DagreGraph gameData={gameData} evaluatedAnswer={evaluatedAnswer} />
+          )}
+        </div>
+      </Col>
+      <Col xl={{ span: 14 }} xs={{ span: 24 }}>
+        <Row style={{ marginBottom: '40px' }}>
+          <Col
+            xs={{ span: 24 }}
+            xl={{ span: 14 }}
+            style={{ display: 'flex', alignItems: 'flex-end' }}
+          >
+            <PracticeGameStats
+              maxLevel={3}
+              level={props.level}
+              attempts={props.attempts}
+            />
+          </Col>
+          <Col xs={{ span: 24 }} xl={{ span: 8 }}>
+            <TimeClock
+              evaluatedAnswer={props.evaluatedAnswer}
+              active={!props.evaluatedAnswer}
+            />
+          </Col>
         </Row>
-        {gameData.gridStateList.map((grid, ldx) => (
-          <Row style={{ display: 'flex', alignItems: 'center', border: '1px solid black', margin: '5px', padding: '5px' }}>
-            <Col span={14}>
-              <Row>
+        <GameDescription
+          gameData={gameData}
+          evaluatedAnswer={evaluatedAnswer}
+        />
+        <div style={{ padding: isDesktop ? '0 30px' : '20px' }}>
+          <H1 fontWeight="700">
+            Match crossword states with node IDs in Backtracking tree
+          </H1>
+          <CustomButton
+            marginTop="50px 0"
+            disabled={evaluatedAnswer}
+            onClick={props.submit}
+          >
+            Check Answer
+          </CustomButton>
+
+          {gameData.gridStateList.map((grid, ldx) => (
+            <Row
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                boxShadow: '1px solid black',
+                margin: '16px',
+                paddingBottom: '28px',
+              }}
+            >
+              <Col span={10}>
                 {grid.map((row, idx) => (
                   <Row
                     justify="center"
@@ -73,8 +168,8 @@ function CrosswordBacktrackingTreeGame(props) {
                               idx === 0 || jdx === 0
                                 ? 'transparent'
                                 : col === 35
-                                  ? 'black'
-                                  : 'white',
+                                ? 'black'
+                                : 'white',
                           }}
                         >
                           {col !== 35 && col !== 46 && (
@@ -85,12 +180,11 @@ function CrosswordBacktrackingTreeGame(props) {
                     ))}
                   </Row>
                 ))}
-              </Row>
-            </Col>
-            <Col span={10}>
-              <Col span={24}>
+              </Col>
+              <Col span={10}>
                 <InputNumber
                   min="0"
+                  placeholder={'Enter the Value'}
                   onChange={value => {
                     const v = props.value;
                     if (value !== null) {
@@ -101,68 +195,49 @@ function CrosswordBacktrackingTreeGame(props) {
                       props.setValue(v);
                     }
                   }}
-                  style={{ border: '1px solid black' }}
+                  style={{
+                    border: 'none',
+                    borderBottom: '1px solid grey',
+                    width: '90%',
+                  }}
                 />
-              </Col>
-              <Col span={24}>
+
                 {evaluatedAnswer &&
                   (evaluatedAnswer.result[ldx] === 1 ? (
-                    <Row style={{ paddingBottom: '20px' }}>
+                    <Row style={{ marginTop: '20px' }}>
                       <Col span={24}>
-                        <CheckCircleFilled
-                          style={{ fontSize: '20px', color: 'green' }}
-                        />
-                        <Paragraph>{`One of the correct Node ID: ${evaluatedAnswer.orderList[ldx]
-                          }`}</Paragraph>
+                        <Icons src={RightIcon} size="40px" />
+                        <P
+                          fontsize={!isDesktop && '14'}
+                        >{`One of the correct Node ID: ${
+                          evaluatedAnswer.orderList[ldx]
+                        }`}</P>
                       </Col>
                     </Row>
                   ) : (
-                    <Row style={{ paddingBottom: '20px' }}>
-                      <Col span={24}>
-                        <CloseCircleFilled
-                          style={{ fontSize: '20px', color: 'red' }}
-                        />
-                        <Paragraph>
+                    <Row style={{ marginTop: '20px' }}>
+                      <Col span={23} offset={1}>
+                        <Icons src={WrongIcon} size="40px" />
+                        <P fontsize={!isDesktop && '14'}>
                           {evaluatedAnswer.result[ldx] === 0
                             ? 'Wrong ID'
                             : evaluatedAnswer.result[ldx] === -1
-                              ? 'No appropriate parent found'
-                              : 'ID Already used'}
-                        </Paragraph>
-                        <Paragraph>{`One of the correct Node ID: ${evaluatedAnswer.orderList[ldx]
-                          }`}</Paragraph>
+                            ? 'No appropriate parent found'
+                            : 'ID Already used'}
+                        </P>
+                        <P
+                          fontsize={!isDesktop && '14'}
+                        >{`One of the correct Node ID: ${
+                          evaluatedAnswer.orderList[ldx]
+                        }`}</P>
                       </Col>
                     </Row>
                   ))}
               </Col>
-            </Col>
-          </Row>
-        ))}
-      </Col>
-      <Col xs={{ span: 24 }} xl={{ span: 3 }} style={{ paddingTop: '50px' }}>
-        <Affix offsetTop={150}>
-          <CustomButton disableOnClick onClick={props.submit}>
-            Check Answer
-          </CustomButton>
-        </Affix>
-      </Col>
-      <Col xs={{ span: 24 }} xl={{ span: 11 }}>
-        {evaluatedAnswer ? (
-          <div>
-            <DagreGraph gameData={gameData} evaluatedAnswer={evaluatedAnswer} />
-
-            <Row style={{ paddingTop: '10px' }}>
-              <Title level={3}>
-                {'Score : ' + Math.round(evaluatedAnswer.score * 100) + '%'}
-              </Title>
             </Row>
-          </div>
-
-        ) : (
-          <Affix offsetTop={150}>
-            <DagreGraph gameData={gameData} evaluatedAnswer={evaluatedAnswer} />
-          </Affix>
-        )}
+          ))}
+          {evaluatedAnswer && FeedBack(evaluatedAnswer)}
+        </div>
       </Col>
     </Row>
   );

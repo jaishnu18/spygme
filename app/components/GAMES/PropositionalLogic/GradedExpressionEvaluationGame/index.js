@@ -11,6 +11,8 @@ import React, { memo } from 'react';
 import ExamNavigator from 'components/ExamNavigator';
 import Title from 'antd/lib/typography/Title';
 import Paragraph from 'antd/lib/typography/Paragraph';
+import H1 from 'components/atoms/H1';
+import P from 'components/atoms/P';
 // import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 import Graph from 'components/Graph';
@@ -21,15 +23,53 @@ import CloseCircleFilled from '@ant-design/icons/CloseCircleFilled';
 import CustomCard from 'components/CustomCard';
 import Descriptions from 'antd/lib/descriptions';
 import CountdownCircleTimer from 'react-countdown-circle-timer';
+import Icons from 'components/IconBox';
+import WrongIcon from 'images/Wrong.jpg';
+import RightIcon from 'images/Right.jpg';
+import useMediaQuery from '../../../../utils/useMediaQuery';
+import GradedGamesFeedback from '../../../FEEDBACK/GradedGamesFeedback';
 
 function GradedExpressionEvaluationGame(props) {
   const { gameData } = props;
   const { evaluatedAnswer } = props;
   const { currentLevel } = props;
 
+  const isDesktop = useMediaQuery('(min-width: 960px)');
+
+  console.log(evaluatedAnswer);
+
+  const FeedBack = __evaluatedAnswer =>
+    __evaluatedAnswer && (
+      <div>
+        <H1
+          fontWeight="700"
+          textAlign="center"
+          style={{ margin: '30px 0', marginTop: '60px' }}
+        >
+          FEEDBACK
+        </H1>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: isDesktop && '40px',
+          }}
+        >
+          <GradedGamesFeedback
+            whatWentWrong={__evaluatedAnswer[4].score < 1}
+            saveFeedback={props.submitFeedback}
+            saveWWW={props.submitWWW}
+            style={{ marginLeft: 'auto' }}
+          />
+          {console.log(__evaluatedAnswer)}
+        </div>
+      </div>
+    );
+
   return (
-    <Row style={{ padding: '40px' }}>
-      <Col xs={{ span: 24 }} xl={{ span: 4 }}>
+    <Row style={{ padding: isDesktop ? '40px' : '20px' }}>
+      <Col xs={{ span: 24 }} xl={{ span: 5 }}>
         <ExamNavigator
           levels={props.maxLevel}
           setCurrentLevel={props.setCurrentLevel}
@@ -37,27 +77,39 @@ function GradedExpressionEvaluationGame(props) {
           value={props.value}
           evaluatedAnswer={evaluatedAnswer}
           examDuration={300}
-          submit={props.submit}
           {...props}
         />
       </Col>
 
-      <Col xs={{ span: 24 }} xl={{ span: 11 }}>
-        <Title level={3}>Evaluate the expression: </Title>
-        <Title level={4} style={{ fontWeight: 400 }}>
+      <Col xs={{ span: 24 }} xl={{ span: 8 }}>
+        <Graph gameData={gameData[currentLevel]} />
+      </Col>
+
+      <Col
+        xs={{ span: 24 }}
+        xl={{ span: 11 }}
+        style={{ padding: isDesktop ? '40px' : '20px' }}
+      >
+        <H1 fontWeight="700" style={{ marginBottom: '20px' }} level={3}>
+          Evaluate the expression:{' '}
+        </H1>
+        <H1 level={4} style={{ fontWeight: 400, marginBottom: '20px' }}>
           {gameData[currentLevel].expression}
-        </Title>
-        <Title level={4} style={{ fontWeight: 400 }}>
-          {'where ' +
-            gameData[currentLevel].content.map((key, idx) =>
-              key.match(/[a-z]/i)
-                ? key + ' = ' + gameData[currentLevel].values[idx]
-                : '',
-            )}
-        </Title>
+        </H1>
+        <P
+          level={4}
+          style={{ fontWeight: 400, fontSize: '20px', marginBottom: '20px' }}
+        >
+          {`where ${gameData[currentLevel].content.map((key, idx) =>
+            key.match(/[a-z]/i)
+              ? `${key} = ${gameData[currentLevel].values[idx]}`
+              : '',
+          )}`}
+        </P>
         <Form name={`Form-${props.currentLevel}`}>
           <Form.Item name={`Input-${props.currentLevel}`}>
             <InputNumber
+              style={{ width: '200px' }}
               onChange={e => {
                 const newArr = props.value;
                 newArr[currentLevel] = e;
@@ -69,67 +121,66 @@ function GradedExpressionEvaluationGame(props) {
             <Row style={{ paddingTop: '10px' }}>
               <Col span={24} style={{ display: 'flex' }}>
                 {evaluatedAnswer[currentLevel].score === 1 ? (
-                  <CheckCircleFilled
-                    style={{ fontSize: '20px', color: 'green' }}
-                  />
+                  <Icons src={RightIcon} size="40px" />
                 ) : (
-                  <CloseCircleFilled
-                    style={{ fontSize: '20px', color: 'red' }}
-                  />
+                  <Icons src={WrongIcon} size="40px" />
                 )}
-                <Paragraph style={{ paddingLeft: '10px' }}>
+                <P
+                  style={{
+                    paddingLeft: '10px',
+                    fontWeight: 500,
+                    fontSize: '20px',
+                  }}
+                >
                   {evaluatedAnswer[currentLevel].score === 1
                     ? ''
-                    : 'Correct Answer : ' +
-                      evaluatedAnswer[currentLevel].answer}
-                </Paragraph>
+                    : `Correct Answer : ${
+                        evaluatedAnswer[currentLevel].answer
+                      }`}
+                </P>
               </Col>
             </Row>
           )}
         </Form>
         {evaluatedAnswer && (
           <Row style={{ paddingTop: '40px' }}>
-            <Col span={22}>
-              <CustomCard title="Summary Report">
+            <Col span={24}>
+              <CustomCard title={<H1 fontWeight="700">Summary Report</H1>}>
                 <Col xl={{ span: 23 }} xs={{ span: 24 }}>
                   <Descriptions layout="horizontal" bordered>
-                    <Descriptions.Item label="Score" span={24}>
-                      <Col span={24}>
-                        {Math.round(
-                          evaluatedAnswer[props.maxLevel].score * 100,
-                        ) + '%'}
-                      </Col>
+                    <Descriptions.Item label={<P>Score</P>} span={24}>
+                      <P>{`${Math.round(
+                        evaluatedAnswer[props.maxLevel].score * 100,
+                      )}%`}</P>
                     </Descriptions.Item>
-                    <Descriptions.Item label="Attempted question" span={24}>
-                      <Col span={24}>
-                        {evaluatedAnswer[props.maxLevel].attempted}
-                      </Col>
+                    <Descriptions.Item
+                      label={<P>Attempted question </P>}
+                      span={24}
+                    >
+                      <P>{evaluatedAnswer[props.maxLevel].attempted}</P>
                     </Descriptions.Item>
-                    <Descriptions.Item label="Not attempted question" span={24}>
-                      <Col span={24}>
-                        {evaluatedAnswer[props.maxLevel].notAttempted}
-                      </Col>
+                    <Descriptions.Item
+                      label={<P>Not attempted question</P>}
+                      span={24}
+                    >
+                      <P>{evaluatedAnswer[props.maxLevel].notAttempted}</P>
                     </Descriptions.Item>
-                    <Descriptions.Item label="Correctly Answered" span={24}>
-                      <Col span={24}>
-                        {evaluatedAnswer[props.maxLevel].correctlyAnswered}
-                      </Col>
+                    <Descriptions.Item
+                      label={<P>Correctly Answered</P>}
+                      span={24}
+                    >
+                      <P>{evaluatedAnswer[props.maxLevel].correctlyAnswered}</P>
                     </Descriptions.Item>
-                    <Descriptions.Item label="Wrong Answered" span={24}>
-                      <Col span={24}>
-                        {evaluatedAnswer[props.maxLevel].wrongAnswered}
-                      </Col>
+                    <Descriptions.Item label={<P>Wrong Answered</P>} span={24}>
+                      <P>{evaluatedAnswer[props.maxLevel].wrongAnswered}</P>
                     </Descriptions.Item>
                   </Descriptions>
                 </Col>
               </CustomCard>
             </Col>
+            {FeedBack(evaluatedAnswer)}
           </Row>
         )}
-      </Col>
-
-      <Col xs={{ span: 24 }} xl={{ span: 9 }}>
-        <Graph gameData={gameData[currentLevel]} />
       </Col>
     </Row>
   );

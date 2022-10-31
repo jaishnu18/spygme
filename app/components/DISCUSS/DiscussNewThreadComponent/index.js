@@ -18,6 +18,7 @@ import { Editor } from 'react-draft-wysiwyg';
 import LeftCircleOutlined from '@ant-design/icons/ArrowLeftOutlined';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { Link } from 'react-router-dom';
+import H1 from 'components/atoms/H1';
 const { Option } = Select;
 
 function DiscussNewThreadComponent(props) {
@@ -25,15 +26,23 @@ function DiscussNewThreadComponent(props) {
 
   return (
     <div style={{ padding: '20px' }}>
-      {concepts.length !== 1 &&
-        < Row >
-          <Col span={24}>
-            <Link to='/discuss'>
-              <Button shape='circle' icon={<LeftCircleOutlined />} type='primary' />
-            </Link></Col>
+      {concepts.length !== 1 && (
+        <Row style={{ margin: '10px 0' }}>
+          <Col span={1}>
+            <Link to="/discuss">
+              <Button
+                shape="circle"
+                icon={<LeftCircleOutlined />}
+                type="primary"
+              />
+            </Link>
+          </Col>
+          <Col span={22}>
+            <H1>Create a New Thread</H1>
+          </Col>
         </Row>
-      }
-      <Row justify="center" style={{ padding: '10px', width: '100%' }}>
+      )}
+      <Row justify="center" style={{ padding: '20px', width: '100%' }}>
         <Col span={24}>
           <CustomCard width="100%">
             <Form name="NewThreadForm" onFinish={props.submit}>
@@ -51,11 +60,13 @@ function DiscussNewThreadComponent(props) {
                 >
                   <Input placeholder="title of the thread" />
                 </Form.Item>
-                {concepts &&
+                {concepts && (
                   <Form.Item
                     label="Tag:"
                     name="tags"
-                    initialValue={concepts.length == 1 ? concepts[0].name : null}
+                    initialValue={
+                      concepts.length == 1 ? concepts[0].name : null
+                    }
                     rules={[
                       {
                         required: true,
@@ -70,15 +81,13 @@ function DiscussNewThreadComponent(props) {
                       onChange={props.onFilter}
                       style={{ width: '100%' }}
                       allowClear
-
                     >
                       {concepts.map((key, idx) => (
                         <Option value={key.name}>{key.name}</Option>
                       ))}
                     </Select>
-
                   </Form.Item>
-                }
+                )}
                 <Form.Item
                   label="Content:"
                   name="content"
@@ -97,12 +106,6 @@ function DiscussNewThreadComponent(props) {
                     toolbarClassName="toolbar-class"
                     onEditorStateChange={props.onEditorStateChange}
                   />
-                  {/* <Input.TextArea
-                  placeholder="details of the thread"
-                  rows={6}
-                  showCount
-                  maxLength="2000"
-                /> */}
                 </Form.Item>
                 <Button type="primary" htmlType="submit">
                   Post
@@ -112,7 +115,7 @@ function DiscussNewThreadComponent(props) {
           </CustomCard>
         </Col>
       </Row>
-    </div >
+    </div>
   );
 }
 

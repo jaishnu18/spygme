@@ -82,6 +82,8 @@ export function ReadingMaterialPage(props) {
     props.getnextItem(response);
   };
 
+  console.log(readingMaterialContent)
+
   return (
     <div>
       <Helmet>
@@ -96,6 +98,7 @@ export function ReadingMaterialPage(props) {
           backToMaterials={backToMaterials}
           markAsRead={markAsRead}
           read={readingMaterialContent.read}
+          heading={readingMaterialContent.parentConcept}
         />
       )}
 

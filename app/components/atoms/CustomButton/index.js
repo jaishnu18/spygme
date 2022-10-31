@@ -10,32 +10,38 @@ import styled from 'styled-components';
 import Button from 'antd/lib/button';
 
 const StyledButton = styled(Button)`
-  margin: ${props => props.margin || '0px'};
+  background-color: ${props =>
+    props.light ? 'var(--bgColor)' : 'var(--primaryColor)'};
+  color: ${props => (props.light ? 'var(--primaryColor)' : 'var(--bgColor)')};
+  height: fit-content;
+  font-size: ${props => props.fontSize || '14px'} !important;
   margin-left: ${props => props.marginLeft || '5px'} !important;
-  margin-right: ${props => props.marginRight || '5px'};
+  margin-right: ${props => props.marginRight || '5px'} !important;
+  margin-top: ${props => props.marginTop || '5px'} !important;
+  margin-bottom: ${props => props.marginBottom || '5px'};
+  margin: ${props => props.margin || '5px'} !important;
+  border-radius: ${props => props.borderRadius || 'none'} !important;
+  width: ${props => props.width || 'auto'};
+
+  :hover {
+    background-color: ${props =>
+      props.light ? 'var(--bgColor)' : 'var(--primaryColor)'} !important;
+    color: ${props =>
+      props.light ? 'var(--primaryColor)' : 'var(--bgColor)'} !important;
+  }
 `;
 
 function CustomButton(props) {
   return (
     <StyledButton
-      type={props.type || 'primary'}
       size={props.size || 'middle'}
       width={props.width}
       height={props.height}
-      style={props.style}
-      onClick={e => {
-        props.onClick();
-        if (props.disableOnClick) {
-          let { target } = e;
-          if (target.tagName === 'SPAN') target = target.parentElement;
-          target.disabled = true;
-        }
-      }}
+      // style={props.style}
       icon={props.icon}
       danger={props.danger}
       disabled={props.disabled}
-      marginLeft={props.marginLeft}
-      marginRight={props.marginRight}
+      {...props}
     >
       {props.children}
     </StyledButton>

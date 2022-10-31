@@ -14,6 +14,7 @@ import { compose } from 'redux';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import TopicListComponent from 'components/TopicListComponent';
+import NewTopicListComponent from 'components/NewTopicListComponent';
 import makeSelectTopicListPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -36,7 +37,7 @@ export function TopicListPage(props) {
         <title>TopicListPage</title>
         <meta name="description" content="Description of TopicListPage" />
       </Helmet>
-      <TopicListComponent topics={topics} type="Topic" />
+      {topics && <NewTopicListComponent topics={topics} type="Topic" />}
     </div>
   );
 }

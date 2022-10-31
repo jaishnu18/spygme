@@ -40,6 +40,8 @@ export function FindCrosswordNodes(props) {
   const [startTime, setStartTime] = useState(0);
   const [value, setValue] = useState(undefined);
   const [alreadyFeedback, setAlreadyFeedback] = useState(false);
+  const [movement, setMovement] = useState([]);
+  const [globalCoords, setGlobalCoords] = useState({ x: 0, y: 0 });
 
   const { level } = props;
   const { gameId } = props;
@@ -61,21 +63,43 @@ export function FindCrosswordNodes(props) {
     setValue({
       nodes: [{ node: null, row: null, col: null }],
     });
+    if (props.state.gameData && props.state.gameData.readingMaterialsNotRead) {
+      message.warn(
+        'It seems like you have not read the reading materials. Please have a look at them for better performance',
+        3,
+      );
+    }
   }, [props.state.gameData]);
+
+  useEffect(() => {
+    // const handleWindowMouseMove = event => {
+    //   setGlobalCoords({
+    //     x: event.screenX,
+    //     y: event.screenY,
+    //   });
+    // };
+    // window.addEventListener('mousemove', handleWindowMouseMove);
+    // return () => {
+    //   window.removeEventListener('mousemove', handleWindowMouseMove);
+    // };
+  }, []);
 
   const { gameData } = props.state;
   const { evaluatedAnswer } = props.state;
 
   const submitWWW = values => {
-    console.log('DSF');
     const response = {};
     response.whatwentwrong = JSON.stringify(values);
+    response.movement = JSON.stringify(movement);
+    setMovement([]);
     props.saveFeedback(response);
   };
 
   const submitFeedback = values => {
     const response = {};
     response.feedback = JSON.stringify(values);
+    response.movement = JSON.stringify(movement);
+    setMovement([]);
     props.saveFeedback(response);
   };
 
@@ -89,13 +113,18 @@ export function FindCrosswordNodes(props) {
     gameData.level = level;
     gameData.gameId = gameId;
     response.studentResponse = gameData;
+    response.movement = movement;
+    response.initial_mouse_position = globalCoords;
+    setMovement([]);
     props.checkStudentResponse(response);
   };
+
+  // console.log(props.state.gameData);
 
   return (
     <div>
       <Helmet>
-        <title>FindCrosswordNodes</title>
+        <title>FindCrosswordNodesS</title>
         <meta name="description" content="Description of FindCrosswordNodes" />
       </Helmet>
 
@@ -110,16 +139,9 @@ export function FindCrosswordNodes(props) {
             conceptId={conceptId}
             topicId={topicId}
             saveFeedback={props.saveFeedback}
+            movement={movement}
+            setMovement={setMovement}
           />
-
-          <Row style={{ width: '100%' }}>
-            <Col>
-              <GameDescription
-                gameData={visitedGameData || gameData}
-                evaluatedAnswer={evaluatedAnswer}
-              />
-            </Col>
-          </Row>
           <GameComponent
             gameData={visitedGameData || gameData}
             evaluatedAnswer={evaluatedAnswer}
@@ -129,36 +151,12 @@ export function FindCrosswordNodes(props) {
             submit={submit}
             setValue={setValue}
             value={value}
+            movement={movement}
+            setMovement={setMovement}
+            attempts={props.state.gameData.attempt}
+            submitWWW={submitWWW}
+            submitFeedback={submitFeedback}
           />
-          {evaluatedAnswer && (
-            <>
-              <Title
-                level={3}
-                style={{
-                  textAlign: 'center',
-                  marginTop: '40px',
-                  marginBottom: 0,
-                }}
-              >
-                FEEDBACK
-              </Title>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  padding: '40px',
-                }}
-              >
-                <PracticeGamesFeedback
-                  whatWentWrong={evaluatedAnswer.score < 1}
-                  saveFeedback={submitFeedback}
-                  saveWWW={submitWWW}
-                  style={{ marginLeft: 'auto' }}
-                />
-              </div>
-            </>
-          )}
         </>
       )}
     </div>

@@ -10,10 +10,11 @@ import styled from 'styled-components';
 import { WHITE } from 'utils/constants';
 
 const StyledSection = styled.div`
-  min-weight: 100% !important ;
-  min-height: ${props => props.height || '100%'};
-  padding: ${props => props.padding || '100px 25px'};
-  background: ${props => props.background || WHITE};
+  min-weight: 100% !important;
+  min-height: ${props => props.minHeight || '100%'};
+  width: ${props => props.width || 'auto'};
+  padding: ${props => props.padding || '12px'};
+  background: ${props => props.background || 'var(--bgColor)'};
 `;
 
 function Section(props) {

@@ -23,9 +23,11 @@ import GameDescription from 'components/GameDescription';
 import { start, end } from 'utils/timerFunctions';
 import moment from 'moment';
 import GameComponent from 'components/GAMES/PropositionalLogic/ExpressionEvaluationGame';
+import notification from 'antd/lib/notification';
+import Title from 'antd/lib/typography/Title';
+import message from 'antd/lib/message';
 import PracticeGamesFeedback from '../../../../components/FEEDBACK/PracticeGamesFeedback';
 import makeSelectExpressionEvaluationGame from './selectors';
-import notification from 'antd/lib/notification';
 
 import reducer from './reducer';
 import saga from './saga';
@@ -34,8 +36,6 @@ import {
   evaluateExpressionStart,
   putFeedbackStart,
 } from './actions';
-import Title from 'antd/lib/typography/Title';
-import message from 'antd/lib/message';
 
 export function ExpressionEvaluationGame(props) {
   useInjectReducer({ key: 'expressionEvaluationGame', reducer });
@@ -53,6 +53,17 @@ export function ExpressionEvaluationGame(props) {
   useEffect(() => {
     if (evaluatedAnswer && !alreadyFeedback)
       message.success('Please give us your valuable feedback below!', 3);
+
+    if (
+      props.expressionEvaluationGame &&
+      props.expressionEvaluationGame.gameData &&
+      props.expressionEvaluationGame.gameData.readingMaterialsNotRead
+    ) {
+      message.warn(
+        'It seems like you have not read the reading materials. Please have a look at them for better performance',
+        3,
+      );
+    }
   }, [props.expressionEvaluationGame]);
 
   const { gameData } = props.expressionEvaluationGame;
@@ -107,53 +118,26 @@ export function ExpressionEvaluationGame(props) {
             saveFeedback={props.saveFeedback}
           />
 
-          <Row style={{ width: '100%' }}>
+          {/* <Row style={{ width: '100%' }}>
             <Col>
               <GameDescription
                 gameData={gameData}
                 evaluatedAnswer={evaluatedAnswer}
               />
             </Col>
-          </Row>
+          </Row> */}
           <GameComponent
             gameData={gameData}
             evaluatedAnswer={evaluatedAnswer}
+            attempts={gameData.attempt}
             animate
             visualize
             level={props.level}
             submit={submit}
             setValue={setValue}
+            submitFeedback={submitFeedback}
+            submitWWW={submitWWW}
           />
-
-          {evaluatedAnswer && (
-            <>
-              <Title
-                level={3}
-                style={{
-                  textAlign: 'center',
-                  marginTop: '40px',
-                  marginBottom: 0,
-                }}
-              >
-                FEEDBACK
-              </Title>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  padding: '40px',
-                }}
-              >
-                <PracticeGamesFeedback
-                  whatWentWrong={evaluatedAnswer.score < 1}
-                  saveFeedback={submitFeedback}
-                  saveWWW={submitWWW}
-                  style={{ marginLeft: 'auto' }}
-                />
-              </div>
-            </>
-          )}
         </>
       )}
     </div>

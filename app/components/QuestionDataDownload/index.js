@@ -12,7 +12,13 @@ import DownloadOutlined from '@ant-design/icons/DownloadOutlined';
 
 function QuestionDataDownload(props) {
   return (
-    <Button type='primary' shape='round'>
+    <Button
+      style={{
+        margin: '15px',
+        backgroundColor: 'var(--primaryColor)',
+        color: 'white',
+      }}
+    >
       <a
         href={`data:text/json;charset=utf-8,${encodeURIComponent(
           JSON.stringify(props.gameData),
@@ -21,7 +27,7 @@ function QuestionDataDownload(props) {
       >
         {`Download Question Data`}
       </a>
-    </Button >
+    </Button>
   );
 }
 

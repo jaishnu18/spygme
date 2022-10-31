@@ -5,69 +5,103 @@
  */
 
 import React, { memo } from 'react';
-import Carousel from 'antd/lib/carousel';
-// import PropTypes from 'prop-types';
-// import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import Row from 'antd/lib/row';
-import Col from 'antd/lib/col';
-import CoverPage from 'images/coverPage.png';
-import Image from 'antd/lib/image';
-import Title from 'antd/lib/typography/Title';
-import Paragraph from 'antd/lib/typography/Paragraph';
 import Button from 'antd/lib/button';
+import Col from 'antd/lib/col';
+import H1 from 'components/atoms/H1';
+import CustomButton from 'components/atoms/CustomButton';
+import Rocket from 'images/Hp1.png';
+import BgImage from 'images/welcome-bg.png';
 import { Link } from 'react-router-dom';
-// const Carousel = React.lazy(() => import('antd/lib/carousel'));
+import Icons from 'components/IconBox';
+import useMediaQuery from '../../../utils/useMediaQuery';
 
-const contentStyle = {
-  height: '160px',
-  color: '#fff',
-  lineHeight: '160px',
-  textAlign: 'center',
-  background: '#364d79',
-};
+const Wrapper = styled(Row)`
+  height: ${props =>
+    props.isDesktop ? 'calc(100vh - 82px)' : 'calc(100vh - 82px)'};
+  @keyframes float {
+    0% {
+      transform: translatey(0px);
+    }
+    50% {
+      transform: translatey(-20px);
+    }
+    100% {
+      transform: translatey(0px);
+    }
+  }
 
+  .rocket {
+    transform: translatey(0px);
+    animation: float 2.5s ease-in-out infinite;
+    height: auto;
+  }
+
+  h1 {
+    text-shadow: 0.1em 0.1em 0 #c4ccc6;
+  }
+  .heading {
+    font-weight: 900;
+    line-height: 1.1;
+    max-inline-size: 15ch;
+  }
+`;
 function Welcome(props) {
+  const isDesktop = useMediaQuery('(min-width: 960px)');
+
   return (
-    <Row justify="center" style={{ padding: '20px' }}>
-      <Col xs={{ span: 22 }} xl={{ span: 11 }}>
+    <Wrapper isDesktop={isDesktop}>
+      <Col span={24}>
         <div
           style={{
+            width: '100%',
+            height: isDesktop ? '100%' : '100%',
             display: 'flex',
+            justifyContent: 'center',
             alignItems: 'center',
             flexDirection: 'column',
-            justifyContent: 'center',
-            width: '100%',
-            height: '100%',
+            backgroundImage: `url(${BgImage})`,
+            backgroundSize: 'cover',
           }}
         >
-          <Title level={1} style={{ marginBottom: '10px' }}>
-            AI For Schools
-          </Title>
-          <Title level={3} style={{ marginTop: '10px' }}>
-            We teach AI using AI
-          </Title>
-          <Paragraph>
-            Artificial intelligence (AI) is intelligence demonstrated by machines, as opposed to natural intelligence displayed by animals including humans.
-            In this field of study, we learn how to make computers solve wide variety of problems, how to make them take intelligent decisions, how to make them recognize patterns, how to program them to learn from experience and provide some kind of predictions.
-          </Paragraph>
-          <Paragraph>
-            AI applications include advanced web search engines (e.g., Google), recommendation systems (used by YouTube, Amazon and Netflix), understanding human speech (such as Siri and Alexa), self-driving cars (e.g., Tesla), automated decision-making and competing at the highest level in strategic game systems (such as chess and Go).
-          </Paragraph>
-          <Paragraph>
-            This platform is built so that students of any age can start learning AI from the most basic concepts thereby building a strong foundation and having acquired the skills can apply them to solve real world problems. Don't worry!! We don't give
-            lecture videos and take exams. We use AI to teach AI. Students will
-            learn each and every concept while playing interesting games and
-            reading short reading materials.
-          </Paragraph>
-          <Link to={localStorage.getItem('_UFT_') ? '/dashboard' : '/auth'}>
-            <Button type="primary" shape="round">Get Started</Button>
-          </Link>
+          <img
+            style={{
+              margin: '50px 0',
+              width: !isDesktop ? '80%' : 'auto',
+              // height: !isDesktop ? '80%' : '100%',
+            }}
+            className="rocket"
+            src={Rocket}
+            alt="Rocket"
+          />
+          <H1 className="heading" fontSize={isDesktop ? '60' : '45'}>
+            AI for Schools
+          </H1>
+          <H1 fontSize={isDesktop ? '38' : '22'} marginTop="20">
+            Powering AI to Teach AI
+          </H1>
+          <Button
+            size="large"
+            style={{
+              borderRadius: '4px',
+              backgroundColor: 'var(--primaryColor)',
+              marginTop: '40px',
+            }}
+          >
+            <Link
+              style={{
+                color: 'var(--bgColor)',
+              }}
+              to="/order/create"
+            >
+              Start Learning{' '}
+            </Link>
+          </Button>
         </div>
       </Col>
-      <Col xs={{ span: 22 }} xl={{ span: 11, offset: 1 }}>
-        <Image src={CoverPage} preview={false} style={{ objectFit: 'cover' }} />
-      </Col>
-    </Row>
+    </Wrapper>
   );
 }
 

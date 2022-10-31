@@ -13,19 +13,21 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import makeSelectGradedExpressionEvaluationGame from './selectors';
-import reducer from './reducer';
-import saga from './saga';
 import NavigationBar from 'components/NavigationBar';
 import GameComponent from 'components/GAMES/PropositionalLogic/GradedExpressionEvaluationGame';
 import GradedGamesFeedback from 'components/FEEDBACK/GradedGamesFeedback';
 import notification from 'antd/lib/notification';
+import ExamInstruction from 'components/ExamInstruction';
+import message from 'antd/lib/message';
 import {
   getGamesDataStart,
   evaluateResponseStart,
   putFeedbackStart,
 } from './actions';
-import ExamInstruction from 'components/ExamInstruction';
+import saga from './saga';
+import reducer from './reducer';
+import makeSelectGradedExpressionEvaluationGame from './selectors';
+import useMediaQuery from '../../../../utils/useMediaQuery';
 
 export function GradedExpressionEvaluationGame(props) {
   useInjectReducer({ key: 'gradedExpressionEvaluationGame', reducer });
@@ -35,6 +37,8 @@ export function GradedExpressionEvaluationGame(props) {
   const [value, setValue] = useState(undefined);
   const [alreadyFeedback, setAlreadyFeedback] = useState(false);
   const [timeStamps, setTimeStamps] = useState(undefined);
+
+  const isDesktop = useMediaQuery('(min-width: 960px)');
 
   useEffect(() => {
     props.getGameData();
@@ -57,36 +61,24 @@ export function GradedExpressionEvaluationGame(props) {
     }
   }, [props.state.gameData]);
 
+  const { evaluatedAnswer } = props.state;
+
   useEffect(() => {
-    if (evaluatedAnswer && !alreadyFeedback) {
-      setAlreadyFeedback(true);
-      const practiceGamesFeedback = (
-        <GradedGamesFeedback saveFeedback={props.saveFeedback} />
-      );
-      const args = {
-        message: 'Feedback',
-        description: practiceGamesFeedback,
-        duration: 0, key:'feedback',
-      };
-      notification.open(args);
-      if (evaluatedAnswer.score !== 1) {
-        const practiceGamesFeedback = (
-          <GradedGamesFeedback whatWentWrong saveFeedback={props.saveFeedback} />
-        );
-        const args = {
-          message: 'Why you made mistake?',
-          description: practiceGamesFeedback,
-          duration: 0,
-          placement: 'topLeft', key:'www'
-        };
-        notification.open(args);
-      }
-    }
+    if (props.state.evaluatedAnswer && !alreadyFeedback)
+      message.success('Please give us your valuable feedback below!', 3);
   }, [props.state]);
 
-  
+  const submitWWW = values => {
+    const response = {};
+    response.whatwentwrong = JSON.stringify(values);
+    props.saveFeedback(response);
+  };
 
-  const { evaluatedAnswer } = props.state;
+  const submitFeedback = values => {
+    const response = {};
+    response.feedback = JSON.stringify(values);
+    props.saveFeedback(response);
+  };
 
   const submit = () => {
     const { gameData } = props.state;
@@ -122,6 +114,7 @@ export function GradedExpressionEvaluationGame(props) {
         <>
           <NavigationBar
             gradedGame
+            heading="Evaluate Expression"
             currentLevel={currentLevel}
             setCurrentLevel={setCurrentLevel}
             maxLevel={4}
@@ -140,6 +133,8 @@ export function GradedExpressionEvaluationGame(props) {
             maxLevel={4}
             timeStamps={timeStamps}
             setTimeStamps={setTimeStamps}
+            submitWWW={submitWWW}
+            submitFeedback={submitFeedback}
           />
         </>
       )}

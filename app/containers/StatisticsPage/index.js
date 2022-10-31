@@ -18,6 +18,7 @@ import api from 'api';
 import makeSelectStatisticsPage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
+import Leaderboard from '../../components/Leaderboard';
 
 export function StatisticsPage() {
   useInjectReducer({ key: 'statisticsPage', reducer });
@@ -44,7 +45,11 @@ export function StatisticsPage() {
         <meta name="description" content="Description of StatisticsPage" />
       </Helmet>
       {leaderboard && (
-        <StatisticsPageComponent leaderboard={leaderboard.allStudents} />
+        // <StatisticsPageComponent leaderboard={leaderboard.allStudents} />
+        <Leaderboard
+          leaderboard={leaderboard.allStudents}
+          stats={leaderboard}
+        />
       )}
     </div>
   );

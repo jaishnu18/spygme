@@ -45,6 +45,7 @@ import saga from './saga';
 
 const AppWrapper = styled.div`
   min-height: 100vh;
+  background-color: var(--bgColor) !important;
 `;
 
 export function App(props) {
@@ -73,7 +74,7 @@ export function App(props) {
   ) : (
     <AuthProvider value={props.AuthData}>
       <AppWrapper>
-        <NavBar location={history.location.pathname} signout={props.signout} />
+        <NavBar history={history.location.pathname} signout={props.signout} />
         <Routes
           signin={props.signin}
           signout={props.signout}

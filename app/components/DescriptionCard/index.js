@@ -11,19 +11,24 @@ import CustomCard from 'components/CustomCard';
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
 import Typography from 'antd/lib/typography';
-import Paragraph from 'antd/lib/typography/Paragraph';
 import Progress from 'antd/lib/progress';
 import Button from 'antd/lib/button';
 import Image from 'antd/lib/image';
 import Tooltip from 'antd/lib/tooltip';
 import history from 'utils/history';
 import { Link } from 'react-router-dom';
+import H1 from 'components/atoms/H1';
+import P from 'components/atoms/P';
+import useMediaQuery from '../../utils/useMediaQuery';
 
 const { Title } = Typography;
 
 function DescriptionCard(props) {
+  const isDesktop = useMediaQuery('(min-width: 960px)');
+
   return (
     <CustomCard
+      isDesktop={props.isDesktop}
       title={props.title}
       hoverable={props.hoverable}
       color={props.color ? props.color : 'white'}
@@ -35,7 +40,9 @@ function DescriptionCard(props) {
           ))
         ) : (
           <Tooltip title={props.description}>
-            <Title level={3}>{props.description}</Title>
+            <H1 fontSize={!isDesktop && '22'} fontWeight="500" level={3}>
+              {props.description}
+            </H1>
           </Tooltip>
         )}
       </Row>
@@ -46,19 +53,40 @@ function DescriptionCard(props) {
           </Col>
         </Row>
       )}
+
+      {props.relativeStats && (
+        <Row>
+          <P margintop="4" fontsize="15">
+            {props.relativeStats}
+          </P>
+        </Row>
+      )}
       {props.progress !== undefined && (
         <div>
           <Row>
-            <Paragraph>
+            <P margintop="12">
               {props.customProgressText
                 ? props.customProgressText
                 : 'Your progress'}
-            </Paragraph>
+            </P>
           </Row>
           <Row>
-            <Progress type="circle" percent={props.progress} />
+            <Progress
+              status="active"
+              percent={props.progress}
+              strokeColor={{
+                '0%': 'var(--primaryColor)',
+                '100%': '#87d068',
+              }}
+            />
           </Row>
         </div>
+      )}
+
+      {props.numberRead !== undefined && (
+        <P fontweight="700" style={{ paddingTop: '10px' }}>
+          {props.numberRead}
+        </P>
       )}
       <Row>
         {props.practiceGame ? (
@@ -70,14 +98,14 @@ function DescriptionCard(props) {
                 marginTop: '16px',
               }}
             >
-              <Paragraph
+              <P
                 style={{
                   margin: '0',
                   fontWeight: 600,
                 }}
               >
                 Play Level:
-              </Paragraph>
+              </P>
               {[...Array(props.levels)].map((x, i) => (
                 <Button
                   key={`${i + 1}`}
@@ -92,17 +120,29 @@ function DescriptionCard(props) {
                 </Button>
               ))}
             </div>
-            <div style={{ display: 'flex', marginTop: '16px' }}>
-              <Paragraph>Your highest scores:</Paragraph>
-              <Paragraph style={{ marginLeft: '8px' }}>
+            <div style={{ display: isDesktop && 'flex', marginTop: '16px' }}>
+              <P fontweight="500" fontsize="16">
+                Your highest scores:
+              </P>
+              <P
+                fontweight="500"
+                fontsize="16"
+                style={{ marginLeft: isDesktop && '8px' }}
+              >
                 {props.suggestionText.map(
                   (key, idx) => `Level ${idx + 1}: ${key}%, `,
                 )}
-              </Paragraph>
+              </P>
             </div>
           </div>
         ) : (
-          <Paragraph>{props.suggestionText}</Paragraph>
+          <P
+            fontweight="500"
+            fontsize="16"
+            style={{ color: props.suggestionTextColor, marginTop: '8px' }}
+          >
+            {props.suggestionText}
+          </P>
         )}
       </Row>
     </CustomCard>

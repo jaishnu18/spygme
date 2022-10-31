@@ -22,13 +22,56 @@ import Paragraph from 'antd/lib/typography/Paragraph';
 import Crossword from 'components/Crossword';
 import FormFindCrosswordNodes from '../FormFindCrosswordNodes';
 import { useForm } from 'antd/lib/form/Form';
+import H1 from 'components/atoms/H1';
+import P from 'components/atoms/P';
+
+import Icons from 'components/IconBox';
+import WrongIcon from 'images/Wrong.jpg';
+import RightIcon from 'images/Right.jpg';
+import useMediaQuery from '../../../../utils/useMediaQuery';
+import GradedGamesFeedback from '../../../FEEDBACK/GradedGamesFeedback';
+import SummaryReport from '../../../SummaryReport';
 
 function GradedFindCrosswordNodes(props) {
   const { gameData } = props;
   const { currentLevel } = props;
   const { evaluatedAnswer } = props;
+  const isDesktop = useMediaQuery('(min-width: 960px)');
+
+  console.log(evaluatedAnswer);
+
+  const FeedBack = __evaluatedAnswer =>
+    __evaluatedAnswer && (
+      <div>
+        <H1
+          fontWeight="700"
+          textAlign="center"
+          style={{ margin: '30px 0', marginTop: '60px' }}
+        >
+          FEEDBACK
+        </H1>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: isDesktop && '40px',
+          }}
+        >
+          <GradedGamesFeedback
+            whatWentWrong={__evaluatedAnswer[3].score < 1}
+            saveFeedback={props.submitFeedback}
+            saveWWW={props.submitWWW}
+            style={{ marginLeft: 'auto' }}
+          />
+          {console.log(__evaluatedAnswer)}
+        </div>
+      </div>
+    );
 
   const array = [];
+
+  console.log(evaluatedAnswer);
 
   const [form1] = useForm();
   const [form2] = useForm();
@@ -38,10 +81,11 @@ function GradedFindCrosswordNodes(props) {
   array.push(form3);
 
   return (
-    <Row style={{ padding: '40px', width: '100%' }}>
+    <Row style={{ padding: isDesktop ? '40px' : '20px', width: '100%' }}>
       <Col xs={{ span: 24 }} xl={{ span: 24 }}>
         <NavigationBar
           gradedGame
+          heading="Find Crossword Nodes"
           currentLevel={currentLevel}
           setCurrentLevel={props.setCurrentLevel}
           timeStamps={props.timeStamps}
@@ -66,7 +110,7 @@ function GradedFindCrosswordNodes(props) {
         {evaluatedAnswer && (
           <Row style={{ paddingTop: '40px', width: '100%' }}>
             <Col span={24}>
-              <CustomCard title="Summary Report">
+              <CustomCard title={<H1 fontWeight="700">Summary Report</H1>}>
                 <Col xl={{ span: 24 }} xs={{ span: 24 }}>
                   <Descriptions layout="horizontal" bordered>
                     <Descriptions.Item label="Score" span={24}>
@@ -154,6 +198,7 @@ function GradedFindCrosswordNodes(props) {
             </Col>
           </Row>
         )}
+        {FeedBack(evaluatedAnswer)}
       </Col>
     </Row>
   );

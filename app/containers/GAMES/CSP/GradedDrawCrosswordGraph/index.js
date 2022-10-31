@@ -17,6 +17,10 @@ import GameComponent from 'components/GAMES/CSP/GradedDrawCrosswordGraph';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
+import ExamInstruction from 'components/ExamInstruction';
+import GradedGamesFeedback from 'components/FEEDBACK/GradedGamesFeedback';
+import notification from 'antd/lib/notification';
+import message from 'antd/lib/message';
 import makeSelectGradedDrawCrosswordGraph from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -25,9 +29,6 @@ import {
   evaluateResponseStart,
   putFeedbackStart,
 } from './actions';
-import ExamInstruction from 'components/ExamInstruction';
-import GradedGamesFeedback from 'components/FEEDBACK/GradedGamesFeedback';
-import notification from 'antd/lib/notification';
 
 export function GradedDrawCrosswordGraph(props) {
   useInjectReducer({ key: 'gradedDrawCrosswordGraph', reducer });
@@ -43,6 +44,8 @@ export function GradedDrawCrosswordGraph(props) {
   useEffect(() => {
     props.getGameData();
   }, []);
+
+
 
   useEffect(() => {
     if (props.state.gameData) {
@@ -94,34 +97,24 @@ export function GradedDrawCrosswordGraph(props) {
   }, [props.state.gameData]);
 
   useEffect(() => {}, [props.state.gameData]);
-  
+
   useEffect(() => {
-    if (evaluatedAnswer && !alreadyFeedback) {
-      setAlreadyFeedback(true);
-      const practiceGamesFeedback = (
-        <GradedGamesFeedback saveFeedback={props.saveFeedback} />
-      );
-      const args = {
-        message: 'Feedback',
-        description: practiceGamesFeedback,
-        duration: 0, key:'feedback',
-      };
-      notification.open(args);
-      if (evaluatedAnswer.score !== 1) {
-        const practiceGamesFeedback = (
-          <GradedGamesFeedback whatWentWrong saveFeedback={props.saveFeedback} />
-        );
-        const args = {
-          message: 'Why you made mistake?',
-          description: practiceGamesFeedback,
-          duration: 0,
-          placement: 'topLeft', key:'www'
-        };
-        notification.open(args);
-      }
-    }
+    if (props.state.evaluatedAnswer && !alreadyFeedback)
+      message.success('Please give us your valuable feedback below!', 3);
   }, [props.state]);
-  
+
+  const submitWWW = values => {
+    const response = {};
+    response.whatwentwrong = JSON.stringify(values);
+    props.saveFeedback(response);
+  };
+
+  const submitFeedback = values => {
+    const response = {};
+    response.feedback = JSON.stringify(values);
+    props.saveFeedback(response);
+  };
+
   const { evaluatedAnswer } = props.state;
 
   const submit = () => {
@@ -182,12 +175,8 @@ export function GradedDrawCrosswordGraph(props) {
     response.timeStamps = timeStamps;
     response.gameId = props.gameId;
 
-    console.log(response);
-
     props.checkStudentResponse(response);
   };
-
-  console.log(props.state.evaluatedAnswer);
 
   return (
     <div>
@@ -198,10 +187,9 @@ export function GradedDrawCrosswordGraph(props) {
           content="Description of GradedDrawCrosswordGraph"
         />
       </Helmet>
-      {
-        currentLevel === -1 &&
-        <ExamInstruction setCurrentLevel={setCurrentLevel} saveRequired/>
-      }
+      {currentLevel === -1 && (
+        <ExamInstruction setCurrentLevel={setCurrentLevel} saveRequired />
+      )}
       {currentLevel !== -1 && props.state.gameData && value && (
         <>
           <GameComponent
@@ -217,6 +205,8 @@ export function GradedDrawCrosswordGraph(props) {
             DownNodes={DownNodes}
             timeStamps={timeStamps}
             setTimeStamps={setTimeStamps}
+            submitFeedback={submitFeedback}
+            submitWWW={submitWWW}
           />
         </>
       )}

@@ -53,6 +53,17 @@ export function MatchExpressionGame(props) {
   useEffect(() => {
     if (evaluatedAnswer && !alreadyFeedback)
       message.success('Please give us your valuable feedback below!', 3);
+
+    if (
+      props.matchExpressionGame &&
+      props.matchExpressionGame.gameData &&
+      props.matchExpressionGame.gameData.readingMaterialsNotRead
+    ) {
+      message.warn(
+        'It seems like you have not read the reading materials. Please have a look at them for better performance',
+        3,
+      );
+    }
   }, [props.matchExpressionGame]);
 
   const { gameData } = props.matchExpressionGame;
@@ -62,7 +73,6 @@ export function MatchExpressionGame(props) {
   const { topicId } = props;
 
   const submitWWW = values => {
-    console.log('DSF');
     const response = {};
     response.whatwentwrong = JSON.stringify(values);
     props.saveFeedback(response);
@@ -110,14 +120,14 @@ export function MatchExpressionGame(props) {
             saveFeedback={props.saveFeedback}
           />
 
-          <Row style={{ width: '100%' }}>
+          {/* <Row style={{ width: '100%' }}>
             <Col>
               <GameDescription
                 gameData={gameData}
                 evaluatedAnswer={evaluatedAnswer}
               />
             </Col>
-          </Row>
+          </Row> */}
           <GameComponent
             gameData={gameData}
             evaluatedAnswer={evaluatedAnswer}
@@ -125,37 +135,10 @@ export function MatchExpressionGame(props) {
             submit={submit}
             value={arr}
             changeResponse={changeResponseFunction}
+            submitFeedback={submitFeedback}
+            submitWWW={submitWWW}
+            setAlreadyFeedback={setAlreadyFeedback}
           />
-
-          {evaluatedAnswer && (
-            <>
-              <Title
-                level={3}
-                style={{
-                  textAlign: 'center',
-                  marginTop: '40px',
-                  marginBottom: 0,
-                }}
-              >
-                FEEDBACK
-              </Title>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  padding: '40px',
-                }}
-              >
-                <PracticeGamesFeedback
-                  whatWentWrong={evaluatedAnswer.score < 1}
-                  saveFeedback={submitFeedback}
-                  saveWWW={submitWWW}
-                  style={{ marginLeft: 'auto' }}
-                />
-              </div>
-            </>
-          )}
         </>
       )}
     </div>

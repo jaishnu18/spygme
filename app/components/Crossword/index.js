@@ -36,7 +36,7 @@ function Crossword(props) {
     <Row
       style={{
         margin: '20px',
-        boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
+        // boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
         padding: '40px 20px',
       }}
       justify="center"

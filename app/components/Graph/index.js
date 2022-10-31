@@ -19,11 +19,12 @@ import popper from 'cytoscape-popper';
 import CytoscapeComponent from 'react-cytoscapejs';
 import CustomButton from '../atoms/CustomButton';
 import H1 from '../atoms/H1';
+import useMediaQuery from '../../utils/useMediaQuery';
+
 cytoscape.use(popper);
 
 export const showNodeIDs = (props, myCyRef) => {
   const { gameData } = props;
-
 
   if (gameData && myCyRef) {
     for (let i = 0; i < gameData.num_nodes; i += 1) {
@@ -180,6 +181,8 @@ function Graph(props) {
   const { gameData } = props;
   const { evaluatedAnswer } = props;
 
+  const isDesktop = useMediaQuery('(min-width: 960px)');
+
   useEffect(() => {
     if (evaluatedAnswer) setVisualizeDisable(false);
   }, [evaluatedAnswer]);
@@ -254,14 +257,14 @@ function Graph(props) {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        width: '100%',
+        // width: '100%',
         // margin: '20px',
-        boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
-        padding: '40px 20px',
+        // boxShadow: isDesktop && 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
+        marginTop: !props.isDesktop && '20px',
       }}
       justify="center"
     >
-      <Col xl={{ span: 10 }} style={{ fontFamily: 'montserrat' }}>
+      <Col xl={{ span: 10 }}>
         <H1 style={{ fontWeight: 700 }}>GRAPH</H1>
       </Col>
       <Col

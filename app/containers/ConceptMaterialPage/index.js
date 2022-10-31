@@ -38,6 +38,8 @@ export function ConceptMaterialPage(props) {
   const { games } = props.conceptMaterialPage;
   const { readingMaterials } = props.conceptMaterialPage;
 
+  console.log(props.conceptMaterialPage);
+
   return (
     <div>
       <Helmet>

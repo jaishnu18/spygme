@@ -4,13 +4,15 @@
  *
  */
 
-import Title from 'antd/lib/typography/Title';
+import H1 from 'components/atoms/H1';
 import React, { memo } from 'react';
 // import PropTypes from 'prop-types';
 // import styled from 'styled-components';
-import CustomButton from 'components/atoms/CustomButton';
-
+import Button from 'antd/lib/button';
+import useMediaQuery from '../../utils/useMediaQuery';
 function ListComponent(props) {
+  const isDesktop = useMediaQuery('(min-width: 960px)');
+
   return (
     <div
       style={{
@@ -23,22 +25,22 @@ function ListComponent(props) {
         padding: '12px',
       }}
     >
-      <Title level={3} style={{ margin: 0 }}>
-        Game X
-      </Title>
-      <CustomButton
+      <H1 fontSize={isDesktop ? '24' : '14'} fontWeight="700">
+        {props.name}
+      </H1>
+      <Button
         style={{
-          backgroundColor: 'darkblue',
+          backgroundColor: 'var(--primaryColor)',
           color: 'white',
           borderRadius: '20px',
+          marginLeft: 'auto',
         }}
-        marginLeft="auto"
         onClick={() => {
           window.location.href = props.url;
         }}
       >
         Play Now
-      </CustomButton>
+      </Button>
     </div>
   );
 }

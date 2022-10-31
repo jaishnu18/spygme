@@ -42,6 +42,7 @@ function GameBar(props) {
         prevPageText="Back to materials"
         prevPageLink={`/concept/${topicId}/${conceptId}`}
         game
+        heading={props.name}
         nextLevelLink={nextLevelLink}
         prevLevelLink={prevLevelLink}
         level={props.level}
@@ -49,8 +50,19 @@ function GameBar(props) {
         reportError={props.reportError}
         evaluatedAnswer={props.evaluatedAnswer}
         saveFeedback={props.saveFeedback}
+        onMouseEnter={e =>
+          props.setMovement([
+            ...props.movement,
+            {
+              location: 'Navigation Bar',
+              timestamp: new Date(),
+              x: e.screenX,
+              y: e.screenY,
+            },
+          ])
+        }
       />
-      <Row
+      {/* <Row
         style={{
           minHeight: '8vh',
           alignItems: 'center',
@@ -70,12 +82,25 @@ function GameBar(props) {
             <Descriptions.Item label="Attempt">
               {props.attempts}
             </Descriptions.Item>
-            <Descriptions.Item label="Timer">
+            <Descriptions.Item
+              label="Timer"
+              onMouseEnter={e =>
+                props.setMovement([
+                  ...props.movement,
+                  {
+                    location: 'Timer',
+                    timestamp: new Date(),
+                    x: e.screenX,
+                    y: e.screenY,
+                  },
+                ])
+              }
+            >
               <TimeClock active={!props.evaluatedAnswer} />
             </Descriptions.Item>
           </Descriptions>
         </Col>
-      </Row>
+      </Row> */}
     </div>
   );
 }

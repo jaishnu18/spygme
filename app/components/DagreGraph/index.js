@@ -13,6 +13,7 @@ import Col from 'antd/lib/col';
 import H1 from '../atoms/H1';
 import CustomButton from '../atoms/CustomButton';
 import resetGraph from '../Graph';
+import useMediaQuery from '../../utils/useMediaQuery';
 
 cytoscape.use(dagre);
 // import PropTypes from 'prop-types';
@@ -23,6 +24,7 @@ function DagreGraph(props) {
   const [myCyRef, setMyCyRef] = useState(undefined);
 
   const { gameData } = props;
+  const isDesktop = useMediaQuery('(min-width: 960px)');
 
   useEffect(() => {
     if (gameData) {
@@ -65,9 +67,9 @@ function DagreGraph(props) {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        width: '100%',
+        // width: '100%',
         // margin: '20px',
-        boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
+        // boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px',
         padding: '40px 20px',
       }}
       justify="center"
@@ -98,8 +100,8 @@ function DagreGraph(props) {
           <CytoscapeComponent
             elements={CytoscapeComponent.normalizeElements(graphData)}
             style={{
-              width: '500px',
-              height: '300px',
+              width: isDesktop ? '500px' : '250px',
+              height: '400px',
               border: '1px solid black',
               background: 'white',
               borderRadius: '20px',

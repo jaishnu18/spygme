@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /**
  *
  * ConceptMaterialComponent
@@ -14,8 +15,9 @@ import Typography from 'antd/lib/typography';
 import DescriptionCard from 'components/DescriptionCard';
 import Divider from 'antd/lib/divider';
 import Modal from 'antd/lib/modal';
+import H1 from 'components/atoms/H1';
+import ConceptMaterialNavigation from 'components/PageNavigations/ConceptMaterialNavigation';
 import NavigationBar from '../NavigationBar';
-const { Title } = Typography;
 
 function ConceptMaterialComponent(props) {
   const { games } = props;
@@ -23,14 +25,13 @@ function ConceptMaterialComponent(props) {
   const { parentConcept } = props;
   const { parentTopic } = props;
 
-  console.log(games);
-
   return (
     <div>
-      {parentTopic && (
+      {parentTopic && readingMaterials && (
         <NavigationBar
           prevPageText="Back to Concepts"
-          prevPageLink={`/topics/${parentTopic}`}
+          prevPageLink="/topics"
+          heading={readingMaterials.conceptName}
         />
       )}
       <Row style={{ padding: '20px', margin: 0 }} gutter={[16, 16]}>
@@ -42,24 +43,9 @@ function ConceptMaterialComponent(props) {
             alignItems: 'center',
           }}
         >
-          {readingMaterials && (
-            <Title style={{ textAlign: 'center' }}>
-              {readingMaterials.conceptName}
-            </Title>
-          )}
-        </Col>
-        <Divider />
-        <Col
-          span={24}
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Title style={{ textAlign: 'center' }} level={2}>
+          <H1 fontWeight="700" style={{ textAlign: 'center' }} level={2}>
             Reading Materials
-          </Title>
+          </H1>
         </Col>
         {readingMaterials && readingMaterials.rmArray
           ? readingMaterials.rmArray.map((key, idx) => (
@@ -75,6 +61,9 @@ function ConceptMaterialComponent(props) {
                   <DescriptionCard
                     title={`Reading Material : ${idx + 1}`}
                     progress={key.read ? 100 : 0}
+                    numberRead={`${
+                      key.readNumber
+                    } students have read this already!`}
                   />
                 </Link>
               </Col>
@@ -95,22 +84,14 @@ function ConceptMaterialComponent(props) {
               alignItems: 'center',
             }}
           >
-            <Title style={{ textAlign: 'center' }} level={2}>
+            <H1 fontWeight="700" style={{ textAlign: 'center' }} level={2}>
               Practice Games
-            </Title>
+            </H1>
           </Col>
           {games ? (
             games.length > 0 ? (
               games.map((key, idx) => (
                 <Col xs={{ span: 24 }} xl={{ span: 8 }}>
-                  {/* <Link
-                    to={`${key.link}${parentTopic}/${parentConcept}/${
-                      key.id
-                    }/1`}
-                    onClick={() => {
-                      this.forceUpdate();
-                    }}
-                  > */}
                   <DescriptionCard
                     title={`Practice Game : ${idx + 1}`}
                     description={key.name}
@@ -123,11 +104,10 @@ function ConceptMaterialComponent(props) {
                     id={key.id}
                     levels={key.levels}
                   />
-                  {/* </Link> */}
                 </Col>
               ))
             ) : (
-              <Title>Coming soon!</Title>
+              <H1>Coming soon!</H1>
             )
           ) : null}
         </Row>
@@ -146,9 +126,9 @@ function ConceptMaterialComponent(props) {
               alignItems: 'center',
             }}
           >
-            <Title style={{ textAlign: 'center' }} level={2}>
+            <H1 fontWeight="700" style={{ textAlign: 'center' }} level={2}>
               Graded Games
-            </Title>
+            </H1>
           </Col>
           {games ? (
             games.length > 0 ? (
@@ -184,7 +164,7 @@ function ConceptMaterialComponent(props) {
                 </Col>
               ))
             ) : (
-              <Title>Coming soon!</Title>
+              <H1>Coming soon!</H1>
             )
           ) : null}
         </Row>

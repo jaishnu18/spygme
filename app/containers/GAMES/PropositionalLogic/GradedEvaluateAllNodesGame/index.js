@@ -13,19 +13,20 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import makeSelectGradedEvaluateAllNodesGame from './selectors';
-import reducer from './reducer';
-import saga from './saga';
 import NavigationBar from 'components/NavigationBar';
 import GameComponent from 'components/GAMES/PropositionalLogic/GradedEvaluateAllNodesGame';
 import GradedGamesFeedback from 'components/FEEDBACK/GradedGamesFeedback';
 import notification from 'antd/lib/notification';
+import ExamInstruction from 'components/ExamInstruction';
+import message from 'antd/lib/message';
 import {
   getGamesDataStart,
   evaluateResponseStart,
   putFeedbackStart,
 } from './actions';
-import ExamInstruction from 'components/ExamInstruction';
+import saga from './saga';
+import reducer from './reducer';
+import makeSelectGradedEvaluateAllNodesGame from './selectors';
 
 export function GradedEvaluateAllNodesGame(props) {
   useInjectReducer({ key: 'gradedEvaluateAllNodesGame', reducer });
@@ -45,9 +46,7 @@ export function GradedEvaluateAllNodesGame(props) {
       const initArray = new Array(props.state.gameData.length);
       for (let i = 0; i < props.state.gameData.length; i += 1) {
         if (props.state.gameData[i].num_nodes) {
-          initArray[i] = new Array(
-            props.state.gameData[i].num_nodes,
-          ).fill(-1);
+          initArray[i] = new Array(props.state.gameData[i].num_nodes).fill(-1);
         }
       }
       setValue(initArray);
@@ -65,36 +64,24 @@ export function GradedEvaluateAllNodesGame(props) {
     }
   }, [props.state.gameData]);
 
+  const { evaluatedAnswer } = props.state;
+
   useEffect(() => {
-    if (evaluatedAnswer && !alreadyFeedback) {
-      setAlreadyFeedback(true);
-      const practiceGamesFeedback = (
-        <GradedGamesFeedback saveFeedback={props.saveFeedback} />
-      );
-      const args = {
-        message: 'Feedback',
-        description: practiceGamesFeedback,
-        duration: 0, key: 'feedback',
-      };
-      notification.open(args);
-      if (evaluatedAnswer.score !== 1) {
-        const practiceGamesFeedback = (
-          <GradedGamesFeedback whatWentWrong saveFeedback={props.saveFeedback} />
-        );
-        const args = {
-          message: 'Why you made mistake?',
-          description: practiceGamesFeedback,
-          duration: 0,
-          placement: 'topLeft', key: 'www'
-        };
-        notification.open(args);
-      }
-    }
+    if (props.state.evaluatedAnswer && !alreadyFeedback)
+      message.success('Please give us your valuable feedback below!', 3);
   }, [props.state]);
 
+  const submitWWW = values => {
+    const response = {};
+    response.whatwentwrong = JSON.stringify(values);
+    props.saveFeedback(response);
+  };
 
-
-  const { evaluatedAnswer } = props.state;
+  const submitFeedback = values => {
+    const response = {};
+    response.feedback = JSON.stringify(values);
+    props.saveFeedback(response);
+  };
 
   const submit = () => {
     const { gameData } = props.state;
@@ -130,6 +117,7 @@ export function GradedEvaluateAllNodesGame(props) {
         <>
           <NavigationBar
             gradedGame
+            heading="Evaluate All Nodes"
             currentLevel={currentLevel}
             setCurrentLevel={setCurrentLevel}
             maxLevel={4}
@@ -148,6 +136,8 @@ export function GradedEvaluateAllNodesGame(props) {
             maxLevel={4}
             timeStamps={timeStamps}
             setTimeStamps={setTimeStamps}
+            submitWWW={submitWWW}
+            submitFeedback={submitFeedback}
           />
         </>
       )}

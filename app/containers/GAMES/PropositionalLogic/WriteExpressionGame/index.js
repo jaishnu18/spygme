@@ -23,12 +23,12 @@ import GameDescription from 'components/GameDescription';
 import { start, end } from 'utils/timerFunctions';
 import moment from 'moment';
 import GameComponent from 'components/GAMES/PropositionalLogic/WriteExpressionGame';
+import Title from 'antd/lib/typography/Title';
+import message from 'antd/lib/message';
 import makeSelectWriteExpressionGame from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import PracticeGamesFeedback from '../../../../components/FEEDBACK/PracticeGamesFeedback';
-import Title from 'antd/lib/typography/Title';
-import message from 'antd/lib/message';
 
 import {
   getGraphStart,
@@ -56,6 +56,17 @@ export function WriteExpressionGame(props) {
       !alreadyFeedback
     )
       message.success('Please give us your valuable feedback below!', 3);
+
+    if (
+      props.writeExpressionGame &&
+      props.writeExpressionGame.gameData &&
+      props.writeExpressionGame.gameData.readingMaterialsNotRead
+    ) {
+      message.warn(
+        'It seems like you have not read the reading materials. Please have a look at them for better performance',
+        3,
+      );
+    }
   }, [props.writeExpressionGame]);
 
   const { gameData } = props.writeExpressionGame;
@@ -108,14 +119,6 @@ export function WriteExpressionGame(props) {
             saveFeedback={props.saveFeedback}
           />
 
-          <Row style={{ width: '100%' }}>
-            <Col>
-              <GameDescription
-                gameData={gameData}
-                evaluatedAnswer={evaluatedAnswer}
-              />
-            </Col>
-          </Row>
           <GameComponent
             gameData={gameData}
             evaluatedAnswer={evaluatedAnswer}
@@ -124,37 +127,10 @@ export function WriteExpressionGame(props) {
             level={props.level}
             submit={submit}
             setValue={setValue}
+            value={value}
+            submitFeedback={submitFeedback}
+            submitWWW={submitWWW}
           />
-
-          {evaluatedAnswer && (
-            <>
-              <Title
-                level={3}
-                style={{
-                  textAlign: 'center',
-                  marginTop: '40px',
-                  marginBottom: 0,
-                }}
-              >
-                FEEDBACK
-              </Title>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  padding: '40px',
-                }}
-              >
-                <PracticeGamesFeedback
-                  whatWentWrong={evaluatedAnswer.score < 1}
-                  saveFeedback={submitFeedback}
-                  saveWWW={submitWWW}
-                  style={{ marginLeft: 'auto' }}
-                />
-              </div>
-            </>
-          )}
         </>
       )}
     </div>

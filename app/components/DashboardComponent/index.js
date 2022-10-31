@@ -21,13 +21,17 @@ import CSP from 'images/csp.png';
 import Read from 'images/read.png';
 import ContinuePlaying from 'images/continue.png';
 import Card from 'antd/lib/card';
-import ListDisplay from '../ListDisplay';
+import BgImage from 'images/bgDashboard.jpg';
+import H1 from 'components/atoms/H1';
+import P from 'components/atoms/P';
 import ListComponent from './ListComponent';
+import useMediaQuery from '../../utils/useMediaQuery';
+import DashboardPlot from './DashboardPlot';
 
 const { Title } = Typography;
 
 export const StyledDiv = styled.div`
-  padding: 24px;
+  padding: ${props => (props.padding ? props.padding : '24px')};
   display: flex;
   background-color: #eaeaea;
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
@@ -163,7 +167,8 @@ const StyledCol = styled(Col)`
 function DashboardComponent(props) {
   const { dashboard } = props;
   const { recommendedConcept } = props;
-  console.log(props);
+
+  console.log(dashboard);
 
   const [date, setDate] = useState(new Date());
 
@@ -171,9 +176,13 @@ function DashboardComponent(props) {
     setDate(new Date());
   }, []);
 
+  const isDesktop = useMediaQuery('(min-width: 960px)');
+
   return (
-    <div>
-      <Row justify="center" style={{ backgroundColor: '#A0C2F5' }}>
+    <div
+      style={{ backgroundImage: `url(${BgImage})`, backgroundSize: 'cover' }}
+    >
+      <Row justify="center">
         <Col
           xs={{ span: 23 }}
           xl={{ span: 10 }}
@@ -181,7 +190,7 @@ function DashboardComponent(props) {
             display: 'flex',
             justifyContent: 'center',
             borderRight: '2px solid #eaeaea',
-            minHeight: 'calc(100vh - 70px)',
+            minHeight: isDesktop && 'calc(100vh - 80px)',
           }}
         >
           <Space
@@ -279,6 +288,9 @@ function DashboardComponent(props) {
                   </Title>
                 </div>
               </StyledDiv>
+              <StyledDiv padding="4px" style={{ marginTop: '20px' }}>
+                <DashboardPlot dashboard={dashboard} />
+              </StyledDiv>
             </StyledCol>
           </Space>
         </Col>
@@ -296,29 +308,40 @@ function DashboardComponent(props) {
             size={30}
             style={{ display: 'flex', width: '100%', padding: '20px' }}
           >
-            <StyledDiv>
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <img
-                  src={AI}
-                  alt="ai"
-                  style={{ height: '50%', width: '50%' }}
-                />
-              </div>
-              <Title
-                style={{ marginTop: '30px', fontSize: '14px', fontWeight: 500 }}
-              >
-                “Artificial intelligence will reach human levels by around 2029.
-                Follow that out further to, say, 2045, and we will have
-                multiplied the intelligence – the human biological machine
-                intelligence of our civilization – a billion-fold.” -{' '}
-                <strong>Ray Kurzweil</strong>
-              </Title>
-              <Link to="/topics" style={{ textAlign: 'right' }}>
-                <Title level={4} style={{ marginTop: '0', color: 'darkblue' }}>
-                  Learn AI
-                </Title>
-              </Link>
-            </StyledDiv>
+            {isDesktop && (
+              <StyledDiv>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <img
+                    src={AI}
+                    alt="ai"
+                    style={{ height: '50%', width: '50%' }}
+                  />
+                </div>
+                <P
+                  style={{
+                    marginTop: '30px',
+                    fontSize: '18px',
+                    fontWeight: 500,
+                  }}
+                >
+                  “Artificial intelligence will reach human levels by around
+                  2029. Follow that out further to, say, 2045, and we will have
+                  multiplied the intelligence – the human biological machine
+                  intelligence of our civilization – a billion-fold.” -{' '}
+                </P>
+                <P>
+                  <strong>Ray Kurzweil</strong>
+                </P>
+                <Link to="/topics" style={{ textAlign: 'right' }}>
+                  <Title
+                    level={4}
+                    style={{ marginTop: '0', color: 'darkblue' }}
+                  >
+                    Learn AI
+                  </Title>
+                </Link>
+              </StyledDiv>
+            )}
             <StyledDiv>
               <Title level={3} style={{ textAlign: 'center', color: 'red' }}>
                 STREAK BUILDER
@@ -336,28 +359,41 @@ function DashboardComponent(props) {
                   style={{ height: '20%', width: '20%' }}
                 />
               </div>
-              <Row>
+              <Row style={{ marginTop: '20px' }}>
                 <Col
                   span={12}
-                  style={{ display: 'flex', flexDirection: 'column' }}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                  }}
                 >
-                  <Title level={4} style={{ textAlign: 'center', margin: 0 }}>
+                  <H1 fontWeight="700" textAlign="center">
                     Current Streak
-                  </Title>
-                  <Title level={2} style={{ textAlign: 'center', margin: 0 }}>
+                  </H1>
+                  <H1
+                    textAlign="center"
+                    fontWeight="700"
+                    fontSize="40"
+                    style={{ marginTop: '8px' }}
+                  >
                     {dashboard.currentStreak}
-                  </Title>
+                  </H1>
                 </Col>
                 <Col
                   span={12}
                   style={{ display: 'flex', flexDirection: 'column' }}
                 >
-                  <Title level={4} style={{ textAlign: 'center', margin: 0 }}>
+                  <H1 fontWeight="700" textAlign="center">
                     Highest Streak
-                  </Title>
-                  <Title level={2} style={{ textAlign: 'center', margin: 0 }}>
+                  </H1>
+                  <H1
+                    fontWeight="700"
+                    textAlign="center"
+                    fontSize="40"
+                    style={{ marginTop: '8px' }}
+                  >
                     {dashboard.highestStreak}
-                  </Title>
+                  </H1>
                 </Col>
               </Row>
             </StyledDiv>
@@ -472,7 +508,10 @@ function DashboardComponent(props) {
                       Pick up from where you left!
                     </Title>
                   </div>
-                  <ListComponent url={props.nextItem.url} />
+                  <ListComponent
+                    name={props.nextItem.name}
+                    url={props.nextItem.url}
+                  />
                 </div>
               </StyledDiv>
             )}

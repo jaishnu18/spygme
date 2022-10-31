@@ -46,14 +46,12 @@ export function MyProfilePage(props) {
         <title>MyProfilePage</title>
         <meta name="description" content="Description of MyProfilePage" />
       </Helmet>
-      <div style={{ padding: '40px' }}>
-        <MyProfileComponent
-          profile={profile}
-          handleEditProfile={handleEditProfile}
-          handleChangePassword={handleChangePassword}
-          // errorMessages={props.state.loadingError}
-        />
-      </div>
+      <MyProfileComponent
+        profile={profile}
+        handleEditProfile={handleEditProfile}
+        handleChangePassword={handleChangePassword}
+        // errorMessages={props.state.loadingError}
+      />
     </div>
   );
 }

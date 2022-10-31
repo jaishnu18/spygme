@@ -61,10 +61,21 @@ export function CrosswordBacktrackingTreeGame(props) {
     if (props.state.gameData) {
       setValue(new Array(props.state.gameData.gridStateList.length).fill(-1));
     }
+    if (props.state.gameData && props.state.gameData.readingMaterialsNotRead) {
+      message.warn(
+        'It seems like you have not read the reading materials. Please have a look at them for better performance',
+        3,
+      );
+    }
   }, [props.state.gameData]);
 
   const { gameData } = props.state;
   const { evaluatedAnswer } = props.state;
+
+  useEffect(() => {
+    if (evaluatedAnswer && !alreadyFeedback)
+      message.success('Please give us your valuable feedback below!', 3);
+  }, [props.state]);
 
   const submit = values => {
     const secs = end(startTime);
@@ -114,14 +125,6 @@ export function CrosswordBacktrackingTreeGame(props) {
             saveFeedback={props.saveFeedback}
           />
 
-          <Row style={{ width: '100%' }}>
-            <Col>
-              <GameDescription
-                gameData={gameData}
-                evaluatedAnswer={evaluatedAnswer}
-              />
-            </Col>
-          </Row>
           <GameComponent
             gameData={gameData}
             evaluatedAnswer={evaluatedAnswer}
@@ -129,36 +132,9 @@ export function CrosswordBacktrackingTreeGame(props) {
             submit={submit}
             setValue={setValue}
             value={value}
+            submitFeedback={submitFeedback}
+            submitWWW={submitWWW}
           />
-          {evaluatedAnswer && (
-            <>
-              <Title
-                level={3}
-                style={{
-                  textAlign: 'center',
-                  marginTop: '40px',
-                  marginBottom: 0,
-                }}
-              >
-                FEEDBACK
-              </Title>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  padding: '40px',
-                }}
-              >
-                <PracticeGamesFeedback
-                  whatWentWrong={evaluatedAnswer.score < 1}
-                  saveFeedback={submitFeedback}
-                  saveWWW={submitWWW}
-                  style={{ marginLeft: 'auto' }}
-                />
-              </div>
-            </>
-          )}
         </>
       )}
     </div>

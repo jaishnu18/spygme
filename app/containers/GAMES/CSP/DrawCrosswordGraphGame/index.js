@@ -121,6 +121,13 @@ export function DrawCrosswordGraphGame(props) {
       setValue({
         nodes: [{ across: null, down: null }],
       });
+
+      if (props.state.gameData.readingMaterialsNotRead) {
+        message.warn(
+          'It seems like you have not read the reading materials. Please have a look at them for better performance',
+          3,
+        );
+      }
     }
   }, [props.state.gameData]);
 
@@ -185,6 +192,8 @@ export function DrawCrosswordGraphGame(props) {
     props.saveFeedback(response);
   };
 
+  console.log(props.state.gameData);
+
   return (
     <div>
       <Helmet>
@@ -207,14 +216,6 @@ export function DrawCrosswordGraphGame(props) {
             saveFeedback={props.saveFeedback}
           />
 
-          <Row style={{ width: '100%' }}>
-            <Col>
-              <GameDescription
-                gameData={gameData}
-                evaluatedAnswer={evaluatedAnswer}
-              />
-            </Col>
-          </Row>
           <GameComponent
             gameData={gameData}
             evaluatedAnswer={evaluatedAnswer}
@@ -226,36 +227,9 @@ export function DrawCrosswordGraphGame(props) {
             value={value}
             AcrossNodes={AcrossNodes}
             DownNodes={DownNodes}
+            submitWWW={submitWWW}
+            submitFeedback={submitFeedback}
           />
-          {evaluatedAnswer && (
-            <>
-              <Title
-                level={3}
-                style={{
-                  textAlign: 'center',
-                  marginTop: '40px',
-                  marginBottom: 0,
-                }}
-              >
-                FEEDBACK
-              </Title>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  padding: '40px',
-                }}
-              >
-                <PracticeGamesFeedback
-                  whatWentWrong={evaluatedAnswer.score < 1}
-                  saveFeedback={submitFeedback}
-                  saveWWW={submitWWW}
-                  style={{ marginLeft: 'auto' }}
-                />
-              </div>
-            </>
-          )}
         </>
       )}
     </div>

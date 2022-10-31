@@ -36,11 +36,11 @@ import GradedNodeConsistency from 'containers/GAMES/CSP/GradedNodeConsistency';
 import GradedArcConsistency from 'containers/GAMES/CSP/GradedArcConsistency';
 import AboutPage from 'containers/AboutPage';
 import TestNotAllowedPage from 'containers/TestNotAllowedPage';
+import ForgotPasswordPage from 'containers/ForgotPasswordPage';
+import ResetPasswordPage from 'containers/ResetPasswordPage';
 import DiscussPage from '../DISCUSS/DiscussPage';
 import DiscussNewThreadPage from '../DISCUSS/DiscussNewThreadPage';
 import DiscussViewThreadPage from '../DISCUSS/DiscussViewThreadPage';
-import ForgotPasswordPage from 'containers/ForgotPasswordPage';
-import ResetPasswordPage from 'containers/ResetPasswordPage';
 import GradedWriteExpressionGame from '../GAMES/PropositionalLogic/GradedWriteExpressionGame';
 import NodeConsistencyGame from '../GAMES/CSP/NodeConsistencyGame';
 import DrawCrosswordGraphGame from '../GAMES/CSP/DrawCrosswordGraphGame';
@@ -60,7 +60,7 @@ function Routes(props) {
     return (
       <Switch>
         <Route exact path="/" component={HomePage} />
-        <Route exact path="/about" component={AboutPage} />
+        <Route exact path="/about/us" component={AboutPage} />
 
         <Route
           path="/auth"
@@ -111,13 +111,18 @@ function Routes(props) {
       <Route exact path="/topics" component={TopicListPage} />
       <Route exact path="/testnotallowed" component={TestNotAllowedPage} />
       <Route exact path="/discuss" component={DiscussPage} />
-      <Route exact path="/discuss/new-thread" component={DiscussNewThreadPage} />
-      <Route exact path="/discuss/view-thread/:threadId"
+      <Route
+        exact
+        path="/discuss/new-thread"
+        component={DiscussNewThreadPage}
+      />
+      <Route
+        exact
+        path="/discuss/view-thread/:threadId"
         render={({ match }) => (
-          <DiscussViewThreadPage
-            threadId={match.params.threadId}
-          />
-        )} />
+          <DiscussViewThreadPage threadId={match.params.threadId} />
+        )}
+      />
 
       <Route
         exact

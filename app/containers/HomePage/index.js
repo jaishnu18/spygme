@@ -28,17 +28,22 @@ import Typography from 'antd/lib/typography';
 import Divider from 'antd/lib/divider';
 import Timeline from 'antd/lib/timeline';
 import Image from 'antd/lib/image';
+import styled from 'styled-components';
+import FacebookFilled from '@ant-design/icons/FacebookFilled';
+import MailFilled from '@ant-design/icons/MailFilled';
+import InstagramFilled from '@ant-design/icons/InstagramFilled';
+import LinkedinFilled from '@ant-design/icons/LinkedinFilled';
+import Section from 'components/Section';
 import makeSelectHomePage from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import QuerySection from '../../components/HomePage/QuerySection';
 import { sendMessageStart } from './actions';
 import FaqSection from '../../components/HomePage/FaqSection';
-import styled from 'styled-components';
-import FacebookFilled from '@ant-design/icons/FacebookFilled';
-import MailFilled from '@ant-design/icons/MailFilled';
-import InstagramFilled from '@ant-design/icons/InstagramFilled';
-import LinkedinFilled from '@ant-design/icons/LinkedinFilled';
+import Footer from '../../components/Footer';
+import ContactUs from '../../components/HomePage/ContactUs';
+// import AboutUs from '../../components/HomePage/AboutUs';
+import OurTeam from '../../components/HomePage/OurTeam';
 
 const { Panel } = Collapse;
 const { Title } = Typography;
@@ -65,119 +70,20 @@ export function HomePage(props) {
   const querySubmit = values => {
     props.sendMessage(values);
   };
+
   return (
     <div>
       <Helmet>
         <title>HomePage</title>
         <meta name="description" content="Description of HomePage" />
       </Helmet>
-
-      <Welcome />
-      <Divider />
-      <Row>
-        <Col
-          span={24}
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Title style={{ textAlign: 'center' }}>How it works?</Title>
-        </Col>
-        <Col span={24} style={{ padding: '20px' }}>
-          <Timeline mode="alternate">
-            <Timeline.Item label="Read short reading materials">
-              <StyledImage
-                preview={false}
-                src={require('images/Screenshot_ReadMat.png')}
-              />
-            </Timeline.Item>
-            <Timeline.Item label="Play practice games as much as you want">
-              <StyledImage
-                preview={false}
-                src={require('images/Screenshot_Game.png')}
-              />
-            </Timeline.Item>
-            <Timeline.Item label="Attempt graded tests based on what you played during practice">
-              <StyledImage
-                preview={false}
-                src={require('images/Screenshot_Graded.png')}
-              />
-            </Timeline.Item>
-            <Timeline.Item label="Check your overall progress and proficiency on dashboard along with where you stand in the leaderboard">
-              <StyledImage
-                preview={false}
-                src={require('images/Screenshot_Dashboard.png')}
-              />
-            </Timeline.Item>
-          </Timeline>
-        </Col>
-      </Row>
-      <Divider />
-      <FaqSection />
-      <Divider />
-      <QuerySection querySubmit={querySubmit} />
-      <Row
-        style={{
-          backgroundColor: '#333333',
-          padding: '20px',
-          display: 'flex',
-          justifyContent: 'center',
-          alignContent: 'center',
-          height: '200px',
-        }}
-        gutter={[0, 24]}
-      >
-        <Col xl={{ span: '4', offset: '1' }} xs={{ span: '22', offset: '1' }}>
-          <b style={{ color: 'white', fontSize: '20px' }}>Connect with us</b>
-          <br />
-          <a href="mailto:contact@ai4schools.org" target="_blank">
-            <MailFilled style={{ color: 'white', fontSize: '20px' }} />
-          </a>
-          <a href="https://www.facebook.com/AI4SchoolsOrg/" target="_blank">
-            <FacebookFilled
-              style={{ color: 'white', fontSize: '20px', marginLeft: '12px' }}
-            />
-          </a>
-          <a href="https://www.instagram.com/ai4schoolsorg/" target="_blank">
-            <InstagramFilled
-              style={{ color: 'white', fontSize: '20px', marginLeft: '12px' }}
-            />
-          </a>
-          <a
-            href="https://www.linkedin.com/in/ai-for-schools-0b8607232/"
-            target="_blank"
-          >
-            <LinkedinFilled
-              style={{ color: 'white', fontSize: '20px', marginLeft: '12px' }}
-            />
-          </a>
-        </Col>
-        <Col xl={{ span: '4', offset: '1' }} xs={{ span: '22', offset: '1' }}>
-          <b style={{ color: 'white', fontSize: '20px' }}>Company</b>
-          <br />
-          <a
-            href="https://drive.google.com/file/d/1zNKhCimTiAaMcZRL92pvNw3X2d_0yyho/view?usp=sharing"
-            target="_blank"
-            style={{ color: 'white' }}
-          >
-            Terms and conditions
-          </a>
-          <br />
-          <a
-            href="https://drive.google.com/file/d/1jnW3EwSc3jDCKrMaWYgZJI_yd_rjT_Cs/view?usp=sharing"
-            target="_blank"
-            style={{ color: 'white' }}
-          >
-            Privacy Policy
-          </a>
-          <br />
-          <a href="/about" target="_blank" style={{ color: 'white' }}>
-            About us
-          </a>
-        </Col>
-      </Row>
+      <Section padding="0px">
+        <Welcome />
+        {/* <AboutUs /> */}
+        <OurTeam />
+        <ContactUs />
+        <Footer />
+      </Section>
     </div>
   );
 }

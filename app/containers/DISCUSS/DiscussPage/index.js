@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /**
  *
  * DiscussPage
@@ -18,44 +19,44 @@ import reducer from './reducer';
 import saga from './saga';
 
 import DiscussComponent from '../../../components/DISCUSS/DiscussComponent';
-import {
-  getAllThreadsStart,
-} from './actions';
+import { getAllThreadsStart } from './actions';
 export function DiscussPage(props) {
   useInjectReducer({ key: 'discussPage', reducer });
   useInjectSaga({ key: 'discussPage', saga });
 
-  const [searchText, setSearchText] = useState("");
-  const [filter, setFilter] = useState("");
+  const [searchText, setSearchText] = useState('');
+  const [filter, setFilter] = useState('');
 
   const onSearch = value => {
     setSearchText(value);
   };
 
   const onFilter = value => {
-    if (value === undefined)
-      value = "";
+    if (value === undefined) value = '';
     setFilter(value);
-  }
+  };
 
   useEffect(() => {
     props.getAllThreads();
-  }, [])
+  }, []);
   return (
     <div>
       <Helmet>
         <title>DiscussPage</title>
         <meta name="description" content="Description of DiscussPage" />
       </Helmet>
-      {props.state.threadDetails && props.state.threadDetails.allThreads && props.state.threadDetails.allConcepts &&
-        <DiscussComponent
-          threads={props.state.threadDetails.allThreads}
-          concepts={props.state.threadDetails.allConcepts}
-          onSearch={onSearch}
-          onFilter={onFilter}
-          searchText={searchText}
-          filter={filter} />
-      }
+      {props.state.threadDetails &&
+        props.state.threadDetails.allThreads &&
+        props.state.threadDetails.allConcepts && (
+          <DiscussComponent
+            threads={props.state.threadDetails.allThreads}
+            concepts={props.state.threadDetails.allConcepts}
+            onSearch={onSearch}
+            onFilter={onFilter}
+            searchText={searchText}
+            filter={filter}
+          />
+        )}
     </div>
   );
 }

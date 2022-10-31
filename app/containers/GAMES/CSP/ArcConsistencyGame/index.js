@@ -64,6 +64,13 @@ export function ArcConsistencyGame(props) {
         newArr[i] = new Array(bagSize).fill(true);
       setValue(newArr);
     }
+
+    if (props.state.gameData && props.state.gameData.readingMaterialsNotRead) {
+      message.warn(
+        'It seems like you have not read the reading materials. Please have a look at them for better performance',
+        3,
+      );
+    }
   }, [props.state.gameData]);
 
   const { gameData } = props.state;
@@ -113,14 +120,6 @@ export function ArcConsistencyGame(props) {
             saveFeedback={props.saveFeedback}
           />
 
-          <Row style={{ width: '100%' }}>
-            <Col>
-              <GameDescription
-                gameData={gameData}
-                evaluatedAnswer={evaluatedAnswer}
-              />
-            </Col>
-          </Row>
           <GameComponent
             gameData={gameData}
             evaluatedAnswer={evaluatedAnswer}
@@ -128,36 +127,9 @@ export function ArcConsistencyGame(props) {
             submit={submit}
             setValue={setValue}
             value={value}
+            submitWWW={submitWWW}
+            submitFeedback={submitFeedback}
           />
-          {evaluatedAnswer && (
-            <>
-              <Title
-                level={3}
-                style={{
-                  textAlign: 'center',
-                  marginTop: '40px',
-                  marginBottom: 0,
-                }}
-              >
-                FEEDBACK
-              </Title>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  padding: '40px',
-                }}
-              >
-                <PracticeGamesFeedback
-                  whatWentWrong={evaluatedAnswer.score < 1}
-                  saveFeedback={submitFeedback}
-                  saveWWW={submitWWW}
-                  style={{ marginLeft: 'auto' }}
-                />
-              </div>
-            </>
-          )}
         </>
       )}
     </div>

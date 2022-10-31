@@ -22,6 +22,7 @@ import Title from 'antd/lib/typography/Title';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
+import message from 'antd/lib/message';
 import PracticeGamesFeedback from '../../../../components/FEEDBACK/PracticeGamesFeedback';
 import makeSelectEvaluateAllNodesGame from './selectors';
 import reducer from './reducer';
@@ -32,8 +33,6 @@ import {
   putFeedbackStart,
   changeResponse,
 } from './actions';
-
-import message from 'antd/lib/message';
 
 export function EvaluateAllNodesGame(props) {
   useInjectReducer({ key: 'evaluateAllNodesGame', reducer });
@@ -52,6 +51,17 @@ export function EvaluateAllNodesGame(props) {
     setValue(new Array(props.state.num_nodes).fill(-1));
     if (evaluatedAnswer && !alreadyFeedback)
       message.success('Please give us your valuable feedback below!', 3);
+
+    if (
+      props.state &&
+      props.state.gameData &&
+      props.state.gameData.readingMaterialsNotRead
+    ) {
+      message.warn(
+        'It seems like you have not read the reading materials. Please have a look at them for better performance',
+        3,
+      );
+    }
   }, [props.state]);
 
   const { gameData } = props.state;
@@ -110,14 +120,14 @@ export function EvaluateAllNodesGame(props) {
             saveFeedback={props.saveFeedback}
           />
 
-          <Row style={{ width: '100%' }}>
+          {/* <Row style={{ width: '100%' }}>
             <Col>
               <GameDescription
                 gameData={gameData}
                 evaluatedAnswer={evaluatedAnswer}
               />
             </Col>
-          </Row>
+          </Row> */}
           <GameComponent
             gameData={gameData}
             evaluatedAnswer={evaluatedAnswer}
@@ -125,36 +135,9 @@ export function EvaluateAllNodesGame(props) {
             submit={submit}
             value={arr}
             changeResponse={changeResponseFunction}
+            submitWWW={submitWWW}
+            submitFeedback={submitFeedback}
           />
-          {evaluatedAnswer && (
-            <>
-              <Title
-                level={3}
-                style={{
-                  textAlign: 'center',
-                  marginTop: '40px',
-                  marginBottom: 0,
-                }}
-              >
-                FEEDBACK
-              </Title>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  padding: '40px',
-                }}
-              >
-                <PracticeGamesFeedback
-                  whatWentWrong={evaluatedAnswer.score < 1}
-                  saveFeedback={submitFeedback}
-                  saveWWW={submitWWW}
-                  style={{ marginLeft: 'auto' }}
-                />
-              </div>
-            </>
-          )}
         </>
       )}
     </div>

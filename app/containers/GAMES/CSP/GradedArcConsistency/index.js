@@ -26,6 +26,7 @@ import {
 } from './actions';
 import GameComponent from 'components/GAMES/CSP/GradedArcConsistency';
 import ExamInstruction from 'components/ExamInstruction';
+import message from 'antd/lib/message';
 
 export function GradedArcConsistency(props) {
   useInjectReducer({ key: 'gradedArcConsistency', reducer });
@@ -71,38 +72,6 @@ export function GradedArcConsistency(props) {
     }
   }, [props.state.gameData]);
 
-  useEffect(() => {
-    if (evaluatedAnswer && !alreadyFeedback) {
-      setAlreadyFeedback(true);
-      const practiceGamesFeedback = (
-        <GradedGamesFeedback saveFeedback={props.saveFeedback} />
-      );
-      const args = {
-        message: 'Feedback',
-        description: practiceGamesFeedback,
-        duration: 0,
-        key: 'feedback',
-      };
-      notification.open(args);
-      if (evaluatedAnswer.score !== 1) {
-        const practiceGamesFeedback = (
-          <GradedGamesFeedback
-            whatWentWrong
-            saveFeedback={props.saveFeedback}
-          />
-        );
-        const args = {
-          message: 'Why you made mistake?',
-          description: practiceGamesFeedback,
-          duration: 0,
-          placement: 'topLeft',
-          key: 'www',
-        };
-        notification.open(args);
-      }
-    }
-  }, [props.state]);
-
   const { evaluatedAnswer } = props.state;
 
   const submit = () => {
@@ -121,6 +90,24 @@ export function GradedArcConsistency(props) {
   };
 
   console.log(props.state.evaluatedAnswer);
+
+  useEffect(() => {
+    if (props.state.evaluatedAnswer && !alreadyFeedback)
+      message.success('Please give us your valuable feedback below!', 3);
+  }, [props.state]);
+
+  const submitWWW = values => {
+    const response = {};
+    response.whatwentwrong = JSON.stringify(values);
+    props.saveFeedback(response);
+  };
+
+  const submitFeedback = values => {
+    const response = {};
+    response.feedback = JSON.stringify(values);
+    props.saveFeedback(response);
+  };
+
   return (
     <div>
       <Helmet>
@@ -135,15 +122,6 @@ export function GradedArcConsistency(props) {
       )}
       {currentLevel !== -1 && props.state.gameData && value1 && value2 && (
         <>
-          <NavigationBar
-            gradedGame
-            currentLevel={currentLevel}
-            setCurrentLevel={setCurrentLevel}
-            maxLevel={2}
-            submit={submit}
-            timeStamps={timeStamps}
-            setTimeStamps={setTimeStamps}
-          />
           <GameComponent
             gameData={props.state.gameData}
             evaluatedAnswer={props.state.evaluatedAnswer}
@@ -157,6 +135,8 @@ export function GradedArcConsistency(props) {
             maxLevel={2}
             timeStamps={timeStamps}
             setTimeStamps={setTimeStamps}
+            submitWWW={submitWWW}
+            submitFeedback={submitFeedback}
           />
         </>
       )}

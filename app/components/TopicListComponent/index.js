@@ -30,6 +30,7 @@ const StyledRow = styled(Row)`
     justify-content: center !important;
   }
 `;
+
 function TopicListComponent(props) {
   const { topics } = props;
 
@@ -68,6 +69,7 @@ function TopicListComponent(props) {
                     description={key.name}
                     imageLocation={idx === 0 ? Topic1Icon : Topic2Icon}
                     suggestionText={key.description}
+                   
                   />
                 </Link>
               </Col>

@@ -13,11 +13,16 @@ import Row from 'antd/lib/row';
 import notification from 'antd/lib/notification';
 import Form from 'antd/lib/form/Form';
 import Rate from 'antd/lib/rate';
-import Paragraph from 'antd/lib/typography/Paragraph';
+// import P from 'antd/lib/typography/P';
 import CustomButton from 'components/atoms/CustomButton';
 import Checkbox from 'antd/lib/checkbox/Checkbox';
 import Button from 'antd/lib/button';
 import Collapse from 'antd/lib/collapse';
+import Title from 'antd/lib/typography/Title';
+
+import H1 from 'components/atoms/H1';
+import P from 'components/atoms/P';
+
 const { Panel } = Collapse;
 const errors = [
   'Silly mistake',
@@ -37,61 +42,127 @@ function GradedGamesFeedback(props) {
   const [disableWWW, setDisableWWW] = useState(false);
   const [disableFeedback, setDisableFeedback] = useState(false);
   console.log(props);
-  return props.whatWentWrong ? (
-    <Collapse>
-      <Panel header="Give your opinion">
-        <Form
-          name="whatWentWrong"
-          onFinish={values => {
-            const response = {};
-            response.isGraded = true;
-            response.whatwentwrong = JSON.stringify(values);
-            props.saveFeedback(response);
-            notification.close('www');
-          }}
-        >
-          {errors.map((key, idx) => (
-            <Form.Item name={key} valuePropName="checked">
-              <Checkbox checked={false}>{key}</Checkbox>
-            </Form.Item>
-          ))}
-          <Form.Item>
-            <Button type="primary" htmlType="submit" onClick={() => {}}>
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>
-      </Panel>
-    </Collapse>
-  ) : (
-    <Collapse>
-      <Panel header="Give your opinion">
-        <Form
-          name="feedback"
-          onFinish={values => {
-            const response = {};
-            response.isGraded = true;
-            response.feedback = JSON.stringify(values);
-            props.saveFeedback(response);
-            notification.close('feedback');
-          }}
-        >
-          {questions.map((key, idx) => (
-            <div>
-              <Paragraph>{`${idx + 1}. ${key}`}</Paragraph>
-              <Form.Item name={key}>
-                <Rate />
-              </Form.Item>
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <Row style={{ width: '80%', height: '80%' }}>
+        {props.whatWentWrong && (
+          <Col
+            xl={{ span: 12 }}
+            xs={{ span: 24 }}
+            span={12}
+            onMouseEnter={e =>
+              props.setMovement([
+                ...props.movement,
+                {
+                  location: 'Feedback: What Went Wrong',
+                  timestamp: new Date(),
+                  x: e.screenX,
+                  y: e.screenY,
+                },
+              ])
+            }
+          >
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                margin: '10px',
+              }}
+            >
+              <H1 level={4} style={{ color: 'red', marginBottom: '20px' }}>
+                What Went Wrong?
+              </H1>
+              <Form
+                name="whatWentWrong"
+                onFinish={values => {
+                  const response = {};
+                  response.whatwentwrong = JSON.stringify(values);
+                  props.saveWWW(response);
+                  notification.close('www');
+                }}
+              >
+                {errors.map((key, idx) => (
+                  <Form.Item name={key} valuePropName="checked">
+                    <Checkbox checked={false}>
+                      <P>{key}</P>
+                    </Checkbox>
+                  </Form.Item>
+                ))}
+                <Form.Item>
+                  <Button
+                    style={{
+                      backgroundColor: 'var(--primaryColor)',
+                      color: 'white',
+                    }}
+                    htmlType="submit"
+                    onClick={() => {}}
+                  >
+                    Submit
+                  </Button>
+                </Form.Item>
+              </Form>
             </div>
-          ))}
-          <Form.Item>
-            <Button type="primary" htmlType="submit" onClick={() => {}}>
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>
-      </Panel>
-    </Collapse>
+          </Col>
+        )}
+        <Col xs={{ span: 24 }} xl={{ span: props.whatWentWrong ? 12 : 24 }}>
+          <div
+            style={{ display: 'flex', flexDirection: 'column', margin: '10px' }}
+            onMouseEnter={e =>
+              props.setMovement([
+                ...props.movement,
+                {
+                  location: 'Feedback: Opinions on the Game',
+                  timestamp: new Date(),
+                  x: e.screenX,
+                  y: e.screenY,
+                },
+              ])
+            }
+          >
+            <H1 level={4} style={{ color: 'blue', marginBottom: '20px' }}>
+              Give your opinion!
+            </H1>
+            <Form
+              name="feedback"
+              onFinish={values => {
+                const response = {};
+                response.feedback = JSON.stringify(values);
+                props.saveFeedback(response);
+                notification.close('feedback');
+              }}
+            >
+              {questions.map((key, idx) => (
+                <div>
+                  <P>{`${idx + 1}. ${key}`}</P>
+                  <Form.Item name={key}>
+                    <Rate />
+                  </Form.Item>
+                </div>
+              ))}
+              <Form.Item>
+                <Button
+                  style={{
+                    backgroundColor: 'var(--primaryColor)',
+                    color: 'white',
+                  }}
+                  htmlType="submit"
+                  onClick={() => {}}
+                >
+                  Submit
+                </Button>
+              </Form.Item>
+            </Form>
+          </div>
+        </Col>
+      </Row>
+    </div>
   );
 }
 

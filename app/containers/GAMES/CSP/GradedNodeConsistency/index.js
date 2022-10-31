@@ -16,6 +16,9 @@ import { useInjectReducer } from 'utils/injectReducer';
 import GradedGamesFeedback from 'components/FEEDBACK/GradedGamesFeedback';
 import notification from 'antd/lib/notification';
 import NavigationBar from 'components/NavigationBar';
+import GameComponent from 'components/GAMES/CSP/GradedNodeConsistency';
+import ExamInstruction from 'components/ExamInstruction';
+import message from 'antd/lib/message';
 import makeSelectGradedNodeConsistency from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -24,8 +27,6 @@ import {
   evaluateResponseStart,
   putFeedbackStart,
 } from './actions';
-import GameComponent from 'components/GAMES/CSP/GradedNodeConsistency';
-import ExamInstruction from 'components/ExamInstruction';
 
 export function GradedNodeConsistency(props) {
   useInjectReducer({ key: 'gradedNodeConsistency', reducer });
@@ -74,36 +75,23 @@ export function GradedNodeConsistency(props) {
     }
   }, [props.state.gameData]);
 
+  const { evaluatedAnswer } = props.state;
   useEffect(() => {
-    if (evaluatedAnswer && !alreadyFeedback) {
-      setAlreadyFeedback(true);
-      const practiceGamesFeedback = (
-        <GradedGamesFeedback saveFeedback={props.saveFeedback} />
-      );
-      const args = {
-        message: 'Feedback',
-        description: practiceGamesFeedback,
-        duration: 0, key:'feedback',
-      };
-      notification.open(args);
-      if (evaluatedAnswer.score !== 1) {
-        const practiceGamesFeedback = (
-          <GradedGamesFeedback whatWentWrong saveFeedback={props.saveFeedback} />
-        );
-        const args = {
-          message: 'Why you made mistake?',
-          description: practiceGamesFeedback,
-          duration: 0,
-          placement: 'topLeft', key:'www'
-        };
-        notification.open(args);
-      }
-    }
+    if (props.state.evaluatedAnswer && !alreadyFeedback)
+      message.success('Please give us your valuable feedback below!', 3);
   }, [props.state]);
 
-  
+  const submitWWW = values => {
+    const response = {};
+    response.whatwentwrong = JSON.stringify(values);
+    props.saveFeedback(response);
+  };
 
-  const { evaluatedAnswer } = props.state;
+  const submitFeedback = values => {
+    const response = {};
+    response.feedback = JSON.stringify(values);
+    props.saveFeedback(response);
+  };
 
   const submit = () => {
     const { gameData } = props.state;
@@ -131,21 +119,11 @@ export function GradedNodeConsistency(props) {
           content="Description of GradedNodeConsistency"
         />
       </Helmet>
-      {
-        currentLevel === -1 &&
+      {currentLevel === -1 && (
         <ExamInstruction setCurrentLevel={setCurrentLevel} />
-      }
+      )}
       {currentLevel !== -1 && props.state.gameData && value1 && value2 && (
         <>
-          <NavigationBar
-            gradedGame
-            currentLevel={currentLevel}
-            setCurrentLevel={setCurrentLevel}
-            maxLevel={2}
-            submit={submit}
-            timeStamps={timeStamps}
-            setTimeStamps={setTimeStamps}
-          />
           <GameComponent
             gameData={props.state.gameData}
             evaluatedAnswer={props.state.evaluatedAnswer}
@@ -159,6 +137,8 @@ export function GradedNodeConsistency(props) {
             maxLevel={2}
             timeStamps={timeStamps}
             setTimeStamps={setTimeStamps}
+            submitFeedback={submitFeedback}
+            submitWWW={submitWWW}
           />
         </>
       )}

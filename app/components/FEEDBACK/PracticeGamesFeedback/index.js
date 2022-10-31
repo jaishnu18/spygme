@@ -13,12 +13,16 @@ import Row from 'antd/lib/row';
 import notification from 'antd/lib/notification';
 import Form from 'antd/lib/form/Form';
 import Rate from 'antd/lib/rate';
-import Paragraph from 'antd/lib/typography/Paragraph';
+// import P from 'antd/lib/typography/P';
 import CustomButton from 'components/atoms/CustomButton';
 import Checkbox from 'antd/lib/checkbox/Checkbox';
 import Button from 'antd/lib/button';
 import Collapse from 'antd/lib/collapse';
 import Title from 'antd/lib/typography/Title';
+
+import H1 from 'components/atoms/H1';
+import P from 'components/atoms/P';
+
 const { Panel } = Collapse;
 const errors = [
   'Silly mistake',
@@ -50,7 +54,22 @@ function PracticeGamesFeedback(props) {
     >
       <Row style={{ width: '80%', height: '80%' }}>
         {props.whatWentWrong && (
-          <Col span={12}>
+          <Col
+            xl={{ span: 12 }}
+            xs={{ span: 24 }}
+            span={12}
+            onMouseEnter={e =>
+              props.setMovement([
+                ...props.movement,
+                {
+                  location: 'Feedback: What Went Wrong',
+                  timestamp: new Date(),
+                  x: e.screenX,
+                  y: e.screenY,
+                },
+              ])
+            }
+          >
             <div
               style={{
                 display: 'flex',
@@ -58,9 +77,9 @@ function PracticeGamesFeedback(props) {
                 margin: '10px',
               }}
             >
-              <Title level={4} style={{ color: 'red', margin: 0 }}>
+              <H1 level={4} style={{ color: 'red', marginBottom: '20px' }}>
                 What Went Wrong?
-              </Title>
+              </H1>
               <Form
                 name="whatWentWrong"
                 onFinish={values => {
@@ -72,11 +91,20 @@ function PracticeGamesFeedback(props) {
               >
                 {errors.map((key, idx) => (
                   <Form.Item name={key} valuePropName="checked">
-                    <Checkbox checked={false}>{key}</Checkbox>
+                    <Checkbox checked={false}>
+                      <P>{key}</P>
+                    </Checkbox>
                   </Form.Item>
                 ))}
                 <Form.Item>
-                  <Button type="primary" htmlType="submit" onClick={() => {}}>
+                  <Button
+                    style={{
+                      backgroundColor: 'var(--primaryColor)',
+                      color: 'white',
+                    }}
+                    htmlType="submit"
+                    onClick={() => {}}
+                  >
                     Submit
                   </Button>
                 </Form.Item>
@@ -84,13 +112,24 @@ function PracticeGamesFeedback(props) {
             </div>
           </Col>
         )}
-        <Col span={props.whatWentWrong ? 12 : 24}>
+        <Col xs={{ span: 24 }} xl={{ span: props.whatWentWrong ? 12 : 24 }}>
           <div
             style={{ display: 'flex', flexDirection: 'column', margin: '10px' }}
+            onMouseEnter={e =>
+              props.setMovement([
+                ...props.movement,
+                {
+                  location: 'Feedback: Opinions on the Game',
+                  timestamp: new Date(),
+                  x: e.screenX,
+                  y: e.screenY,
+                },
+              ])
+            }
           >
-            <Title level={4} style={{ color: 'blue' }}>
+            <H1 level={4} style={{ color: 'blue', marginBottom: '20px' }}>
               Give your opinion!
-            </Title>
+            </H1>
             <Form
               name="feedback"
               onFinish={values => {
@@ -102,14 +141,21 @@ function PracticeGamesFeedback(props) {
             >
               {questions.map((key, idx) => (
                 <div>
-                  <Paragraph>{`${idx + 1}. ${key}`}</Paragraph>
+                  <P>{`${idx + 1}. ${key}`}</P>
                   <Form.Item name={key}>
                     <Rate />
                   </Form.Item>
                 </div>
               ))}
               <Form.Item>
-                <Button type="primary" htmlType="submit" onClick={() => {}}>
+                <Button
+                  style={{
+                    backgroundColor: 'var(--primaryColor)',
+                    color: 'white',
+                  }}
+                  htmlType="submit"
+                  onClick={() => {}}
+                >
                   Submit
                 </Button>
               </Form.Item>
