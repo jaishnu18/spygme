@@ -509,8 +509,8 @@ function DashboardComponent(props) {
                     </Title>
                   </div>
                   <ListComponent
-                    name={props.nextItem.name}
                     url={props.nextItem.url}
+                    name={props.nextItem.name}
                   />
                 </div>
               </StyledDiv>

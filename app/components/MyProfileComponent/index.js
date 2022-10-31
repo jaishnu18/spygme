@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
 import Button from 'antd/lib/button';
@@ -17,14 +17,25 @@ import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 import CustomCard from 'components/CustomCard';
 import { SHADOW1 } from 'utils/constants';
+<<<<<<< HEAD
 import H1 from 'components/atoms/H1';
+=======
+import Select from 'antd/lib/select';
+const { Option } = Select;
+>>>>>>> origin/bbiswabasu2
 
 import BgProfile from 'images/bgProfile.jpg';
 import useMediaQuery from '../../utils/useMediaQuery';
 function MyProfileComponent(props) {
   const { profile } = props;
+<<<<<<< HEAD
   const isDesktop = useMediaQuery('(min-width: 960px)');
 
+=======
+  const { schoolList } = props;
+  const [filteredSchoolList, setFilteredSchoolList] = useState(new Array(0));
+  const [getSchoolStarted, setGetSchoolStarted] = useState(false);
+>>>>>>> origin/bbiswabasu2
   return profile ? (
     <Row
       style={{
@@ -89,6 +100,7 @@ function MyProfileComponent(props) {
                 name="role"
                 extra="Once set cannot be changed."
               >
+<<<<<<< HEAD
                 <Radio.Group buttonStyle="solid">
                   <Radio.Button value="Student">Student</Radio.Button>
                   <Radio.Button value="Teacher">Teacher</Radio.Button>
@@ -109,6 +121,98 @@ function MyProfileComponent(props) {
                 >
                   Update Profile
                 </Button>
+=======
+                <Form.Item label="Name" name="name">
+                  <Input placeholder="Name" />
+                </Form.Item>
+                <Form.Item label="Email" name="email">
+                  <Input disabled />
+                </Form.Item>
+                <Form.Item label="Phone" name="phoneNumber">
+                  <Input />
+                </Form.Item>
+                {(!profile.role || profile.role === 'Student') && (
+                  <Form.Item label="Class" name="__class">
+                    <InputNumber min="4" max="12" />
+                  </Form.Item>
+                )}
+                {(profile.role && profile.role !== 'Others') &&
+                  <Form.Item
+                    label={
+                      'Pincode'
+                    }
+                    name="pincode"
+                  >
+                    <InputNumber max={999999} onChange={(value) => {
+                      let filteredList = [];
+                      if (!schoolList && !getSchoolStarted) {
+                        props.getSchoolList();
+                        setGetSchoolStarted(true);
+                      }
+                      if (value >= 100000) {
+                        for (let i = 0; i < schoolList.length; i++) {
+                          if (schoolList[i].pin_code == value) {
+                            filteredList.push(schoolList[i]);
+                          }
+                        }
+                      }
+                      setFilteredSchoolList(filteredList);
+                    }} />
+                  </Form.Item>
+                }
+                <Form.Item
+                  label={
+                    props.userRole === 'Others'
+                      ? 'Organisation'
+                      : 'School/Institution'
+                  }
+                  name="school"
+                >
+                  <Select
+                    showSearch
+                    optionFilterProp="children"
+                    onChange={props.onFilter}
+                    style={{ width: '100%' }}
+                    allowClear >
+                    {
+                      filteredSchoolList.map((key, idx) => (
+                        <Option value={`${key.id}-${key.name}`}>{key.name}</Option>
+                      ))
+                    }
+                  </Select>
+                </Form.Item>
+                {!profile.role && (
+                  <Form.Item
+                    label="Role"
+                    name="role"
+                    extra="Once set cannot be changed."
+                  >
+                    <Radio.Group buttonStyle="solid">
+                      <Radio.Button value="Student">Student</Radio.Button>
+                      <Radio.Button value="Teacher">Teacher</Radio.Button>
+                      <Radio.Button value="Others">Others</Radio.Button>
+                    </Radio.Group>
+                  </Form.Item>
+                )}
+                <Form.Item wrapperCol={{ offset: 6 }}>
+                  <div style={{ display: 'flex' }}>
+                    <Button
+                      style={{ marginLeft: 'auto' }}
+                      type="primary"
+                      htmlType="submit"
+                    >
+                      Update Profile
+                    </Button>
+                  </div>
+                </Form.Item>
+              </Form>
+            </CustomCard>
+          </Col>
+          <Col sm={{ span: 24 }} md={{ span: 24 }} lg={{ span: 12 }}>
+            <CustomCard shadow={SHADOW1} borderRadius="8px">
+              <div style={{ fontSize: '18px', fontWeight: 600 }}>
+                CHANGE PASSWORD
+>>>>>>> origin/bbiswabasu2
               </div>
             </Form.Item>
           </Form>

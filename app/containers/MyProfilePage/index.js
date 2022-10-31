@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -21,9 +21,13 @@ import {
   updatePasswordStart,
   updateProfileStart,
 } from './actions';
+import api from 'api';
+
 export function MyProfilePage(props) {
   useInjectReducer({ key: 'myProfilePage', reducer });
   useInjectSaga({ key: 'myProfilePage', saga });
+
+  const [schoolList, setSchoolList] = useState(undefined);
 
   useEffect(() => {
     props.fetchProfile();
@@ -40,18 +44,28 @@ export function MyProfilePage(props) {
   const handleChangePassword = values => {
     props.editPassword(values);
   };
+  async function getSchoolList() {
+    const R = await api.get(
+      '/auth/get-schools',
+    );
+    setSchoolList(R.data.data);
+  }
   return (
     <div>
       <Helmet>
         <title>MyProfilePage</title>
         <meta name="description" content="Description of MyProfilePage" />
       </Helmet>
-      <MyProfileComponent
-        profile={profile}
-        handleEditProfile={handleEditProfile}
-        handleChangePassword={handleChangePassword}
+      <div style={{ padding: '40px' }}>
+        <MyProfileComponent
+          profile={profile}
+          handleEditProfile={handleEditProfile}
+          handleChangePassword={handleChangePassword}
+          getSchoolList={getSchoolList}
+          schoolList={schoolList}
         // errorMessages={props.state.loadingError}
-      />
+        />
+      </div>
     </div>
   );
 }

@@ -16,7 +16,7 @@ import Alert from 'antd/lib/alert';
 import Radio from 'antd/lib/radio';
 import history from 'utils/history';
 
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import Section from 'components/Section';
 import H4 from 'components/atoms/H4';
 import { GoogleLogin } from 'react-google-login';
@@ -26,8 +26,14 @@ import PropTypes from 'prop-types';
 import CustomCard from 'components/CustomCard';
 import GoogleOutlined from '@ant-design/icons/GoogleOutlined';
 import Title from 'antd/lib/typography/Title';
+<<<<<<< HEAD
 import styled from 'styled-components';
 import useMediaQuery from '../../utils/useMediaQuery';
+=======
+import Select from 'antd/lib/select';
+const { Option } = Select;
+// import styled from 'styled-components';
+>>>>>>> origin/bbiswabasu2
 
 const { TabPane } = Tabs;
 
@@ -54,8 +60,14 @@ function GoogleButton(props) {
   );
 }
 function AuthForm(props) {
+<<<<<<< HEAD
   const isDesktop = useMediaQuery('(min-width: 960px)');
 
+=======
+  const { schoolList } = props;
+  const [filteredSchoolList, setFilteredSchoolList] = useState(new Array(0));
+  const [getSchoolStarted, setGetSchoolStarted] = useState(false);
+>>>>>>> origin/bbiswabasu2
   return (
     <StyledRow
       style={{
@@ -81,6 +93,7 @@ function AuthForm(props) {
       <Col
         xs={{ span: 24 }}
         sm={{ span: 24 }}
+<<<<<<< HEAD
         md={{ span: 12 }}
         xl={{ span: 12 }}
         style={{
@@ -96,6 +109,26 @@ function AuthForm(props) {
             borderRadius="8px"
           >
             <Title level={4}>SIGN IN TO YOUR ACCOUNT</Title>
+=======
+        md={{ span: 23 }}
+        xl={{ span: 23 }}
+        style={{ display: 'flex' }}
+      >
+        <Row style={{ width: '100%' }}>
+          <Col span={7}>
+            <img
+              src={AuthImage}
+              alt="done"
+              // style={{ width: '100%', height: 'max-content' }}
+              style={{
+                width: '100%',
+              }}
+            />
+          </Col>
+          <Col span={14}>
+            <CustomCard shadow={SHADOW1} borderRadius="8px">
+              <Title level={4}>SIGN IN TO YOUR ACCOUNT</Title>
+>>>>>>> origin/bbiswabasu2
 
             {props.errorMessages ? (
               props.errorMessages.map(errorMessage => (
@@ -164,6 +197,7 @@ function AuthForm(props) {
                     <Input />
                   </Form.Item>
 
+<<<<<<< HEAD
                   <Form.Item
                     label="Email Id"
                     name="email"
@@ -178,6 +212,54 @@ function AuthForm(props) {
                   </Form.Item>
 
                   {props.userRole === 'Student' && (
+=======
+                    {props.userRole === 'Student' && (
+                      <Form.Item
+                        label="Class"
+                        name="_class"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please input your class!',
+                          },
+                        ]}
+                      >
+                        <InputNumber />
+                      </Form.Item>
+                    )}
+
+                    {props.userRole !== 'Others' &&
+                      <Form.Item
+                        label={
+                          'Pincode'
+                        }
+                        name="pincode"
+                        rules={[
+                          {
+                            required: true,
+                            message:
+                              'Please input your School/Institution pincode!',
+                          },
+                        ]}
+                      >
+                        <InputNumber max={999999} onChange={(value) => {
+                          let filteredList = [];
+                          if (!schoolList && !getSchoolStarted) {
+                            props.getSchoolList();
+                            setGetSchoolStarted(true);
+                          }
+                          if (value >= 100000) {
+                            for (let i = 0; i < schoolList.length; i++) {
+                              if (schoolList[i].pin_code == value) {
+                                filteredList.push(schoolList[i]);
+                              }
+                            }
+                          }
+                          setFilteredSchoolList(filteredList);
+                        }} />
+                      </Form.Item>
+                    }
+>>>>>>> origin/bbiswabasu2
                     <Form.Item
                       label="Class"
                       name="_class"
@@ -188,7 +270,22 @@ function AuthForm(props) {
                         },
                       ]}
                     >
+<<<<<<< HEAD
                       <InputNumber max="12" min="4" />
+=======
+                      <Select
+                        showSearch
+                        optionFilterProp="children"
+                        onChange={props.onFilter}
+                        style={{ width: '100%' }}
+                        allowClear >
+                        {
+                          filteredSchoolList.map((key, idx) => (
+                            <Option value={`${key.id}-${key.name}`}>{key.name}</Option>
+                          ))
+                        }
+                      </Select>
+>>>>>>> origin/bbiswabasu2
                     </Form.Item>
                   )}
 
