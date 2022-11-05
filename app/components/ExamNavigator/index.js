@@ -48,6 +48,7 @@ function ExamNavigator(props) {
               new Date(new Date().getTime() + props.examDuration * 1000)
             }
             submit={props.submit}
+            evaluatedAnswer={props.evaluatedAnswer}
           />
         </Col>
       </Row>

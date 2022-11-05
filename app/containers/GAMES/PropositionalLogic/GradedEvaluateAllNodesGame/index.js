@@ -111,7 +111,10 @@ export function GradedEvaluateAllNodesGame(props) {
         />
       </Helmet>
       {currentLevel === -1 && (
-        <ExamInstruction setCurrentLevel={setCurrentLevel} />
+        <ExamInstruction
+          evaluatedAnswer={props.state.evaluatedAnswer}
+          setCurrentLevel={setCurrentLevel}
+        />
       )}
       {currentLevel !== -1 && props.state.gameData && value && (
         <>

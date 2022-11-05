@@ -75,7 +75,7 @@ function GradedExpressionEvaluationGame(props) {
           setCurrentLevel={props.setCurrentLevel}
           submit={props.submit}
           value={props.value}
-          evaluatedAnswer={evaluatedAnswer}
+          evaluatedAnswer={props.evaluatedAnswer}
           examDuration={300}
           {...props}
         />

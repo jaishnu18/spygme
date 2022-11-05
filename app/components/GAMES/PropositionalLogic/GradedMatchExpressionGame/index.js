@@ -78,7 +78,7 @@ function GradedMatchExpressionGame(props) {
           submit={props.submit}
           value={props.value}
           examDuration={300}
-          evaluatedAnswer={evaluatedAnswer}
+          evaluatedAnswer={props.evaluatedAnswer}
           {...props}
         />
       </Col>

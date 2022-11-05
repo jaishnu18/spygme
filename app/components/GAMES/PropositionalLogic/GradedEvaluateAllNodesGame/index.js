@@ -74,7 +74,7 @@ function GradedEvaluateAllNodesGame(props) {
           submit={props.submit}
           value={props.value}
           examDuration={600}
-          evaluatedAnswer={evaluatedAnswer}
+          evaluatedAnswer={props.evaluatedAnswer}
           {...props}
         />
       </Col>

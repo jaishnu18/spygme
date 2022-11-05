@@ -70,15 +70,17 @@ function TimeClock(props) {
         secondsLeft = (currentDate - targetTime) / 1000;
       }
 
-      setHours(pad(parseInt(secondsLeft / 3600)));
-      secondsLeft %= 3600;
-      setMinutes(pad(parseInt(secondsLeft / 60)));
-      setSeconds(pad(parseInt(secondsLeft % 60)));
+      if (!props.evaluatedAnswer) {
+        setHours(pad(parseInt(secondsLeft / 3600)));
+        secondsLeft %= 3600;
+        setMinutes(pad(parseInt(secondsLeft / 60)));
+        setSeconds(pad(parseInt(secondsLeft % 60)));
+      }
     }, 1000);
     return () => {
       window.clearInterval(timerRef.current);
     };
-  }, []);
+  }, [props.evaluatedAnswer]);
 
   useEffect(() => {
     if (props.submit && hours === '00' && minutes === '00' && seconds === '00')

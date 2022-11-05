@@ -90,7 +90,7 @@ function GradedNodeConsistency(props) {
           currentLevel={props.currentLevel}
           setCurrentLevel={props.setCurrentLevel}
           examDuration={300}
-          evaluatedAnswer={evaluatedAnswer}
+          evaluatedAnswer={props.evaluatedAnswer}
           submit={props.submit}
           timeStamps={props.timeStamps}
           setTimeStamps={props.setTimeStamps}

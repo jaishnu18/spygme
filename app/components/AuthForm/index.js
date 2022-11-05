@@ -26,14 +26,11 @@ import PropTypes from 'prop-types';
 import CustomCard from 'components/CustomCard';
 import GoogleOutlined from '@ant-design/icons/GoogleOutlined';
 import Title from 'antd/lib/typography/Title';
-<<<<<<< HEAD
 import styled from 'styled-components';
-import useMediaQuery from '../../utils/useMediaQuery';
-=======
 import Select from 'antd/lib/select';
+import useMediaQuery from '../../utils/useMediaQuery';
 const { Option } = Select;
 // import styled from 'styled-components';
->>>>>>> origin/bbiswabasu2
 
 const { TabPane } = Tabs;
 
@@ -60,14 +57,11 @@ function GoogleButton(props) {
   );
 }
 function AuthForm(props) {
-<<<<<<< HEAD
   const isDesktop = useMediaQuery('(min-width: 960px)');
 
-=======
   const { schoolList } = props;
   const [filteredSchoolList, setFilteredSchoolList] = useState(new Array(0));
   const [getSchoolStarted, setGetSchoolStarted] = useState(false);
->>>>>>> origin/bbiswabasu2
   return (
     <StyledRow
       style={{
@@ -93,7 +87,6 @@ function AuthForm(props) {
       <Col
         xs={{ span: 24 }}
         sm={{ span: 24 }}
-<<<<<<< HEAD
         md={{ span: 12 }}
         xl={{ span: 12 }}
         style={{
@@ -109,26 +102,6 @@ function AuthForm(props) {
             borderRadius="8px"
           >
             <Title level={4}>SIGN IN TO YOUR ACCOUNT</Title>
-=======
-        md={{ span: 23 }}
-        xl={{ span: 23 }}
-        style={{ display: 'flex' }}
-      >
-        <Row style={{ width: '100%' }}>
-          <Col span={7}>
-            <img
-              src={AuthImage}
-              alt="done"
-              // style={{ width: '100%', height: 'max-content' }}
-              style={{
-                width: '100%',
-              }}
-            />
-          </Col>
-          <Col span={14}>
-            <CustomCard shadow={SHADOW1} borderRadius="8px">
-              <Title level={4}>SIGN IN TO YOUR ACCOUNT</Title>
->>>>>>> origin/bbiswabasu2
 
             {props.errorMessages ? (
               props.errorMessages.map(errorMessage => (
@@ -196,8 +169,6 @@ function AuthForm(props) {
                   >
                     <Input />
                   </Form.Item>
-
-<<<<<<< HEAD
                   <Form.Item
                     label="Email Id"
                     name="email"
@@ -210,40 +181,37 @@ function AuthForm(props) {
                   >
                     <Input />
                   </Form.Item>
-
                   {props.userRole === 'Student' && (
-=======
-                    {props.userRole === 'Student' && (
-                      <Form.Item
-                        label="Class"
-                        name="_class"
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Please input your class!',
-                          },
-                        ]}
-                      >
-                        <InputNumber />
-                      </Form.Item>
-                    )}
+                    <Form.Item
+                      label="Class"
+                      name="_class"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please input your class!',
+                        },
+                      ]}
+                    >
+                      <InputNumber />
+                    </Form.Item>
+                  )}
 
-                    {props.userRole !== 'Others' &&
-                      <Form.Item
-                        label={
-                          'Pincode'
-                        }
-                        name="pincode"
-                        rules={[
-                          {
-                            required: true,
-                            message:
-                              'Please input your School/Institution pincode!',
-                          },
-                        ]}
-                      >
-                        <InputNumber max={999999} onChange={(value) => {
-                          let filteredList = [];
+                  {props.userRole !== 'Others' && (
+                    <Form.Item
+                      label="Pincode"
+                      name="pincode"
+                      rules={[
+                        {
+                          required: true,
+                          message:
+                            'Please input your School/Institution pincode!',
+                        },
+                      ]}
+                    >
+                      <InputNumber
+                        max={999999}
+                        onChange={value => {
+                          const filteredList = [];
                           if (!schoolList && !getSchoolStarted) {
                             props.getSchoolList();
                             setGetSchoolStarted(true);
@@ -256,56 +224,57 @@ function AuthForm(props) {
                             }
                           }
                           setFilteredSchoolList(filteredList);
-                        }} />
-                      </Form.Item>
-                    }
->>>>>>> origin/bbiswabasu2
+                        }}
+                      />
+                    </Form.Item>
+                  )}
+
+                  {props.userRole !== 'Others' && (
                     <Form.Item
-                      label="Class"
-                      name="_class"
+                      label={
+                        props.userRole === 'Others'
+                          ? 'Organisation'
+                          : 'School/Institution'
+                      }
+                      name="organisation"
                       rules={[
                         {
                           required: true,
-                          message: 'Please input your class!',
+                          message:
+                            'Please input your School/Institution/Organisation!',
                         },
                       ]}
                     >
-<<<<<<< HEAD
-                      <InputNumber max="12" min="4" />
-=======
                       <Select
                         showSearch
                         optionFilterProp="children"
                         onChange={props.onFilter}
                         style={{ width: '100%' }}
-                        allowClear >
-                        {
-                          filteredSchoolList.map((key, idx) => (
-                            <Option value={`${key.id}-${key.name}`}>{key.name}</Option>
-                          ))
-                        }
+                        allowClear
+                      >
+                        {filteredSchoolList.map((key, idx) => (
+                          <Option value={`${key.id}-${key.name}`}>
+                            {key.name}
+                          </Option>
+                        ))}
                       </Select>
->>>>>>> origin/bbiswabasu2
                     </Form.Item>
                   )}
 
-                  <Form.Item
-                    label={
-                      props.userRole === 'Others'
-                        ? 'Organisation'
-                        : 'School/Institution'
-                    }
-                    name="organisation"
-                    rules={[
-                      {
-                        required: true,
-                        message:
-                          'Please input your School/Institution/Organisation!',
-                      },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
+                  {props.userRole === 'Others' && (
+                    <Form.Item
+                      label="Organisation"
+                      name="organisation"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please input your Organisation!',
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  )}
 
                   <Form.Item
                     extra="Password length must be atleast 6 characters"

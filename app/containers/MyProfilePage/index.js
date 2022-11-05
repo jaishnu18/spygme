@@ -45,9 +45,7 @@ export function MyProfilePage(props) {
     props.editPassword(values);
   };
   async function getSchoolList() {
-    const R = await api.get(
-      '/auth/get-schools',
-    );
+    const R = await api.get('/auth/get-schools');
     setSchoolList(R.data.data);
   }
   return (
@@ -56,16 +54,14 @@ export function MyProfilePage(props) {
         <title>MyProfilePage</title>
         <meta name="description" content="Description of MyProfilePage" />
       </Helmet>
-      <div style={{ padding: '40px' }}>
-        <MyProfileComponent
-          profile={profile}
-          handleEditProfile={handleEditProfile}
-          handleChangePassword={handleChangePassword}
-          getSchoolList={getSchoolList}
-          schoolList={schoolList}
+      <MyProfileComponent
+        profile={profile}
+        handleEditProfile={handleEditProfile}
+        handleChangePassword={handleChangePassword}
+        getSchoolList={getSchoolList}
+        schoolList={schoolList}
         // errorMessages={props.state.loadingError}
-        />
-      </div>
+      />
     </div>
   );
 }

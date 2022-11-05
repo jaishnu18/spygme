@@ -74,7 +74,7 @@ function GradedWriteExpressionGame(props) {
           submit={props.submit}
           value={props.value}
           examDuration={900}
-          evaluatedAnswer={evaluatedAnswer}
+          evaluatedAnswer={props.evaluatedAnswer}
           {...props}
         />
       </Col>

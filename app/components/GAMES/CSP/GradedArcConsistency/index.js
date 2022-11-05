@@ -91,7 +91,7 @@ function GradedArcConsistency(props) {
           levels={props.maxLevel}
           setCurrentLevel={props.setCurrentLevel}
           examDuration={600}
-          evaluatedAnswer={evaluatedAnswer}
+          evaluatedAnswer={props.evaluatedAnswer}
           submit={props.submit}
           {...props}
         />

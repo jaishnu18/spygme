@@ -38,7 +38,7 @@ function GradedCrosswordBacktrackingGame(props) {
           submit={props.submit}
           value={props.value}
           examDuration={1200}
-          evaluatedAnswer={evaluatedAnswer}
+          evaluatedAnswer={props.evaluatedAnswer}
           {...props}
         />
       </Col>
