@@ -161,8 +161,17 @@ function Footer() {
             </Link>
           </Col>
         </Row>
-        <div style={{ textAlign: 'center', marginTop: '32px' }}>
-          <P color={WHITE}>&copy; 2022 AI4Schools</P>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginTop: '32px',
+            width: '100%',
+            color: 'white',
+            fontSize: '18px',
+          }}
+        >
+          &copy; 2022 AI4Schools
         </div>
       </Section>
     </footer>

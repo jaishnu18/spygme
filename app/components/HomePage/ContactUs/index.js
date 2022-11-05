@@ -22,6 +22,37 @@ import Form from 'antd/lib/form';
 import Input from 'antd/lib/input';
 import useMediaQuery from '../../../utils/useMediaQuery';
 
+const List = styled.div`
+  border-bottom: 1px solid grey;
+  widht: 100px;
+  display: flex;
+  padding: 8px;
+  margin-bottom: ${props => props.marginbottom || '16px'};
+`;
+
+const Info = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-left: 12px;
+`;
+const ContactInput = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  margin-top: ${props => !props.isDesktop && '20px'} !important;
+  padding: 24px;
+  display: flex;
+  height: 100%;
+  width: 100% !important;
+  flex-direction: column;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+  ::placeholder {
+    color: red !important;
+    opacity: 1 !important;
+  }
+`;
+
 function ContactUs() {
   const isDesktop = useMediaQuery('(min-width: 960px)');
 
@@ -141,34 +172,3 @@ function ContactUs() {
 ContactUs.propTypes = {};
 
 export default memo(ContactUs);
-
-const List = styled.div`
-  border-bottom: 1px solid grey;
-  widht: 100px;
-  display: flex;
-  padding: 8px;
-  margin-bottom: ${props => props.marginbottom || '16px'};
-`;
-
-const Info = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-left: 12px;
-`;
-const ContactInput = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  margin-top: ${props => !props.isDesktop && '20px'} !important;
-  padding: 24px;
-  display: flex;
-  height: 100%;
-  width: 100% !important;
-  flex-direction: column;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-
-  ::placeholder {
-    color: red !important;
-    opacity: 1 !important;
-  }
-`;

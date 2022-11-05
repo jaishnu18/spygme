@@ -42,7 +42,7 @@ import { sendMessageStart } from './actions';
 import FaqSection from '../../components/HomePage/FaqSection';
 import Footer from '../../components/Footer';
 import ContactUs from '../../components/HomePage/ContactUs';
-// import AboutUs from '../../components/HomePage/AboutUs';
+import AboutUs from '../../components/HomePage/AboutUs';
 import OurTeam from '../../components/HomePage/OurTeam';
 
 const { Panel } = Collapse;
@@ -77,13 +77,11 @@ export function HomePage(props) {
         <title>HomePage</title>
         <meta name="description" content="Description of HomePage" />
       </Helmet>
-      <Section padding="0px">
-        <Welcome />
-        {/* <AboutUs /> */}
-        <OurTeam />
-        <ContactUs />
-        <Footer />
-      </Section>
+      <Welcome />
+      <AboutUs />
+      <OurTeam />
+      <ContactUs querySubmit={querySubmit} />
+      <Footer />
     </div>
   );
 }

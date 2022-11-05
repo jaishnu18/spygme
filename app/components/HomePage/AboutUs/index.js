@@ -11,9 +11,9 @@ import styled from 'styled-components';
 import Timeline from 'antd/lib/timeline';
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
-import useMediaQuery from '../../../utils/useMediaQuery';
 import H1 from 'components/atoms/H1';
 import P from 'components/atoms/P';
+import useMediaQuery from '../../../utils/useMediaQuery';
 
 function AboutUs() {
   const isDesktop = useMediaQuery('(min-width: 960px)');
