@@ -1,0 +1,67 @@
+{
+  "icons": [
+    {
+      "src": "/icon_180x180.59991f95b688da8399641f2a6db59a5b.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon_167x167.17db1565ce73e461fcde60e328593fbc.png",
+      "sizes": "167x167",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon_152x152.3d40b85f7ac1cc9044fb5f8cd308e900.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon_120x120.dfc54ae007d4136cb1301951ad30323e.png",
+      "sizes": "120x120",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon_512x512.eb40e39c99f389d51e8a6813db4f1c88.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon_384x384.01d4cfcafc0117d6c9beea555d9c3376.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon_192x192.75268e5ebf3eccfc2bcc1549cf39e806.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon_144x144.e6767b69e83c4ef23515d3906b0d166f.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon_128x128.eb7070a291beaa3259fb2ab03c12c224.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon_96x96.aad29e45e0ab0fba85d4d6a65adb66c6.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon_72x72.7d7ed712b2b4aaefc577816e1265d6ca.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    }
+  ],
+  "name": "AI For Schools",
+  "short_name": "AI For Schools",
+  "orientation": "portrait",
+  "display": "standalone",
+  "start_url": ".",
+  "description": "AI For Schools",
+  "background_color": "#fafafa",
+  "theme_color": "#b1624d"
+}
