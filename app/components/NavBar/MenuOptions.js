@@ -19,12 +19,7 @@ const LoggedOutOptions = () => [
   {
     label: HOME,
     url: '/',
-    icon: '',
-  },
-  {
-    label: ABOUT_US,
-    url: '/about/us',
-    icon: '',
+    icon: HomeIcon,
   },
   {
     label: 'Sign In',

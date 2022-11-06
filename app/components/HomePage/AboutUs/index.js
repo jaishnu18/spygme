@@ -19,7 +19,7 @@ function AboutUs() {
   const isDesktop = useMediaQuery('(min-width: 960px)');
 
   return (
-    <Row justify="center">
+    <Row id="about" justify="center">
       <Col xs={{ span: 24 }} xl={{ span: 16 }}>
         <H1
           margin={isDesktop ? '40' : '20'}

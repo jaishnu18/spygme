@@ -3,14 +3,18 @@
 /* eslint-disable no-restricted-globals */
 
 export function getHighlightedIndexLoggedIn(location) {
-  console.log(location);
   switch (location) {
+    case '/my/stats':
+      return '5';
     case '/my/profile':
+      return '4';
+    case '/discuss':
       return '3';
     case '/topics':
       return '2';
     case '/dashboard':
-      console.log(location);
+      return '1';
+    default:
       return '1';
   }
 }
@@ -18,9 +22,7 @@ export function getHighlightedIndexLoggedIn(location) {
 export function getHighlightedIndexLoggedOut(location) {
   switch (location) {
     case '/auth':
-      return '3';
-    case '/about':
-      return '2';
+      return '4';
     case '/':
       return '1';
   }

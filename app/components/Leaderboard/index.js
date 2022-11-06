@@ -10,6 +10,7 @@ import React, { memo, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Row from 'antd/lib/row';
+import Affix from 'antd/lib/affix';
 import Col from 'antd/lib/col';
 import H1 from 'components/atoms/H1';
 import P from 'components/atoms/P';
@@ -29,6 +30,7 @@ const Wrapper = styled(Row)`
     width: 20em;
     border-radius: 10px;
   }
+
   .description {
     display: flex;
     justify-content: space-between;
@@ -197,37 +199,38 @@ function Leaderboard(props) {
 
   console.log(input);
 
+  const getMyStats = () => (
+    <StyledDiv>
+      <H1 fontWeight="700">{props.stats.name}</H1>
+      <P style={{ margin: '4px 0 16px' }} fontWeight="700">
+        {props.stats.organisation}
+      </P>
+      {IconStats(RankIcon, 'Rank', props.stats.rank)}
+      {IconStats(
+        ScoreIcon,
+        'Overall Proficiency',
+        props.stats.overall_proficiency + '%',
+      )}
+      {IconStats(StreakIcon, 'Highest Streak', props.stats.highest_streak)}
+    </StyledDiv>
+  );
+
   return (
     <Wrapper>
-      {props.stats.role && (
-        <Col
-          xl={{ span: 8 }}
-          xs={{ span: 24 }}
-          style={{
-            borderRight: '2px solid var(--primaryColor)',
-            height: isDesktop ? 'calc(100vh - 80px)' : '100%',
-            padding: '40px',
-          }}
-        >
-          <StyledDiv>
-            <H1 fontWeight="700">{props.stats.name}</H1>
-            <P style={{ margin: '4px 0 16px' }} fontWeight="700">
-              {props.stats.organisation}
-            </P>
-            {IconStats(RankIcon, 'Rank', props.stats.rank)}
-            {IconStats(
-              ScoreIcon,
-              'Overall Proficiency',
-              props.stats.overall_proficiency + '%',
-            )}
-            {IconStats(
-              StreakIcon,
-              'Highest Streak',
-              props.stats.highest_streak,
-            )}
-          </StyledDiv>
-        </Col>
-      )}
+      <Col
+        xl={{ span: 8 }}
+        xs={{ span: 24 }}
+        style={{
+          height: isDesktop ? 'calc(100vh - 80px)' : '100%',
+          padding: '40px',
+        }}
+      >
+        {isDesktop ? (
+          <Affix offsetTop={100}>{getMyStats()}</Affix>
+        ) : (
+          getMyStats()
+        )}
+      </Col>
       <Col
         style={{
           minHeight:

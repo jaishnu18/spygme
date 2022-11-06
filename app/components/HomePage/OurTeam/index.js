@@ -18,7 +18,7 @@ import ProfileCard from './ProfileCard';
 
 function OurTeam() {
   return (
-    <StyledRow justify="center">
+    <StyledRow id="team" justify="center">
       <Col style={{ padding: '40px' }} span={24}>
         <H1
           margin="20"

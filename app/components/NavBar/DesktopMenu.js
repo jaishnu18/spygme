@@ -4,12 +4,13 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { createRef, memo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import history from 'utils/history';
 import styled from 'styled-components';
 import RunIcon from 'images/run.png';
 import Icons from 'components/IconBox';
+import { Link as ScrollLink } from 'react-scroll';
 
 import {
   getHighlightedIndexLoggedIn,
@@ -50,6 +51,7 @@ const StyledMenu = styled(Menu)`
 `;
 
 function DesktopMenu(props) {
+  const ref1 = createRef();
   if (props.AuthData.isLoggedIn) {
     return (
       <React.Fragment>
@@ -62,7 +64,7 @@ function DesktopMenu(props) {
         >
           <StyledMenu
             mode="horizontal"
-            // selectedKeys={[getHighlightedIndexLoggedIn(props.history)]}
+            selectedKeys={[getHighlightedIndexLoggedIn(props.history)]}
           >
             <Menu.Item key="1" onClick={() => history.push('/dashboard')}>
               {DASHBOARD}
@@ -100,11 +102,54 @@ function DesktopMenu(props) {
       >
         <StyledMenu
           mode="horizontal"
-          // selectedKeys={[getHighlightedIndexLoggedOut(props.history)]}
+          selectedKeys={[getHighlightedIndexLoggedOut(props.history)]}
         >
-          <Menu.Item key="1">{ABOUT_US}</Menu.Item>
-          <Menu.Item key="3">Our Team</Menu.Item>
-          <Menu.Item key="2" onClick={() => history.push('/auth')}>
+          <Menu.Item key="1">
+            <ScrollLink
+              ref={ref1}
+              activeClass="active"
+              to="about"
+              spy
+              smooth
+              offset={-50}
+              duration={500}
+              style={{ color: 'white' }}
+              onClick={() => {
+                history.push('/');
+              }}
+            >
+              {ABOUT_US}
+            </ScrollLink>
+          </Menu.Item>
+          <Menu.Item key="2">
+            <ScrollLink
+              activeClass="active"
+              to="team"
+              spy
+              smooth
+              offset={-20}
+              duration={500}
+              style={{ color: 'white' }}
+              onClick={() => history.push('/')}
+            >
+              Our Team
+            </ScrollLink>
+          </Menu.Item>
+          <Menu.Item key="3">
+            <ScrollLink
+              activeClass="active"
+              to="contact"
+              spy
+              smooth
+              offset={-10}
+              duration={500}
+              style={{ color: 'white' }}
+              onClick={() => history.push('/')}
+            >
+              Contact Us
+            </ScrollLink>
+          </Menu.Item>
+          <Menu.Item key="4" onClick={() => history.push('/auth')}>
             Sign In
           </Menu.Item>
         </StyledMenu>

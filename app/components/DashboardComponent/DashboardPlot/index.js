@@ -13,12 +13,13 @@ import useMediaQuery from '../../../utils/useMediaQuery';
 
 function DashboardPlot(props) {
   const isDesktop = useMediaQuery('(min-width: 960px)');
+  console.log(props.dashboard.overall_progress);
 
   const data = [
     {
       city: 'You Lie Here',
-      Progress: parseInt(props.dashboard.overall_proficiency),
-      Proficiency: parseInt(props.dashboard.overall_progress),
+      Progress: parseInt(props.dashboard.overall_progress) * 100,
+      Proficiency: parseInt(props.dashboard.overall_proficiency) * 100,
       Intensity: 6000,
     },
   ];
@@ -36,8 +37,8 @@ function DashboardPlot(props) {
     shape: 'circle',
     pointStyle: {
       fill: '#D6E3FD',
-      fillOpacity: 0.6,
-      stroke: '#6d9bf9',
+      fillOpacity: 0.8,
+      stroke: 'var(--primaryColor)',
     },
     tooltip: {
       showMarkers: true,

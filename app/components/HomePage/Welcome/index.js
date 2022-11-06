@@ -94,9 +94,9 @@ function Welcome(props) {
               style={{
                 color: 'var(--bgColor)',
               }}
-              to="/order/create"
+              to="/auth"
             >
-              Start Learning{' '}
+              Start Learning
             </Link>
           </Button>
         </div>

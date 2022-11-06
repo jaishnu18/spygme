@@ -57,7 +57,7 @@ function ContactUs() {
   const isDesktop = useMediaQuery('(min-width: 960px)');
 
   return (
-    <Row justify="center">
+    <Row id="contact" justify="center">
       <Col style={{ padding: '40px' }} span={24}>
         <H1
           margin="20"
