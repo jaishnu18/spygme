@@ -166,6 +166,13 @@ function NavigationBar(props) {
               height: 'fit-content',
             }}
             shape="circle"
+            onClick={e => {
+              if (props.readingMaterial) {
+                // apiCall
+                e.preventDefault();
+                props.backToMaterials();
+              }
+            }}
           >
             {/* {props.prevPageText} */}
             <Icons size="30px" src={BackImage} />

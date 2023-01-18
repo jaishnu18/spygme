@@ -1,10 +1,7 @@
 /**
- *
- * H1
- *
+ * H1 Component
  */
 import styled from 'styled-components';
-
 export default styled.h1`
   line-height: ${props => (props.lineheight ? props.lineheight : '26pt')};
   letter-spacing: 0;

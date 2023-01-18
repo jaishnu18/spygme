@@ -46,7 +46,7 @@ const LoggedInOptions = () => [
   },
   {
     label: LEADERBOARD,
-    url: '/leaderboard',
+    url: '/my/stats',
     icon: ServicesIcon,
   },
   {

@@ -44,12 +44,27 @@ export function StatisticsPage() {
         <title>StatisticsPage</title>
         <meta name="description" content="Description of StatisticsPage" />
       </Helmet>
-      {leaderboard && (
+      {leaderboard && !leaderboard.roleNotSelected ? (
         // <StatisticsPageComponent leaderboard={leaderboard.allStudents} />
         <Leaderboard
           leaderboard={leaderboard.allStudents}
           stats={leaderboard}
         />
+      ) : (
+        <React.Fragment>
+          <h1
+            style={{
+              marginTop: '10%',
+              textAlign: 'center',
+              fontWeight: 'bold',
+            }}
+          >
+            ROLE NOT SELECTED
+          </h1>
+          <h3 style={{ textAlign: 'center' }}>
+            Please visit your profile and select your role to view Leaderboard!
+          </h3>
+        </React.Fragment>
       )}
     </div>
   );

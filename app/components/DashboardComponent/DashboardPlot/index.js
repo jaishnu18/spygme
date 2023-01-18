@@ -13,13 +13,13 @@ import useMediaQuery from '../../../utils/useMediaQuery';
 
 function DashboardPlot(props) {
   const isDesktop = useMediaQuery('(min-width: 960px)');
-  console.log(props.dashboard.overall_progress);
+  console.log(props.dashboard);
 
   const data = [
     {
       city: 'You Lie Here',
-      Progress: parseInt(props.dashboard.overall_progress) * 100,
-      Proficiency: parseInt(props.dashboard.overall_proficiency) * 100,
+      Progress: parseFloat(props.dashboard.overall_progress) * 100,
+      Proficiency: parseFloat(props.dashboard.overall_proficiency) * 100,
       Intensity: 6000,
     },
   ];

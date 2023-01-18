@@ -45,8 +45,7 @@ export function ReadingMaterialPage(props) {
 
   useEffect(() => {
     if (timeRecorded) {
-      if (goBack)
-        window.location.href = `/concept/${topicId}/${conceptId}`;
+      if (goBack) window.location.href = `/concept/${topicId}/${conceptId}`;
     }
   }, [props.readingMaterialPage]);
   useEffect(() => {
@@ -82,7 +81,7 @@ export function ReadingMaterialPage(props) {
     props.getnextItem(response);
   };
 
-  console.log(readingMaterialContent)
+  console.log(readingMaterialContent);
 
   return (
     <div>
