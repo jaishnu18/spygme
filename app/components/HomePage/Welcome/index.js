@@ -32,6 +32,7 @@ const Wrapper = styled(Row)`
       transform: translatey(0px);
     }
   }
+  position: aboslute;
 
   .rocket {
     transform: translatey(0px);
