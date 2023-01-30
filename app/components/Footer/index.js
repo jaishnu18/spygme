@@ -28,6 +28,8 @@ const IconsWrapper = styled.div`
     margin-left: 20px;
   }
 `;
+// current date
+const currdate = new Date().getFullYear();
 
 function Footer() {
   return (
@@ -122,12 +124,15 @@ function Footer() {
         <Row gutter={[32, 20]}>
           <Col sm={{ span: 12 }} lg={{ span: 6 }} xl={{ span: 6, offset: 2 }}>
             <H3 color={WHITE}>Info</H3>
-            <Link to="/contact-us">
+            <Link to="team">
               <P color={WHITE}>Contact Us</P>
             </Link>
             {/* <P color={WHITE}>Pricing</P> */}
             {/* <P color={WHITE}>Our Writers</P> */}
-            <P color={WHITE}>FAQ</P>
+            <Link to="/discuss">
+              <P color={WHITE}>FAQ</P>
+            </Link>
+
             {/* <P color={WHITE}>Progressive Delivery</P> */}
             {/* <P color={WHITE}>Blog</P> */}
           </Col>
@@ -156,7 +161,7 @@ function Footer() {
 
             {/* <P color={WHITE}>Revision Policy</P>
              <P color={WHITE}>Cookie Policy</P> */}
-            <Link to="/policy/social-responsibility-policy">
+            <Link /* to="/policy/social-responsibility-policy" */ to="/discuss">
               <P color={WHITE}>FAQ</P>
             </Link>
           </Col>
@@ -171,7 +176,7 @@ function Footer() {
             fontSize: '18px',
           }}
         >
-          &copy; 2022 AI4Schools
+          &copy; {currdate} AI4Schools
         </div>
       </Section>
     </footer>
