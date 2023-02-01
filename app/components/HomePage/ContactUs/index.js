@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -18,8 +18,8 @@ import Icons from 'components/IconBox';
 import LocationIcon from 'images/location.png';
 import ContactIcon from 'images/contact.png';
 import EmailIcon from 'images/email.png';
-import Form from 'antd/lib/form';
 import Input from 'antd/lib/input';
+import message from 'antd/lib/message';
 import useMediaQuery from '../../../utils/useMediaQuery';
 
 const List = styled.div`
@@ -55,6 +55,10 @@ const ContactInput = styled.div`
 
 function ContactUs() {
   const isDesktop = useMediaQuery('(min-width: 960px)');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [text, setText] = useState('');
+  const [subject, setSubject] = useState('');
 
   return (
     <Row id="contact" justify="center">
@@ -132,6 +136,8 @@ function ContactUs() {
               <Input
                 style={{ width: isDesktop ? '55%' : '100%' }}
                 placeholder="Your Name"
+                value={name}
+                onChange={e => setName(e.target.value)}
               />
               <Input
                 style={{
@@ -140,14 +146,22 @@ function ContactUs() {
                   marginTop: !isDesktop && '12px',
                 }}
                 placeholder="Your Email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
               />
             </div>
             <div style={{ margin: '20px 0' }}>
-              <Input placeholder="Subject" />
+              <Input
+                placeholder="Subject"
+                value={subject}
+                onChange={e => setSubject(e.target.value)}
+              />
             </div>
             <Input.TextArea
               style={{ height: 'calc(100% - 80px)' }}
               placeholder="Message"
+              value={text}
+              onChange={e => setText(e.target.value)}
             />
           </ContactInput>
         </Col>
@@ -159,6 +173,16 @@ function ContactUs() {
               backgroundColor: 'var(--primaryColor)',
               margin: '40px 40px 0 0',
               color: 'var(--bgColor)',
+            }}
+            disabled={
+              !name.length || !email.length || !subject.length || !text.length
+            }
+            onClick={() => {
+              message.success(
+                `Your Query has been recorded. We'll get back to you as soon as possible.
+                Thank You!`,
+                3,
+              );
             }}
           >
             Submit

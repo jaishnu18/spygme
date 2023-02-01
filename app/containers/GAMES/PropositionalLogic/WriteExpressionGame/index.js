@@ -43,6 +43,9 @@ export function WriteExpressionGame(props) {
   const [startTime, setStartTime] = useState(0);
   const [value, setValue] = useState('$');
   const [alreadyFeedback, setAlreadyFeedback] = useState(false);
+  const [movement, setMovement] = useState([]);
+  const [globalCoords, setGlobalCoords] = useState({ x: 0, y: 0 });
+  const [components, setComponents] = useState([]);
 
   useEffect(() => {
     props.getGameData(props.level);
@@ -95,6 +98,16 @@ export function WriteExpressionGame(props) {
     gameData.level = parseInt(props.level);
     gameData.gameId = parseInt(props.gameId);
     response.studentResponse = gameData;
+    response.movement = movement;
+    response.initial_mouse_position = globalCoords;
+    response.screen = {
+      screenWidth: window.screen.width,
+      screenHeight: window.screen.height,
+      innerWidth: window.innerWidth,
+      innerHeight: window.innerHeight,
+    };
+    response.components = components;
+    setMovement([]);
     props.checkStudentResponse(response);
   };
 
@@ -117,6 +130,10 @@ export function WriteExpressionGame(props) {
             conceptId={conceptId}
             topicId={topicId}
             saveFeedback={props.saveFeedback}
+            movement={movement}
+            setMovement={setMovement}
+            components={components}
+            setComponents={setComponents}
           />
 
           <GameComponent
@@ -130,6 +147,10 @@ export function WriteExpressionGame(props) {
             value={value}
             submitFeedback={submitFeedback}
             submitWWW={submitWWW}
+            movement={movement}
+            setMovement={setMovement}
+            components={components}
+            setComponents={setComponents}
           />
         </>
       )}

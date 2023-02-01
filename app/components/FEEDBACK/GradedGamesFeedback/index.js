@@ -41,7 +41,6 @@ const questions = [
 function GradedGamesFeedback(props) {
   const [disableWWW, setDisableWWW] = useState(false);
   const [disableFeedback, setDisableFeedback] = useState(false);
-  console.log(props);
 
   return (
     <div

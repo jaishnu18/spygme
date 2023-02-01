@@ -41,6 +41,9 @@ export function CrosswordBacktrackingTreeGame(props) {
   const [startTime, setStartTime] = useState(0);
   const [value, setValue] = useState(-1);
   const [alreadyFeedback, setAlreadyFeedback] = useState(false);
+  const [movement, setMovement] = useState([]);
+  const [globalCoords, setGlobalCoords] = useState({ x: 0, y: 0 });
+  const [components, setComponents] = useState([]);
 
   const { level } = props;
   const { gameId } = props;
@@ -87,6 +90,16 @@ export function CrosswordBacktrackingTreeGame(props) {
     gameData.level = level;
     gameData.gameId = gameId;
     response.studentResponse = gameData;
+    response.movement = movement;
+    response.initial_mouse_position = globalCoords;
+    response.screen = {
+      screenWidth: window.screen.width,
+      screenHeight: window.screen.height,
+      innerWidth: window.innerWidth,
+      innerHeight: window.innerHeight,
+    };
+    response.components = components;
+    setMovement([]);
     props.checkStudentResponse(response);
   };
 
@@ -123,6 +136,10 @@ export function CrosswordBacktrackingTreeGame(props) {
             conceptId={conceptId}
             topicId={topicId}
             saveFeedback={props.saveFeedback}
+            movement={movement}
+            setMovement={setMovement}
+            components={components}
+            setComponents={setComponents}
           />
 
           <GameComponent
@@ -134,6 +151,10 @@ export function CrosswordBacktrackingTreeGame(props) {
             value={value}
             submitFeedback={submitFeedback}
             submitWWW={submitWWW}
+            movement={movement}
+            setMovement={setMovement}
+            components={components}
+            setComponents={setComponents}
           />
         </>
       )}

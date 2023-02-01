@@ -48,6 +48,9 @@ export function DrawCrosswordGraphGame(props) {
   const [alreadyFeedback, setAlreadyFeedback] = useState(false);
   const [AcrossNodes, setAcrossNodes] = useState([]);
   const [DownNodes, setDownNodes] = useState([]);
+  const [movement, setMovement] = useState([]);
+  const [globalCoords, setGlobalCoords] = useState({ x: 0, y: 0 });
+  const [components, setComponents] = useState([]);
 
   const { level } = props;
   const { gameId } = props;
@@ -176,6 +179,16 @@ export function DrawCrosswordGraphGame(props) {
     gameData.level = level;
     gameData.gameId = gameId;
     response.studentResponse = gameData;
+    response.movement = movement;
+    response.initial_mouse_position = globalCoords;
+    response.screen = {
+      screenWidth: window.screen.width,
+      screenHeight: window.screen.height,
+      innerWidth: window.innerWidth,
+      innerHeight: window.innerHeight,
+    };
+    response.components = components;
+    setMovement([]);
     props.checkStudentResponse(response);
   };
 
@@ -214,6 +227,10 @@ export function DrawCrosswordGraphGame(props) {
             conceptId={conceptId}
             topicId={topicId}
             saveFeedback={props.saveFeedback}
+            movement={movement}
+            setMovement={setMovement}
+            components={components}
+            setComponents={setComponents}
           />
 
           <GameComponent
@@ -229,6 +246,10 @@ export function DrawCrosswordGraphGame(props) {
             DownNodes={DownNodes}
             submitWWW={submitWWW}
             submitFeedback={submitFeedback}
+            movement={movement}
+            setMovement={setMovement}
+            components={components}
+            setComponents={setComponents}
           />
         </>
       )}

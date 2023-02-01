@@ -70,17 +70,23 @@ export function GradedMatchExpressionGame(props) {
   useEffect(() => {
     if (props.state.evaluatedAnswer && !alreadyFeedback)
       message.success('Please give us your valuable feedback below!', 3);
-  }, [props.state]);
+  }, [props.state.evaluatedAnswer]);
 
   const submitWWW = values => {
+    setAlreadyFeedback(true);
+    message.success('Thanks for your feedback!', 2);
     const response = {};
     response.whatwentwrong = JSON.stringify(values);
+    response.isGraded = true;
     props.saveFeedback(response);
   };
 
   const submitFeedback = values => {
+    message.success('Thanks for your feedback!', 2);
+    setAlreadyFeedback(true);
     const response = {};
     response.feedback = JSON.stringify(values);
+    response.isGraded = true;
     props.saveFeedback(response);
   };
 

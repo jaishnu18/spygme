@@ -44,6 +44,9 @@ export function ExpressionEvaluationGame(props) {
   const [startTime, setStartTime] = useState(0);
   const [value, setValue] = useState(-1);
   const [alreadyFeedback, setAlreadyFeedback] = useState(false);
+  const [movement, setMovement] = useState([]);
+  const [globalCoords, setGlobalCoords] = useState({ x: 0, y: 0 });
+  const [components, setComponents] = useState([]);
 
   useEffect(() => {
     props.getGameData(props.level);
@@ -92,6 +95,16 @@ export function ExpressionEvaluationGame(props) {
     gameData.level = parseInt(props.level);
     gameData.gameId = parseInt(props.gameId);
     response.studentResponse = gameData;
+    response.movement = movement;
+    response.initial_mouse_position = globalCoords;
+    response.screen = {
+      screenWidth: window.screen.width,
+      screenHeight: window.screen.height,
+      innerWidth: window.innerWidth,
+      innerHeight: window.innerHeight,
+    };
+    response.components = components;
+    setMovement([]);
     props.checkStudentResponse(response);
   };
 
@@ -116,6 +129,10 @@ export function ExpressionEvaluationGame(props) {
             conceptId={conceptId}
             topicId={topicId}
             saveFeedback={props.saveFeedback}
+            movement={movement}
+            setMovement={setMovement}
+            components={components}
+            setComponents={setComponents}
           />
 
           {/* <Row style={{ width: '100%' }}>
@@ -137,6 +154,10 @@ export function ExpressionEvaluationGame(props) {
             setValue={setValue}
             submitFeedback={submitFeedback}
             submitWWW={submitWWW}
+            movement={movement}
+            setMovement={setMovement}
+            components={components}
+            setComponents={setComponents}
           />
         </>
       )}

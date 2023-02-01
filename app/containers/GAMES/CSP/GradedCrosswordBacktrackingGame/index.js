@@ -65,7 +65,6 @@ export function GradedCrosswordBacktrackingGame(props) {
     }
   }, [props.state.gameData]);
 
-
   useEffect(() => {
     if (evaluatedAnswer && !alreadyFeedback) {
       setAlreadyFeedback(true);
@@ -75,28 +74,31 @@ export function GradedCrosswordBacktrackingGame(props) {
       const args = {
         message: 'Feedback',
         description: practiceGamesFeedback,
-        duration: 0, key: 'feedback',
+        duration: 0,
+        key: 'feedback',
       };
       notification.open(args);
       if (evaluatedAnswer.score !== 1) {
         const practiceGamesFeedback = (
-          <GradedGamesFeedback whatWentWrong saveFeedback={props.saveFeedback} />
+          <GradedGamesFeedback
+            whatWentWrong
+            saveFeedback={props.saveFeedback}
+          />
         );
         const args = {
           message: 'Why you made mistake?',
           description: practiceGamesFeedback,
           duration: 0,
-          placement: 'topLeft', key: 'www'
+          placement: 'topLeft',
+          key: 'www',
         };
         notification.open(args);
       }
     }
   }, [props.state]);
 
-
-
   const { evaluatedAnswer } = props.state;
-  console.log(value);
+
   const submit = () => {
     const { gameData } = props.state;
     const response = {};
@@ -112,7 +114,6 @@ export function GradedCrosswordBacktrackingGame(props) {
     response.timeStamps = timeStamps;
     props.checkStudentResponse(response);
   };
-
 
   return (
     <div>

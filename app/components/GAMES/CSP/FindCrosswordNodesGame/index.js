@@ -27,12 +27,12 @@ import Affix from 'antd/lib/affix';
 
 import GameDescription from 'components/GameDescription';
 import TimeClock from 'components/TimeClock';
-import PracticeGameStats from '../../../PracticeGameStats';
 import H1 from 'components/atoms/H1';
 import P from 'components/atoms/P';
 import Icons from 'components/IconBox';
 import WrongIcon from 'images/Wrong.jpg';
 import RightIcon from 'images/Right.jpg';
+import PracticeGameStats from '../../../PracticeGameStats';
 import PracticeGamesFeedback from '../../../FEEDBACK/PracticeGamesFeedback';
 
 import useMediaQuery from '../../../../utils/useMediaQuery';
@@ -43,6 +43,8 @@ function FindCrosswordNodesGame(props) {
   const { evaluatedAnswer } = props;
   const [form] = Form.useForm();
   const isDesktop = useMediaQuery('(min-width: 960px)');
+
+  window.addEventListener('scroll', () => console.log('SCROLL'));
 
   const Nodes = [
     { label: 'Across Node', val: 65 },
@@ -90,7 +92,7 @@ function FindCrosswordNodesGame(props) {
     );
 
   return (
-    <Row>
+    <Row onScroll={() => console.log('Here')}>
       <Col xl={{ span: 12 }} xs={{ span: 24 }}>
         <div
           onMouseEnter={e =>

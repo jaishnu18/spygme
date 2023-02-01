@@ -44,6 +44,9 @@ export function MatchExpressionGame(props) {
   const [startTime, setStartTime] = useState(0);
   const [value, setValue] = useState(arr);
   const [alreadyFeedback, setAlreadyFeedback] = useState(false);
+  const [movement, setMovement] = useState([]);
+  const [globalCoords, setGlobalCoords] = useState({ x: 0, y: 0 });
+  const [components, setComponents] = useState([]);
 
   useEffect(() => {
     props.getGameData(props.level);
@@ -93,7 +96,19 @@ export function MatchExpressionGame(props) {
     gameData.level = parseInt(props.level);
     gameData.gameId = parseInt(props.gameId);
     response.studentResponse = gameData;
+    response.movement = movement;
+    response.initial_mouse_position = globalCoords;
+    response.screen = {
+      screenWidth: window.screen.width,
+      screenHeight: window.screen.height,
+      innerWidth: window.innerWidth,
+      innerHeight: window.innerHeight,
+    };
+    response.components = components;
+    setMovement([]);
     props.checkStudentResponse(response);
+
+    
   };
 
   const changeResponseFunction = array => {
@@ -118,6 +133,10 @@ export function MatchExpressionGame(props) {
             conceptId={conceptId}
             topicId={topicId}
             saveFeedback={props.saveFeedback}
+            movement={movement}
+            setMovement={setMovement}
+            components={components}
+            setComponents={setComponents}
           />
 
           {/* <Row style={{ width: '100%' }}>
@@ -138,6 +157,10 @@ export function MatchExpressionGame(props) {
             submitFeedback={submitFeedback}
             submitWWW={submitWWW}
             setAlreadyFeedback={setAlreadyFeedback}
+            movement={movement}
+            setMovement={setMovement}
+            components={components}
+            setComponents={setComponents}
           />
         </>
       )}

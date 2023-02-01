@@ -40,6 +40,9 @@ export function NodeConsistencyGame(props) {
   const [startTime, setStartTime] = useState(0);
   const [value, setValue] = useState(undefined);
   const [alreadyFeedback, setAlreadyFeedback] = useState(false);
+  const [movement, setMovement] = useState([]);
+  const [globalCoords, setGlobalCoords] = useState({ x: 0, y: 0 });
+  const [components, setComponents] = useState([]);
 
   const { level } = props;
   const { gameId } = props;
@@ -96,6 +99,16 @@ export function NodeConsistencyGame(props) {
     gameData.level = level;
     gameData.gameId = gameId;
     response.studentResponse = gameData;
+    response.movement = movement;
+    response.initial_mouse_position = globalCoords;
+    response.screen = {
+      screenWidth: window.screen.width,
+      screenHeight: window.screen.height,
+      innerWidth: window.innerWidth,
+      innerHeight: window.innerHeight,
+    };
+    response.components = components;
+    setMovement([]);
     props.checkStudentResponse(response);
   };
 
@@ -116,6 +129,10 @@ export function NodeConsistencyGame(props) {
             conceptId={conceptId}
             topicId={topicId}
             saveFeedback={props.saveFeedback}
+            movement={movement}
+            setMovement={setMovement}
+            components={components}
+            setComponents={setComponents}
           />
           <GameComponent
             gameData={gameData}
@@ -126,6 +143,10 @@ export function NodeConsistencyGame(props) {
             value={value}
             submitWWW={submitWWW}
             submitFeedback={submitFeedback}
+            movement={movement}
+            setMovement={setMovement}
+            components={components}
+            setComponents={setComponents}
           />
         </>
       )}

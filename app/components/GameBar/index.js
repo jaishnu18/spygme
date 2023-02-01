@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Col from 'antd/lib/col';
@@ -14,6 +14,7 @@ import H1 from 'components/atoms/H1';
 import TimeClock from 'components/TimeClock';
 import H4 from 'components/atoms/H4';
 import NavigationBar from '../NavigationBar';
+import { v4 as uuidv4 } from 'uuid';
 
 function getNextLevelLink(level) {
   const cur = window.location.href;
@@ -35,9 +36,41 @@ function GameBar(props) {
   const { topicId } = props;
   const nextLevelLink = getNextLevelLink(parseInt(props.level));
   const prevLevelLink = getPrevLevelLink(parseInt(props.level));
+  const divRef = useRef(null);
+
+  useEffect(() => {
+    if (divRef) {
+      let cssData = '';
+      const cssProperties = getComputedStyle(divRef.current);
+      for (let i = 0; i < cssProperties.length; i += 1) {
+        cssData += `${cssProperties[i]}:${cssProperties.getPropertyValue(
+          cssProperties[i],
+        )}, `;
+      }
+      const boundingRect = divRef.current.getBoundingClientRect();
+      const positionData = JSON.stringify({
+        bottom: boundingRect.bottom,
+        height: boundingRect.height,
+        left: boundingRect.left,
+        right: boundingRect.right,
+        top: boundingRect.top,
+        width: boundingRect.width,
+        x: boundingRect.x,
+        y: boundingRect.y,
+      });
+
+      const components = [...props.components];
+      components.push({
+        componentId: uuidv4(),
+        cssData,
+        positionData,
+      });
+      props.setComponents(components);
+    }
+  }, [divRef]);
 
   return (
-    <div>
+    <div ref={divRef}>
       <NavigationBar
         prevPageText="Back to materials"
         prevPageLink={`/concept/${topicId}/${conceptId}`}
