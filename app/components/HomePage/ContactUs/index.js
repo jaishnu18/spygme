@@ -41,10 +41,9 @@ const ContactInput = styled.div`
 
   margin-top: ${props => !props.isDesktop && '20px'} !important;
   padding: 24px;
-  display: flex;
   height: 100%;
   width: 100% !important;
-  flex-direction: column;
+
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
   ::placeholder {
