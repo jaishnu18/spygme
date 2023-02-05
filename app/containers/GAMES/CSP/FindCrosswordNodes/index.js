@@ -72,19 +72,6 @@ export function FindCrosswordNodes(props) {
     }
   }, [props.state.gameData]);
 
-  useEffect(() => {
-    // const handleWindowMouseMove = event => {
-    //   setGlobalCoords({
-    //     x: event.screenX,
-    //     y: event.screenY,
-    //   });
-    // };
-    // window.addEventListener('mousemove', handleWindowMouseMove);
-    // return () => {
-    //   window.removeEventListener('mousemove', handleWindowMouseMove);
-    // };
-  }, []);
-
   const { gameData } = props.state;
   const { evaluatedAnswer } = props.state;
 

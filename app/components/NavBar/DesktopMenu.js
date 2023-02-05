@@ -143,7 +143,7 @@ function DesktopMenu(props) {
               smooth
               offset={-10}
               duration={500}
-              // style={{ color: 'white' }}
+              style={{ color: 'white' }}
               onClick={() => history.push('/')}
             >
               Contact Us

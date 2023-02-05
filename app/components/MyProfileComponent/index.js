@@ -96,8 +96,8 @@ function MyProfileComponent(props) {
                       setGetSchoolStarted(true);
                     }
                     if (value >= 100000) {
-                      for (let i = 0; i < schoolList.length; i++) {
-                        if (schoolList[i].pin_code == value) {
+                      for (let i = 0; i < schoolList.length; i += 1) {
+                        if (schoolList[i].pin_code === value) {
                           filteredList.push(schoolList[i]);
                         }
                       }

@@ -29,6 +29,7 @@ import Title from 'antd/lib/typography/Title';
 import styled from 'styled-components';
 import Select from 'antd/lib/select';
 import useMediaQuery from '../../utils/useMediaQuery';
+import { useEffect } from 'react';
 const { Option } = Select;
 // import styled from 'styled-components';
 
@@ -61,7 +62,6 @@ function AuthForm(props) {
 
   const { schoolList } = props;
   const [filteredSchoolList, setFilteredSchoolList] = useState(new Array(0));
-  const [getSchoolStarted, setGetSchoolStarted] = useState(false);
   return (
     <StyledRow
       style={{
@@ -200,25 +200,24 @@ function AuthForm(props) {
                     <Form.Item
                       label="Pincode"
                       name="pincode"
-                      rules={[
-                        {
-                          required: true,
-                          message:
-                            'Please input your School/Institution pincode!',
-                        },
-                      ]}
+                      // rules={[
+                      //   {
+                      //     required: true,
+                      //     message:
+                      //       'Please input your School/Institution pincode!',
+                      //   },
+                      // ]}
                     >
                       <InputNumber
                         max={999999}
                         onChange={value => {
                           const filteredList = [];
-                          if (!schoolList && !getSchoolStarted) {
-                            props.getSchoolList();
-                            setGetSchoolStarted(true);
-                          }
                           if (value >= 100000) {
-                            for (let i = 0; i < schoolList.length; i++) {
-                              if (schoolList[i].pin_code == value) {
+                            for (let i = 0; i < schoolList.length; i += 1) {
+                              if (
+                                schoolList &&
+                                schoolList[i].pin_code === value
+                              ) {
                                 filteredList.push(schoolList[i]);
                               }
                             }
@@ -237,15 +236,17 @@ function AuthForm(props) {
                           : 'School/Institution'
                       }
                       name="organisation"
-                      rules={[
-                        {
-                          required: true,
-                          message:
-                            'Please input your School/Institution/Organisation!',
-                        },
-                      ]}
+                      extra="Please select your pincode to get school list."
+                      // rules={[
+                      //   {
+                      //     required: true,
+                      //     message:
+                      //       'Please input your School/Institution/Organisation!',
+                      //   },
+                      // ]}
                     >
                       <Select
+                        disabled={!schoolList}
                         showSearch
                         optionFilterProp="children"
                         onChange={props.onFilter}

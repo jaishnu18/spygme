@@ -28,16 +28,17 @@ export function Auth(props) {
   const [userRole, setUserRole] = useState('Student');
   const [schoolList, setSchoolList] = useState(undefined);
 
-  // useEffect(() => {
-  //   if(props.isSignedUp) {
-  //     history.push('/check-mail');
+  async function getSchoolList() {
+    const R = await api.get('/auth/get-schools');
+    setSchoolList(R.data.data);
+  }
 
-  //   }
-  // },[props.isSignedUp]);
+  useEffect(() => {
+    getSchoolList();
+  }, []);
 
   const googleSignIn = async res => {
     const gtoken = res.tokenId;
-    console.log(gtoken);
     props.signin({ gtoken });
   };
 
@@ -50,14 +51,7 @@ export function Auth(props) {
     props.signup(values);
   };
 
-  async function getSchoolList() {
-    const R = await api.get(
-      '/auth/get-schools',
-    );
-    setSchoolList(R.data.data);
-  }
-  
-  const handleError = errorInfo => { };
+  const handleError = errorInfo => {};
 
   return (
     <div>
