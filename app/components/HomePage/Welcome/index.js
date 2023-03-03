@@ -19,8 +19,9 @@ import Icons from 'components/IconBox';
 import useMediaQuery from '../../../utils/useMediaQuery';
 
 const Wrapper = styled(Row)`
-  height: ${props =>
+  ${'' /* height: ${props =>
     props.isDesktop ? 'calc(100vh - 82px)' : 'calc(100vh - 82px)'};
+  
   @keyframes float {
     0% {
       transform: translatey(0px);
@@ -31,13 +32,35 @@ const Wrapper = styled(Row)`
     100% {
       transform: translatey(0px);
     }
-  }
-  position: aboslute;
+  } 
+  
+  position: aboslute; */}
 
-  .rocket {
+  ${'' /* .rocket {
     transform: translatey(0px);
     animation: float 2.5s ease-in-out infinite;
     height: auto;
+  } */}
+
+  .rocket {
+    animation-name: floating;
+    animation-duration: 2.5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    margin-left: 30px;
+    margin-top: 5px;
+    height: auto;
+  }
+  @keyframes floating {
+    0% {
+      transform: translate(0, 0px);
+    }
+    50% {
+      transform: translate(0, 15px);
+    }
+    100% {
+      transform: translate(0, -0px);
+    }
   }
 
   h1 {
