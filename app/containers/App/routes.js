@@ -38,6 +38,7 @@ import AboutPage from 'containers/AboutPage';
 import TestNotAllowedPage from 'containers/TestNotAllowedPage';
 import ForgotPasswordPage from 'containers/ForgotPasswordPage';
 import ResetPasswordPage from 'containers/ResetPasswordPage';
+import ValidInvalidGame from 'containers/GAMES/GameTrees/ValidInvalidGame';
 import DiscussPage from '../DISCUSS/DiscussPage';
 import DiscussNewThreadPage from '../DISCUSS/DiscussNewThreadPage';
 import DiscussViewThreadPage from '../DISCUSS/DiscussViewThreadPage';
@@ -189,6 +190,21 @@ function Routes(props) {
           />
         )}
       />
+
+      {/* updated by sagar */}
+      <Route
+        exact
+        path="/valid-invalid/1/1/1/1"
+        render={({ match }) => (
+          <ValidInvalidGame
+            level={match.params.level}
+            gameId={match.params.gameId}
+            topicId={match.params.topicId}
+            conceptId={match.params.conceptId}
+          />
+        )}
+      />
+      {/* end of sagar's update */}
 
       <Route
         exact

@@ -124,7 +124,7 @@ export function FindCrosswordNodes(props) {
   return (
     <div>
       <Helmet>
-        <title>FindCrosswordNodesS</title>
+        <title>FindCrosswordNodes</title>
         <meta name="description" content="Description of FindCrosswordNodes" />
       </Helmet>
 
