@@ -50,10 +50,12 @@ export function ValidInvalidGame(props) {
   //     message.success('Please give us your valuable feedback below!', 3);
   // }, [props.state]);
 
-  // useEffect(() => {
-  //   props.getGameData(level);
-  //   start(setStartTime);
-  // }, [level]);
+  useEffect(() => {
+    props.getGameData(1);
+    start(setStartTime);
+  }, []);
+
+  console.log(props.state.gameData);
 
   // useEffect(() => {
   //   setValue({
@@ -67,7 +69,7 @@ export function ValidInvalidGame(props) {
   //   }
   // }, [props.state.gameData]);
 
-  // const { gameData } = props.state;
+  const { gameData } = props.state;
   // const { evaluatedAnswer } = props.state;
 
   // const submitWWW = values => {
@@ -123,7 +125,7 @@ export function ValidInvalidGame(props) {
             // movement={movement}
             // setMovement={setMovement}
           />
-          <ValidInvalid />
+          <ValidInvalid gameData={gameData} />
         </>
       )}
     </div>

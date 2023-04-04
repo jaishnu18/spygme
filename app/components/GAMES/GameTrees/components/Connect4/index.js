@@ -30,17 +30,24 @@ const Connect4Block = styled.div`
   height: 2vw !important;
 `;
 
-const Connect4 = () => {
+const Connect4 = ( props ) => {
+  if (props.gameData && props.gameData.length > 0) {
+    console.log('connect4', props.gameData[0].COLUMN_COUNT);
+    console.log('connect4', props.gameData[0].ROW_COUNT);
+  } else {
+    console.log('No game data available');
+  }
+
   const json = {
-    rows: 6,
+    rows: 1,
     cols: 7,
     board: [
-      [null, null, null, null, 'red', null, null],
-      [null, null, null, 'red', 'yellow', null, null],
-      [null, null, null, 'red', 'red', null, null],
-      [null, null, null, 'yellow', 'yellow', null, null],
-      [null, null, null, 'red', 'yellow', null, null],
-      [null, null, null, 'red', 'red', null, null],
+      [null, 1, null, null, 1, null, null],
+      [null, null, null, 1, 2, null, null],
+      [null, null, null, 1, 1, null, null],
+      [null, null, null, 2, 2, null, null],
+      [null, null, null, 1, 2, null, null],
+      [null, null, null, 1, 1, null, null],
     ],
   };
 
@@ -74,7 +81,11 @@ const Connect4 = () => {
       <div
         className="cell"
         style={{
-          backgroundColor: cellValue || '#ffffff',
+          backgroundColor: cellValue
+            ? cellValue === 1
+              ? 'red'
+              : 'yellow'
+            : '#ffffff',
           width: '2rem',
           height: '2rem',
           borderRadius: '50%',

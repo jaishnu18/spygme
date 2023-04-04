@@ -3,7 +3,7 @@
  * ValidInvalidGame actions
  *
  */
-
+import message from 'antd/lib/message';
 import {
   DEFAULT_ACTION,
   GET_GAME_DATA_FAILURE,
@@ -15,9 +15,6 @@ import {
   PUT_FEEDBACK_FAILURE,
   PUT_FEEDBACK_START,
   PUT_FEEDBACK_SUCCESS,
-  _START,
-  _SUCCESS,
-  _FAILURE,
 } from './constants';
 
 export function defaultAction() {
@@ -76,6 +73,7 @@ export function putFeedbackStart(payload) {
 }
 
 export function putFeedbackSuccess(payload) {
+  message.success('Feedback Recorded');
   return {
     type: PUT_FEEDBACK_SUCCESS,
     payload,
@@ -85,27 +83,6 @@ export function putFeedbackSuccess(payload) {
 export function putFeedbackFailure(err) {
   return {
     type: PUT_FEEDBACK_FAILURE,
-    payload: err,
-  };
-}
-
-export function Start(payload) {
-  return {
-    type: _START,
-    payload,
-  };
-}
-
-export function Success(payload) {
-  return {
-    type: _SUCCESS,
-    payload,
-  };
-}
-
-export function Failure(err) {
-  return {
-    type: _FAILURE,
     payload: err,
   };
 }

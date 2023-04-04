@@ -26,7 +26,7 @@ import useMediaQuery from '../../../../utils/useMediaQuery';
 function ValidInvalidGame(props) {
   const { Option } = Select;
   const { gameData } = props;
-  const { evaluatedAnswer } = props;
+  // const { evaluatedAnswer } = props;
   const isDesktop = useMediaQuery('(min-width: 960px)');
 
   return (
@@ -121,6 +121,37 @@ function ValidInvalidGame(props) {
       <div className="game-section">
         <Row>
           <Col xs={{ span: 24 }} xl={{ span: 8 }}>
+            <Connect4 gameData={gameData} />
+            <Row style={{ margin: '0 8rem 0 8rem', paddingBottom: '50px' }}>
+              <Col span={24}>
+                <div className="answer-check-section">
+                  <Form style={{ textAlign: 'center' }}>
+                    <Form.Item
+                      name="Ansewer"
+                      // label="Answer"
+                      rules={[
+                        {
+                          required: true,
+                        },
+                      ]}
+                    >
+                      <Select placeholder="Choose answer">
+                        <Option value="valid">Valid</Option>
+                        <Option value="invalid">Invalid</Option>
+                        <Option value="not_sure">Not sure</Option>
+                      </Select>
+                    </Form.Item>
+                    <Form.Item style={{ textAlign: 'center' }}>
+                      <Button type="primary" htmlType="submit">
+                        Submit
+                      </Button>
+                    </Form.Item>
+                  </Form>
+                </div>
+              </Col>
+            </Row>
+          </Col>
+          <Col xs={{ span: 24 }} xl={{ span: 8 }}>
             <Connect4 />
             <Row style={{ margin: '0 8rem 0 8rem' }}>
               <Col span={24}>
@@ -136,8 +167,9 @@ function ValidInvalidGame(props) {
                       ]}
                     >
                       <Select placeholder="Choose answer">
-                        <Option value="male">Valid</Option>
-                        <Option value="female">Invalid</Option>
+                        <Option value="valid">Valid</Option>
+                        <Option value="invalid">Invalid</Option>
+                        <Option value="not_sure">Not sure</Option>
                       </Select>
                     </Form.Item>
                     <Form.Item style={{ textAlign: 'center' }}>
@@ -168,36 +200,7 @@ function ValidInvalidGame(props) {
                       <Select placeholder="Choose answer">
                         <Option value="male">Valid</Option>
                         <Option value="female">Invalid</Option>
-                      </Select>
-                    </Form.Item>
-                    <Form.Item style={{ textAlign: 'center' }}>
-                      <Button type="primary" htmlType="submit">
-                        Submit
-                      </Button>
-                    </Form.Item>
-                  </Form>
-                </div>
-              </Col>
-            </Row>
-          </Col>
-          <Col xs={{ span: 24 }} xl={{ span: 8 }}>
-            <Connect4 />
-            <Row style={{ margin: '0 8rem 0 8rem' }}>
-              <Col span={24}>
-                <div className="answer-check-section">
-                  <Form style={{ textAlign: 'center' }}>
-                    <Form.Item
-                      name="Ansewer"
-                      // label="Answer"
-                      rules={[
-                        {
-                          required: true,
-                        },
-                      ]}
-                    >
-                      <Select placeholder="Choose answer">
-                        <Option value="male">Valid</Option>
-                        <Option value="female">Invalid</Option>
+                        <Option value="not_sure">Not sure</Option>
                       </Select>
                     </Form.Item>
                     <Form.Item style={{ textAlign: 'center' }}>

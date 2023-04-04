@@ -194,7 +194,7 @@ function Routes(props) {
       {/* updated by sagar */}
       <Route
         exact
-        path="/valid-invalid/1/1/1/1"
+        path="/valid-invalid-game/:topicId/:conceptId/:gameId/:level"
         render={({ match }) => (
           <ValidInvalidGame
             level={match.params.level}
