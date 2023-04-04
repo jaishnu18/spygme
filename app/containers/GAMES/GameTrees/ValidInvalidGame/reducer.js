@@ -34,7 +34,7 @@ const validInvalidGameReducer = (state = initialState, action) =>
       case GET_GAME_DATA_SUCCESS:
         draft.isGameDataLoading = false;
         draft.gameData = action.payload;
-        console.log(action.payload)
+        console.log(action.payload);
         break;
       case GET_GAME_DATA_FAILURE:
         draft.isGameDataLoading = false;

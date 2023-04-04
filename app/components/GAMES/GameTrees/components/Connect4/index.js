@@ -30,7 +30,7 @@ const Connect4Block = styled.div`
   height: 2vw !important;
 `;
 
-const Connect4 = ( props ) => {
+const Connect4 = props => {
   if (props.gameData && props.gameData.length > 0) {
     console.log('connect4', props.gameData[0].COLUMN_COUNT);
     console.log('connect4', props.gameData[0].ROW_COUNT);
