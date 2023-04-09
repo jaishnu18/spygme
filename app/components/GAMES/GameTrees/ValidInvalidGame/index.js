@@ -152,7 +152,7 @@ function ValidInvalidGame(props) {
             </Row>
           </Col>
           <Col xs={{ span: 24 }} xl={{ span: 8 }}>
-            <Connect4 />
+            {/* <Connect4 /> */}
             <Row style={{ margin: '0 8rem 0 8rem' }}>
               <Col span={24}>
                 <div className="answer-check-section">
@@ -183,7 +183,7 @@ function ValidInvalidGame(props) {
             </Row>
           </Col>
           <Col xs={{ span: 24 }} xl={{ span: 8 }}>
-            <Connect4 />
+            {/* <Connect4 /> */}
             <Row style={{ margin: '0 8rem 0 8rem' }}>
               <Col span={24}>
                 <div className="answer-check-section">

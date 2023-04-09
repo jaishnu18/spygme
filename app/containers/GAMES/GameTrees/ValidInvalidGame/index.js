@@ -55,7 +55,7 @@ export function ValidInvalidGame(props) {
     start(setStartTime);
   }, []);
 
-  console.log(props.state.gameData);
+  console.log('containers', props.state);
 
   // useEffect(() => {
   //   setValue({
