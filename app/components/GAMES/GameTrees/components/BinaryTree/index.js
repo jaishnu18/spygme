@@ -4,117 +4,144 @@
  *
  */
 
-import React, { useEffect, useRef, useState, memo } from 'react';
+import React, { useState } from 'react';
+import { Button } from 'antd';
 
-const Node = ({ value, left, right }) => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const nodeRef = useRef();
+const TreeNode = ({ value }) => (
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '50px',
+      height: '50px',
+      borderRadius: '50%',
+      backgroundColor: '#6ab5d6',
+      color: '#fff',
+      fontWeight: 'bold',
+      margin: '5px',
+    }}
+  >
+    {value}
+  </div>
+);
 
-  useEffect(() => {
-    if (nodeRef.current && value.parent) {
-      const parentRect = value.parent.rect;
-      const nodeRect = nodeRef.current.getBoundingClientRect();
-      const x = parentRect.left + parentRect.width / 2 - nodeRect.width / 2;
-      const y = parentRect.bottom + 20;
-      setPosition({ x, y });
-    }
-  }, [value.parent]);
+const InputNode = ({ value, onChange }) => {
+  const handleChange = e => {
+    onChange(e.target.value);
+  };
 
   return (
-    <div
-      ref={nodeRef}
+    <input
+      placeholder="?"
+      type="text"
+      value={value}
+      onChange={handleChange}
       style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '80px',
-        height: '80px',
+        width: '50px',
+        height: '50px',
         borderRadius: '50%',
-        backgroundColor: 'lightblue',
-        margin: '10px',
-        fontSize: '20px',
+        textAlign: 'center',
         fontWeight: 'bold',
-        boxShadow: '0 0 5px gray',
-        position: 'absolute',
-        left: `${position.x}px`,
-        top: `${position.y}px`,
+        margin: '5px',
+        backgroundColor: '#6ab5d6',
+        color: '#fff',
       }}
-    >
-      {value.data}
-      {left && <Node value={left} />}
-      {right && <Node value={right} />}
-    </div>
+    />
   );
 };
 
-const BinaryTree = ({ inorder }) => {
-  const [tree, setTree] = useState(null);
-  const containerRef = useRef();
+const BinaryTree = ({ nodes }) => {
+  const [guesses, setGuesses] = useState(new Array(nodes.length).fill(''));
 
-  useEffect(() => {
-    const createTree = inorder => {
-      if (inorder.length === 0) {
-        return null;
-      }
-      const mid = Math.floor(inorder.length / 2);
-      const node = { data: inorder[mid], parent: null, rect: null };
-      node.left = createTree(inorder.slice(0, mid));
-      if (node.left) {
-        node.left.parent = node;
-      }
-      node.right = createTree(inorder.slice(mid + 1));
-      if (node.right) {
-        node.right.parent = node;
-      }
-      return node;
+ 
+
+  const renderTree = (node, index) => {
+    if (!node) return null;
+    const isLeaf = !node.left && !node.right;
+
+    return (
+      <div
+        key={index}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          {isLeaf ? (
+            <TreeNode value={node.value} />
+          ) : (
+            <InputNode
+              value={guesses[index]}
+              onChange={value => {
+                const newGuesses = [...guesses];
+                newGuesses[index] = value;
+                setGuesses(newGuesses);
+              }}
+            />
+          )}
+          <div style={{ display: 'flex' }}>
+            {renderTree(node.left, 2 * index + 1)}
+            {renderTree(node.right, 2 * index + 2)}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const generateTree = (nodes, index) => {
+    if (index >= nodes.length) return null;
+    const node = nodes[index];
+    return {
+      value: node,
+      left: generateTree(nodes, 2 * index + 1),
+      right: generateTree(nodes, 2 * index + 2),
     };
+  };
 
-    const root = createTree(inorder);
-    setTree(root);
-  }, [inorder]);
+  const tree = generateTree(nodes, 0);
 
-  useEffect(() => {
-    if (tree) {
-      const layout = (node, rect) => {
-        node.rect = rect;
-        if (node.left) {
-          layout(node.left, {
-            left: rect.left - 100,
-            top: rect.bottom + 20,
-            width: rect.width / 2,
-            height: rect.height,
-          });
-        }
-        if (node.right) {
-          layout(node.right, {
-            left: rect.right + 20,
-            top: rect.bottom + 20,
-            width: rect.width / 2,
-            height: rect.height,
-          });
-        }
-      };
-      const containerRect = containerRef.current.getBoundingClientRect();
-      layout(tree, {
-        left: containerRect.left + containerRect.width / 2 - 40,
-        top: 20,
-        width: 80,
-        height: 80,
-      });
-    }
-  }, [tree]);
+  const handleGuessSubmit = () => {
+    const newGuesses = [...guesses];
+    treeTraversal(tree, (node, index) => {
+      if (!node.left && !node.right) {
+        newGuesses[index] = node.value.toString();
+      }
+    });
+    setGuesses(newGuesses);
+    alert(`Your guesses: ${newGuesses}`);
+  };
+
+  const treeTraversal = (node, callback, index = 0) => {
+    if (!node) return;
+    callback(node, index);
+    treeTraversal(node.left, callback, 2 * index + 1);
+    treeTraversal(node.right, callback, 2 * index + 2);
+  };
 
   return (
     <div
-      ref={containerRef}
-      style={{ position: 'relative', width: '100%', height: '500px' }}
+      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
     >
-      {tree && <Node value={tree} />}
+      <h1>Binary Tree</h1>
+      <div style={{ border: '1px solid black', padding: '10px' }}>
+        {renderTree(tree, 0)}
+      </div>
+      <div style={{ padding: '30px' }}>
+        <Button type="primary" htmlType="submit" onClick={handleGuessSubmit}>
+          Submit Guesses
+        </Button>
+      </div>
     </div>
   );
 };
 
-BinaryTree.propTypes = {};
-
-export default memo(BinaryTree);
+export default BinaryTree;

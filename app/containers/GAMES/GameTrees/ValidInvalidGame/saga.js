@@ -24,7 +24,7 @@ export function* getBoard(action) {
     const response = yield api.get(`/game/valid-invalid/question/${level}`, {
       headers: { Authorization: localStorage._UFT_ },
     });
-    console.log(response);
+    console.log(response.data.data);
     yield put(getGameDataSuccess(response.data.data));
   } catch (err) {
     console.log(err);

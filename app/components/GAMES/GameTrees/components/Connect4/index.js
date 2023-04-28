@@ -31,35 +31,23 @@ const Connect4Block = styled.div`
 `;
 
 const Connect4 = props => {
-  if (props.gameData && props.gameData.length > 0) {
-    console.log('connect4', props.gameData[0].COLUMN_COUNT);
-    console.log('connect4', props.gameData[0].ROW_COUNT);
-  } else {
-    console.log('No game data available');
-  }
+  const { board } = props;
 
   const json = {
-    rows: 1,
+    rows: 6,
     cols: 7,
-    board: [
-      [null, 1, null, null, 1, null, null],
-      [null, null, null, 1, 2, null, null],
-      [null, null, null, 1, 1, null, null],
-      [null, null, null, 2, 2, null, null],
-      [null, null, null, 1, 2, null, null],
-      [null, null, null, 1, 1, null, null],
-    ],
+    boards: board,
   };
 
   // const numRows = json.rows;
   // const numCols = json.cols;
-  const { board } = json;
-  const [boardState, setBoardState] = useState(board);
+  const { boards } = json;
+  const [boardsState, setboardsState] = useState(boards);
   const [player, setPlayer] = useState('red');
 
   const getFirstEmptyRow = col => {
-    for (let row = boardState.length - 1; row >= 0; row--) {
-      if (boardState[row][col] === null) {
+    for (let row = boardsState.length - 1; row >= 0; row--) {
+      if (boardsState[row][col] === null) {
         return row;
       }
     }
@@ -69,14 +57,14 @@ const Connect4 = props => {
   const dropPiece = col => {
     const row = getFirstEmptyRow(col);
     if (row === -1) return;
-    const updatedBoard = [...boardState];
-    updatedBoard[row][col] = player;
-    setBoardState(updatedBoard);
+    const updatedboards = [...boardsState];
+    updatedboards[row][col] = player;
+    setboardsState(updatedboards);
     setPlayer(player === 'red' ? 'yellow' : 'red');
   };
 
   const renderCell = (rowIndex, colIndex) => {
-    const cellValue = boardState[rowIndex][colIndex];
+    const cellValue = boardsState[rowIndex][colIndex];
     return (
       <div
         className="cell"
@@ -98,15 +86,15 @@ const Connect4 = props => {
 
   const renderRow = rowIndex => (
     <div>
-      {boardState[rowIndex].map((_, colIndex) =>
+      {boardsState[rowIndex].map((_, colIndex) =>
         renderCell(rowIndex, colIndex),
       )}
     </div>
   );
 
-  const renderBoard = () => (
+  const renderboards = () => (
     <div style={{ backgroundColor: '#6ab5d6', padding: '10px' }}>
-      {boardState.map((_, rowIndex) => renderRow(rowIndex))}
+      {boardsState.map((_, rowIndex) => renderRow(rowIndex))}
     </div>
   );
 
@@ -138,7 +126,7 @@ const Connect4 = props => {
         }}
         justify="center"
       >
-        {renderBoard()}
+        {renderboards()}
       </Row>
     </div>
   );

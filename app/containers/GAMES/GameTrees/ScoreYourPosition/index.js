@@ -4,10 +4,11 @@
  *
  */
 
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
+import { start, end } from 'utils/timerFunctions';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import GameBar from 'components/GameBar';
@@ -25,11 +26,20 @@ import {
   putFeedbackStart,
 } from './actions';
 
-export function ScoreYourPosition() {
+export function ScoreYourPosition(props) {
   useInjectReducer({ key: 'scoreYourPosition', reducer });
   useInjectSaga({ key: 'scoreYourPosition', saga });
 
-  useEffect(() => {}, []);
+  const [startTime, setStartTime] = useState(0);
+
+  useEffect(() => {
+    props.getGameData(1);
+    start(setStartTime);
+  }, []);
+
+  console.log('containers', props.state);
+
+  const { gameData } = props.state;
 
   return (
     <div>
@@ -38,7 +48,7 @@ export function ScoreYourPosition() {
         <meta name="description" content="Description of ScoreYourPosition" />
       </Helmet>
 
-      {1 && 1 && (
+      {props.state.gameData && !props.state.isResponseLoading && (
         <>
           <GameBar
             name="Score your position"
@@ -52,7 +62,7 @@ export function ScoreYourPosition() {
             // movement={movement}
             // setMovement={setMovement}
           />
-          <ScoreYourPositionGame />
+          <ScoreYourPositionGame gameData={gameData} />
         </>
       )}
     </div>

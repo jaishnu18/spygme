@@ -208,7 +208,7 @@ function Routes(props) {
 
       <Route
         exact
-        path="/score-your-position/3/11/11/1"
+        path="/score-your-position/:topicId/:conceptId/:gameId/:level"
         render={({ match }) => (
           <ScoreYourPosition
             level={match.params.level}

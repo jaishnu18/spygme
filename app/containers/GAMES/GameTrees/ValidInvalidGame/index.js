@@ -69,7 +69,9 @@ export function ValidInvalidGame(props) {
   //   }
   // }, [props.state.gameData]);
 
-  const { gameData } = props.state;
+      const { gameData } = props.state;
+      
+
   // const { evaluatedAnswer } = props.state;
 
   // const submitWWW = values => {
@@ -111,7 +113,7 @@ export function ValidInvalidGame(props) {
         <meta name="description" content="Description of ValidInvalidGame" />
       </Helmet>
 
-      {1 && 1 && (
+      {props.state.gameData && !props.state.isResponseLoading && (
         <>
           <GameBar
             name="Find Valid Invalid"
