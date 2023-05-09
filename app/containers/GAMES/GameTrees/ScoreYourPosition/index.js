@@ -11,7 +11,7 @@ import { Helmet } from 'react-helmet';
 import { start, end } from 'utils/timerFunctions';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import GameBar from 'components/GameBar';
+import GameBar from '../../../../components/GAMES/GameTrees/components/GameBar';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
@@ -31,6 +31,12 @@ export function ScoreYourPosition(props) {
   useInjectSaga({ key: 'scoreYourPosition', saga });
 
   const [startTime, setStartTime] = useState(0);
+  const [movement, setMovement] = useState([]);
+
+  const { level } = props;
+  const { gameId } = props;
+  const { conceptId } = props;
+  const { topicId } = props;
 
   useEffect(() => {
     props.getGameData(1);
@@ -52,15 +58,15 @@ export function ScoreYourPosition(props) {
         <>
           <GameBar
             name="Score your position"
-            // level={1}
+            level={level}
             // attempts={props.state.gameData.attempt}
-            // maxLevel="3"
+            maxLevel="3"
             // evaluatedAnswer={evaluatedAnswer}
-            // conceptId={conceptId}
-            // topicId={topicId}
+            conceptId={conceptId}
+            topicId={topicId}
             // saveFeedback={props.saveFeedback}
-            // movement={movement}
-            // setMovement={setMovement}
+            movement={0}
+            setMovement={setMovement}
           />
           <ScoreYourPositionGame gameData={gameData} />
         </>

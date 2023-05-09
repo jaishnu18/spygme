@@ -11,7 +11,7 @@ import { Helmet } from 'react-helmet';
 import { start, end } from 'utils/timerFunctions';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import GameBar from 'components/GameBar';
+import GameBar from '../../../../components/GAMES/GameTrees/components/GameBar';
 
 import moment from 'moment';
 import message from 'antd/lib/message';
@@ -39,10 +39,10 @@ export function ValidInvalidGame(props) {
   const [movement, setMovement] = useState([]);
   const [globalCoords, setGlobalCoords] = useState({ x: 0, y: 0 });
 
-  // const { level } = props;
-  // const { gameId } = props;
-  // const { conceptId } = props;
-  // const { topicId } = props;
+  const { level } = props;
+  const { gameId } = props;
+  const { conceptId } = props;
+  const { topicId } = props;
   // const { visitedGameData } = props;
 
   // useEffect(() => {
@@ -56,6 +56,7 @@ export function ValidInvalidGame(props) {
   }, []);
 
   console.log('containers', props.state);
+  console.log('containers props', props);
 
   // useEffect(() => {
   //   setValue({
@@ -117,15 +118,15 @@ export function ValidInvalidGame(props) {
         <>
           <GameBar
             name="Find Valid Invalid"
-            // level={1}
+            level={level}
             // attempts={props.state.gameData.attempt}
-            // maxLevel="3"
+            maxLevel="3"
             // evaluatedAnswer={evaluatedAnswer}
-            // conceptId={conceptId}
-            // topicId={topicId}
+            conceptId={conceptId}
+            topicId={topicId}
             // saveFeedback={props.saveFeedback}
-            // movement={movement}
-            // setMovement={setMovement}
+            movement={0}
+            setMovement={setMovement}
           />
           <ValidInvalid gameData={gameData} />
         </>
