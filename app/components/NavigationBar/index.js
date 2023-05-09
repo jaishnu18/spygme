@@ -297,6 +297,7 @@ function NavigationBar(props) {
               display: 'flex',
               fontWight: 700,
               alignItems: 'center',
+              marginLeft: '0.5rem',
             }}
             type="danger"
             disabled={props.evaluatedAnswer === undefined}
@@ -361,6 +362,7 @@ function NavigationBar(props) {
                 backgroundColor:
                   props.level === '1' ? 'white' : 'var(--primaryColor)',
                 color: props.level === '1' ? 'var(--primaryColor)' : 'white',
+                marginLeft: '1rem',
               }}
               icon={
                 isDesktop && (

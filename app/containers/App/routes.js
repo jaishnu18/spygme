@@ -38,6 +38,8 @@ import AboutPage from 'containers/AboutPage';
 import TestNotAllowedPage from 'containers/TestNotAllowedPage';
 import ForgotPasswordPage from 'containers/ForgotPasswordPage';
 import ResetPasswordPage from 'containers/ResetPasswordPage';
+import ValidInvalidGame from 'containers/GAMES/GameTrees/ValidInvalidGame';
+import ScoreYourPosition from 'containers/GAMES/GameTrees/ScoreYourPosition';
 import DiscussPage from '../DISCUSS/DiscussPage';
 import DiscussNewThreadPage from '../DISCUSS/DiscussNewThreadPage';
 import DiscussViewThreadPage from '../DISCUSS/DiscussViewThreadPage';
@@ -189,6 +191,34 @@ function Routes(props) {
           />
         )}
       />
+
+      {/* updated by sagar */}
+      <Route
+        exact
+        path="/valid-invalid-game/:topicId/:conceptId/:gameId/:level"
+        render={({ match }) => (
+          <ValidInvalidGame
+            level={match.params.level}
+            gameId={match.params.gameId}
+            topicId={match.params.topicId}
+            conceptId={match.params.conceptId}
+          />
+        )}
+      />
+
+      <Route
+        exact
+        path="/score-your-position/:topicId/:conceptId/:gameId/:level"
+        render={({ match }) => (
+          <ScoreYourPosition
+            level={match.params.level}
+            gameId={match.params.gameId}
+            topicId={match.params.topicId}
+            conceptId={match.params.conceptId}
+          />
+        )}
+      />
+      {/* end of sagar's update */}
 
       <Route
         exact
