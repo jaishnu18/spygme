@@ -51,7 +51,9 @@ const InputNode = ({ value, onChange }) => {
   );
 };
 
-const BinaryTree = ({ nodes }) => {
+const BinaryTree = ( props ) => {
+  const { nodes, functionToCall } = props;
+  console.log(nodes);
   const [guesses, setGuesses] = useState(new Array(nodes.length).fill(''));
 
  
@@ -117,7 +119,7 @@ const BinaryTree = ({ nodes }) => {
       }
     });
     setGuesses(newGuesses);
-    alert(`Your guesses: ${newGuesses}`);
+    functionToCall(newGuesses);
   };
 
   const treeTraversal = (node, callback, index = 0) => {

@@ -4,10 +4,10 @@
  *
  */
 
-import React, { memo, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import Col from 'antd/lib/col';
 import Row from 'antd/lib/row';
-import { Button, Form, Input, Select, Space } from 'antd';
+import { Button, Form, Input,  Alert, message, Space } from 'antd';
 import BinaryTree from '../components/BinaryTree';
 
 import PracticeGameStats from '../../../PracticeGameStats';
@@ -18,13 +18,70 @@ import useMediaQuery from '../../../../utils/useMediaQuery';
 
 function ScoreYourPosition(props) {
   const isDesktop = useMediaQuery('(min-width: 960px)');
+  const [messageApi, contextHolder] = message.useMessage();
 
   const { gameData } = props;
+  // const [arrayToCheck, setArrayToCheck] = useState([]);
+  const [existingArray, setExistingArray] = useState([]);
+
+  const [error, setError] = useState(0);
+  const [answer, setAnswer] = useState('');
+
+  let arrayToCheck = [];
+
+  const warning = () => {
+    messageApi.open({
+      type: 'warning',
+      content: 'Please fill all the Node Values',
+    });
+  };
+
+  useEffect(() => {
+    setExistingArray(gameData.question_tree);
+  }, [gameData.question_tree]);
+  console.log('exsitsting array', existingArray);
+
+  function hideError() {
+    setError(0);
+  }
+
+  function giveError() {
+    warning();
+  }
+
+  function checkArray() {
+    let rightAnswer = true;
+    for (let i = 0; i < arrayToCheck.length; i++) {
+      console.log(arrayToCheck[i]);
+      const x = parseInt(arrayToCheck[i], 10);
+      console.log(x);
+      if (arrayToCheck[i] === '') {
+        giveError();
+        break;
+      } else if (existingArray[i] === x) {
+        rightAnswer = true;
+      } else {
+        rightAnswer = false;
+        setAnswer('0');
+        break;
+      }
+      if (rightAnswer === true) setAnswer('1');
+      else setAnswer('0');
+    }
+  }
+
+  console.log('answer', answer);
+
+  function handleCheckAnswer(tree) {
+    arrayToCheck = tree;
+    checkArray();
+  }
 
   console.log('component', gameData.question_tree);
 
   return (
     <div className="main-div">
+      {contextHolder}
       <div className="level-time- section">
         <Row>
           <Col
@@ -81,7 +138,10 @@ function ScoreYourPosition(props) {
               paddingBottom: isDesktop ? '0' : '30px',
             }}
           >
-            <BinaryTree nodes={gameData.question_tree} />
+            <BinaryTree
+              nodes={gameData.question_tree}
+              functionToCall={handleCheckAnswer}
+            />
           </Col>
           <Col
             xs={{ span: 24 }}
@@ -101,6 +161,34 @@ function ScoreYourPosition(props) {
               nodes (of depth 1). In this way, you are required to reach up to
               the root of the tree.
             </P>
+            <div className="answer-section" style={{ paddingTop: '40px' }}>
+              {answer === '1' && (
+                <Row>
+                  <Col>
+                    <Space direction="vertical" style={{ width: '100%' }}>
+                      <Alert
+                        message="Your guesses are correct."
+                        type="success"
+                        showIcon
+                      />
+                    </Space>
+                  </Col>
+                </Row>
+              )}
+              {answer === '0' && (
+                <Row>
+                  <Col>
+                    <Space direction="vertical" style={{ width: '100%' }}>
+                      <Alert
+                        message="Your guesses are incorrect. Try again!"
+                        type="error"
+                        showIcon
+                      />
+                    </Space>
+                  </Col>
+                </Row>
+              )}
+            </div>
           </Col>
         </Row>
       </div>
