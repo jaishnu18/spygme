@@ -30,6 +30,7 @@ function ValidInvalidGame(props) {
 
   // chatbot
   const [active, setActive] = useState(0);
+  const [userResponse, setUserRespone] = useState();
   function handleChatbot() {
     setActive(0);
   }
@@ -40,9 +41,12 @@ function ValidInvalidGame(props) {
   const [answer, setAnswer] = useState(0);
   const [disable, setDisable] = useState(0);
 
+  console.log("userResponse", userResponse);
+
   const handleAnswer = e => {
     const getAnswer = e;
     setAnswer(getAnswer);
+    setUserRespone(parseInt(getAnswer, 10));
   };
 
   const handleSubmit = e => {
@@ -61,6 +65,7 @@ function ValidInvalidGame(props) {
   const handleAnswer1 = e => {
     const getAnswer = e;
     setAnswer1(getAnswer);
+    setUserRespone(parseInt(getAnswer, 10));
   };
   const handleSubmit1 = e => {
     e.preventDefault();
@@ -76,6 +81,7 @@ function ValidInvalidGame(props) {
   const handleAnswer2 = e => {
     const getAnswer = e;
     setAnswer2(getAnswer);
+    setUserRespone(parseInt(getAnswer, 10));
   };
   const handleSubmit2 = e => {
     e.preventDefault();
@@ -88,7 +94,11 @@ function ValidInvalidGame(props) {
 
   return (
     <div className="main-div">
-      <Chatbot isActive={active} getData={handleChatbot} />
+      <Chatbot
+        isActive={active}
+        getData={handleChatbot}
+        getResponse={userResponse}
+      />
       <div className="level-time-section">
         <Row style={{ marginBottom: '40px' }}>
           <Col

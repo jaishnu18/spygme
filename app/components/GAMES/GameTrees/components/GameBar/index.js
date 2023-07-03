@@ -80,8 +80,8 @@ function GameBar(props) {
         prevLevelLink={prevLevelLink}
         level={props.level}
         maxLevel={props.maxLevel}
-        // reportError={props.reportError}
-        // evaluatedAnswer={props.evaluatedAnswer}
+        reportError={props.reportError}
+        evaluatedAnswer={props.evaluatedAnswer}
         // saveFeedback={props.saveFeedback}
         // onMouseEnter={e =>
         //   props.setMovement([

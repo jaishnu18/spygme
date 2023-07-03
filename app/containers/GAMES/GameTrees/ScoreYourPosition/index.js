@@ -11,10 +11,11 @@ import { Helmet } from 'react-helmet';
 import { start, end } from 'utils/timerFunctions';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import GameBar from '../../../../components/GAMES/GameTrees/components/GameBar';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
+import moment from 'moment';
+import GameBar from '../../../../components/GAMES/GameTrees/components/GameBar';
 import makeSelectScoreYourPosition from './selectors';
 import ScoreYourPositionGame from '../../../../components/GAMES/GameTrees/ScoreYourPosition';
 import reducer from './reducer';
@@ -46,6 +47,22 @@ export function ScoreYourPosition(props) {
   console.log('containers', props.state);
 
   const { gameData } = props.state;
+  const { evaluatedAnswer } = props.state;
+  console.log(evaluatedAnswer);
+
+  function submit(tree) {
+    const secs = end(startTime);
+    const formatted = moment.utc(secs * 1000).format('mm:ss');
+
+    const convertedTree = tree.map(Number);
+    const studentResponse = {
+      answer_tree: convertedTree,
+      gameId: props.gameId,
+      level: props.level,
+      timeTaken: formatted,
+    };
+    props.checkStudentResponse({studentResponse});
+  }
 
   return (
     <div>
@@ -61,14 +78,18 @@ export function ScoreYourPosition(props) {
             level={level}
             // attempts={props.state.gameData.attempt}
             maxLevel="3"
-            // evaluatedAnswer={evaluatedAnswer}
+            evaluatedAnswer={evaluatedAnswer}
             conceptId={conceptId}
             topicId={topicId}
             // saveFeedback={props.saveFeedback}
             movement={0}
             setMovement={setMovement}
           />
-          <ScoreYourPositionGame gameData={gameData} />
+          <ScoreYourPositionGame
+            gameData={gameData}
+            submit={submit}
+            evaluatedAnswer={evaluatedAnswer}
+          />
         </>
       )}
     </div>
@@ -76,9 +97,9 @@ export function ScoreYourPosition(props) {
 }
 
 ScoreYourPosition.propTypes = {
-  getGameData: PropTypes.func.isRequired,
-  evaluateResponse: PropTypes.func.isRequired,
-  putFeedback: PropTypes.func.isRequired,
+  getGameData: PropTypes.func,
+  checkStudentResponse: PropTypes.func,
+  // putFeedback: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -88,7 +109,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     getGameData: payload => dispatch(getGameDataStart(payload)),
-    evaluateResponse: payload => dispatch(evaluateResponseStart(payload)),
+    checkStudentResponse: response => dispatch(evaluateResponseStart(response)),
     putFeedback: payload => dispatch(putFeedbackStart(payload)),
   };
 }

@@ -33,11 +33,26 @@ export function* getTree(action) {
   }
 }
 
+export function* evaluateAnswer(action) {
+  try {
+    const studentResponse = action.payload;
+    const response = yield api.post(
+      `/game/score-your-position/question/validate`,
+      studentResponse,
+      { headers: { Authorization: localStorage._UFT_ } },
+    );
+    yield put(evaluateResponseSuccess(response.data.data));
+  } catch (err) {
+    console.log(err);
+    yield put(evaluateResponseFailure(err.data.message));
+  }
+}
+
 // Individual exports for testing
 export default function* scoreYourPositionSaga() {
   yield all([
     takeLatest(GET_GAME_DATA_START, getTree),
-    // takeLatest(EVALUATE_RESPONSE_START, evaluateAnswer),
+    takeLatest(EVALUATE_RESPONSE_START, evaluateAnswer),
     // takeLatest(PUT_FEEDBACK_START, saveFeedback),
   ]);
 }

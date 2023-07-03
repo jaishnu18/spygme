@@ -5,22 +5,29 @@
  */
 /* eslint-disable react/prop-types */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import './chatbot.css';
 
-function Chatbot( props ) {
-  const { isActive, getData } = props;
+function Chatbot(props) {
+  const { isActive, getData, getResponse } = props;
 
-  console.log("isActive", isActive);
+  console.log('Chatbot-userResponse', typeof getResponse);
+
+  console.log('isActive', isActive);
 
   const [number, setNumber] = useState(1);
-  const [questionId, setQuestionId] = useState(1);
+  const [questionId, setQuestionId] = useState();
   const [userResponses, setUserResponses] = useState({});
   const [inputValue, setInputValue] = useState('');
 
   const [isToggle, setToggle] = useState(true);
-  console.log("isToggle", isToggle);
+  console.log('isToggle', isToggle);
+  console.log('quesID', questionId);
+
+  useEffect(() => {
+    setQuestionId(getResponse);
+  }, [getResponse]);
 
   function restQuestion() {
     setQuestionId(1);
@@ -47,8 +54,8 @@ function Chatbot( props ) {
       setQuestionId(2);
     } else if (questionId === 1 && response === '2') {
       setQuestionId(3);
-    } else if (questionId === 1 && response === '0') {
-      setQuestionId(0);
+    } else if (questionId === 1 && response === '-1') {
+      setQuestionId(-1);
       // alert("Thanks for the feedback");
     } else if (questionId === 2 && response === '1') {
       setQuestionId(14);
@@ -204,6 +211,39 @@ function Chatbot( props ) {
       </div>
       <div className="chat-body">
         <>
+          {questionId === 0 && (
+            <>
+              <div
+                style={{ display: 'flex', margin: '10px 0' }}
+                className="question"
+              >
+                Why did you mark this as invalid?
+              </div>
+              <div className="chat-option">
+                <button type="button" onClick={() => handleUserResponse('1')}>
+                  Floating Coins
+                </button>
+                <button type="button" onClick={() => handleUserResponse('2')}>
+                  Coin Imbalance(with anonymous)
+                </button>
+                <button type="button" onClick={() => handleUserResponse('3')}>
+                  Coin Imbalance(with known first move)
+                </button>
+                <button type="button" onClick={() => handleUserResponse('4')}>
+                  Coin Imbalance of -1(with known first move)
+                </button>
+                <button type="button" onClick={() => handleUserResponse('5')}>
+                  Both win situation
+                </button>
+                <button type="button" onClick={() => handleUserResponse('6')}>
+                  Opponent wins and Coin imbalance
+                </button>
+                <button type="button" onClick={() => handleUserResponse('6')}>
+                  First move player wins and Coin imbalance
+                </button>
+              </div>
+            </>
+          )}
           {questionId === 1 && (
             <>
               <div
@@ -219,7 +259,7 @@ function Chatbot( props ) {
                 <button type="button" onClick={() => handleUserResponse('2')}>
                   No Coin Imbalance
                 </button>
-                <button type="button" onClick={() => handleUserResponse('0')}>
+                <button type="button" onClick={() => handleUserResponse('-1')}>
                   Any other
                 </button>
               </div>
@@ -474,7 +514,7 @@ function Chatbot( props ) {
               </div>
             </>
           )}
-          {questionId === 0 && (
+          {questionId === -1 && (
             <>
               <div className="chat-input">
                 <form onSubmit={handleSubmit}>

@@ -7,7 +7,7 @@
 import React, { memo, useEffect, useState } from 'react';
 import Col from 'antd/lib/col';
 import Row from 'antd/lib/row';
-import { Button, Form, Input,  Alert, message, Space } from 'antd';
+import { Button, Form, Input, Alert, message, Space } from 'antd';
 import BinaryTree from '../components/BinaryTree';
 
 import PracticeGameStats from '../../../PracticeGameStats';
@@ -21,6 +21,8 @@ function ScoreYourPosition(props) {
   const [messageApi, contextHolder] = message.useMessage();
 
   const { gameData } = props;
+  const { evaluatedAnswer } = props;
+  const { submit } = props;
   // const [arrayToCheck, setArrayToCheck] = useState([]);
   const [existingArray, setExistingArray] = useState([]);
 
@@ -49,32 +51,34 @@ function ScoreYourPosition(props) {
     warning();
   }
 
-  function checkArray() {
-    let rightAnswer = true;
-    for (let i = 0; i < arrayToCheck.length; i++) {
-      console.log(arrayToCheck[i]);
-      const x = parseInt(arrayToCheck[i], 10);
-      console.log(x);
-      if (arrayToCheck[i] === '') {
-        giveError();
-        break;
-      } else if (existingArray[i] === x) {
-        rightAnswer = true;
-      } else {
-        rightAnswer = false;
-        setAnswer('0');
-        break;
-      }
-      if (rightAnswer === true) setAnswer('1');
-      else setAnswer('0');
-    }
-  }
+  // function checkArray() {
+  //   let rightAnswer = null;
+  //   for (let i = 0; i < arrayToCheck.length; i++) {
+  //     console.log(arrayToCheck[i]);
+  //     const x = parseInt(arrayToCheck[i], 10);
+  //     console.log(x);
+  //     if (arrayToCheck[i] === '') {
+  //       giveError();
+  //       break;
+  //     } else if (existingArray[i] === x) {
+  //       rightAnswer = true;
+  //       submit(arrayToCheck);
+  //     } else if (existingArray[i] !== x) {
+  //       rightAnswer = false;
+  //       setAnswer('0');
+  //       submit(arrayToCheck);
+  //       break;
+  //     }
+  //   }
+  //   if (rightAnswer === true) setAnswer('1');
+  // }
 
   console.log('answer', answer);
 
   function handleCheckAnswer(tree) {
     arrayToCheck = tree;
-    checkArray();
+    submit(tree);
+    // checkArray();
   }
 
   console.log('component', gameData.question_tree);
@@ -161,34 +165,56 @@ function ScoreYourPosition(props) {
               nodes (of depth 1). In this way, you are required to reach up to
               the root of the tree.
             </P>
-            <div className="answer-section" style={{ paddingTop: '40px' }}>
-              {answer === '1' && (
-                <Row>
-                  <Col>
-                    <Space direction="vertical" style={{ width: '100%' }}>
-                      <Alert
-                        message="Your guesses are correct."
-                        type="success"
-                        showIcon
-                      />
-                    </Space>
-                  </Col>
-                </Row>
-              )}
-              {answer === '0' && (
-                <Row>
-                  <Col>
-                    <Space direction="vertical" style={{ width: '100%' }}>
-                      <Alert
-                        message="Your guesses are incorrect. Try again!"
-                        type="error"
-                        showIcon
-                      />
-                    </Space>
-                  </Col>
-                </Row>
-              )}
-            </div>
+            {evaluatedAnswer && (
+              <div className="answer-section" style={{ paddingTop: '40px' }}>
+                {evaluatedAnswer.accuracy === 100 && (
+                  <>
+                    <Row>
+                      <Col>
+                        <Space direction="vertical" style={{ width: '100%' }}>
+                          <Alert
+                            message="Your guesses are correct."
+                            type="success"
+                            showIcon
+                          />
+                        </Space>
+                      </Col>
+                    </Row>
+                    <Row style={{ paddingTop: '30px' }}>
+                      <P>Accuracy: {evaluatedAnswer.accuracy}%</P>
+                    </Row>
+                    <Row style={{ paddingTop: '10px' }}>
+                      <P>
+                        Local Correctness: {evaluatedAnswer.local_correctness}%
+                      </P>
+                    </Row>
+                  </>
+                )}
+                {evaluatedAnswer.accuracy < 100 && (
+                  <>
+                    <Row>
+                      <Col>
+                        <Space direction="vertical" style={{ width: '100%' }}>
+                          <Alert
+                            message="Your guesses are incorrect. Try again!"
+                            type="error"
+                            showIcon
+                          />
+                        </Space>
+                      </Col>
+                    </Row>
+                    <Row style={{ paddingTop: '30px' }}>
+                      <P>Accuracy: {evaluatedAnswer.accuracy}%</P>
+                    </Row>
+                    <Row style={{ paddingTop: '10px' }}>
+                      <P>
+                        Local Correctness: {evaluatedAnswer.local_correctness}%
+                      </P>
+                    </Row>
+                  </>
+                )}
+              </div>
+            )}
           </Col>
         </Row>
       </div>
