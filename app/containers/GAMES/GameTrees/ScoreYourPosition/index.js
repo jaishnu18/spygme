@@ -61,7 +61,7 @@ export function ScoreYourPosition(props) {
       level: props.level,
       timeTaken: formatted,
     };
-    props.checkStudentResponse({studentResponse});
+    props.checkStudentResponse({ studentResponse });
   }
 
   return (

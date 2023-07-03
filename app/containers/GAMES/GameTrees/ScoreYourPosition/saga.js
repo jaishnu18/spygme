@@ -22,9 +22,12 @@ export function* getTree(action) {
   try {
     const level = action.payload;
 
-    const response = yield api.get(`/game/score-your-position/question/${level}`, {
-      headers: { Authorization: localStorage._UFT_ },
-    });
+    const response = yield api.get(
+      `/game/score-your-position/question/${level}`,
+      {
+        headers: { Authorization: localStorage._UFT_ },
+      },
+    );
     console.log(response.data.data);
     yield put(getGameDataSuccess(response.data.data));
   } catch (err) {

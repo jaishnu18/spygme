@@ -41,7 +41,7 @@ function ValidInvalidGame(props) {
   const [answer, setAnswer] = useState(0);
   const [disable, setDisable] = useState(0);
 
-  console.log("userResponse", userResponse);
+  console.log('userResponse', userResponse);
 
   const handleAnswer = e => {
     const getAnswer = e;
