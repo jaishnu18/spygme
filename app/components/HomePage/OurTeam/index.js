@@ -60,7 +60,7 @@ function OurTeam() {
           <ProfileCard
             profileUrl="https://drive.google.com/uc?export=view&id=1bGRYoZkGz2b68CYwv9fzStbIDZY61Dgw"
             heading="Prashant Jangid"
-            subHeading="Department of Industrial and Systems Engineering, IIT Kharagpur"
+            subHeading="Industrial and Systems Engineering, IIT Kharagpur"
           />
         </Col>
         <Col xs={{ span: 24 }} xl={{ span: 6 }}>
