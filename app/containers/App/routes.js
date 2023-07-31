@@ -40,6 +40,8 @@ import ForgotPasswordPage from 'containers/ForgotPasswordPage';
 import ResetPasswordPage from 'containers/ResetPasswordPage';
 import ValidInvalidGame from 'containers/GAMES/GameTrees/ValidInvalidGame';
 import ScoreYourPosition from 'containers/GAMES/GameTrees/ScoreYourPosition';
+import EntropyCalculation from 'containers/GAMES/DecisionTreeLearning/EntropyCalculation';
+import GradedEntropyCalculation from 'containers/GAMES/DecisionTreeLearning/GradedEntropyCalculation';
 import DiscussPage from '../DISCUSS/DiscussPage';
 import DiscussNewThreadPage from '../DISCUSS/DiscussNewThreadPage';
 import DiscussViewThreadPage from '../DISCUSS/DiscussViewThreadPage';
@@ -277,6 +279,19 @@ function Routes(props) {
 
       <Route
         exact
+        path="/entropy/:topicId/:conceptId/:gameId/:level"
+        render={({ match }) => (
+          <EntropyCalculation
+            level={match.params.level}
+            gameId={match.params.gameId}
+            topicId={match.params.topicId}
+            conceptId={match.params.conceptId}
+          />
+        )}
+      />
+
+      <Route
+        exact
         path="/graded-quiz/evaluate-expression/:topicId/:conceptId/:gameId"
         render={({ match }) => (
           <GradedExpressionEvaluationGame gameId={match.params.gameId} />
@@ -338,6 +353,14 @@ function Routes(props) {
         path="/graded-quiz/crossword-backtracking-tree/:topicId/:conceptId/:gameId"
         render={({ match }) => (
           <GradedCrosswordBacktrackingGame gameId={match.params.gameId} />
+        )}
+      />
+
+      <Route
+        exact
+        path="/graded-quiz/entropy/:topicId/:conceptId/:gameId"
+        render={({ match }) => (
+          <GradedEntropyCalculation gameId={match.params.gameId} />
         )}
       />
 
