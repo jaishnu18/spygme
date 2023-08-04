@@ -13,6 +13,7 @@ import Typography from 'antd/lib/typography';
 
 import PropTypes from 'prop-types';
 
+import parse from 'html-react-parser';
 import QuestionDataDownload from '../QuestionDataDownload';
 import useMediaQuery from '../../utils/useMediaQuery';
 // import styled from 'styled-components';
@@ -44,7 +45,18 @@ function GameDescription(props) {
             ])
           }
         >
-          {props.gameData.gameDescription}
+          {props.gameData.name === "EntropyCalculation" ? (
+            <span
+              style={{
+                whiteSpace: 'pre-wrap',
+                fontFamily: 'inherit',
+              }}
+            >
+              {parse(props.gameData.gameDescription)}
+            </span>) :
+            props.gameData.gameDescription
+          }
+
         </P>
       </Col>
       {props.evaluatedAnswer && (

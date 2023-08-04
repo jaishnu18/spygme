@@ -23,7 +23,7 @@ function ProfileCard(props) {
       <Card
         hoverable
         style={{
-          width: isDesktop ? '60%' : '100%',
+          width: isDesktop ? '80%' : '100%',
           boxShadow: ' rgba(0, 0, 0, 0.35) 0px 5px 15px',
         }}
         cover={
