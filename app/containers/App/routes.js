@@ -39,6 +39,7 @@ import TestNotAllowedPage from 'containers/TestNotAllowedPage';
 import ForgotPasswordPage from 'containers/ForgotPasswordPage';
 import ResetPasswordPage from 'containers/ResetPasswordPage';
 import ValidInvalidGame from 'containers/GAMES/GameTrees/ValidInvalidGame';
+import PruneSearch from 'containers/GAMES/GameTrees/PruneSearch';
 import ScoreYourPosition from 'containers/GAMES/GameTrees/ScoreYourPosition';
 import DiscussPage from '../DISCUSS/DiscussPage';
 import DiscussNewThreadPage from '../DISCUSS/DiscussNewThreadPage';
@@ -211,6 +212,19 @@ function Routes(props) {
         path="/score-your-position/:topicId/:conceptId/:gameId/:level"
         render={({ match }) => (
           <ScoreYourPosition
+            level={match.params.level}
+            gameId={match.params.gameId}
+            topicId={match.params.topicId}
+            conceptId={match.params.conceptId}
+          />
+        )}
+      />
+
+      <Route
+        exact
+        path="/prune-search/3/10/1/1"
+        render={({ match }) => (
+          <PruneSearch
             level={match.params.level}
             gameId={match.params.gameId}
             topicId={match.params.topicId}

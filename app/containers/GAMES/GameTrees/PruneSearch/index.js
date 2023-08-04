@@ -10,9 +10,10 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
+import GameBar from '../../../../components/GAMES/GameTrees/components/GameBar';
+import PruneSearchGame from '../../../../components/GAMES/GameTrees/PruneSearch';
 import makeSelectPruneSearch from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -35,6 +36,24 @@ export function PruneSearch() {
         <title>PruneSearch</title>
         <meta name="description" content="Description of PruneSearch" />
       </Helmet>
+
+      {1 && 1 && (
+        <>
+          <GameBar
+            name="Prune Search"
+            level={1}
+            // attempts={props.state.gameData.attempt}
+            maxLevel="3"
+            // evaluatedAnswer={}
+            // conceptId={1}
+            // topicId={1}
+            // saveFeedback={props.saveFeedback}
+            // movement={0}
+            // setMovement={}
+          />
+          <PruneSearchGame/>
+        </>
+      )}
     </div>
   );
 }
