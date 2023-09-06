@@ -1,0 +1,32 @@
+/*
+ *
+ * GradedWhatIsTheDecision constants
+ *
+ */
+
+export const DEFAULT_ACTION = 'app/GradedWhatIsTheDecision/DEFAULT_ACTION';
+
+export const GET_GAME_DATA_START =
+  'app/GradedWhatIsTheDecision/GET_GAME_DATA_START';
+export const GET_GAME_DATA_SUCCESS =
+  'app/GradedWhatIsTheDecision/GET_GAME_DATA_SUCCESS';
+export const GET_GAME_DATA_FAILURE =
+  'app/GradedWhatIsTheDecision/GET_GAME_DATA_FAILURE';
+
+export const EVALUATE_RESPONSE_START =
+  'app/GradedWhatIsTheDecision/EVALUATE_RESPONSE_START';
+export const EVALUATE_RESPONSE_SUCCESS =
+  'app/GradedWhatIsTheDecision/EVALUATE_RESPONSE_SUCCESS';
+export const EVALUATE_RESPONSE_FAILURE =
+  'app/GradedWhatIsTheDecision/EVALUATE_RESPONSE_FAILURE';
+
+export const PUT_FEEDBACK_START =
+  'app/GradedWhatIsTheDecision/PUT_FEEDBACK_START';
+export const PUT_FEEDBACK_SUCCESS =
+  'app/GradedWhatIsTheDecision/PUT_FEEDBACK_SUCCESS';
+export const PUT_FEEDBACK_FAILURE =
+  'app/GradedWhatIsTheDecision/PUT_FEEDBACK_FAILURE';
+
+export const _START = 'app/GradedWhatIsTheDecision/_START';
+export const _SUCCESS = 'app/GradedWhatIsTheDecision/_SUCCESS';
+export const _FAILURE = 'app/GradedWhatIsTheDecision/_FAILURE';

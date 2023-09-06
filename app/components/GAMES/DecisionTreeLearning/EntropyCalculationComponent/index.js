@@ -129,7 +129,7 @@ function EntropyCalculationComponent(props) {
           />
           {!evaluatedAnswer && (
             <div style={{ padding: '40px' }}>
-              <h2>Enter the entropy of the bucket: </h2>
+              <h2>Enter the entropy of the bucket {'(correct up to 4 decimal places)'}: </h2>
               <Form
                 form={form}
                 name={`Form-${props.ID || ''}`}

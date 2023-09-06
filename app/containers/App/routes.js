@@ -42,7 +42,19 @@ import ValidInvalidGame from 'containers/GAMES/GameTrees/ValidInvalidGame';
 import PruneSearch from 'containers/GAMES/GameTrees/PruneSearch';
 import ScoreYourPosition from 'containers/GAMES/GameTrees/ScoreYourPosition';
 import EntropyCalculation from 'containers/GAMES/DecisionTreeLearning/EntropyCalculation';
+import EvaluateIGExpression from 'containers/GAMES/DecisionTreeLearning/EvaluateIGExpression';
+import FindDecisionTreeOutput from 'containers/GAMES/DecisionTreeLearning/FindDecisionTreeOutput';
+import FindMissingNode from 'containers/GAMES/DecisionTreeLearning/FindMissingNode';
+import FindSubsetsOfFeature from 'containers/GAMES/DecisionTreeLearning/FindSubsetsOfFeature';
+import FindFeatureWithHighestIG from 'containers/GAMES/DecisionTreeLearning/FindFeatureWithHighestIG';
+import WhatIsTheDecision from 'containers/GAMES/DecisionTreeLearning/WhatIsTheDecision';
 import GradedEntropyCalculation from 'containers/GAMES/DecisionTreeLearning/GradedEntropyCalculation';
+import GradedEvaluateIgExpression from 'containers/GAMES/DecisionTreeLearning/GradedEvaluateIgExpression';
+import GradedFindDecisionTreeOutput from 'containers/GAMES/DecisionTreeLearning/GradedFindDecisionTreeOutput';
+import GradedFindMissingNode from 'containers/GAMES/DecisionTreeLearning/GradedFindMissingNode';
+import GradedFindSubsetsOfFeature from 'containers/GAMES/DecisionTreeLearning/GradedFindSubsetsOfFeature';
+import GradedFindFeatureWithHighestIg from 'containers/GAMES/DecisionTreeLearning/GradedFindFeatureWithHighestIg';
+import GradedWhatIsTheDecision from 'containers/GAMES/DecisionTreeLearning/GradedWhatIsTheDecision';
 import DiscussPage from '../DISCUSS/DiscussPage';
 import DiscussNewThreadPage from '../DISCUSS/DiscussNewThreadPage';
 import DiscussViewThreadPage from '../DISCUSS/DiscussViewThreadPage';
@@ -306,6 +318,84 @@ function Routes(props) {
 
       <Route
         exact
+        path="/evaluate-ig-expression/:topicId/:conceptId/:gameId/:level"
+        render={({ match }) => (
+          <EvaluateIGExpression
+            level={match.params.level}
+            gameId={match.params.gameId}
+            topicId={match.params.topicId}
+            conceptId={match.params.conceptId}
+          />
+        )}
+      />
+
+      <Route
+        exact
+        path="/find-decision-tree-output/:topicId/:conceptId/:gameId/:level"
+        render={({ match }) => (
+          <FindDecisionTreeOutput
+            level={match.params.level}
+            gameId={match.params.gameId}
+            topicId={match.params.topicId}
+            conceptId={match.params.conceptId}
+          />
+        )}
+      />
+
+      <Route
+        exact
+        path="/find-feature-with-highest-ig/:topicId/:conceptId/:gameId/:level"
+        render={({ match }) => (
+          <FindFeatureWithHighestIG
+            level={match.params.level}
+            gameId={match.params.gameId}
+            topicId={match.params.topicId}
+            conceptId={match.params.conceptId}
+          />
+        )}
+      />
+
+      <Route
+        exact
+        path="/find-missing-node/:topicId/:conceptId/:gameId/:level"
+        render={({ match }) => (
+          <FindMissingNode
+            level={match.params.level}
+            gameId={match.params.gameId}
+            topicId={match.params.topicId}
+            conceptId={match.params.conceptId}
+          />
+        )}
+      />
+
+      <Route
+        exact
+        path="/find-subsets-of-feature/:topicId/:conceptId/:gameId/:level"
+        render={({ match }) => (
+          <FindSubsetsOfFeature
+            level={match.params.level}
+            gameId={match.params.gameId}
+            topicId={match.params.topicId}
+            conceptId={match.params.conceptId}
+          />
+        )}
+      />
+
+      <Route
+        exact
+        path="/what-is-the-decision/:topicId/:conceptId/:gameId/:level"
+        render={({ match }) => (
+          <WhatIsTheDecision
+            level={match.params.level}
+            gameId={match.params.gameId}
+            topicId={match.params.topicId}
+            conceptId={match.params.conceptId}
+          />
+        )}
+      />
+
+      <Route
+        exact
         path="/graded-quiz/evaluate-expression/:topicId/:conceptId/:gameId"
         render={({ match }) => (
           <GradedExpressionEvaluationGame gameId={match.params.gameId} />
@@ -375,6 +465,54 @@ function Routes(props) {
         path="/graded-quiz/entropy/:topicId/:conceptId/:gameId"
         render={({ match }) => (
           <GradedEntropyCalculation gameId={match.params.gameId} />
+        )}
+      />
+
+      <Route
+        exact
+        path="/graded-quiz/find-decision-tree-output/:topicId/:conceptId/:gameId"
+        render={({ match }) => (
+          <GradedFindDecisionTreeOutput gameId={match.params.gameId} />
+        )}
+      />
+
+      <Route
+        exact
+        path="/graded-quiz/find-subsets-of-feature/:topicId/:conceptId/:gameId"
+        render={({ match }) => (
+          <GradedFindSubsetsOfFeature gameId={match.params.gameId} />
+        )}
+      />
+
+      <Route
+        exact
+        path="/graded-quiz/find-feature-with-highest-ig/:topicId/:conceptId/:gameId"
+        render={({ match }) => (
+          <GradedFindFeatureWithHighestIg gameId={match.params.gameId} />
+        )}
+      />
+
+      <Route
+        exact
+        path="/graded-quiz/evaluate-ig-expression/:topicId/:conceptId/:gameId"
+        render={({ match }) => (
+          <GradedEvaluateIgExpression gameId={match.params.gameId} />
+        )}
+      />
+
+      <Route
+        exact
+        path="/graded-quiz/find-missing-node/:topicId/:conceptId/:gameId"
+        render={({ match }) => (
+          <GradedFindMissingNode gameId={match.params.gameId} />
+        )}
+      />
+
+      <Route
+        exact
+        path="/graded-quiz/what-is-the-decision/:topicId/:conceptId/:gameId"
+        render={({ match }) => (
+          <GradedWhatIsTheDecision gameId={match.params.gameId} />
         )}
       />
 
