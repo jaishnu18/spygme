@@ -42,7 +42,7 @@ import ValidInvalidGame from 'containers/GAMES/GameTrees/ValidInvalidGame';
 import PruneSearch from 'containers/GAMES/GameTrees/PruneSearch';
 import ScoreYourPosition from 'containers/GAMES/GameTrees/ScoreYourPosition';
 import EntropyCalculation from 'containers/GAMES/DecisionTreeLearning/EntropyCalculation';
-import EvaluateIGExpression from 'containers/GAMES/DecisionTreeLearning/EvaluateIGExpression';
+import EvaluateIgExpression from 'containers/GAMES/DecisionTreeLearning/EvaluateIgExpression';
 import FindDecisionTreeOutput from 'containers/GAMES/DecisionTreeLearning/FindDecisionTreeOutput';
 import FindMissingNode from 'containers/GAMES/DecisionTreeLearning/FindMissingNode';
 import FindSubsetsOfFeature from 'containers/GAMES/DecisionTreeLearning/FindSubsetsOfFeature';
@@ -320,7 +320,7 @@ function Routes(props) {
         exact
         path="/evaluate-ig-expression/:topicId/:conceptId/:gameId/:level"
         render={({ match }) => (
-          <EvaluateIGExpression
+          <EvaluateIgExpression
             level={match.params.level}
             gameId={match.params.gameId}
             topicId={match.params.topicId}
