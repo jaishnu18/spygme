@@ -104,7 +104,7 @@ function FindFeatureWithHighestIgComponent(props) {
             props.setMovement([
               ...props.movement,
               {
-                location: 'FindFeatureWithHighestIG Component',
+                location: 'FindFeatureWithHighestIg Component',
                 timestamp: new Date(),
                 x: e.screenX,
                 y: e.screenY,

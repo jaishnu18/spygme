@@ -46,7 +46,7 @@ import EvaluateIgExpression from 'containers/GAMES/DecisionTreeLearning/Evaluate
 import FindDecisionTreeOutput from 'containers/GAMES/DecisionTreeLearning/FindDecisionTreeOutput';
 import FindMissingNode from 'containers/GAMES/DecisionTreeLearning/FindMissingNode';
 import FindSubsetsOfFeature from 'containers/GAMES/DecisionTreeLearning/FindSubsetsOfFeature';
-import FindFeatureWithHighestIG from 'containers/GAMES/DecisionTreeLearning/FindFeatureWithHighestIG';
+import FindFeatureWithHighestIg from 'containers/GAMES/DecisionTreeLearning/FindFeatureWithHighestIg';
 import WhatIsTheDecision from 'containers/GAMES/DecisionTreeLearning/WhatIsTheDecision';
 import GradedEntropyCalculation from 'containers/GAMES/DecisionTreeLearning/GradedEntropyCalculation';
 import GradedEvaluateIgExpression from 'containers/GAMES/DecisionTreeLearning/GradedEvaluateIgExpression';
@@ -346,7 +346,7 @@ function Routes(props) {
         exact
         path="/find-feature-with-highest-ig/:topicId/:conceptId/:gameId/:level"
         render={({ match }) => (
-          <FindFeatureWithHighestIG
+          <FindFeatureWithHighestIg
             level={match.params.level}
             gameId={match.params.gameId}
             topicId={match.params.topicId}

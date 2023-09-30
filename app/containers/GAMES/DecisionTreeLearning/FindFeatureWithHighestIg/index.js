@@ -13,7 +13,7 @@ import { compose } from 'redux';
 import GameBar from 'components/GameBar';
 
 import message from 'antd/lib/message';
-import GameComponent from 'components/GAMES/DecisionTreeLearning/FindFeatureWithHighestIGComponent';
+import GameComponent from 'components/GAMES/DecisionTreeLearning/FindFeatureWithHighestIgComponent';
 import { start, end } from 'utils/timerFunctions';
 import moment from 'moment';
 
