@@ -28,6 +28,7 @@ import Title from 'antd/lib/typography/Title';
 import message from 'antd/lib/message';
 import PracticeGamesFeedback from '../../../../components/FEEDBACK/PracticeGamesFeedback';
 import makeSelectExpressionEvaluationGame from './selectors';
+import VideoRecorder from 'components/VideoRecorder';
 
 import reducer from './reducer';
 import saga from './saga';
@@ -133,6 +134,14 @@ export function ExpressionEvaluationGame(props) {
             setMovement={setMovement}
             components={components}
             setComponents={setComponents}
+          />
+
+          <VideoRecorder
+            practise
+            topicId={topicId}
+            conceptId={conceptId}
+            gameId={props.gameId}
+            level={props.level}
           />
 
           {/* <Row style={{ width: '100%' }}>

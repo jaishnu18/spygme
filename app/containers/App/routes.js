@@ -72,7 +72,9 @@ import GradedEvaluateAllNodesGame from '../GAMES/PropositionalLogic/GradedEvalua
 import GradedCrosswordBacktrackingGame from '../GAMES/CSP/GradedCrosswordBacktrackingGame';
 import StatisticsPage from '../StatisticsPage';
 import PlugNPlayPage from '../PLUGNPLAY/PlugNPlayPage';
+import PrivacyPolicy from 'containers/PrivacyPolicy';
 import TeachersDashboardPage from '../TeachersDashboardPage';
+import TermsOfService from 'containers/TermsOfService';
 
 function Routes(props) {
   if (!props.AuthData.isLoggedIn) {
@@ -115,6 +117,8 @@ function Routes(props) {
           )}
         />
         <Route exact path="/forgot-password" component={ForgotPasswordPage} />
+        <Route exact path="/policy/terms-of-service" component={TermsOfService} />
+        <Route exact path="/policy/privacy-policy" component={PrivacyPolicy} />
         <Route exact path="/*" render={() => <Redirect to="auth" />} />
       </Switch>
     );
@@ -144,6 +148,8 @@ function Routes(props) {
           <DiscussViewThreadPage threadId={match.params.threadId} />
         )}
       />
+      <Route exact path="/policy/privacy-policy" component={PrivacyPolicy} />
+      <Route exact path="/policy/terms-of-service" component={TermsOfService} />
 
       <Route
         exact

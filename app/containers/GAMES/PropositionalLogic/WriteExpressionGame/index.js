@@ -29,6 +29,7 @@ import makeSelectWriteExpressionGame from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import PracticeGamesFeedback from '../../../../components/FEEDBACK/PracticeGamesFeedback';
+import VideoRecorder from 'components/VideoRecorder';
 
 import {
   getGraphStart,
@@ -134,6 +135,14 @@ export function WriteExpressionGame(props) {
             setMovement={setMovement}
             components={components}
             setComponents={setComponents}
+          />
+
+          <VideoRecorder
+            practise
+            topicId={topicId}
+            conceptId={conceptId}
+            gameId={props.gameId}
+            level={props.level}
           />
 
           <GameComponent

@@ -19,7 +19,7 @@ import message from 'antd/lib/message';
 import GameComponent from 'components/GAMES/DecisionTreeLearning/EntropyCalculationComponent';
 import { start, end } from 'utils/timerFunctions';
 import moment from 'moment';
-// import VideoRecorder from 'components/VideoRecorder';
+import VideoRecorder from 'components/VideoRecorder';
 
 import saga from './saga';
 import reducer from './reducer';
@@ -135,13 +135,13 @@ export function EntropyCalculation(props) {
             setComponents={setComponents}
           />
 
-          {/* <VideoRecorder
+          <VideoRecorder
             practise
             topicId={topicId}
             conceptId={conceptId}
             gameId={gameId}
             level={level}
-          /> */}
+          />
 
           <GameComponent
             gameData={gameData}

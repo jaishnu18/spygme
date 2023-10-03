@@ -26,6 +26,7 @@ import makeSelectMatchExpressionGame from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import notification from 'antd/lib/notification';
+import VideoRecorder from 'components/VideoRecorder';
 
 import {
   getGamesDataStart,
@@ -137,6 +138,14 @@ export function MatchExpressionGame(props) {
             setMovement={setMovement}
             components={components}
             setComponents={setComponents}
+          />
+
+          <VideoRecorder
+            practise
+            topicId={topicId}
+            conceptId={conceptId}
+            gameId={props.gameId}
+            level={props.level}
           />
 
           {/* <Row style={{ width: '100%' }}>

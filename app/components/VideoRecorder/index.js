@@ -1,14 +1,17 @@
-import { memo, useEffect, useState, useRef } from 'react';
+import React, { memo, useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import api from 'api';
+import { Link } from 'react-router-dom';
+import { Button, Modal } from 'antd';
 
-// records video and sends it to server every 5 minutes
+// records video and sends it to server every 5 seconds
 function VideoRecorder(props) {
   const mimeType = 'video/webm';
   const mediaRecorder = useRef(null);
   const [recordingStatus, setRecordingStatus] = useState('inactive');
   const [stream, setStream] = useState(null);
   const [permission, setPermission] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
   const filename = new Date().getTime().toString();
   let chunkIndex = 0;
 
@@ -100,6 +103,30 @@ function VideoRecorder(props) {
       };
     }
   }, [permission]);
+
+  useEffect(() => {
+    // localStorage.removeItem('videoFootagePopupShown');
+    setShowPopup(!localStorage.getItem('videoFootagePopupShown'));
+  }, []);
+
+  return (
+    <Modal
+      title="Permission for collecting Video Footage"
+      centered
+      visible={showPopup}
+      maskClosable={false}
+      onOk={() => {
+        localStorage.setItem('videoFootagePopupShown', true);
+        setShowPopup(false);
+      }}
+      onCancel={() => {
+        localStorage.setItem('videoFootagePopupShown', true);
+        setShowPopup(false);
+      }}
+    >
+      <p>Please carefully read the <Link to="/policy/terms-of-service" target="_blank">Terms Of Service</Link> and <Link to="/policy/privacy-policy" target="_blank">Privacy Policy</Link> before providing any video footage for research purposes to the website. By providing your footage, you acknowledge and agree to be bound by these terms.</p>
+    </Modal>
+  );
 }
 
 VideoRecorder.propTypes = {

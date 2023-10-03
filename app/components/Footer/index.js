@@ -62,7 +62,7 @@ function Footer() {
           >
             <IconsWrapper>
               <Link
-                to={{ pathname: 'http://www.fb.com/wriper' }}
+                to={{ pathname: 'http://www.fb.com/' }}
                 target="_blank"
               >
                 <Avatar
@@ -81,7 +81,7 @@ function Footer() {
                 />
               </Link>
               <Link
-                to={{ pathname: 'http://www.instagram.com/wriperassignment' }}
+                to={{ pathname: 'http://www.instagram.com/' }}
                 target="_blank"
               >
                 <Avatar
@@ -100,7 +100,7 @@ function Footer() {
                 />
               </Link>
               <Link
-                to={{ pathname: 'http://wa.me/917676901443' }}
+                to={{ pathname: 'http://wa.me/' }}
                 target="_blank"
               >
                 <Avatar
@@ -139,10 +139,10 @@ function Footer() {
 
           <Col sm={{ span: 12 }} lg={{ span: 6 }} xl={{ span: 7 }}>
             <H3 color={WHITE}>Terms</H3>
-            <Link to="/policy/terms-of-use">
-              <P color={WHITE}>Terms and conditions</P>
+            <Link to="/policy/terms-of-service">
+              <P color={WHITE}>Terms Of Service</P>
             </Link>
-            <Link to="/policy/money-back-guarantee">
+            <Link to="/policy/privacy-policy">
               <P color={WHITE}>Privacy Policy</P>
             </Link>
             <Link to="/policy/plagarism-free-guarantee">
@@ -152,7 +152,7 @@ function Footer() {
           <Col sm={{ span: 12 }} lg={{ span: 6 }} xl={{ span: 5 }}>
             <H3 color={WHITE}>Useful Links</H3>
 
-            <Link to="/policy/privacy-policy">
+            <Link to="/policy/money-back-guarantee">
               <P color={WHITE}>About Us</P>
             </Link>
             <Link to="/policy/cancellation">
