@@ -85,7 +85,7 @@ function WhatIsTheDecisionComponent(props) {
       title: label,
       dataIndex: label,
       key: label,
-    })
+    });
   }
 
   // Input Table
@@ -132,11 +132,12 @@ function WhatIsTheDecisionComponent(props) {
             }
           >
             <Table
-              style={{ padding: '0px 0px 40px 0px' }}
+              style={{ padding: '10px 0px 40px 10px', whiteSpace: 'pre' }}
               dataSource={dataSource}
               columns={columns}
               pagination={false}
               bordered={true}
+              scroll={{ x: true }}
             />
           </div>
 
@@ -194,6 +195,8 @@ function WhatIsTheDecisionComponent(props) {
             <h2>Select the final decision for the following input:</h2>
             <div>
               <Table
+                style={{ whiteSpace: 'pre' }}
+                scroll={{ x: true }}
                 dataSource={inputDataSource}
                 columns={inputColumns}
                 pagination={false}

@@ -61,10 +61,7 @@ function Footer() {
             xl={{ span: 4, offset: 12 }}
           >
             <IconsWrapper>
-              <Link
-                to={{ pathname: 'http://www.fb.com/' }}
-                target="_blank"
-              >
+              <Link to={{ pathname: 'http://www.fb.com/' }} target="_blank">
                 <Avatar
                   size={40}
                   style={{ backgroundColor: '#2666CF', margin: '0 5px 0 0' }}
@@ -99,10 +96,7 @@ function Footer() {
                   }
                 />
               </Link>
-              <Link
-                to={{ pathname: 'http://wa.me/' }}
-                target="_blank"
-              >
+              <Link to={{ pathname: 'http://wa.me/' }} target="_blank">
                 <Avatar
                   size={40}
                   style={{ backgroundColor: '#128C7E', margin: '0 5px' }}

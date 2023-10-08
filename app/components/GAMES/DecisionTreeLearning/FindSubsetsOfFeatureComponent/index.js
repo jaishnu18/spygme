@@ -106,6 +106,7 @@ function FindSubsetsOfFeatureComponent(props) {
           title: 'Color',
           dataIndex: 'color',
           key: 'color',
+          fixed: 'right',
           render: (_, record, index) => {
             return {
               props: {
@@ -140,6 +141,7 @@ function FindSubsetsOfFeatureComponent(props) {
           title: 'Remarks',
           dataIndex: 'color',
           key: 'color',
+          fixed: 'right',
           render: (_, record, index) => (
             evaluatedAnswer.evaluation[index] === 'INCORRECT' ?
               <Icons src={WrongIcon} size="40px" />
@@ -169,7 +171,7 @@ function FindSubsetsOfFeatureComponent(props) {
       <Col xl={{ span: 12 }} xs={{ span: 24 }}>
         <div
           style={{
-            padding: isDesktop ? '50px 40px 0px 40px' : '50px 0px 50px 0px',
+            padding: isDesktop ? '50px 40px 0px 40px' : '50px 10px 50px 10px',
           }}
           onMouseEnter={e =>
             props.setMovement([
@@ -184,6 +186,8 @@ function FindSubsetsOfFeatureComponent(props) {
           }
         >
           <Table
+            style={{ whiteSpace: 'pre' }}
+            scroll={{ x: true }}
             dataSource={dataSource}
             columns={columns}
             pagination={false}
@@ -192,9 +196,11 @@ function FindSubsetsOfFeatureComponent(props) {
 
           {evaluatedAnswer && answerDataSource && answerColums && (
             evaluatedAnswer.evaluation.includes('INCORRECT') ? (
-              <div style={{ paddingTop: '30px' }}>
+              <div style={{ padding: '30px 10px 0px 10px' }}>
                 <h3>Possible Answer:</h3>
                 <Table
+                  style={{ whiteSpace: 'pre' }}
+                  scroll={{ x: true }}
                   dataSource={answerDataSource}
                   columns={answerColums}
                   pagination={false}

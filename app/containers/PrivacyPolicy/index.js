@@ -12,8 +12,7 @@ import parse from 'html-react-parser';
 
 export function PrivacyPolicy() {
   const privacyPolicyContent = {
-    content:
-  `Your privacy is important to us. This Privacy Policy outlines how your personal information and/or video footage provided will be collected, used, and protected when you provide them to the website for research purposes. By providing your personal information and/or video footage, you acknowledge and agree to the practices described in this Privacy Policy. 
+    content: `Your privacy is important to us. This Privacy Policy outlines how your personal information and/or video footage provided will be collected, used, and protected when you provide them to the website for research purposes. By providing your personal information and/or video footage, you acknowledge and agree to the practices described in this Privacy Policy. 
 
 <strong>1. Collection of Information: </strong>
 
@@ -59,7 +58,7 @@ We may update this Privacy Policy from time to time to reflect changes in our pr
 <strong>9. Contact Us: </strong>
 
 If you have any questions, concerns, or requests regarding this Privacy Policy or the use of your provided personal information or the video footage, please contact us at contact@ai4schools.org.
-`
+`,
   };
 
   return (
@@ -71,7 +70,7 @@ If you have any questions, concerns, or requests regarding this Privacy Policy o
 
       <div style={{ padding: '40px' }}>
         {privacyPolicyContent && (
-          <CustomCard title={`Privacy Policy`}>
+          <CustomCard title="Privacy Policy">
             <pre
               style={{
                 whiteSpace: 'pre-wrap',

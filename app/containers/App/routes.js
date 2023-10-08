@@ -55,6 +55,8 @@ import GradedFindMissingNode from 'containers/GAMES/DecisionTreeLearning/GradedF
 import GradedFindSubsetsOfFeature from 'containers/GAMES/DecisionTreeLearning/GradedFindSubsetsOfFeature';
 import GradedFindFeatureWithHighestIg from 'containers/GAMES/DecisionTreeLearning/GradedFindFeatureWithHighestIg';
 import GradedWhatIsTheDecision from 'containers/GAMES/DecisionTreeLearning/GradedWhatIsTheDecision';
+import PrivacyPolicy from 'containers/PrivacyPolicy';
+import TermsOfService from 'containers/TermsOfService';
 import DiscussPage from '../DISCUSS/DiscussPage';
 import DiscussNewThreadPage from '../DISCUSS/DiscussNewThreadPage';
 import DiscussViewThreadPage from '../DISCUSS/DiscussViewThreadPage';
@@ -72,9 +74,7 @@ import GradedEvaluateAllNodesGame from '../GAMES/PropositionalLogic/GradedEvalua
 import GradedCrosswordBacktrackingGame from '../GAMES/CSP/GradedCrosswordBacktrackingGame';
 import StatisticsPage from '../StatisticsPage';
 import PlugNPlayPage from '../PLUGNPLAY/PlugNPlayPage';
-import PrivacyPolicy from 'containers/PrivacyPolicy';
 import TeachersDashboardPage from '../TeachersDashboardPage';
-import TermsOfService from 'containers/TermsOfService';
 
 function Routes(props) {
   if (!props.AuthData.isLoggedIn) {
@@ -117,7 +117,11 @@ function Routes(props) {
           )}
         />
         <Route exact path="/forgot-password" component={ForgotPasswordPage} />
-        <Route exact path="/policy/terms-of-service" component={TermsOfService} />
+        <Route
+          exact
+          path="/policy/terms-of-service"
+          component={TermsOfService}
+        />
         <Route exact path="/policy/privacy-policy" component={PrivacyPolicy} />
         <Route exact path="/*" render={() => <Redirect to="auth" />} />
       </Switch>

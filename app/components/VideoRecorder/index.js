@@ -11,6 +11,7 @@ function VideoRecorder(props) {
   const [recordingStatus, setRecordingStatus] = useState('inactive');
   const [stream, setStream] = useState(null);
   const [permission, setPermission] = useState(false);
+  const [policyAccepted, setPolicyAccepted] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const filename = new Date().getTime().toString();
   let chunkIndex = 0;
@@ -45,7 +46,7 @@ function VideoRecorder(props) {
     mediaRecorder.current = media;
 
     setRecordingStatus('recording');
-    mediaRecorder.current.start(5000);  // raises dataavailable event every 5 seconds
+    mediaRecorder.current.start(5000); // raises dataavailable event every 5 seconds
 
     mediaRecorder.current.ondataavailable = async event => {
       if (typeof event.data === 'undefined') return;
@@ -54,17 +55,23 @@ function VideoRecorder(props) {
       const videoBlob = event.data;
 
       // set the filename
-      const videoName = filename + '-' + chunkIndex + '.webm';
+      const videoName = `${filename}-${chunkIndex}.webm`;
       chunkIndex++;
 
       // send vdieoBlob to server here
       let path;
       if (props.readingMaterial) {
-        path = `/video/reading-material/${props.topicId}/${props.conceptId}/${props.rmId}/${videoName}`;
+        path = `/video/reading-material/${props.topicId}/${props.conceptId}/${
+          props.rmId
+        }/${videoName}`;
       } else if (props.practise) {
-        path = `/video/practise/${props.topicId}/${props.conceptId}/${props.gameId}/${props.level}/${videoName}`;
+        path = `/video/practise/${props.topicId}/${props.conceptId}/${
+          props.gameId
+        }/${props.level}/${videoName}`;
       } else if (props.graded) {
-        path = `/video/graded/${props.topicId}/${props.conceptId}/${props.gameId}/${videoName}`;
+        path = `/video/graded/${props.topicId}/${props.conceptId}/${
+          props.gameId
+        }/${videoName}`;
       } else {
         // invalid props
         console.log('VideoRecorder: Invalid props');
@@ -91,8 +98,14 @@ function VideoRecorder(props) {
   };
 
   useEffect(() => {
-    getCameraPermission();
+    setPolicyAccepted(localStorage.getItem('policyAccepted'));
+    setShowPopup(!localStorage.getItem('videoFootagePopupShown'));
   }, []);
+
+  useEffect(() => {
+    if (policyAccepted)
+      getCameraPermission();
+  }, [policyAccepted]);
 
   useEffect(() => {
     if (permission) {
@@ -104,11 +117,6 @@ function VideoRecorder(props) {
     }
   }, [permission]);
 
-  useEffect(() => {
-    // localStorage.removeItem('videoFootagePopupShown');
-    setShowPopup(!localStorage.getItem('videoFootagePopupShown'));
-  }, []);
-
   return (
     <Modal
       title="Permission for collecting Video Footage"
@@ -116,7 +124,9 @@ function VideoRecorder(props) {
       visible={showPopup}
       maskClosable={false}
       onOk={() => {
+        localStorage.setItem('policyAccepted', true);
         localStorage.setItem('videoFootagePopupShown', true);
+        setPolicyAccepted(true);
         setShowPopup(false);
       }}
       onCancel={() => {
@@ -124,7 +134,19 @@ function VideoRecorder(props) {
         setShowPopup(false);
       }}
     >
-      <p>Please carefully read the <Link to="/policy/terms-of-service" target="_blank">Terms Of Service</Link> and <Link to="/policy/privacy-policy" target="_blank">Privacy Policy</Link> before providing any video footage for research purposes to the website. By providing your footage, you acknowledge and agree to be bound by these terms.</p>
+      <p>
+        Please carefully read the{' '}
+        <Link to="/policy/terms-of-service" target="_blank">
+          Terms Of Service
+        </Link>{' '}
+        and{' '}
+        <Link to="/policy/privacy-policy" target="_blank">
+          Privacy Policy
+        </Link>{' '}
+        before providing any video footage for research purposes to the website.
+        By providing your footage, you acknowledge and agree to be bound by
+        these terms.
+      </p>
     </Modal>
   );
 }

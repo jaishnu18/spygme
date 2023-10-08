@@ -21,12 +21,14 @@ import GameDescription from 'components/GameDescription';
 import { start, end } from 'utils/timerFunctions';
 import moment from 'moment';
 import GameComponent from 'components/GAMES/PropositionalLogic/MatchExpressionGame';
+import notification from 'antd/lib/notification';
+import VideoRecorder from 'components/VideoRecorder';
+import Title from 'antd/lib/typography/Title';
+import message from 'antd/lib/message';
 import PracticeGamesFeedback from '../../../../components/FEEDBACK/PracticeGamesFeedback';
 import makeSelectMatchExpressionGame from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import notification from 'antd/lib/notification';
-import VideoRecorder from 'components/VideoRecorder';
 
 import {
   getGamesDataStart,
@@ -34,9 +36,6 @@ import {
   putFeedbackStart,
   changeResponse,
 } from './actions';
-
-import Title from 'antd/lib/typography/Title';
-import message from 'antd/lib/message';
 
 export function MatchExpressionGame(props) {
   useInjectReducer({ key: 'matchExpressionGame', reducer });
@@ -108,8 +107,6 @@ export function MatchExpressionGame(props) {
     response.components = components;
     setMovement([]);
     props.checkStudentResponse(response);
-
-    
   };
 
   const changeResponseFunction = array => {

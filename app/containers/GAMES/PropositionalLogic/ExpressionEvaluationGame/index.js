@@ -26,9 +26,9 @@ import GameComponent from 'components/GAMES/PropositionalLogic/ExpressionEvaluat
 import notification from 'antd/lib/notification';
 import Title from 'antd/lib/typography/Title';
 import message from 'antd/lib/message';
+import VideoRecorder from 'components/VideoRecorder';
 import PracticeGamesFeedback from '../../../../components/FEEDBACK/PracticeGamesFeedback';
 import makeSelectExpressionEvaluationGame from './selectors';
-import VideoRecorder from 'components/VideoRecorder';
 
 import reducer from './reducer';
 import saga from './saga';

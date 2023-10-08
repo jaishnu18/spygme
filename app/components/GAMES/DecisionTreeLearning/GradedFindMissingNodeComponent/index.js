@@ -146,7 +146,8 @@ function GradedFindMissingNodeComponent(props) {
             key={table.ID}
             style={{ display: index === currentLevel ? 'block' : 'none' }}>
             <Table
-              style={{ padding: '0px 0px 40px 0px' }}
+              style={{ padding: '0px 0px 40px 0px', whiteSpace: 'pre' }}
+              scroll={{ x: true }}
               dataSource={table.dataSource}
               columns={table.columns}
               pagination={false}

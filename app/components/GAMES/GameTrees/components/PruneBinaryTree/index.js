@@ -26,7 +26,7 @@ const TreeNode = ({ value }) => (
   </div>
 );
 
-const PruneBinaryTree = (props) => {
+const PruneBinaryTree = props => {
   const { tree } = props;
   const [selectedEdges, setSelectedEdges] = useState([]);
   console.log('selected edges', selectedEdges);
@@ -84,7 +84,7 @@ const PruneBinaryTree = (props) => {
     );
   };
 
-  const renderEdges = (root) => {
+  const renderEdges = root => {
     if (!root) return [];
 
     const queue = [root];
@@ -115,9 +115,13 @@ const PruneBinaryTree = (props) => {
     return { edges, edgeNumberMap };
   };
 
-  const handleEdgeClick = (edge) => {
+  const handleEdgeClick = edge => {
     if (selectedEdges.includes(edgeNumberMap[edge])) {
-      setSelectedEdges(selectedEdges.filter((selectedEdge) => selectedEdge !== edgeNumberMap[edge]));
+      setSelectedEdges(
+        selectedEdges.filter(
+          selectedEdge => selectedEdge !== edgeNumberMap[edge],
+        ),
+      );
     } else {
       setSelectedEdges([...selectedEdges, edgeNumberMap[edge]]);
     }
@@ -126,12 +130,20 @@ const PruneBinaryTree = (props) => {
   const { edges, edgeNumberMap } = renderEdges(tree);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div
+      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+    >
       <h1>Prune Binary Tree</h1>
       <div style={{ border: '1px solid black', padding: '10px' }}>
         {renderTree(tree, 0, 1)}
       </div>
-      <div style={{ border: '1px solid black', padding: '10px', marginTop: '10px' }}>
+      <div
+        style={{
+          border: '1px solid black',
+          padding: '10px',
+          marginTop: '10px',
+        }}
+      >
         <h3>Edge Selection:</h3>
         <div>
           {edges.map((edge, index) => (
@@ -140,7 +152,9 @@ const PruneBinaryTree = (props) => {
               style={{
                 display: 'inline-block',
                 margin: '5px',
-                backgroundColor: selectedEdges.includes(edgeNumberMap[edge]) ? '#ff0000' : '#6ab5d6',
+                backgroundColor: selectedEdges.includes(edgeNumberMap[edge])
+                  ? '#ff0000'
+                  : '#6ab5d6',
                 color: '#fff',
                 fontWeight: 'bold',
                 padding: '3px 8px',

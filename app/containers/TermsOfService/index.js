@@ -12,8 +12,7 @@ import parse from 'html-react-parser';
 
 export function TermsOfService() {
   const termsOfServiceContent = {
-    content:
-      `<strong>1. Grant of License:  </strong>
+    content: `<strong>1. Grant of License:  </strong>
 
 By providing your video footage to the website, you grant the website a non-exclusive, worldwide, royalty-free, and transferable license to use, reproduce, distribute, modify, create derivative works, and publicly display the footage for research purposes. This license allows the website to use the footage solely for academic, scientific, or research-related activities. 
 
@@ -70,7 +69,7 @@ Your provision of footage to the website for research purposes is subject to the
 These Terms of Service shall be governed by and construed in accordance with the laws of India, without regard to its conflicts of law principles. 
 
 By providing your footage to the website for research purposes, you signify your acceptance of these Terms of Service. If you do not agree to these terms, please refrain from providing your footage. If you have any questions or concerns regarding these Terms of Service, please contact the website at contact@ai4schools.org.
-`
+`,
   };
 
   return (
@@ -80,9 +79,9 @@ By providing your footage to the website for research purposes, you signify your
         <meta name="description" content="Description of TermsOfService" />
       </Helmet>
 
-      <div style={{padding: '40px'}}>
+      <div style={{ padding: '40px' }}>
         {termsOfServiceContent && (
-          <CustomCard title={`Terms Of Service`}>
+          <CustomCard title="Terms Of Service">
             <pre
               style={{
                 whiteSpace: 'pre-wrap',
@@ -90,7 +89,9 @@ By providing your footage to the website for research purposes, you signify your
                 textAlign: 'justify',
               }}
             >
-              {parse(termsOfServiceContent.content.replace(/<new_line>/g, '\n'))}
+              {parse(
+                termsOfServiceContent.content.replace(/<new_line>/g, '\n'),
+              )}
             </pre>
           </CustomCard>
         )}

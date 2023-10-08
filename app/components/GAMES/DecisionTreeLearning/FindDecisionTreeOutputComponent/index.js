@@ -156,9 +156,11 @@ function FindDecisionTreeOutputComponent(props) {
           />
 
           <div style={{ padding: '40px', overflow: 'auto' }}>
-            <h2>Select the output node of the tree for the following input:</h2>
+            <h2>Select the output node of the given tree {'('}by tapping on the node{')'} for the following input:</h2>
             <div>
               <Table
+                style={{ whiteSpace: 'pre' }}
+                scroll={{ x: true }}
                 dataSource={dataSource}
                 columns={columns}
                 pagination={false}

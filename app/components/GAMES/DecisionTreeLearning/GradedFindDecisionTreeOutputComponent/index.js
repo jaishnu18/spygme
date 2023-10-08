@@ -148,6 +148,8 @@ function GradedFindDecisionTreeOutputComponent(props) {
         <div style={{ padding: '40px' }}>
           <h2>Select the output node of the tree for the following input:</h2>
           <Table
+            style={{ whiteSpace: 'pre' }}
+            scroll={{ x: true }}
             dataSource={tables[currentLevel].dataSource}
             columns={tables[currentLevel].columns}
             pagination={false}

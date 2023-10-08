@@ -119,7 +119,7 @@ function FindMissingNodeComponent(props) {
               props.setMovement([
                 ...props.movement,
                 {
-                  location: 'FindDecisionTreeOutput Component',
+                  location: 'FindMissingNode Component',
                   timestamp: new Date(),
                   x: e.screenX,
                   y: e.screenY,
@@ -128,10 +128,12 @@ function FindMissingNodeComponent(props) {
             }
           >
             <Table
-              style={{ padding: '0px 0px 40px 0px' }}
+              style={{ padding: '0px 10px 40px 10px', whiteSpace: 'pre' }}
+              scroll={{ x: true }}
               dataSource={dataSource}
               columns={columns}
               pagination={false}
+              bordered={true}
             />
             <DecisionTree
               adjList={gameData.adjList}

@@ -24,6 +24,7 @@ function Tree(props) {
   const isDesktop = useMediaQuery('(min-width: 960px)');
 
   let viewportStyle = {
+    border: '1px solid',
     width: isDesktop ? '480x' : '300px',
     height: isDesktop ? '640x' : '400px',
   }

@@ -51,7 +51,7 @@ export function PruneSearch() {
             // movement={0}
             // setMovement={}
           />
-          <PruneSearchGame/>
+          <PruneSearchGame />
         </>
       )}
     </div>

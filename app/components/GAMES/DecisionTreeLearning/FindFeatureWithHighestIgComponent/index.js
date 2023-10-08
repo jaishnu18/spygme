@@ -64,11 +64,11 @@ function FindFeatureWithHighestIgComponent(props) {
   const { dataset } = gameData;
 
   // Input Table
-  let dataSource = [];
-  let rowKey = 1
+  const dataSource = [];
+  let rowKey = 1;
   for (const row of dataset) {
-    let inputRow = {
-      key: 'row-' + rowKey,
+    const inputRow = {
+      key: `row-${rowKey}`,
     };
     for (let i = 0; i < labels.length; i++) {
       inputRow[labels[i]] = row[i];
@@ -77,71 +77,36 @@ function FindFeatureWithHighestIgComponent(props) {
     rowKey++;
   }
 
-  let columns = [];
+  const columns = [];
   for (const label of labels) {
     columns.push({
       title: label,
       dataIndex: label,
       key: label,
-    })
+    });
   }
 
-  let selectOptions = []
-  for (var feature of labels.slice(0, -1)) {
+  const selectOptions = [];
+  for (const feature of labels.slice(0, -1)) {
     selectOptions.push({
-      value: feature, label: feature
-    })
+      value: feature,
+      label: feature,
+    });
   }
 
-  return gameData && (
-    <Row>
-      <Col xl={{ span: 12 }} xs={{ span: 24 }}>
-        <div
-          style={{
-            padding: isDesktop ? '50px 40px 0px 40px' : '50px 0px 50px 0px',
-          }}
-          onMouseEnter={e =>
-            props.setMovement([
-              ...props.movement,
-              {
-                location: 'FindFeatureWithHighestIg Component',
-                timestamp: new Date(),
-                x: e.screenX,
-                y: e.screenY,
-              },
-            ])
-          }
-        >
-          <Table
-            dataSource={dataSource}
-            columns={columns}
-            pagination={false}
-            bordered={true}
-          />
-        </div>
-        {isDesktop ? evaluatedAnswer && FeedBack(evaluatedAnswer) : null}
-      </Col>
-      <Col xl={{ span: 12 }} xs={{ span: 24 }}>
-        <Row style={{ marginBottom: '40px' }}>
-          <Col
-            xs={{ span: 24 }}
-            xl={{ span: 14 }}
-            style={{ display: 'flex', alignItems: 'flex-end' }}
-          >
-            <PracticeGameStats
-              maxLevel={3}
-              level={props.level}
-              attempts={gameData.attempt}
-            />
-          </Col>
-          <Col
-            xs={{ span: 24 }}
-            xl={{ span: 8 }}
+  return (
+    gameData && (
+      <Row>
+        <Col xl={{ span: 12 }} xs={{ span: 24 }}>
+          <div
+            style={{
+              padding: isDesktop ? '50px 40px 0px 40px' : '50px 10px 50px 10px',
+            }}
             onMouseEnter={e =>
               props.setMovement([
                 ...props.movement,
                 {
-                  location: 'Timer',
+                  location: 'FindFeatureWithHighestIg Component',
                   timestamp: new Date(),
                   x: e.screenX,
                   y: e.screenY,
@@ -149,33 +114,38 @@ function FindFeatureWithHighestIgComponent(props) {
               ])
             }
           >
-            <TimeClock
-              evaluatedAnswer={evaluatedAnswer}
-              active={!evaluatedAnswer}
+            <Table
+              style={{ whiteSpace: 'pre' }}
+              scroll={{ x: true }}
+              dataSource={dataSource}
+              columns={columns}
+              pagination={false}
+              bordered
             />
-          </Col>
-        </Row>
-        <GameDescription
-          gameData={gameData}
-          evaluatedAnswer={evaluatedAnswer}
-          movement={props.movement}
-          setMovement={props.setMovement}
-        />
-
-        {!evaluatedAnswer && (
-          <div style={{ padding: '40px', overflow: 'auto' }}>
-            <Form
-              form={form}
-              name={`Form-${props.ID || ''}`}
-              autoComplete="off"
-              onFinish={value => {
-                props.submit(value);
-              }}
+          </div>
+          {isDesktop ? evaluatedAnswer && FeedBack(evaluatedAnswer) : null}
+        </Col>
+        <Col xl={{ span: 12 }} xs={{ span: 24 }}>
+          <Row style={{ marginBottom: '40px' }}>
+            <Col
+              xs={{ span: 24 }}
+              xl={{ span: 14 }}
+              style={{ display: 'flex', alignItems: 'flex-end' }}
+            >
+              <PracticeGameStats
+                maxLevel={3}
+                level={props.level}
+                attempts={gameData.attempt}
+              />
+            </Col>
+            <Col
+              xs={{ span: 24 }}
+              xl={{ span: 8 }}
               onMouseEnter={e =>
                 props.setMovement([
                   ...props.movement,
                   {
-                    location: 'Input Fields',
+                    location: 'Timer',
                     timestamp: new Date(),
                     x: e.screenX,
                     y: e.screenY,
@@ -183,52 +153,33 @@ function FindFeatureWithHighestIgComponent(props) {
                 ])
               }
             >
-              <Form.Item
-                key='feature'
-                name='feature'
-                label='Feature'
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please select a feature.',
-                  },
-                ]}
-              >
-                <Select
-                  placeholder='select'
-                  style={{ width: '90px' }}
-                  options={selectOptions}
-                  disabled={evaluatedAnswer}
-                />
-              </Form.Item>
-              <Form.Item
-                key='ig'
-                name='ig'
-                label='Informatio Gain'
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please enter the value of information gain.',
-                  },
-                ]}
-              >
-                <InputNumber />
-              </Form.Item>
-              <Button
-                key="submit_button"
-                style={{
-                  width: '140px',
-                  marginTop: '20px',
-                  backgroundColor: 'var(--primaryColor)',
-                  color: 'white',
+              <TimeClock
+                evaluatedAnswer={evaluatedAnswer}
+                active={!evaluatedAnswer}
+              />
+            </Col>
+          </Row>
+          <GameDescription
+            gameData={gameData}
+            evaluatedAnswer={evaluatedAnswer}
+            movement={props.movement}
+            setMovement={props.setMovement}
+          />
+
+          {!evaluatedAnswer && (
+            <div style={{ padding: '40px', overflow: 'auto' }}>
+              <Form
+                form={form}
+                name={`Form-${props.ID || ''}`}
+                autoComplete="off"
+                onFinish={value => {
+                  props.submit(value);
                 }}
-                htmlType="submit"
-                disabled={evaluatedAnswer}
                 onMouseEnter={e =>
                   props.setMovement([
                     ...props.movement,
                     {
-                      location: 'Submit Answer',
+                      location: 'Input Fields',
                       timestamp: new Date(),
                       x: e.screenX,
                       y: e.screenY,
@@ -236,37 +187,95 @@ function FindFeatureWithHighestIgComponent(props) {
                   ])
                 }
               >
-                Check Answer
-              </Button>
-            </Form>
-          </div>
-        )}
+                <Form.Item
+                  key="feature"
+                  name="feature"
+                  label="Feature"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please select a feature.',
+                    },
+                  ]}
+                >
+                  <Select
+                    placeholder="select"
+                    style={{ width: '90px' }}
+                    options={selectOptions}
+                    disabled={evaluatedAnswer}
+                  />
+                </Form.Item>
+                <Form.Item
+                  key="ig"
+                  name="ig"
+                  label="Informatio Gain"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please enter the value of information gain.',
+                    },
+                  ]}
+                >
+                  <InputNumber />
+                </Form.Item>
+                <Button
+                  key="submit_button"
+                  style={{
+                    width: '140px',
+                    marginTop: '20px',
+                    backgroundColor: 'var(--primaryColor)',
+                    color: 'white',
+                  }}
+                  htmlType="submit"
+                  disabled={evaluatedAnswer}
+                  onMouseEnter={e =>
+                    props.setMovement([
+                      ...props.movement,
+                      {
+                        location: 'Submit Answer',
+                        timestamp: new Date(),
+                        x: e.screenX,
+                        y: e.screenY,
+                      },
+                    ])
+                  }
+                >
+                  Check Answer
+                </Button>
+              </Form>
+            </div>
+          )}
 
-        {evaluatedAnswer && (
-          <div
-            style={{ padding: '40px' }}
-            onMouseEnter={e =>
-              props.setMovement([
-                ...props.movement,
-                {
-                  location: 'Solution',
-                  timestamp: new Date(),
-                  x: e.screenX,
-                  y: e.screenY,
-                },
-              ])
-            }
-          >
-            {!(evaluatedAnswer.evaluation.includes('INCORRECT')) ? (
-              <h3>Correct Answer!</h3>
-            ) : (
-              <h3>Incorrect! "<strong>{evaluatedAnswer.answer[0]}</strong>" provides the highest information gain of <strong>{evaluatedAnswer.answer[1]}</strong>.</h3>
-            )}
-          </div>
-        )}
-        {!isDesktop ? evaluatedAnswer && FeedBack(evaluatedAnswer) : null}
-      </Col>
-    </Row>
+          {evaluatedAnswer && (
+            <div
+              style={{ padding: '40px' }}
+              onMouseEnter={e =>
+                props.setMovement([
+                  ...props.movement,
+                  {
+                    location: 'Solution',
+                    timestamp: new Date(),
+                    x: e.screenX,
+                    y: e.screenY,
+                  },
+                ])
+              }
+            >
+              {!evaluatedAnswer.evaluation.includes('INCORRECT') ? (
+                <h3>Correct Answer!</h3>
+              ) : (
+                <h3>
+                  Incorrect! "<strong>{evaluatedAnswer.answer[0]}</strong>"
+                  provides the highest information gain of{' '}
+                  <strong>{evaluatedAnswer.answer[1]}</strong>.
+                </h3>
+              )}
+            </div>
+          )}
+          {!isDesktop ? evaluatedAnswer && FeedBack(evaluatedAnswer) : null}
+        </Col>
+      </Row>
+    )
   );
 }
 

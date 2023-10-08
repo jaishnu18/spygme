@@ -25,11 +25,11 @@ import moment from 'moment';
 import GameComponent from 'components/GAMES/PropositionalLogic/WriteExpressionGame';
 import Title from 'antd/lib/typography/Title';
 import message from 'antd/lib/message';
+import VideoRecorder from 'components/VideoRecorder';
 import makeSelectWriteExpressionGame from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import PracticeGamesFeedback from '../../../../components/FEEDBACK/PracticeGamesFeedback';
-import VideoRecorder from 'components/VideoRecorder';
 
 import {
   getGraphStart,

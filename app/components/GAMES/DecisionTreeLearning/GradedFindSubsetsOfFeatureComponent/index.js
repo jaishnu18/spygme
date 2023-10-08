@@ -95,6 +95,7 @@ function GradedFindSubsetsOfFeatureComponent(props) {
           title: 'Color',
           dataIndex: 'color',
           key: 'color',
+          fixed: 'right',
           render: (_, record, index) => {
             return {
               props: {
@@ -142,6 +143,7 @@ function GradedFindSubsetsOfFeatureComponent(props) {
           title: 'Remarks',
           dataIndex: 'color',
           key: 'color',
+          fixed: 'right',
           render: (_, record, index) => (
             evaluatedAnswer[i].evaluation[index] === 'INCORRECT' ?
               <Icons src={WrongIcon} size="40px" />
@@ -212,6 +214,8 @@ function GradedFindSubsetsOfFeatureComponent(props) {
             style={{ display: index === currentLevel ? 'block' : 'none' }}
           >
             <Table
+              style={{ whiteSpace: 'pre' }}
+              scroll={{ x: true }}
               dataSource={table.dataSource}
               columns={table.columns}
               pagination={false}
@@ -224,6 +228,8 @@ function GradedFindSubsetsOfFeatureComponent(props) {
                 <div style={{ paddingTop: '30px' }}>
                   <h3>Possible Answer:</h3>
                   <Table
+                    style={{ padding: '0px 10px 0px 10px', whiteSpace: 'pre' }}
+                    scroll={{ x: true }}
                     dataSource={answerTables[index].dataSource}
                     columns={answerTables[index].columns}
                     pagination={false}

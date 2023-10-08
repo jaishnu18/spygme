@@ -97,7 +97,7 @@ function EvaluateIgExpressionComponent(props) {
       <Col xl={{ span: 12 }} xs={{ span: 24 }}>
         <div
           style={{
-            padding: isDesktop ? '50px 40px 0px 40px' : '50px 0px 50px 0px',
+            padding: isDesktop ? '50px 40px 0px 40px' : '50px 10px 50px 10px',
           }}
           onMouseEnter={e =>
             props.setMovement([
@@ -112,6 +112,8 @@ function EvaluateIgExpressionComponent(props) {
           }
         >
           <Table
+            style={{ whiteSpace: 'pre' }}
+            scroll={{ x: true }}
             dataSource={dataSource}
             columns={columns}
             pagination={false}

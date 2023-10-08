@@ -119,6 +119,8 @@ function GradedEvaluateIgExpressionComponent(props) {
       <Col xs={{ span: 24 }} xl={{ span: 9 }} style={{ padding: '20px' }}>
         <div>
           <Table
+            style={{ whiteSpace: 'pre' }}
+            scroll={{ x: true }}
             dataSource={tables[currentLevel].dataSource}
             columns={tables[currentLevel].columns}
             pagination={false}
