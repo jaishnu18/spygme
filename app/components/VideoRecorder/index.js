@@ -4,17 +4,15 @@ import api from 'api';
 import { Link } from 'react-router-dom';
 import { Button, Modal } from 'antd';
 
-// records video and sends it to server every 5 seconds
+// records video and sends it to server every second
 function VideoRecorder(props) {
-  const mimeType = 'video/webm';
+  const mimeType = 'video/webm;codecs=vp8,opus';
   const mediaRecorder = useRef(null);
-  const [recordingStatus, setRecordingStatus] = useState('inactive');
   const [stream, setStream] = useState(null);
   const [permission, setPermission] = useState(false);
   const [policyAccepted, setPolicyAccepted] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
-  const filename = new Date().getTime().toString();
-  let chunkIndex = 0;
+  const videoName = useRef(`${new Date().getTime().toString()}.webm`);
 
   const getCameraPermission = async () => {
     if ('MediaRecorder' in window) {
@@ -45,33 +43,35 @@ function VideoRecorder(props) {
     const media = new MediaRecorder(stream, { mimeType });
     mediaRecorder.current = media;
 
-    setRecordingStatus('recording');
-    mediaRecorder.current.start(5000); // raises dataavailable event every 5 seconds
+    mediaRecorder.current.start();
+
+    // initial requstData call
+    setTimeout(mediaRecorder.current.requestData(), 1000);
 
     mediaRecorder.current.ondataavailable = async event => {
-      if (typeof event.data === 'undefined') return;
-      if (event.data.size === 0) return;
+      if (typeof event.data === 'undefined' || event.data.size === 0) {
+        if (mediaRecorder.current.state === 'recording')
+          setTimeout(mediaRecorder.current.requestData(), 1000);
+        return;
+      }
 
-      const videoBlob = event.data;
-
-      // set the filename
-      const videoName = `${filename}-${chunkIndex}.webm`;
-      chunkIndex++;
-
-      // send vdieoBlob to server here
+      // send vdieoBlob to server
+      const fd = new FormData();
+      fd.append('video', event.data, `${videoName.current}`);
+      fd.append('topicId', props.topicId);
+      fd.append('conceptId', props.conceptId);
+      
       let path;
       if (props.readingMaterial) {
-        path = `/video/reading-material/${props.topicId}/${props.conceptId}/${
-          props.rmId
-        }/${videoName}`;
+        path = 'video/reading-material';
+        fd.append('rmId', props.rmId);
       } else if (props.practise) {
-        path = `/video/practise/${props.topicId}/${props.conceptId}/${
-          props.gameId
-        }/${props.level}/${videoName}`;
+        path = 'video/practise';
+        fd.append('gameId', props.gameId);
+        fd.append('level', props.level);
       } else if (props.graded) {
-        path = `/video/graded/${props.topicId}/${props.conceptId}/${
-          props.gameId
-        }/${videoName}`;
+        path = 'video/graded';
+        fd.append('gameId', props.gameId);
       } else {
         // invalid props
         console.log('VideoRecorder: Invalid props');
@@ -79,13 +79,17 @@ function VideoRecorder(props) {
       }
 
       try {
-        const response = await api.post(path, videoBlob, {
+        const response = await api.post(path, fd, {
           headers: {
-            'Content-Type': 'video/webm',
+            'Content-Type': 'multipart/form-data',
             Authorization: localStorage._UFT_,
           },
           withCredentials: true,
         });
+
+        // subsequent requestData call on successful upload after 1s
+        if (mediaRecorder.current.state === 'recording')
+          setTimeout(mediaRecorder.current.requestData(), 1000);
       } catch (err) {
         console.log(err);
       }
@@ -93,7 +97,6 @@ function VideoRecorder(props) {
   };
 
   const stopRecording = async () => {
-    setRecordingStatus('inactive');
     mediaRecorder.current.stop();
   };
 
