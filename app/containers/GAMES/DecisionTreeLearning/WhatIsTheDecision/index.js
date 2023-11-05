@@ -121,7 +121,7 @@ export function WhatIsTheDecision(props) {
       {gameData && (
         <>
           <GameBar
-            name="Find Missing Node"
+            name="What Is The Decision"
             level={level}
             attempts={gameData.attempt}
             maxLevel={3}
