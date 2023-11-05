@@ -4,6 +4,8 @@ import api from 'api';
 import { Link } from 'react-router-dom';
 import { Button, Modal } from 'antd';
 
+const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
+
 // records video and sends it to server every second
 function VideoRecorder(props) {
   const mimeType = 'video/webm;codecs=vp8,opus';
@@ -46,12 +48,15 @@ function VideoRecorder(props) {
     mediaRecorder.current.start();
 
     // initial requstData call
-    setTimeout(mediaRecorder.current.requestData(), 1000);
+    await sleep(1000);
+    mediaRecorder.current.requestData();
 
     mediaRecorder.current.ondataavailable = async event => {
       if (typeof event.data === 'undefined' || event.data.size === 0) {
-        if (mediaRecorder.current.state === 'recording')
-          setTimeout(mediaRecorder.current.requestData(), 1000);
+        if (mediaRecorder.current.state === 'recording') {
+          await sleep(1000);
+          mediaRecorder.current.requestData();
+        }
         return;
       }
 
@@ -60,7 +65,7 @@ function VideoRecorder(props) {
       fd.append('video', event.data, `${videoName.current}`);
       fd.append('topicId', props.topicId);
       fd.append('conceptId', props.conceptId);
-      
+
       let path;
       if (props.readingMaterial) {
         path = 'video/reading-material';
@@ -88,8 +93,10 @@ function VideoRecorder(props) {
         });
 
         // subsequent requestData call on successful upload after 1s
-        if (mediaRecorder.current.state === 'recording')
-          setTimeout(mediaRecorder.current.requestData(), 1000);
+        if (mediaRecorder.current.state === 'recording') {
+          await sleep(1000);
+          mediaRecorder.current.requestData();
+        }
       } catch (err) {
         console.log(err);
       }
