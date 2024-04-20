@@ -22,7 +22,6 @@ import SypGame from '../../../../components/GAMES/GameTrees/Syp';
 import reducer from './reducer';
 import saga from './saga';
 
-
 import {
   getGameDataStart,
   evaluateResponseStart,
@@ -44,14 +43,14 @@ export function Syp(props) {
   const { gameId } = props;
   const { conceptId } = props;
   const { topicId } = props;
-  console.log("hhh",props);
+  console.log('hhh', props);
   useEffect(() => {
     if (evaluatedAnswer && !alreadyFeedback)
       message.success('Please give us your valuable feedback below!', 3);
   }, [props.state]);
 
   useEffect(() => {
-    console.log("insideuseeffect");
+    console.log('insideuseeffect');
     props.getGameData(level);
     start(setStartTime);
   }, [level]);
@@ -69,9 +68,9 @@ export function Syp(props) {
     }
   }, [props.state.gameData]);
 
-  const {gameData} = props.state;
-  console.log("123", gameData);
-  const {evaluatedAnswer} = props.state;
+  const { gameData } = props.state;
+  console.log('123', gameData);
+  const { evaluatedAnswer } = props.state;
 
   const submit = values => {
     const secs = end(startTime);
@@ -117,7 +116,7 @@ export function Syp(props) {
       <GameBar
         name="SYP"
         level={level}
-        //attempts={props.state.gameData.attempt}
+        // attempts={props.state.gameData.attempt}
         maxLevel={2}
         evaluatedAnswer={evaluatedAnswer}
         conceptId={conceptId}
@@ -129,22 +128,20 @@ export function Syp(props) {
         setComponents={setComponents}
       />
       <SypGame
-            gameData={gameData}
-            evaluatedAnswer={evaluatedAnswer}
-            level={level}
-            submit={submit}
-            setValue={setValue}
-            value={value}
-            submitWWW={submitWWW}
-            submitFeedback={submitFeedback}
-            movement={movement}
-            setMovement={setMovement}
-            components={components}
-            setComponents={setComponents}
+        gameData={gameData}
+        evaluatedAnswer={evaluatedAnswer}
+        level={level}
+        submit={submit}
+        setValue={setValue}
+        value={value}
+        submitWWW={submitWWW}
+        submitFeedback={submitFeedback}
+        movement={movement}
+        setMovement={setMovement}
+        components={components}
+        setComponents={setComponents}
       />
-      <div>
-      
-      </div>
+      <div />
     </div>
   );
 }

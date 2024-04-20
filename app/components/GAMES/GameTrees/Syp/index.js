@@ -12,7 +12,6 @@ import Row from 'antd/lib/row';
 import { Button, Form, Input, Alert, message, Space, FormInstance } from 'antd';
 import BinaryTree from '../components/BinaryTree';
 
-
 import PracticeGameStats from '../../../PracticeGameStats';
 import TimeClock from '../../../TimeClock';
 import H1 from '../../../atoms/H1';
@@ -27,7 +26,7 @@ function Syp(props) {
   const isDesktop = useMediaQuery('(min-width: 960px)');
   const [form] = Form.useForm();
   const [timeElapsed, setTimeElapsed] = useState(0);
-  const updateTimeElapsed = (elapsedTime) => {
+  const updateTimeElapsed = elapsedTime => {
     setTimeElapsed(elapsedTime);
   };
 
@@ -82,79 +81,82 @@ function Syp(props) {
     return <div style={style}>Node</div>;
   };
 
-
   return (
-      <div>
-        <Row>
-          <Col xs={{ span: 24 }}
-            xl={{ span: 14 }}
-            style={{ display: 'flex', alignItems: 'flex-end' }}
-            onMouseEnter={e =>
-              props.setMovement([
-                ...props.movement,
-                {
-                  location: 'Stats',
-                  timestamp: new Date(),
-                  x: e.screenX,
-                  y: e.screenY,
-                },
-              ])
-            }
-            >
-              <PracticeGameStats maxLevel={4} level={1} attempts={1} />
-            </Col>
-          <Col style={{ paddingLeft: isDesktop ? '200px' : '0' }}
-            xs={{ span: 24 }}
-            xl={{ span: 8 }}
-            onMouseEnter={e =>
-              props.setMovement([
-                ...props.movement,
-                {
-                  location: 'Timer',
-                  timestamp: new Date(),
-                  x: e.screenX,
-                  y: e.screenY,
-                },
-              ])
-            }>
-            <TimeClock active={true} updateTimeElapsed={updateTimeElapsed} />
-          </Col>
-        </Row>
-        <div className="game-gameDescription-section">
+    <div>
+      <Row>
+        <Col
+          xs={{ span: 24 }}
+          xl={{ span: 14 }}
+          style={{ display: 'flex', alignItems: 'flex-end' }}
+          onMouseEnter={e =>
+            props.setMovement([
+              ...props.movement,
+              {
+                location: 'Stats',
+                timestamp: new Date(),
+                x: e.screenX,
+                y: e.screenY,
+              },
+            ])
+          }
+        >
+          <PracticeGameStats maxLevel={4} level={1} attempts={1} />
+        </Col>
+        <Col
+          style={{ paddingLeft: isDesktop ? '200px' : '0' }}
+          xs={{ span: 24 }}
+          xl={{ span: 8 }}
+          onMouseEnter={e =>
+            props.setMovement([
+              ...props.movement,
+              {
+                location: 'Timer',
+                timestamp: new Date(),
+                x: e.screenX,
+                y: e.screenY,
+              },
+            ])
+          }
+        >
+          <TimeClock active updateTimeElapsed={updateTimeElapsed} />
+        </Col>
+      </Row>
+      <div className="game-gameDescription-section">
         <Row
           style={{
-          paddingTop: '30px',
-        }}
+            paddingTop: '30px',
+          }}
         >
           <H1 fontWeight="700" level={2}>
             How to play?
           </H1>
-          <P >
-            The game randomly generates 8 numbers between 0 and 99 and
-            displays these numbers as a level of MAX nodes (depth 3). You are
-            supposed to form the level of MIN nodes (of depth 2). Once you
-            enter these values, you are supposed to form the level of MAX
-            nodes (of depth 1). In this way, you are required to reach up to
-            the root of the tree.
+          <P>
+            The game randomly generates 8 numbers between 0 and 99 and displays
+            these numbers as a level of MAX nodes (depth 3). You are supposed to
+            form the level of MIN nodes (of depth 2). Once you enter these
+            values, you are supposed to form the level of MAX nodes (of depth
+            1). In this way, you are required to reach up to the root of the
+            tree.
           </P>
         </Row>
         <Row>
           <Col>
-          {gameData &&
-          <BinaryTree questionTree={gameData.question_tree} nodeValues={gameData.nodeValues} functionToCall={props.submit} />
-          }
+            {gameData && (
+              <BinaryTree
+                questionTree={gameData.question_tree}
+                nodeValues={gameData.nodeValues}
+                functionToCall={props.submit}
+              />
+            )}
           </Col>
         </Row>
         <Row>
-          <Col>
-            {FeedBack(gameData.nodeValues)}
-          </Col>
+          <Col>{FeedBack(gameData.nodeValues)}</Col>
         </Row>
-        </div>
       </div>
+    </div>
   );
 }
-
 
 Syp.propTypes = {};
 

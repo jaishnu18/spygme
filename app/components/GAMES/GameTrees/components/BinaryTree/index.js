@@ -26,62 +26,58 @@ const TreeNode = ({ value }) => (
   </div>
 );
 
-const InputNode = ({ value, onChange }) => {
-  return (
-    <input
-      placeholder="?"
-      type="text"
-      value={value}
-      onChange={onChange}
-      style={{
-        width: '50px',
-        height: '50px',
-        borderRadius: '50%',
-        textAlign: 'center',
-        fontWeight: 'bold',
-        margin: '5px',
-        backgroundColor: '#6ab5d6',
-        color: '#fff',
-      }}
-    />
-  );
-};
+const InputNode = ({ value, onChange }) => (
+  <input
+    placeholder="?"
+    type="text"
+    value={value}
+    onChange={onChange}
+    style={{
+      width: '50px',
+      height: '50px',
+      borderRadius: '50%',
+      textAlign: 'center',
+      fontWeight: 'bold',
+      margin: '5px',
+      backgroundColor: '#6ab5d6',
+      color: '#fff',
+    }}
+  />
+);
 
-const GeneralTree = (props) => {
+const GeneralTree = props => {
   const { questionTree, nodeValues, functionToCall } = props;
 
   const [guesses, setGuesses] = useState(new Array(nodeValues.length).fill(''));
-  const [answers, setAnswers]=useState(false);
+  const [answers, setAnswers] = useState(false);
 
-  const renderTree = (index) => {
-    return (
-      <div
-        key={index}
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
-        {questionTree[index].length === 0 ? (
-          <TreeNode value={nodeValues[index]} />
-        ) : (
-          <InputNode
-            value={guesses[index]}
-            onChange={(e) => handleInputChange(e, index)}
-          />
-        )}
+  const renderTree = index => (
+    <div
+      key={index}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+    >
+      {questionTree[index].length === 0 ? (
+        <TreeNode value={nodeValues[index]} />
+      ) : (
+        <InputNode
+          value={guesses[index]}
+          onChange={e => handleInputChange(e, index)}
+        />
+      )}
 
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          {questionTree[index].map((child, i) => (
-            <div key={i} style={{ marginRight: '10px' }}>
-              {renderTree(child)}
-            </div>
-          ))}
-        </div>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        {questionTree[index].map((child, i) => (
+          <div key={i} style={{ marginRight: '10px' }}>
+            {renderTree(child)}
+          </div>
+        ))}
       </div>
-    );
-  };
+    </div>
+  );
 
   const handleInputChange = (e, index) => {
     const newGuesses = [...guesses];
@@ -98,14 +94,14 @@ const GeneralTree = (props) => {
 
   const traverseTree = (index, newGuesses) => {
     if (questionTree[index].length === 0) return;
-    newGuesses[index] = guesses[index]; 
-    questionTree[index].forEach((child) =>
-      traverseTree(child, newGuesses)
-    ); 
-  };  
+    newGuesses[index] = guesses[index];
+    questionTree[index].forEach(child => traverseTree(child, newGuesses));
+  };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div
+      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+    >
       <h1>General Tree</h1>
       <div style={{ border: '1px solid black', padding: '10px' }}>
         {renderTree(0)}
@@ -120,5 +116,3 @@ const GeneralTree = (props) => {
 };
 
 export default GeneralTree;
-
-

@@ -21,7 +21,7 @@ import {
 export function* getTree(action) {
   try {
     const level = action.payload;
-    console.log("bdwbdwhbhdvcjhwdvchjvhj");
+    console.log('bdwbdwhbhdvcjhwdvchjvhj');
     const response = yield api.get(
       `/game/score-your-position/question/${level}`,
       {

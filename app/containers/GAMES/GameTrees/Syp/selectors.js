@@ -23,4 +23,3 @@ const makeSelectSyp = () =>
 
 export default makeSelectSyp;
 export { selectSypDomain };
-

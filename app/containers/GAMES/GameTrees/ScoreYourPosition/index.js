@@ -42,11 +42,10 @@ export function ScoreYourPosition(props) {
   const { topicId } = props;
 
   useEffect(() => {
-    console.log('ttt',evaluatedAnswer);
+    console.log('ttt', evaluatedAnswer);
     if (evaluatedAnswer && !alreadyFeedback)
       message.success('Please give us your valuable feedback below!', 3);
   }, [props.state]);
-
 
   useEffect(() => {
     props.getGameData(1);
@@ -74,14 +73,14 @@ export function ScoreYourPosition(props) {
   }
 
   const submitWWW = values => {
-    console.log('123',values);
+    console.log('123', values);
     const response = {};
     response.whatwentwrong = JSON.stringify(values);
     props.saveFeedback(response);
   };
 
   const submitFeedback = values => {
-    console.log('456',values);
+    console.log('456', values);
     const response = {};
     response.feedback = JSON.stringify(values);
     props.saveFeedback(response);
@@ -126,7 +125,7 @@ ScoreYourPosition.propTypes = {
   checkStudentResponse: PropTypes.func,
   state: PropTypes.object,
   saveFeedback: PropTypes.func,
-  //saveFeedback: PropTypes.func.isRequired,
+  // saveFeedback: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -137,7 +136,7 @@ function mapDispatchToProps(dispatch) {
   return {
     getGameData: payload => dispatch(getGameDataStart(payload)),
     checkStudentResponse: response => dispatch(evaluateResponseStart(response)),
-    saveFeedback: feedback=> dispatch(putFeedbackStart(feedback)),
+    saveFeedback: feedback => dispatch(putFeedbackStart(feedback)),
   };
 }
 

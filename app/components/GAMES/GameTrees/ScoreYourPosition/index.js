@@ -10,7 +10,6 @@ import Row from 'antd/lib/row';
 import { Button, Form, Input, Alert, message, Space, FormInstance } from 'antd';
 import BinaryTree from '../components/BinaryTree';
 
-
 import PracticeGameStats from '../../../PracticeGameStats';
 import TimeClock from '../../../TimeClock';
 import H1 from '../../../atoms/H1';
@@ -31,11 +30,11 @@ function ScoreYourPosition(props) {
 
   const [error, setError] = useState(0);
   const [answer, setAnswer] = useState('');
-  
-  const [showAnswers, setShowAnswers] = useState(false);
-  //const [showCorrectTree, setShowCorrectTree] = useState(false);
 
-  const [treeAnswer, setTreeAnswer] = useState(); 
+  const [showAnswers, setShowAnswers] = useState(false);
+  // const [showCorrectTree, setShowCorrectTree] = useState(false);
+
+  const [treeAnswer, setTreeAnswer] = useState();
 
   let arrayToCheck = [];
 
@@ -84,30 +83,28 @@ function ScoreYourPosition(props) {
   console.log('answer', answer);
 
   function handleCheckAnswer(tree) {
-
     arrayToCheck = tree;
-    //event.preventDefault();
-    let flag=0;
-    for(let i=0;i<7;i++){
-      if(arrayToCheck[i]===''){
+    // event.preventDefault();
+    let flag = 0;
+    for (let i = 0; i < 7; i++) {
+      if (arrayToCheck[i] === '') {
         giveError();
-        flag=1;
+        flag = 1;
         break;
       }
     }
-    if(flag==0){
+    if (flag == 0) {
       submit(tree);
-      console.log("before", tree)
-      setTreeAnswer([...treeAnswer,tree]);
-      console.log("after", tree)
-      console.log("tree",treeAnswer);
+      console.log('before', tree);
+      setTreeAnswer([...treeAnswer, tree]);
+      console.log('after', tree);
+      console.log('tree', treeAnswer);
     }
-    
+
     // giveError();
     // submit(tree);
     // checkArray();
-    console.log('tree2check',arrayToCheck);
-    
+    console.log('tree2check', arrayToCheck);
   }
 
   console.log('component', gameData.question_tree);
@@ -131,20 +128,20 @@ function ScoreYourPosition(props) {
     </div>
   );
 
-  const BinaryTreeCorrect = (props) => {
+  const BinaryTreeCorrect = props => {
     const { nodes, functionToCall } = props;
     console.log(nodes);
     const [ans, setAns] = useState(new Array(nodes.length).fill(''));
-    
+
     const renderTree = (node, index) => {
-      console.log('hhh',node)
+      console.log('hhh', node);
       if (!node) return null;
       const isLeaf = !node.left && !node.right;
       const isCorrect = tree[index] == gameData.question_tree[index];
-      console.log('111',tree[index])
-      console.log('222', gameData.question_tree[index])
+      console.log('111', tree[index]);
+      console.log('222', gameData.question_tree[index]);
       console.log(`Node ${index}: isCorrect? ${isCorrect}`);
-  
+
       return (
         <div
           key={index}
@@ -163,10 +160,8 @@ function ScoreYourPosition(props) {
               color: isCorrect ? 'green' : 'red',
             }}
           >
-            
             <TreeNode value={gameData.question_tree[index]} />
             <div style={{ display: 'flex' }}>
-              
               {renderTree(node.left, 2 * index + 1)}
               {renderTree(node.right, 2 * index + 2)}
             </div>
@@ -174,14 +169,12 @@ function ScoreYourPosition(props) {
         </div>
       );
     };
-  
-    
+
     const tree = generateTree(nodes, 0);
-  
-    
+
     return renderTree(tree, 0);
   };
-  
+
   const generateTree = (nodes, index) => {
     if (index >= nodes.length) return null;
     const node = nodes[index];
@@ -191,43 +184,40 @@ function ScoreYourPosition(props) {
       right: generateTree(nodes, 2 * index + 2),
     };
   };
-  
+
   const handleToggleAnswers = () => {
     setShowAnswers(!showAnswers);
   };
-  
-  
-  const FeedBack = evaluatedAnswer =>
-    console.log('hhhh', evaluatedAnswer)
-    //console.log('hhhh1', __evaluatedAnswer)
-    evaluatedAnswer && (
-      <>
-        <H1
-          // level={3}
-          fontWeight="700"
-          textAlign="center"
-          style={{ margin: '40px 0' }}
-        >
-          FEEDBACK
-        </H1>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: isDesktop && '40px',
-          }}
-        >
-          <PracticeGamesFeedback
-            whatWentWrong={false}
-            saveFeedback={props.submitFeedback}
-            saveWWW={props.submitWWW}
-            style={{ marginLeft: 'auto' }}
-          />
-        </div>
-      </>
-    );
-  
+
+  const FeedBack = evaluatedAnswer => console.log('hhhh', evaluatedAnswer);
+  // console.log('hhhh1', __evaluatedAnswer)
+  evaluatedAnswer && (
+    <>
+      <H1
+        // level={3}
+        fontWeight="700"
+        textAlign="center"
+        style={{ margin: '40px 0' }}
+      >
+        FEEDBACK
+      </H1>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: isDesktop && '40px',
+        }}
+      >
+        <PracticeGamesFeedback
+          whatWentWrong={false}
+          saveFeedback={props.submitFeedback}
+          saveWWW={props.submitWWW}
+          style={{ marginLeft: 'auto' }}
+        />
+      </div>
+    </>
+  );
 
   return (
     <div className="main-div">
@@ -278,19 +268,19 @@ function ScoreYourPosition(props) {
       <div className="game-gameDescription-section">
         <Row
           style={{
-          paddingTop: '30px',
-        }}
+            paddingTop: '30px',
+          }}
         >
           <H1 fontWeight="700" level={2}>
             How to play?
           </H1>
           <P>
-            The game randomly generates 8 numbers between 0 and 99 and
-            displays these numbers as a level of MAX nodes (depth 3). You are
-            supposed to form the level of MIN nodes (of depth 2). Once you
-            enter these values, you are supposed to form the level of MAX
-            nodes (of depth 1). In this way, you are required to reach up to
-            the root of the tree.
+            The game randomly generates 8 numbers between 0 and 99 and displays
+            these numbers as a level of MAX nodes (depth 3). You are supposed to
+            form the level of MIN nodes (of depth 2). Once you enter these
+            values, you are supposed to form the level of MAX nodes (of depth
+            1). In this way, you are required to reach up to the root of the
+            tree.
           </P>
         </Row>
 
@@ -318,7 +308,6 @@ function ScoreYourPosition(props) {
               padding: isDesktop ? '0' : '20px',
             }}
           >
-            
             {evaluatedAnswer && (
               <div className="answer-section" style={{ paddingTop: '40px' }}>
                 {evaluatedAnswer.accuracy === 100 && (
@@ -371,7 +360,7 @@ function ScoreYourPosition(props) {
             )}
           </Col>
         </Row>
-        
+
         <Row
           style={{
             paddingTop: '30px',
@@ -384,27 +373,40 @@ function ScoreYourPosition(props) {
               paddingBottom: isDesktop ? '0' : '30px',
             }}
           >
-            {/*<Button
+            {/* <Button
               onClick={handleToggleAnswers}
               disabled={!evaluatedAnswer}
             >
               {showAnswers ? 'Hide Answers' : 'Show Answers'}
 
-                </Button>*/}
-              {evaluatedAnswer && (
-                <div style={{ textAlign: 'center', paddingLeft: '75px', paddingRight: '75px', paddingBottom: '20px' }}>
-                  <h1>Correct Solutions</h1>
-                  <div style={{ border: '1px solid black', padding: '10px', margin: '0 -10px' }}>
-                    <BinaryTreeCorrect nodes={gameData.question_tree} />
-                  </div>
+                </Button> */}
+            {evaluatedAnswer && (
+              <div
+                style={{
+                  textAlign: 'center',
+                  paddingLeft: '75px',
+                  paddingRight: '75px',
+                  paddingBottom: '20px',
+                }}
+              >
+                <h1>Correct Solutions</h1>
+                <div
+                  style={{
+                    border: '1px solid black',
+                    padding: '10px',
+                    margin: '0 -10px',
+                  }}
+                >
+                  <BinaryTreeCorrect nodes={gameData.question_tree} />
                 </div>
-              )}
+              </div>
+            )}
           </Col>
           <Col>
-          {evaluatedAnswer && FeedBack(evaluatedAnswer)}
-            {/*evaluatedAnswer && (
+            {evaluatedAnswer && FeedBack(evaluatedAnswer)}
+            {/* evaluatedAnswer && (
                 <h1>TRYYYYYYYYYYYYY</h1>
-            )*/}
+            ) */}
           </Col>
         </Row>
       </div>
