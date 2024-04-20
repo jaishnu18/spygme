@@ -39,6 +39,7 @@ import TestNotAllowedPage from 'containers/TestNotAllowedPage';
 import ForgotPasswordPage from 'containers/ForgotPasswordPage';
 import ResetPasswordPage from 'containers/ResetPasswordPage';
 import ValidInvalidGame from 'containers/GAMES/GameTrees/ValidInvalidGame';
+import Syp from 'containers/GAMES/GameTrees/Syp';
 import PruneSearch from 'containers/GAMES/GameTrees/PruneSearch';
 import ScoreYourPosition from 'containers/GAMES/GameTrees/ScoreYourPosition';
 import EntropyCalculation from 'containers/GAMES/DecisionTreeLearning/EntropyCalculation';
@@ -243,6 +244,20 @@ function Routes(props) {
           />
         )}
       />
+
+      <Route
+        exact
+        path="/syp/:topicId/:conceptId/:gameId/:level"
+        render={({ match }) => (
+          <Syp
+            level={match.params.level}
+            gameId={match.params.gameId}
+            topicId={match.params.topicId}
+            conceptId={match.params.conceptId}
+          />
+        )}
+      />
+
 
       <Route
         exact

@@ -12,6 +12,7 @@ import { start, end } from 'utils/timerFunctions';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
+import message from 'antd/lib/message';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import moment from 'moment';
@@ -33,11 +34,19 @@ export function ScoreYourPosition(props) {
 
   const [startTime, setStartTime] = useState(0);
   const [movement, setMovement] = useState([]);
+  const [alreadyFeedback, setAlreadyFeedback] = useState(false);
 
   const { level } = props;
   const { gameId } = props;
   const { conceptId } = props;
   const { topicId } = props;
+
+  useEffect(() => {
+    console.log('ttt',evaluatedAnswer);
+    if (evaluatedAnswer && !alreadyFeedback)
+      message.success('Please give us your valuable feedback below!', 3);
+  }, [props.state]);
+
 
   useEffect(() => {
     props.getGameData(1);
@@ -64,6 +73,20 @@ export function ScoreYourPosition(props) {
     props.checkStudentResponse({ studentResponse });
   }
 
+  const submitWWW = values => {
+    console.log('123',values);
+    const response = {};
+    response.whatwentwrong = JSON.stringify(values);
+    props.saveFeedback(response);
+  };
+
+  const submitFeedback = values => {
+    console.log('456',values);
+    const response = {};
+    response.feedback = JSON.stringify(values);
+    props.saveFeedback(response);
+  };
+
   return (
     <div>
       <Helmet>
@@ -76,12 +99,12 @@ export function ScoreYourPosition(props) {
           <GameBar
             name="Score your position"
             level={level}
-            // attempts={props.state.gameData.attempt}
+            attempts={props.state.gameData.attempt}
             maxLevel="3"
             evaluatedAnswer={evaluatedAnswer}
             conceptId={conceptId}
             topicId={topicId}
-            // saveFeedback={props.saveFeedback}
+            saveFeedback={props.saveFeedback}
             movement={0}
             setMovement={setMovement}
           />
@@ -89,6 +112,8 @@ export function ScoreYourPosition(props) {
             gameData={gameData}
             submit={submit}
             evaluatedAnswer={evaluatedAnswer}
+            submitWWW={submitWWW}
+            submitFeedback={submitFeedback}
           />
         </>
       )}
@@ -99,7 +124,9 @@ export function ScoreYourPosition(props) {
 ScoreYourPosition.propTypes = {
   getGameData: PropTypes.func,
   checkStudentResponse: PropTypes.func,
-  // putFeedback: PropTypes.func.isRequired,
+  state: PropTypes.object,
+  saveFeedback: PropTypes.func,
+  //saveFeedback: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -110,7 +137,7 @@ function mapDispatchToProps(dispatch) {
   return {
     getGameData: payload => dispatch(getGameDataStart(payload)),
     checkStudentResponse: response => dispatch(evaluateResponseStart(response)),
-    putFeedback: payload => dispatch(putFeedbackStart(payload)),
+    saveFeedback: feedback=> dispatch(putFeedbackStart(feedback)),
   };
 }
 

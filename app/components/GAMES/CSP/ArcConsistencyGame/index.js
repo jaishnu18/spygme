@@ -36,6 +36,7 @@ import useMediaQuery from '../../../../utils/useMediaQuery';
 
 function ArcConsistencyGame(props) {
   const { gameData } = props;
+  console.log("123",gameData);
   const { evaluatedAnswer } = props;
 
   const isDesktop = useMediaQuery('(min-width: 960px)');
